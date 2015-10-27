@@ -26,7 +26,8 @@ namespace AC_Account_Manager
         public string arg1;
         public string arg2;
         public string arg3;
-
+        private Dictionary<string, List<AccountCharacter>> _allAccountCharacters;
+        
         private List<string> _Images = new List<string>();
         private System.Random _rand = new Random();
 
@@ -43,6 +44,8 @@ namespace AC_Account_Manager
             LoadListBox();
             LoadImages();
             ChangeBackgroundImageRandomly();
+
+            LoadAllAccountCharacters();
 
             if (Properties.Settings.Default.FrostfellChecked == true) rbFrostfell.SetCurrentValue(CheckBox.IsCheckedProperty, true);
             if (Properties.Settings.Default.ThistledownChecked == true) rbThistledown.SetCurrentValue(CheckBox.IsCheckedProperty, true);
@@ -62,6 +65,25 @@ namespace AC_Account_Manager
             }
 
             lstUsername.SelectedIndex = Properties.Settings.Default.SelectedUser;
+        }
+
+        private void LoadAllAccountCharacters()
+        {
+            if (_allAccountCharacters != null) { throw new Exception("allAccountCharacters already populated"); }
+            _allAccountCharacters = new Dictionary<string, List<AccountCharacter>>();
+            var charMgr = MagFilter.CharacterManager.ReadCharacters();
+            foreach (string key in charMgr.GetKeys())
+            {
+                var guys = new List<AccountCharacter>();
+                foreach (var dude in charMgr.GetCharacters(key))
+                {
+                    AccountCharacter guy = new AccountCharacter();
+                    guy.Id = dude.Id;
+                    guy.Name = dude.Name;
+                    guys.Add(guy);
+                }
+                _allAccountCharacters[key] = guys;
+            }
         }
 
         private void LoadImages()
@@ -93,11 +115,7 @@ namespace AC_Account_Manager
 
         private void CreateFolderForCurrentUser()
         {
-            // The folder for the roaming current user 
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            // Combine the base folder with your specific folder....
-            string specificFolder = System.IO.Path.Combine(folder, "ACAccountManager");
+            string specificFolder = Configuration.GetFolderLocation();
 
             // Check if folder exists and if not, create it
             if (!Directory.Exists(specificFolder))
@@ -151,6 +169,7 @@ namespace AC_Account_Manager
             if (rbDarktide.IsChecked.Value == true) servers.Add("Darktide");
             if (rbSolclaim.IsChecked.Value == true) servers.Add("Solclaim");
 
+
             if (servers.Count != 0)
             {
                 foreach (string server in servers)
@@ -171,7 +190,7 @@ namespace AC_Account_Manager
             {
                 //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
                 UserAccount account = (selectedItem as UserAccount);
-                if (account == null) { MessageBox.Show("Denied"); return; }
+                if (account == null) { ShowMessage("Denied"); return; }
                 arg1 = account.Name;
                 arg2 = account.Password;
                 arg3 = serverArgument;
@@ -193,9 +212,10 @@ namespace AC_Account_Manager
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Could not start program. Please Check your path. ", "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        ShowMessage("Could not start program. Please Check your path. ", "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    MessageBox.Show("Multiple Logins Stopped. You don't have a password set, and multiple logins cannot continue.", "Multiple Logins Stopped.", MessageBoxButton.OK, MessageBoxImage.Information);
+                    ShowMessage("Multiple Logins Stopped. You don't have a password set, and multiple logins cannot continue.", "Multiple Logins Stopped.", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
                 }
                 try
@@ -207,11 +227,19 @@ namespace AC_Account_Manager
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Could not start program. Please check the path to your Asheron's Call Launcher executable. " + ex, "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowMessage("Could not start program. Please check the path to your Asheron's Call Launcher executable. " + ex, "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 }
                 System.Threading.Thread.Sleep(15000);
             }
+        }
+        private void ShowMessage(string msg)
+        {
+            ShowMessage(msg, "Caption", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        private void ShowMessage(string msg, string caption, MessageBoxButton button, MessageBoxImage image)
+        {
+            MessageBox.Show(msg, caption, button, image);
         }
 
         private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
