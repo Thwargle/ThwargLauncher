@@ -33,6 +33,7 @@
 
         <Label x:Name="lblLauncherLocation" Content="AC Launcher File Location:" HorizontalAlignment="Left" Margin="10,262,0,0" VerticalAlignment="Top" Foreground="#FFFFB619"/>
         <TextBox x:Name="txtLauncherLocation" Text="C:\Turbine\Asheron's Call\ACLauncher.exe" ToolTip="Double Click to Browse" HorizontalAlignment="Left" Height="23" Margin="157,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" Foreground="#FFBB8000" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick"/>
+        <Label x:Name="lblWorkerProgress" Content="Label" HorizontalAlignment="Left" Margin="269,291,0,0" VerticalAlignment="Top"/>
 
 
 

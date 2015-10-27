@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,8 @@ namespace AC_Account_Manager
         
         private List<string> _Images = new List<string>();
         private System.Random _rand = new Random();
+        private BackgroundWorker _worker = new BackgroundWorker();
+        private string _launcherLocation;
 
         public static string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "UserNames.txt";
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
@@ -46,6 +49,7 @@ namespace AC_Account_Manager
             ChangeBackgroundImageRandomly();
 
             LoadAllAccountCharacters();
+            WireUpBackgroundWorker();
 
             if (Properties.Settings.Default.FrostfellChecked == true) rbFrostfell.SetCurrentValue(CheckBox.IsCheckedProperty, true);
             if (Properties.Settings.Default.ThistledownChecked == true) rbThistledown.SetCurrentValue(CheckBox.IsCheckedProperty, true);
@@ -56,8 +60,6 @@ namespace AC_Account_Manager
             if (Properties.Settings.Default.MorningthawChecked == true) rbMorningthaw.SetCurrentValue(CheckBox.IsCheckedProperty, true);
             if (Properties.Settings.Default.DarktideChecked == true) rbDarktide.SetCurrentValue(CheckBox.IsCheckedProperty, true);
             if (Properties.Settings.Default.SolclaimChecked == true) rbSolclaim.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-
-
 
             if (Properties.Settings.Default.ACLocation != "")
             {
@@ -154,7 +156,6 @@ namespace AC_Account_Manager
                 }
             }
         }
-
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
             List<string> servers = new List<string>();
@@ -169,27 +170,112 @@ namespace AC_Account_Manager
             if (rbDarktide.IsChecked.Value == true) servers.Add("Darktide");
             if (rbSolclaim.IsChecked.Value == true) servers.Add("Solclaim");
 
-
-            if (servers.Count != 0)
+            if (servers.Count == 0)
             {
-                foreach (string server in servers)
+                MessageBox.Show("No server selected. Please select a server", "No server selected.", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (lstUsername.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("No account selected. Please select an account", "No account selected.", MessageBoxButton.OK, MessageBoxImage.Error);
+                lstUsername.Focus();
+                return;
+            }
+            LaunchAllClientsOnAllServersOnThread(servers);
+        }
+
+        private void WireUpBackgroundWorker()
+        {
+            _worker.WorkerReportsProgress = true;
+            _worker.WorkerSupportsCancellation = true;
+            _worker.DoWork += _worker_DoWork;
+            _worker.ProgressChanged += _worker_ProgressChanged;
+            _worker.RunWorkerCompleted += _worker_RunWorkerCompleted;
+        }
+
+        private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                if (e.Cancelled)
                 {
-                    LaunchClients(server);
+                    lblWorkerProgress.Content = "Canceled";
                 }
+                else if (e.Error != null)
+                {
+                    lblWorkerProgress.Content = string.Format("Error: {0}", e.Error.Message);
+                }
+                else
+                {
+                    lblWorkerProgress.Content = "Done";
+                }
+            }
+            finally
+            {
+                EnableInterface(true);
+            }
+        }
+        private class WorkerArgs
+        {
+            public List<string> Servers;
+            public List<UserAccount> SelectedAccounts;
+        }
+        private void LaunchAllClientsOnAllServersOnThread(List<string> servers)
+        {
+            if (_worker.IsBusy)
+            {
+                MessageBox.Show("Worker is busy"); // TODO - better message?
             }
             else
             {
-                MessageBox.Show("No server selected. Please select a server", "No server selected.", MessageBoxButton.OK, MessageBoxImage.Error);
+                EnableInterface(false);
+                // Get data from UI objects before we switch to background thread
+                var selectedAccounts = new List<UserAccount>();
+                foreach (object item in lstUsername.SelectedItems)
+                {
+                    UserAccount acct = (item as UserAccount);
+                    selectedAccounts.Add(acct);
+                }
+                _launcherLocation = txtLauncherLocation.Text;
+                WorkerArgs args = new WorkerArgs()
+                    {
+                        Servers = servers,
+                        SelectedAccounts = selectedAccounts
+                    };
+                _worker.RunWorkerAsync(args);
             }
-            
+        }
+        private void EnableInterface(bool enable)
+        {
+            btnLaunch.IsEnabled = enable;
         }
 
-        private void LaunchClients(string serverArgument)
+        void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            foreach (Object selectedItem in lstUsername.SelectedItems)
+            lblWorkerProgress.Content = string.Format("{0}%", e.ProgressPercentage);
+        }
+
+        void _worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WorkerArgs args = (e.Argument as WorkerArgs);
+            int serverIndex = 0;
+            int serverTotal = args.Servers.Count;
+            foreach (string server in args.Servers)
             {
+                LaunchClients(server, args, e, serverIndex, serverTotal);
+            }
+        }
+
+        private void LaunchClients(string serverArgument, WorkerArgs args, DoWorkEventArgs e, int serverIndex, int serverTotal)
+        {
+            foreach (UserAccount account in args.SelectedAccounts)
+            {
+                if (_worker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
                 //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
-                UserAccount account = (selectedItem as UserAccount);
                 if (account == null) { ShowMessage("Denied"); return; }
                 arg1 = account.Name;
                 arg2 = account.Password;
@@ -198,7 +284,7 @@ namespace AC_Account_Manager
 
 
                 string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
-                string pathToFile = txtLauncherLocation.Text;
+                string pathToFile = _launcherLocation;
                 Process runProg = new Process();
                 if (arg2 == "")
                 {
@@ -230,6 +316,8 @@ namespace AC_Account_Manager
                     ShowMessage("Could not start program. Please check the path to your Asheron's Call Launcher executable. " + ex, "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 }
+                int pct = (int) (100.0*serverIndex/serverTotal);
+                _worker.ReportProgress(pct);
                 System.Threading.Thread.Sleep(15000);
             }
         }
@@ -239,7 +327,8 @@ namespace AC_Account_Manager
         }
         private void ShowMessage(string msg, string caption, MessageBoxButton button, MessageBoxImage image)
         {
-            MessageBox.Show(msg, caption, button, image);
+            Application.Current.Dispatcher.Invoke(() =>
+                MessageBox.Show(msg, caption, button, image));
         }
 
         private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
