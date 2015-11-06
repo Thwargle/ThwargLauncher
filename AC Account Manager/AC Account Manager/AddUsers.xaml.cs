@@ -28,7 +28,7 @@ namespace AC_Account_Manager
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            using (StreamWriter writer = File.AppendText(MainWindow.filePath))
+            using (StreamWriter writer = File.AppendText(MainWindow.UsersFilePath))
             {
                 if(txtUser1.Text != "")
                     writer.WriteLine(txtUser1.Text + "," + txtPassword1.Text);

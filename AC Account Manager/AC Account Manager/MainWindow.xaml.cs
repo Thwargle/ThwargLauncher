@@ -35,7 +35,7 @@ namespace AC_Account_Manager
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
 
-        public static string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "UserNames.txt";
+        public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
 
         public MainWindow()
@@ -135,15 +135,15 @@ namespace AC_Account_Manager
 
         private void CreateFolderForCurrentUser()
         {
-            string specificFolder = Configuration.GetFolderLocation();
+            string specificFolder = Configuration.AppFolder;
 
             // Check if folder exists and if not, create it
             if (!Directory.Exists(specificFolder))
                 Directory.CreateDirectory(specificFolder);
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(UsersFilePath))
             {
-                File.Create(filePath);
+                File.Create(UsersFilePath);
             }
         }
 
@@ -155,7 +155,7 @@ namespace AC_Account_Manager
         {
             var characterMgr = MagFilter.CharacterManager.ReadCharacters();
             _viewModel.KnownUserAccounts = new List<UserAccount>();
-            using (var reader = new StreamReader(filePath))
+            using (var reader = new StreamReader(UsersFilePath))
             {
                 while (!reader.EndOfStream)
                 {
@@ -419,7 +419,7 @@ namespace AC_Account_Manager
 
         private void btnOpenUsers_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("notepad.exe", filePath);
+            Process.Start("notepad.exe", UsersFilePath);
         }
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)

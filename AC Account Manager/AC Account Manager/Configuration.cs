@@ -1,21 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AC_Account_Manager
 {
     class Configuration
     {
-        public static string GetFolderLocation()
+        public static string AppBaseFolder 
         {
-            // The folder for the roaming current user 
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            // Combine the base folder with your specific folder....
-            string specificFolder = System.IO.Path.Combine(folder, "ACAccountManager");
-            return specificFolder;
+            get
+            {
+                // The folder for the roaming current user 
+                return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            }
+        }
+        public static string AppFolder
+        {
+            get
+            {
+                // Combine the base folder with your specific folder....
+                string specificFolder = System.IO.Path.Combine(AppBaseFolder, "ACAccountManager");
+                return specificFolder;
+            }
         }
     }
 }
