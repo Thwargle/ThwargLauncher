@@ -49,109 +49,61 @@ namespace AC_Account_Manager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool FrostfellChecked {
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public double WindowTop {
             get {
-                return ((bool)(this["FrostfellChecked"]));
+                return ((double)(this["WindowTop"]));
             }
             set {
-                this["FrostfellChecked"] = value;
+                this["WindowTop"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ThistledownChecked {
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public double WindowLeft {
             get {
-                return ((bool)(this["ThistledownChecked"]));
+                return ((double)(this["WindowLeft"]));
             }
             set {
-                this["ThistledownChecked"] = value;
+                this["WindowLeft"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HarvestgainChecked {
+        [global::System.Configuration.DefaultSettingValueAttribute("566")]
+        public double WindowWidth {
             get {
-                return ((bool)(this["HarvestgainChecked"]));
+                return ((double)(this["WindowWidth"]));
             }
             set {
-                this["HarvestgainChecked"] = value;
+                this["WindowWidth"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VerdantineChecked {
+        [global::System.Configuration.DefaultSettingValueAttribute("376")]
+        public double WindowHeight {
             get {
-                return ((bool)(this["VerdantineChecked"]));
+                return ((double)(this["WindowHeight"]));
             }
             set {
-                this["VerdantineChecked"] = value;
+                this["WindowHeight"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool LeafcullChecked {
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public string WindowState {
             get {
-                return ((bool)(this["LeafcullChecked"]));
+                return ((string)(this["WindowState"]));
             }
             set {
-                this["LeafcullChecked"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool WintersebbChecked {
-            get {
-                return ((bool)(this["WintersebbChecked"]));
-            }
-            set {
-                this["WintersebbChecked"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool MorningthawChecked {
-            get {
-                return ((bool)(this["MorningthawChecked"]));
-            }
-            set {
-                this["MorningthawChecked"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DarktideChecked {
-            get {
-                return ((bool)(this["DarktideChecked"]));
-            }
-            set {
-                this["DarktideChecked"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SolclaimChecked {
-            get {
-                return ((bool)(this["SolclaimChecked"]));
-            }
-            set {
-                this["SolclaimChecked"] = value;
+                this["WindowState"] = value;
             }
         }
     }

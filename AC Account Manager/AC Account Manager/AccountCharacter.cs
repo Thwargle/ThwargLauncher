@@ -2,9 +2,9 @@
 
 namespace AC_Account_Manager
 {
-    class AccountCharacter
+    public class AccountCharacter
     {
-        public int Id;
-        public string Name;
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

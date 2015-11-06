@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
+using MagFilter;
 
 namespace AC_Account_Manager
 {
@@ -27,7 +28,7 @@ namespace AC_Account_Manager
         public string arg1;
         public string arg2;
         public string arg3;
-        private Dictionary<string, List<AccountCharacter>> _allAccountCharacters;
+        //private Dictionary<string, List<AccountCharacter>> _allAccountCharacters;
         
         private List<string> _Images = new List<string>();
         private System.Random _rand = new Random();
@@ -48,18 +49,8 @@ namespace AC_Account_Manager
             LoadImages();
             ChangeBackgroundImageRandomly();
 
-            LoadAllAccountCharacters();
+            //LoadAllAccountCharacters();
             WireUpBackgroundWorker();
-
-            if (Properties.Settings.Default.FrostfellChecked == true) rbFrostfell.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.ThistledownChecked == true) rbThistledown.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.HarvestgainChecked == true) rbHarvestgain.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.VerdantineChecked == true) rbVerdantine.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.LeafcullChecked == true) rbLeafcull.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.WintersebbChecked == true) rbWintersebb.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.MorningthawChecked == true) rbMorningthaw.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.DarktideChecked == true) rbDarktide.SetCurrentValue(CheckBox.IsCheckedProperty, true);
-            if (Properties.Settings.Default.SolclaimChecked == true) rbSolclaim.SetCurrentValue(CheckBox.IsCheckedProperty, true);
 
             if (Properties.Settings.Default.ACLocation != "")
             {
@@ -67,8 +58,36 @@ namespace AC_Account_Manager
             }
 
             lstUsername.SelectedIndex = Properties.Settings.Default.SelectedUser;
+
+            LoadWindowSettings();
         }
 
+        private void LoadWindowSettings()
+        {
+            var ctl = new MagFilter.LaunchControl();
+            ctl.GetLaunchInfo(); // TODO - delete
+            var userPrefs = new UserPreferences();
+
+            this.Height = userPrefs.WindowHeight;
+            this.Width = userPrefs.WindowWidth;
+            this.Top = userPrefs.WindowTop;
+            this.Left = userPrefs.WindowLeft;
+            this.WindowState = userPrefs.WindowState;
+            
+        }
+        private void SaveWindowSettings()
+        {
+            var userPrefs = new UserPreferences();
+
+            userPrefs.WindowHeight = this.Height;
+            userPrefs.WindowWidth = this.Width;
+            userPrefs.WindowTop = this.Top;
+            userPrefs.WindowLeft = this.Left;
+            userPrefs.WindowState = this.WindowState;
+
+            userPrefs.Save();
+        }
+        /*
         private void LoadAllAccountCharacters()
         {
             if (_allAccountCharacters != null) { throw new Exception("allAccountCharacters already populated"); }
@@ -87,6 +106,7 @@ namespace AC_Account_Manager
                 _allAccountCharacters[key] = guys;
             }
         }
+         * */
 
         private void LoadImages()
         {
@@ -111,8 +131,6 @@ namespace AC_Account_Manager
                     new Uri(imageName, UriKind.Relative)
                     ));
             ContentGrid.Background = brush;
-
-            //
         }
 
         private void CreateFolderForCurrentUser()
@@ -135,8 +153,9 @@ namespace AC_Account_Manager
         }
         private void LoadUserAccounts()
         {
+            var characterMgr = MagFilter.CharacterManager.ReadCharacters();
             _viewModel.KnownUserAccounts = new List<UserAccount>();
-            using (StreamReader reader = new StreamReader(filePath))
+            using (var reader = new StreamReader(filePath))
             {
                 while (!reader.EndOfStream)
                 {
@@ -145,11 +164,12 @@ namespace AC_Account_Manager
                     {
                         if (string.IsNullOrWhiteSpace(line)) { continue; }
                         string[] arr = line.Split(',');
+                        string accountName = arr[0];
+                        string password = arr[1];
 
-                        var user = new UserAccount()
+                        var user = new UserAccount(accountName, characterMgr)
                         {
-                            Name = arr[0],
-                            Password = arr[1]
+                            Password = password
                         };
                         _viewModel.KnownUserAccounts.Add(user);
                     }
@@ -159,16 +179,7 @@ namespace AC_Account_Manager
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
             List<string> servers = new List<string>();
-
-            if (rbFrostfell.IsChecked.Value == true) servers.Add("Frostfell");
-            if (rbThistledown.IsChecked.Value == true) servers.Add("Thistledown");
-            if (rbHarvestgain.IsChecked.Value == true) servers.Add("Harvestgain");
-            if (rbVerdantine.IsChecked.Value == true) servers.Add("Verdantine");
-            if (rbLeafcull.IsChecked.Value == true) servers.Add("Leafcull");
-            if (rbWintersebb.IsChecked.Value == true) servers.Add("Wintersebb");
-            if (rbMorningthaw.IsChecked.Value == true) servers.Add("Morningthaw");
-            if (rbDarktide.IsChecked.Value == true) servers.Add("Darktide");
-            if (rbSolclaim.IsChecked.Value == true) servers.Add("Solclaim");
+            servers.Add("TODO");
 
             if (servers.Count == 0)
             {
@@ -231,10 +242,12 @@ namespace AC_Account_Manager
                 EnableInterface(false);
                 // Get data from UI objects before we switch to background thread
                 var selectedAccounts = new List<UserAccount>();
-                foreach (object item in lstUsername.SelectedItems)
+                foreach (UserAccount acct in _viewModel.KnownUserAccounts)
                 {
-                    UserAccount acct = (item as UserAccount);
-                    selectedAccounts.Add(acct);
+                    if (acct.AccountLaunchable)
+                    {
+                        selectedAccounts.Add(acct);
+                    }
                 }
                 _launcherLocation = txtLauncherLocation.Text;
                 WorkerArgs args = new WorkerArgs()
@@ -258,16 +271,9 @@ namespace AC_Account_Manager
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
             WorkerArgs args = (e.Argument as WorkerArgs);
-            int serverIndex = 0;
-            int serverTotal = args.Servers.Count;
-            foreach (string server in args.Servers)
-            {
-                LaunchClients(server, args, e, serverIndex, serverTotal);
-            }
-        }
+//            int serverIndex = 0;
+//            int serverTotal = ServerManager.ServerList; // TODO - this logic is not right at all
 
-        private void LaunchClients(string serverArgument, WorkerArgs args, DoWorkEventArgs e, int serverIndex, int serverTotal)
-        {
             foreach (UserAccount account in args.SelectedAccounts)
             {
                 if (_worker.CancellationPending)
@@ -275,52 +281,83 @@ namespace AC_Account_Manager
                     e.Cancel = true;
                     break;
                 }
-                //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
-                if (account == null) { ShowMessage("Denied"); return; }
-                arg1 = account.Name;
-                arg2 = account.Password;
-                arg3 = serverArgument;
-                
-
-
-                string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
-                string pathToFile = _launcherLocation;
-                Process runProg = new Process();
-                if (arg2 == "")
-                {
-                    genArgs = "-username " + arg1 + " -w " + arg3 + " -3 ";
-                    try
-                    {
-                        runProg.StartInfo.FileName = pathToFile;
-                        runProg.StartInfo.Arguments = genArgs;
-                        runProg.StartInfo.CreateNoWindow = true;
-                        runProg.Start();
-                    }
-                    catch (Exception ex)
-                    {
-
-                        ShowMessage("Could not start program. Please Check your path. ", "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    ShowMessage("Multiple Logins Stopped. You don't have a password set, and multiple logins cannot continue.", "Multiple Logins Stopped.", MessageBoxButton.OK, MessageBoxImage.Information);
-                    break;
-                }
-                try
-                {
-                    runProg.StartInfo.FileName = pathToFile;
-                    runProg.StartInfo.Arguments = genArgs;
-                    runProg.StartInfo.CreateNoWindow = true;
-                    runProg.Start();
-                }
-                catch (Exception ex)
-                {
-                    ShowMessage("Could not start program. Please check the path to your Asheron's Call Launcher executable. " + ex, "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
-                    break;
-                }
-                int pct = (int) (100.0*serverIndex/serverTotal);
-                _worker.ReportProgress(pct);
-                System.Threading.Thread.Sleep(15000);
+                LaunchClientsForAccount(account);
             }
         }
+
+        private void LaunchClientsForAccount(UserAccount account)
+        {
+            foreach (var server in account.Servers)
+            {
+                if (!server.ServerSelected) { continue; }
+                string desiredCharacter = server.ChosenCharacter;
+                bool okgo = LaunchGameClient(server.ServerName, account, desiredCharacter);
+                if (!okgo) { break; }
+                // TODO - wait for client
+                System.Threading.Thread.Sleep(15000);
+            }
+//            int pct = (int)(100.0 * serverIndex / serverTotal);
+//            _worker.ReportProgress(pct);
+        }
+        private Server FindSpecifiedServer(UserAccount account, string serverName)
+        {
+            foreach (Server server in account.Servers)
+            {
+                if (server.ServerName == serverName)
+                {
+                    return server;
+                }
+            }
+            return null;
+        }
+        private bool LaunchGameClient(string serverName, UserAccount account, string desiredCharacter)
+        {
+            //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
+            if (account == null) { ShowMessage("Denied"); return false; }
+            arg1 = account.Name;
+            arg2 = account.Password;
+            arg3 = serverName;
+
+            string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
+            string pathToFile = _launcherLocation;
+            Process runProg = new Process();
+            if (arg2 == "")
+            {
+                genArgs = "-username " + arg1 + " -w " + arg3 + " -3 ";
+            }
+            try
+            {
+                runProg.StartInfo.FileName = pathToFile;
+                runProg.StartInfo.Arguments = genArgs;
+                runProg.StartInfo.CreateNoWindow = true;
+
+                RecordLaunchInfo(serverName, account.Name, desiredCharacter);
+
+                // This is analogous to Process.Start or CreateProcess
+                runProg.Start();
+            }
+            catch (Exception ex)
+            {
+                ShowMessage("Could not start program. Please Check your path. ", "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (arg2 != "")
+                {
+                    return false;
+                }
+            }
+            if (arg2 == "")
+            {
+                ShowMessage("Multiple Logins Stopped. You don't have a password set, and multiple logins cannot continue.", "Multiple Logins Stopped.", MessageBoxButton.OK, MessageBoxImage.Information);
+                return false;
+            }
+            return true;
+        }
+
+        private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter)
+        {
+            var ctl = new LaunchControl();
+            ctl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter);
+        }
+
         private void ShowMessage(string msg)
         {
             ShowMessage(msg, "Caption", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -331,7 +368,7 @@ namespace AC_Account_Manager
                 MessageBox.Show(msg, caption, button, image));
         }
 
-        private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OpenLauncherLocation()
         {
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -351,22 +388,24 @@ namespace AC_Account_Manager
                 string filename = dlg.FileName;
                 txtLauncherLocation.Text = filename;
             }
+        }
 
+        private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            OpenLauncherLocation();
+        }
+
+        private void btnLauncherLocation_Click(object sender, RoutedEventArgs e)
+        {
+            OpenLauncherLocation();
         }
 
         private void AC_Account_Manager_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            SaveWindowSettings();
+
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
             Properties.Settings.Default.ACLocation = txtLauncherLocation.Text;
-            Properties.Settings.Default.FrostfellChecked = rbFrostfell.IsChecked.Value;
-            Properties.Settings.Default.ThistledownChecked = rbThistledown.IsChecked.Value;
-            Properties.Settings.Default.HarvestgainChecked = rbHarvestgain.IsChecked.Value;
-            Properties.Settings.Default.VerdantineChecked = rbVerdantine.IsChecked.Value;
-            Properties.Settings.Default.LeafcullChecked = rbLeafcull.IsChecked.Value;
-            Properties.Settings.Default.WintersebbChecked = rbWintersebb.IsChecked.Value;
-            Properties.Settings.Default.MorningthawChecked = rbMorningthaw.IsChecked.Value;
-            Properties.Settings.Default.DarktideChecked = rbDarktide.IsChecked.Value;
-            Properties.Settings.Default.SolclaimChecked = rbSolclaim.IsChecked.Value;
             
             Properties.Settings.Default.Save();
         }

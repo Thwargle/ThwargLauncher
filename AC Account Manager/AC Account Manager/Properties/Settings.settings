@@ -8,32 +8,20 @@
     <Setting Name="ACLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FrostfellChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="WindowTop" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="ThistledownChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="WindowLeft" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="HarvestgainChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="WindowWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">566</Value>
     </Setting>
-    <Setting Name="VerdantineChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="WindowHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">376</Value>
     </Setting>
-    <Setting Name="LeafcullChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="WintersebbChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="MorningthawChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="DarktideChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SolclaimChecked" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="WindowState" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
     </Setting>
   </Settings>
 </SettingsFile>
