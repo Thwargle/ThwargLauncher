@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using WindowPlacementUtil;
 
 namespace AC_Account_Manager
 {
@@ -25,7 +26,20 @@ namespace AC_Account_Manager
         {
             InitializeComponent();
         }
-
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            LoadWindowSettings();
+        }
+        private void LoadWindowSettings()
+        {
+            this.SetPlacement(Properties.Settings.Default.AddUsersWindowPlacement);
+        }
+        private void SaveWindowSettings()
+        {
+            Properties.Settings.Default.AddUsersWindowPlacement = this.GetPlacement();
+            Properties.Settings.Default.Save();
+        }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             using (StreamWriter writer = File.AppendText(MainWindow.UsersFilePath))
@@ -51,9 +65,7 @@ namespace AC_Account_Manager
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MainWindow main = new MainWindow();
-            main.LoadListBox();
-            main.Show();
+            SaveWindowSettings();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

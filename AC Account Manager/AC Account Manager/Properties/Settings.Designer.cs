@@ -49,61 +49,25 @@ namespace AC_Account_Manager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public double WindowTop {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MainWindowPlacement {
             get {
-                return ((double)(this["WindowTop"]));
+                return ((string)(this["MainWindowPlacement"]));
             }
             set {
-                this["WindowTop"] = value;
+                this["MainWindowPlacement"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public double WindowLeft {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AddUsersWindowPlacement {
             get {
-                return ((double)(this["WindowLeft"]));
+                return ((string)(this["AddUsersWindowPlacement"]));
             }
             set {
-                this["WindowLeft"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("566")]
-        public double WindowWidth {
-            get {
-                return ((double)(this["WindowWidth"]));
-            }
-            set {
-                this["WindowWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("376")]
-        public double WindowHeight {
-            get {
-                return ((double)(this["WindowHeight"]));
-            }
-            set {
-                this["WindowHeight"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
-        public string WindowState {
-            get {
-                return ((string)(this["WindowState"]));
-            }
-            set {
-                this["WindowState"] = value;
+                this["AddUsersWindowPlacement"] = value;
             }
         }
     }

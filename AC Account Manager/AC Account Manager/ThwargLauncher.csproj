@@ -85,7 +85,8 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="UserAccount.cs" />
-    <Compile Include="UserPreferences.cs" />
+    <Compile Include="WindowPlacer.cs" />
+    <Compile Include="WpfWindowPlacer.cs" />
     <Page Include="AddUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

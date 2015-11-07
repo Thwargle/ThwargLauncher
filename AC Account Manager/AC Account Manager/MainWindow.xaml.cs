@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
 using MagFilter;
+using WindowPlacementUtil;
 
 namespace AC_Account_Manager
 {
@@ -58,34 +60,20 @@ namespace AC_Account_Manager
             }
 
             lstUsername.SelectedIndex = Properties.Settings.Default.SelectedUser;
-
+        }
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
             LoadWindowSettings();
         }
-
         private void LoadWindowSettings()
         {
-            var ctl = new MagFilter.LaunchControl();
-            ctl.GetLaunchInfo(); // TODO - delete
-            var userPrefs = new UserPreferences();
-
-            this.Height = userPrefs.WindowHeight;
-            this.Width = userPrefs.WindowWidth;
-            this.Top = userPrefs.WindowTop;
-            this.Left = userPrefs.WindowLeft;
-            this.WindowState = userPrefs.WindowState;
-            
+            this.SetPlacement(Properties.Settings.Default.MainWindowPlacement);
         }
         private void SaveWindowSettings()
         {
-            var userPrefs = new UserPreferences();
-
-            userPrefs.WindowHeight = this.Height;
-            userPrefs.WindowWidth = this.Width;
-            userPrefs.WindowTop = this.Top;
-            userPrefs.WindowLeft = this.Left;
-            userPrefs.WindowState = this.WindowState;
-
-            userPrefs.Save();
+            Properties.Settings.Default.MainWindowPlacement = this.GetPlacement();
+            Properties.Settings.Default.Save();
         }
         /*
         private void LoadAllAccountCharacters()
@@ -154,7 +142,7 @@ namespace AC_Account_Manager
         private void LoadUserAccounts()
         {
             var characterMgr = MagFilter.CharacterManager.ReadCharacters();
-            _viewModel.KnownUserAccounts = new List<UserAccount>();
+            _viewModel.Reset();
             using (var reader = new StreamReader(UsersFilePath))
             {
                 while (!reader.EndOfStream)
@@ -175,6 +163,8 @@ namespace AC_Account_Manager
                     }
                 }
             }
+            this.lstUsername.ItemsSource = null;
+            this.lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
         }
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
@@ -412,14 +402,32 @@ namespace AC_Account_Manager
 
         private void btnAddUsers_Click(object sender, RoutedEventArgs e)
         {
+            MainWindowDisable();
             AddUsers add = new AddUsers();
-            add.Show();
-            this.Close();
+            add.ShowDialog();
+            LoadUserAccounts();
+            MainWindowEnable();
         }
-
+        private void MainWindowDisable()
+        {
+            this.ContentGrid.Background = new SolidColorBrush(Colors.Pink);
+        }
+        private void MainWindowEnable()
+        {
+            ChangeBackgroundImageRandomly();
+        }
         private void btnOpenUsers_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("notepad.exe", UsersFilePath);
+            MainWindowDisable();
+
+            var startInfo = new ProcessStartInfo("notepad", UsersFilePath);
+            var notepadProcess = new Process() {StartInfo = startInfo};
+            if (notepadProcess.Start())
+            {
+                notepadProcess.WaitForExit();
+            }
+            LoadUserAccounts();
+            MainWindowEnable();
         }
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)

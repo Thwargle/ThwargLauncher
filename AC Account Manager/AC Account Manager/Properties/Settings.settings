@@ -8,20 +8,11 @@
     <Setting Name="ACLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="WindowTop" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">100</Value>
+    <Setting Name="MainWindowPlacement" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="WindowLeft" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">100</Value>
-    </Setting>
-    <Setting Name="WindowWidth" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">566</Value>
-    </Setting>
-    <Setting Name="WindowHeight" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">376</Value>
-    </Setting>
-    <Setting Name="WindowState" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Normal</Value>
+    <Setting Name="AddUsersWindowPlacement" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
