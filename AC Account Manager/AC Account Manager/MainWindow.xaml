@@ -3,12 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Thwarg-Launcher - Intelligent Account Management" Height="350" Width="525" Closing="AC_Account_Manager_Closing" Icon="Logo_circleonly.ico" ResizeMode="CanResizeWithGrip">
     <Grid x:Name="ContentGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid DockPanel.Dock="Top" Height="Auto" HorizontalAlignment="Stretch">
+                <Rectangle Fill="Black" HorizontalAlignment="Stretch" Height="20" Margin="1,1,0,0" Stroke="Black" VerticalAlignment="Top" Opacity="0.5"/>
 
-        <Rectangle Fill="Black" HorizontalAlignment="Stretch" Height="319" Margin="1,1,0,0" Stroke="Black" VerticalAlignment="Top" Opacity="0.5"/>
+                <Button x:Name="btnLaunch" Content="Launch" HorizontalAlignment="Left" Margin="432,39,0,0" VerticalAlignment="Top" Width="77" Click="btnLaunch_Click" Foreground="#FFBB8000"/>
+                <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Left" Margin="432,10,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnHelp_Click"/>
+            </Grid>
+        <Grid DockPanel.Dock="Bottom" Height="Auto" HorizontalAlignment="Stretch">
 
-        <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Left" Margin="432,10,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnHelp_Click"/>
+            <Button x:Name="btnAddUsers" Content="Add Users" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnAddUsers_Click"/>
+            <Button x:Name="btnOpenUsers" Content="Open Users" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnOpenUsers_Click"/>
 
-        <ListBox x:Name="lstUsername" HorizontalAlignment="Stretch" Margin="10,85,0,0" VerticalAlignment="Top" Background="#A5000000" Foreground="#FFDC9700"
+
+            <Label x:Name="lblLauncherLocation" Content="AC Launcher File Location:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Foreground="#FFFFB619"/>
+            <TextBox x:Name="txtLauncherLocation" Text="C:\Turbine\Asheron's Call\ACLauncher.exe" ToolTip="Double Click to Browse" HorizontalAlignment="Left" Height="23" Margin="157,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" Foreground="#FFBB8000" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick"/>
+            <Button x:Name="btnLauncherLocation" Content="..." ToolTip="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="469,40,0,0" Foreground="#FFFFB619" Click="btnLauncherLocation_Click" Height="23"/>
+            <Label x:Name="lblWorkerProgress" Content="" HorizontalAlignment="Left" Margin="15,40,0,0" VerticalAlignment="Top" Width="137"/>
+        </Grid>
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            
+        <ListBox x:Name="lstUsername" HorizontalAlignment="Stretch" Margin="10,0,0,0" Height="400" Background="#A5000000" Foreground="#FFDC9700"
                   ItemsSource="{Binding Path=KnownUserAccounts}">
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
@@ -60,15 +76,8 @@
                   SelectedValuePath="Name"
                   SelectedValue="{Binding Path=SelectedUserAccountName}"
                  />-->
+        </Grid>
+        </DockPanel>
 
-        <Button x:Name="btnAddUsers" Content="Add Users" HorizontalAlignment="Left" Margin="15,229,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnAddUsers_Click"/>
-        <Button x:Name="btnOpenUsers" Content="Open Users" HorizontalAlignment="Left" Margin="95,229,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnOpenUsers_Click"/>
-
-        <Button x:Name="btnLaunch" Content="Launch" HorizontalAlignment="Left" Margin="432,59,0,0" VerticalAlignment="Top" Width="77" Click="btnLaunch_Click" Foreground="#FFBB8000"/>
- 
-        <Label x:Name="lblLauncherLocation" Content="AC Launcher File Location:" HorizontalAlignment="Left" Margin="10,262,0,0" VerticalAlignment="Top" Foreground="#FFFFB619"/>
-        <TextBox x:Name="txtLauncherLocation" Text="C:\Turbine\Asheron's Call\ACLauncher.exe" ToolTip="Double Click to Browse" HorizontalAlignment="Left" Height="23" Margin="157,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" Foreground="#FFBB8000" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick"/>
-        <Button x:Name="btnLauncherLocation" Content="..." ToolTip="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="469,265,0,0" Foreground="#FFFFB619" Click="btnLauncherLocation_Click" Height="23"/>
-        <Label x:Name="lblWorkerProgress" Content="" HorizontalAlignment="Left" Margin="15,285,0,0" VerticalAlignment="Top" Width="137"/>
     </Grid>
 </Window>
