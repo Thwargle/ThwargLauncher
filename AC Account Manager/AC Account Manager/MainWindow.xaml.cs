@@ -196,21 +196,31 @@ namespace AC_Account_Manager
         }
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
-            List<string> servers = new List<string>();
-            servers.Add(lstUsername.SelectedItems.ToString());
-
-            if (servers.Count == 0)
+            int count = GetCurrentAccountServerSelectionCount();
+            if (count == 0)
             {
                 MessageBox.Show("No server selected. Please select a server", "No server selected.", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (lstUsername.SelectedItems.Count == 0)
+            LaunchAllClientsOnAllServersOnThread(count);
+        }
+        private int GetCurrentAccountServerSelectionCount()
+        {
+            int count = 0;
+            foreach (var account in _viewModel.KnownUserAccounts)
             {
-                MessageBox.Show("No account selected. Please select an account", "No account selected.", MessageBoxButton.OK, MessageBoxImage.Error);
-                lstUsername.Focus();
-                return;
+                if (account.AccountLaunchable)
+                {
+                    foreach (var server in account.Servers)
+                    {
+                        if (server.ServerSelected)
+                        {
+                            ++count;
+                        }
+                    }
+                }
             }
-            LaunchAllClientsOnAllServersOnThread(servers);
+            return count;
         }
 
         private void WireUpBackgroundWorker()
@@ -246,10 +256,10 @@ namespace AC_Account_Manager
         }
         private class WorkerArgs
         {
-            public List<string> Servers;
-            public List<UserAccount> SelectedAccounts;
+            public List<UserAccount> UserAccounts;
+            public int NumberTotalLaunches;
         }
-        private void LaunchAllClientsOnAllServersOnThread(List<string> servers)
+        private void LaunchAllClientsOnAllServersOnThread(int numLaunches)
         {
             if (_worker.IsBusy)
             {
@@ -258,20 +268,11 @@ namespace AC_Account_Manager
             else
             {
                 EnableInterface(false);
-                // Get data from UI objects before we switch to background thread
-                var selectedAccounts = new List<UserAccount>();
-                foreach (UserAccount acct in _viewModel.KnownUserAccounts)
-                {
-                    if (acct.AccountLaunchable)
-                    {
-                        selectedAccounts.Add(acct);
-                    }
-                }
                 _launcherLocation = txtLauncherLocation.Text;
                 WorkerArgs args = new WorkerArgs()
                     {
-                        Servers = servers,
-                        SelectedAccounts = selectedAccounts
+                        UserAccounts = _viewModel.KnownUserAccounts,
+                        NumberTotalLaunches = numLaunches
                     };
                 _worker.RunWorkerAsync(args);
             }
@@ -289,45 +290,33 @@ namespace AC_Account_Manager
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
             WorkerArgs args = (e.Argument as WorkerArgs);
-//            int serverIndex = 0;
-//            int serverTotal = ServerManager.ServerList; // TODO - this logic is not right at all
+            if (args == null) { return; }
+            int serverIndex = 0;
+            int serverTotal = args.NumberTotalLaunches;
 
-            foreach (UserAccount account in args.SelectedAccounts)
+            foreach (UserAccount account in args.UserAccounts)
             {
                 if (_worker.CancellationPending)
                 {
                     e.Cancel = true;
                     break;
                 }
-                LaunchClientsForAccount(account);
+                foreach (var server in account.Servers)
+                {
+                    if (!server.ServerSelected) { continue; }
+                    string desiredCharacter = server.ChosenCharacter;
+                    bool okgo = LaunchGameClient(server.ServerName, account, desiredCharacter);
+                    if (!okgo) { break; }
+                    // TODO - wait for client
+                    System.Threading.Thread.Sleep(15000);
+                }
+                ++serverIndex;
+                int pct = (int)(100.0 * serverIndex / serverTotal);
+                _worker.ReportProgress(pct);
+               
             }
         }
 
-        private void LaunchClientsForAccount(UserAccount account)
-        {
-            foreach (var server in account.Servers)
-            {
-                if (!server.ServerSelected) { continue; }
-                string desiredCharacter = server.ChosenCharacter;
-                bool okgo = LaunchGameClient(server.ServerName, account, desiredCharacter);
-                if (!okgo) { break; }
-                // TODO - wait for client
-                System.Threading.Thread.Sleep(15000);
-            }
-//            int pct = (int)(100.0 * serverIndex / serverTotal);
-//            _worker.ReportProgress(pct);
-        }
-        private Server FindSpecifiedServer(UserAccount account, string serverName)
-        {
-            foreach (Server server in account.Servers)
-            {
-                if (server.ServerName == serverName)
-                {
-                    return server;
-                }
-            }
-            return null;
-        }
         private bool LaunchGameClient(string serverName, UserAccount account, string desiredCharacter)
         {
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
