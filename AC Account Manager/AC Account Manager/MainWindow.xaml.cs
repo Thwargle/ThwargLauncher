@@ -39,6 +39,7 @@ namespace AC_Account_Manager
 
         public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
+        private string _currentProfileName = "Profile1";
 
         public MainWindow()
         {
@@ -47,7 +48,7 @@ namespace AC_Account_Manager
 
             CreateFolderForCurrentUser();
 
-            LoadListBox();
+            LoadUserAccounts(initialLoad: true);
             LoadImages();
             ChangeBackgroundImageRandomly();
 
@@ -75,27 +76,6 @@ namespace AC_Account_Manager
             Properties.Settings.Default.MainWindowPlacement = this.GetPlacement();
             Properties.Settings.Default.Save();
         }
-        /*
-        private void LoadAllAccountCharacters()
-        {
-            if (_allAccountCharacters != null) { throw new Exception("allAccountCharacters already populated"); }
-            _allAccountCharacters = new Dictionary<string, List<AccountCharacter>>();
-            var charMgr = MagFilter.CharacterManager.ReadCharacters();
-            foreach (string key in charMgr.GetKeys())
-            {
-                var guys = new List<AccountCharacter>();
-                foreach (var dude in charMgr.GetCharacters(key))
-                {
-                    AccountCharacter guy = new AccountCharacter();
-                    guy.Id = dude.Id;
-                    guy.Name = dude.Name;
-                    guys.Add(guy);
-                }
-                _allAccountCharacters[key] = guys;
-            }
-        }
-         * */
-
         private void LoadImages()
         {
             _Images.Clear();
@@ -137,11 +117,57 @@ namespace AC_Account_Manager
             }
         }
 
-        public void LoadListBox()
+        private void LoadUserAccounts(bool initialLoad = false)
         {
-            LoadUserAccounts();
+            if (!initialLoad) // we do not save the first time, because have never yet loaded
+            {
+                SaveCurrentProfile();
+            }
+            ReloadKnownAccountsAndCharacters();
+            LoadCurrentProfile();
         }
-        private void LoadUserAccounts()
+        private void SaveCurrentProfile()
+        {
+            List<CharacterSetting> settings = GetCurrentProfileSettingsFromModel();
+            ProfileManager mgr = new ProfileManager();
+            mgr.Save(settings, _currentProfileName);
+        }
+        private List<CharacterSetting> GetCurrentProfileSettingsFromModel()
+        {
+            return (from account in _viewModel.KnownUserAccounts
+                    from server in account.Servers
+                    select new CharacterSetting()
+                        {
+                            AccountName = account.Name,
+                            ServerName = server.ServerName,
+                            ChosenCharacter = server.ChosenCharacter
+                        }).ToList();
+        }
+        private void LoadCurrentProfile()
+        {
+            ProfileManager mgr = new ProfileManager();
+            var profSettings = mgr.Load(_currentProfileName);
+            if (profSettings != null)
+            {
+                ApplyProfileSettingsToModel(profSettings);
+            }
+        }
+        private void ApplyProfileSettingsToModel(List<CharacterSetting> profSettings)
+        {
+            foreach (var account in _viewModel.KnownUserAccounts)
+            {
+                foreach (var server in account.Servers)
+                {
+                    var setting = profSettings.Find(x => x.AccountName == account.Name
+                        && x.ServerName == server.ServerName);
+                    if (setting != null)
+                    {
+                        server.ChosenCharacter = setting.ChosenCharacter;
+                    }
+                }
+            }
+        }
+        private void ReloadKnownAccountsAndCharacters()
         {
             var characterMgr = MagFilter.CharacterManager.ReadCharacters();
             _viewModel.Reset();
@@ -395,6 +421,7 @@ namespace AC_Account_Manager
         private void AC_Account_Manager_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveWindowSettings();
+            SaveCurrentProfile();
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
             Properties.Settings.Default.ACLocation = txtLauncherLocation.Text;
