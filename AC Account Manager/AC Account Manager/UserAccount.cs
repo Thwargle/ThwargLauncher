@@ -13,6 +13,14 @@ namespace AC_Account_Manager
                 var charlist = characterMgr.GetCharacters(serverName: serverName, accountName: accountName);
                 // Construct server & character data
                 var server = new Server(serverName);
+                //create and add a default character of none.
+                var defaultChar = new AccountCharacter()
+                {
+                    Id = 0,
+                    Name = "None"
+                };
+                server.AvailableCharacters.Add(defaultChar);
+                
                 if (charlist != null)
                 {
                     foreach (var dllChar in charlist.CharacterList)

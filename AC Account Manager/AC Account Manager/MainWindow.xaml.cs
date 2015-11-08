@@ -119,6 +119,7 @@ namespace AC_Account_Manager
                     new Uri(imageName, UriKind.Relative)
                     ));
             ContentGrid.Background = brush;
+            
         }
 
         private void CreateFolderForCurrentUser()
@@ -128,10 +129,11 @@ namespace AC_Account_Manager
             // Check if folder exists and if not, create it
             if (!Directory.Exists(specificFolder))
                 Directory.CreateDirectory(specificFolder);
-
+            
             if (!File.Exists(UsersFilePath))
             {
-                File.Create(UsersFilePath);
+                var fileStream = File.Create(UsersFilePath);
+                fileStream.Close();
             }
         }
 
@@ -169,7 +171,7 @@ namespace AC_Account_Manager
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
             List<string> servers = new List<string>();
-            servers.Add("TODO");
+            servers.Add(lstUsername.SelectedItems.ToString());
 
             if (servers.Count == 0)
             {
@@ -200,7 +202,7 @@ namespace AC_Account_Manager
             {
                 if (e.Cancelled)
                 {
-                    lblWorkerProgress.Content = "Canceled";
+                    lblWorkerProgress.Content = "Worker Progress: Canceled";
                 }
                 else if (e.Error != null)
                 {
@@ -208,7 +210,7 @@ namespace AC_Account_Manager
                 }
                 else
                 {
-                    lblWorkerProgress.Content = "Done";
+                    lblWorkerProgress.Content = "Worker Progress: Done";
                 }
             }
             finally
@@ -225,7 +227,7 @@ namespace AC_Account_Manager
         {
             if (_worker.IsBusy)
             {
-                MessageBox.Show("Worker is busy"); // TODO - better message?
+                lblWorkerProgress.Content = "Worker Progress: Busy";
             }
             else
             {
