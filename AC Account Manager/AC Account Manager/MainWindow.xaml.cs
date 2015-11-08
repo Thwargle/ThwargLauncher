@@ -116,7 +116,7 @@ namespace AC_Account_Manager
             //BigGrid.Background = MyTextBlock.Background;
             ImageBrush brush = new ImageBrush(
                 new BitmapImage(
-                    new Uri(imageName, UriKind.Relative)
+                    new Uri("Images\\" + imageName, UriKind.Relative)
                     ));
             ContentGrid.Background = brush;
             

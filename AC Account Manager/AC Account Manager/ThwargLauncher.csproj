@@ -139,32 +139,32 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="acwallpaperwideaerbax.jpg">
+    <EmbeddedResource Include="Images\acwallpaperwideaerbax.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ACCoverArt.jpg" />
+    <Resource Include="Images\ACCoverArt.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="acwallpaperwide10yrs.jpg">
+    <EmbeddedResource Include="Images\acwallpaperwide10yrs.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="acwallpaperwideaerfalle.jpg">
+    <EmbeddedResource Include="Images\acwallpaperwideaerfalle.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="acwallpaperwideGroup.jpg">
+    <EmbeddedResource Include="Images\acwallpaperwideGroup.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Logo_circleonly.ico" />
+    <Resource Include="Images\Logo_circleonly.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DecalSetting.png" />
+    <Resource Include="Images\DecalSetting.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserPreferences.png" />
+    <Resource Include="Images\UserPreferences.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -184,7 +184,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Credit.PNG" />
+    <Resource Include="Images\Credit.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
