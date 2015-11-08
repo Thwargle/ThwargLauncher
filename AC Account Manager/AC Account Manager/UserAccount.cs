@@ -19,6 +19,7 @@ namespace AC_Account_Manager
                     Id = 0,
                     Name = "None"
                 };
+                server.ChosenCharacter = "None";
                 server.AvailableCharacters.Add(defaultChar);
                 
                 if (charlist != null)

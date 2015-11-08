@@ -56,7 +56,6 @@
                                                     <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
                                                     <Label Grid.Column="1" Content="{Binding Path=ServerName}" HorizontalAlignment="Left"></Label>
                                                     <ComboBox Grid.Column="2" HorizontalAlignment="Right"
-                                                        SelectedIndex="0"
                                                         ItemsSource="{Binding Path=AvailableCharacters,Mode=OneWay}"
                                                         DisplayMemberPath="Name"
                                                         SelectedValuePath="Name"
