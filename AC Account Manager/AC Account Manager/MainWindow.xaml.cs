@@ -343,7 +343,7 @@ namespace AC_Account_Manager
                     string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds+1);
                     workerReportProgress(context, launchItem, serverIndex, serverTotal);
 
-                    System.Threading.Thread.Sleep(5000);
+                    System.Threading.Thread.Sleep(1000);
                     delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
                 }
 
