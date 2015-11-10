@@ -310,12 +310,22 @@ namespace AC_Account_Manager
                 );
         }
 
+        void workerReportProgress(string verb, LaunchSorter.LaunchItem launchItem, int index, int total)
+        {
+            int pct = (int)(100.0 * index / total);
+            string context = string.Format(
+                "{0} {1}:{2}",
+                verb, launchItem.AccountName, launchItem.ServerName);
+            _worker.ReportProgress(pct, context);
+            
+        }
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
             WorkerArgs args = (e.Argument as WorkerArgs);
             if (args == null) { return; }
             int serverIndex = 0;
             int serverTotal = args.LaunchList.GetLaunchItemCount();
+            Dictionary<string, DateTime> accountLaunchTimes = new Dictionary<string, DateTime>();
 
             foreach (var launchItem in args.LaunchList.GetLaunchList())
             {
@@ -324,13 +334,22 @@ namespace AC_Account_Manager
                     e.Cancel = true;
                     break;
                 }
+                DateTime lastLaunch = (accountLaunchTimes.ContainsKey(launchItem.AccountName)
+                                           ? accountLaunchTimes[launchItem.AccountName]
+                                           : DateTime.MinValue);
+                TimeSpan delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
+                while (delay.TotalMilliseconds > 0)
                 {
-                    int pct = (int)(100.0 * serverIndex / serverTotal);
-                    string context = string.Format(
-                        "Launching account {0} on server {1}",
-                        launchItem.AccountName, launchItem.ServerName);
-                    _worker.ReportProgress(pct, context);
+                    string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds+1);
+                    workerReportProgress(context, launchItem, serverIndex, serverTotal);
+
+                    System.Threading.Thread.Sleep(5000);
+                    delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
                 }
+
+                ;
+                workerReportProgress("Launching", launchItem, serverIndex, serverTotal);
+                accountLaunchTimes[launchItem.AccountName] = DateTime.Now;
 
                 var launcher = new GameLauncher();
                 try
@@ -355,13 +374,7 @@ namespace AC_Account_Manager
                 // TODO - wait for client
 
                 ++serverIndex;
-                {
-                    int pct = (int)(100.0 * serverIndex / serverTotal);
-                    string context = string.Format(
-                        "Launched account {0} on server {1}",
-                        launchItem.AccountName, launchItem.ServerName);
-                    _worker.ReportProgress(pct, context);
-                }
+                workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                 
                 System.Threading.Thread.Sleep(15000);
                
