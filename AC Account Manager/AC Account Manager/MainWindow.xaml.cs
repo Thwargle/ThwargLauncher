@@ -319,11 +319,6 @@ namespace AC_Account_Manager
 
         private bool LaunchGameClient(string serverName, string accountName, string password, string desiredCharacter)
         {
-            // TODO
-            Log.WriteLog(string.Format("Server='{0}', Account='{1}', Character='{2}'", serverName, accountName,
-                                       desiredCharacter));
-            return true;
-
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
             if (accountName == null) { ShowMessage("Denied"); return false; }
             arg1 = accountName;
