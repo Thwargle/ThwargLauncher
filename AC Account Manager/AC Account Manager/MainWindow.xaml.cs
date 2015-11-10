@@ -303,7 +303,11 @@ namespace AC_Account_Manager
 
         void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            lblWorkerProgress.Content = string.Format("{0}%", e.ProgressPercentage);
+            lblWorkerProgress.Content = string.Format(
+                "{0}% - {1}",
+                e.ProgressPercentage,
+                e.UserState.ToString()
+                );
         }
 
         void _worker_DoWork(object sender, DoWorkEventArgs e)
@@ -320,7 +324,14 @@ namespace AC_Account_Manager
                     e.Cancel = true;
                     break;
                 }
-                string desiredCharacter = launchItem.CharacterSelected;
+                {
+                    int pct = (int)(100.0 * serverIndex / serverTotal);
+                    string context = string.Format(
+                        "Launching account {0} on server {1}",
+                        launchItem.AccountName, launchItem.ServerName);
+                    _worker.ReportProgress(pct, context);
+                }
+
                 var launcher = new GameLauncher();
                 try
                 {
@@ -329,7 +340,7 @@ namespace AC_Account_Manager
                         launchItem.ServerName,
                         accountName: launchItem.AccountName,
                         password: launchItem.Password,
-                        desiredCharacter: desiredCharacter
+                        desiredCharacter: launchItem.CharacterSelected
                         );
                     if (!okgo)
                     {
@@ -342,10 +353,17 @@ namespace AC_Account_Manager
                     break;
                 }
                 // TODO - wait for client
-                System.Threading.Thread.Sleep(15000);
+
                 ++serverIndex;
-                int pct = (int)(100.0 * serverIndex / serverTotal);
-                _worker.ReportProgress(pct);
+                {
+                    int pct = (int)(100.0 * serverIndex / serverTotal);
+                    string context = string.Format(
+                        "Launched account {0} on server {1}",
+                        launchItem.AccountName, launchItem.ServerName);
+                    _worker.ReportProgress(pct, context);
+                }
+                
+                System.Threading.Thread.Sleep(15000);
                
             }
         }
