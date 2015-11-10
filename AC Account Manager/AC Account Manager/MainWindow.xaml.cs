@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
-using MagFilter;
 using WindowPlacementUtil;
 
 namespace AC_Account_Manager
@@ -27,9 +26,6 @@ namespace AC_Account_Manager
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string arg1;
-        public string arg2;
-        public string arg3;
         //private Dictionary<string, List<AccountCharacter>> _allAccountCharacters;
         
         private List<string> _Images = new List<string>();
@@ -196,15 +192,24 @@ namespace AC_Account_Manager
         }
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
-            int count = GetCurrentAccountServerSelectionCount();
-            if (count == 0)
+            _launcherLocation = txtLauncherLocation.Text;
+            if (string.IsNullOrEmpty(_launcherLocation))
             {
-                MessageBox.Show("No server selected. Please select a server", "No server selected.", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowErrorMessage("Game launcher location required");
                 return;
             }
-            LaunchAllClientsOnAllServersOnThread(count);
+            if (!File.Exists(_launcherLocation))
+            {
+                ShowErrorMessage(string.Format("Game launcher missing: '{0}'", _launcherLocation));
+                return;
+            }
+            if (!CheckAccountsAndPasswords())
+            {
+                return;
+            }
+            LaunchAllClientsOnAllServersOnThread();
         }
-        private int GetCurrentAccountServerSelectionCount()
+        private bool CheckAccountsAndPasswords()
         {
             int count = 0;
             foreach (var account in _viewModel.KnownUserAccounts)
@@ -216,11 +221,26 @@ namespace AC_Account_Manager
                         if (server.ServerSelected)
                         {
                             ++count;
+                            if (string.IsNullOrWhiteSpace(account.Name))
+                            {
+                                ShowErrorMessage("Blank account not allowed");
+                                return false;
+                            }
+                            if (string.IsNullOrWhiteSpace(account.Password))
+                            {
+                                ShowErrorMessage("Black password not allowed");
+                                return false;
+                            }
                         }
                     }
                 }
             }
-            return count;
+            if (count == 0)
+            {
+                ShowErrorMessage("No accounts and servers selected");
+                return false;
+            }
+            return true;
         }
 
         private void WireUpBackgroundWorker()
@@ -258,7 +278,7 @@ namespace AC_Account_Manager
         {
             public LaunchSorter.LaunchList LaunchList;
         }
-        private void LaunchAllClientsOnAllServersOnThread(int numLaunches)
+        private void LaunchAllClientsOnAllServersOnThread()
         {
             if (_worker.IsBusy)
             {
@@ -267,7 +287,6 @@ namespace AC_Account_Manager
             else
             {
                 EnableInterface(false);
-                _launcherLocation = txtLauncherLocation.Text;
                 var launchMgr = new LaunchSorter();
                 LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
                 WorkerArgs args = new WorkerArgs()
@@ -302,12 +321,26 @@ namespace AC_Account_Manager
                     break;
                 }
                 string desiredCharacter = launchItem.CharacterSelected;
-                bool okgo = LaunchGameClient(launchItem.ServerName,
-                    accountName: launchItem.AccountName,
-                    password: launchItem.Password,
-                    desiredCharacter: desiredCharacter
-                    );
-                if (!okgo) { break; }
+                var launcher = new GameLauncher();
+                try
+                {
+                    bool okgo = launcher.LaunchGameClient(
+                        _launcherLocation,
+                        launchItem.ServerName,
+                        accountName: launchItem.AccountName,
+                        password: launchItem.Password,
+                        desiredCharacter: desiredCharacter
+                        );
+                    if (!okgo)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception exc)
+                {
+                    ShowErrorMessage("Exception launching game launcher: " + exc.Message);
+                    break;
+                }
                 // TODO - wait for client
                 System.Threading.Thread.Sleep(15000);
                 ++serverIndex;
@@ -317,54 +350,10 @@ namespace AC_Account_Manager
             }
         }
 
-        private bool LaunchGameClient(string serverName, string accountName, string password, string desiredCharacter)
+        private void ShowErrorMessage(string msg)
         {
-            //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
-            if (accountName == null) { ShowMessage("Denied"); return false; }
-            arg1 = accountName;
-            arg2 = password;
-            arg3 = serverName;
-
-            string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
-            string pathToFile = _launcherLocation;
-            Process runProg = new Process();
-            if (arg2 == "")
-            {
-                genArgs = "-username " + arg1 + " -w " + arg3 + " -3 ";
-            }
-            try
-            {
-                runProg.StartInfo.FileName = pathToFile;
-                runProg.StartInfo.Arguments = genArgs;
-                runProg.StartInfo.CreateNoWindow = true;
-
-                RecordLaunchInfo(serverName, accountName, desiredCharacter);
-
-                // This is analogous to Process.Start or CreateProcess
-                runProg.Start();
-            }
-            catch (Exception ex)
-            {
-                ShowMessage("Could not start program. Please Check your path. ", "Launcher not found.", MessageBoxButton.OK, MessageBoxImage.Error);
-                if (arg2 != "")
-                {
-                    return false;
-                }
-            }
-            if (arg2 == "")
-            {
-                ShowMessage("Multiple Logins Stopped. You don't have a password set, and multiple logins cannot continue.", "Multiple Logins Stopped.", MessageBoxButton.OK, MessageBoxImage.Information);
-                return false;
-            }
-            return true;
+            ShowMessage(msg, "Caption", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-        private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter)
-        {
-            var ctl = new LaunchControl();
-            ctl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter);
-        }
-
         private void ShowMessage(string msg)
         {
             ShowMessage(msg, "Caption", MessageBoxButton.OK, MessageBoxImage.Information);
