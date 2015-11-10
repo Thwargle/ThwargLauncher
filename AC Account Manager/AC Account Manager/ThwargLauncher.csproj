@@ -82,6 +82,7 @@
     <Compile Include="Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LaunchManager.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="ProfileManager.cs" />

@@ -256,8 +256,7 @@ namespace AC_Account_Manager
         }
         private class WorkerArgs
         {
-            public List<UserAccount> UserAccounts;
-            public int NumberTotalLaunches;
+            public LaunchManager.LaunchList LaunchList;
         }
         private void LaunchAllClientsOnAllServersOnThread(int numLaunches)
         {
@@ -269,10 +268,11 @@ namespace AC_Account_Manager
             {
                 EnableInterface(false);
                 _launcherLocation = txtLauncherLocation.Text;
+                var launchMgr = new LaunchManager();
+                LaunchManager.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
                 WorkerArgs args = new WorkerArgs()
                     {
-                        UserAccounts = _viewModel.KnownUserAccounts,
-                        NumberTotalLaunches = numLaunches
+                        LaunchList = launchList
                     };
                 _worker.RunWorkerAsync(args);
             }
@@ -292,24 +292,24 @@ namespace AC_Account_Manager
             WorkerArgs args = (e.Argument as WorkerArgs);
             if (args == null) { return; }
             int serverIndex = 0;
-            int serverTotal = args.NumberTotalLaunches;
+            int serverTotal = args.LaunchList.GetLaunchItemCount();
 
-            foreach (UserAccount account in args.UserAccounts)
+            foreach (var launchItem in args.LaunchList.GetLaunchList())
             {
                 if (_worker.CancellationPending)
                 {
                     e.Cancel = true;
                     break;
                 }
-                foreach (var server in account.Servers)
-                {
-                    if (!server.ServerSelected) { continue; }
-                    string desiredCharacter = server.ChosenCharacter;
-                    bool okgo = LaunchGameClient(server.ServerName, account, desiredCharacter);
-                    if (!okgo) { break; }
-                    // TODO - wait for client
-                    System.Threading.Thread.Sleep(15000);
-                }
+                string desiredCharacter = launchItem.CharacterSelected;
+                bool okgo = LaunchGameClient(launchItem.ServerName,
+                    accountName: launchItem.AccountName,
+                    password: launchItem.Password,
+                    desiredCharacter: desiredCharacter
+                    );
+                if (!okgo) { break; }
+                // TODO - wait for client
+                System.Threading.Thread.Sleep(15000);
                 ++serverIndex;
                 int pct = (int)(100.0 * serverIndex / serverTotal);
                 _worker.ReportProgress(pct);
@@ -317,12 +317,17 @@ namespace AC_Account_Manager
             }
         }
 
-        private bool LaunchGameClient(string serverName, UserAccount account, string desiredCharacter)
+        private bool LaunchGameClient(string serverName, string accountName, string password, string desiredCharacter)
         {
+            // TODO
+            Log.WriteLog(string.Format("Server='{0}', Account='{1}', Character='{2}'", serverName, accountName,
+                                       desiredCharacter));
+            return true;
+
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
-            if (account == null) { ShowMessage("Denied"); return false; }
-            arg1 = account.Name;
-            arg2 = account.Password;
+            if (accountName == null) { ShowMessage("Denied"); return false; }
+            arg1 = accountName;
+            arg2 = password;
             arg3 = serverName;
 
             string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
@@ -338,7 +343,7 @@ namespace AC_Account_Manager
                 runProg.StartInfo.Arguments = genArgs;
                 runProg.StartInfo.CreateNoWindow = true;
 
-                RecordLaunchInfo(serverName, account.Name, desiredCharacter);
+                RecordLaunchInfo(serverName, accountName, desiredCharacter);
 
                 // This is analogous to Process.Start or CreateProcess
                 runProg.Start();
