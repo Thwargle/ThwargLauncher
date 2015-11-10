@@ -256,7 +256,7 @@ namespace AC_Account_Manager
         }
         private class WorkerArgs
         {
-            public LaunchManager.LaunchList LaunchList;
+            public LaunchSorter.LaunchList LaunchList;
         }
         private void LaunchAllClientsOnAllServersOnThread(int numLaunches)
         {
@@ -268,8 +268,8 @@ namespace AC_Account_Manager
             {
                 EnableInterface(false);
                 _launcherLocation = txtLauncherLocation.Text;
-                var launchMgr = new LaunchManager();
-                LaunchManager.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
+                var launchMgr = new LaunchSorter();
+                LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
                 WorkerArgs args = new WorkerArgs()
                     {
                         LaunchList = launchList

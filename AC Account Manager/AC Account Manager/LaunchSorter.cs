@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AC_Account_Manager
 {
-    class LaunchManager
+    class LaunchSorter
     {
+        /// <summary>
+        /// Info for one game launch
+        /// </summary>
         public class LaunchItem
         {
             public string AccountName;
@@ -15,6 +15,9 @@ namespace AC_Account_Manager
             public string ServerName;
             public string CharacterSelected;
         }
+        /// <summary>
+        /// List of launch items sorted for performance
+        /// </summary>
         public class LaunchList
         {
             private readonly List<LaunchItem> _launchItems;
@@ -23,13 +26,16 @@ namespace AC_Account_Manager
             public IEnumerable<LaunchItem> GetLaunchList() { return _launchItems; }
             public int GetLaunchItemCount() { return _launchItems.Count; }
         }
+        /// <summary>
+        /// Construct a launch list from the model account info, and sort it for optimal performance
+        /// </summary>
         public LaunchList GetLaunchList(List<UserAccount> accountList)
         {
             var launchList = GetLaunchListFromAccountList(accountList);
             var optimizedList = GetOptimizedLaunchList(launchList);
             return optimizedList;
         }
-        public LaunchList GetLaunchListFromAccountList(List<UserAccount> accountList)
+        private LaunchList GetLaunchListFromAccountList(List<UserAccount> accountList)
         {
             var launchList = new LaunchList();
             foreach (var account in accountList)
@@ -54,6 +60,10 @@ namespace AC_Account_Manager
             }
             return launchList;
         }
+        /// <summary>
+        /// Reorder launch items by starting with account with most launches
+        /// and then rotating through accounts from most launches to least launches
+        /// </summary>
         private LaunchList GetOptimizedLaunchList(LaunchList originalList)
         {
             // Bin all items by account
@@ -90,6 +100,9 @@ namespace AC_Account_Manager
             }
             return sortedLaunchList;
         }
+        /// <summary>
+        /// Remove & return first item on list
+        /// </summary>
         private LaunchItem PopFirst(List<LaunchItem> list)
         {
             var item = list[0];
