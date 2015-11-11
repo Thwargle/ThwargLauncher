@@ -9,6 +9,10 @@ namespace AC_Account_Manager
     /// </summary>
     class ProfileManager
     {
+        public void EnsureProfileFolderExists()
+        {
+            GetProfileFolder(); // creates folder if needed
+        }
         public void Save(Profile profile)
         {
             string filepath = GetProfileFilePath(profile.Name);

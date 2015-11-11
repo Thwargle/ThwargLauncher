@@ -34,7 +34,7 @@ namespace AC_Account_Manager
         private string _launcherLocation;
         private bool _showHelp = true;
 
-        public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
+        public static string UsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
 
 
@@ -44,7 +44,7 @@ namespace AC_Account_Manager
             DataContext = _viewModel;
 
             MigrateSettingsIfNeeded();
-            CreateFolderForCurrentUser();
+            EnsureDataFoldersExist();
 
             LoadUserAccounts(initialLoad: true);
             LoadImages();
@@ -106,18 +106,24 @@ namespace AC_Account_Manager
             
         }
 
-        private void CreateFolderForCurrentUser()
+        private void EnsureDataFoldersExist()
         {
+            // Ensure program data folder exists
             string specificFolder = Configuration.AppFolder;
-
             if (!Directory.Exists(specificFolder))
+            {
                 Directory.CreateDirectory(specificFolder);
-            
+            }
+
+            // Ensure characters file exists
             if (!File.Exists(UsersFilePath))
             {
                 var fileStream = File.Create(UsersFilePath);
                 fileStream.Close();
             }
+            // Ensure profiles folder exists
+            var mgr = new ProfileManager();
+            mgr.EnsureProfileFolderExists();
         }
 
         private void LoadUserAccounts(bool initialLoad = false)
