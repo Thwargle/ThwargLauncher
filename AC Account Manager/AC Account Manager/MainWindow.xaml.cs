@@ -32,10 +32,13 @@ namespace AC_Account_Manager
         private System.Random _rand = new Random();
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
+        private bool _showHelp = true;
 
         public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
         private Profile _currentProfile;
+
+        public string CurrentProfileName { get { return _currentProfile.Name; } }
 
         public MainWindow()
         {
@@ -54,8 +57,6 @@ namespace AC_Account_Manager
             {
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
             }
-
-            lstUsername.SelectedIndex = Properties.Settings.Default.SelectedUser;
         }
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -337,7 +338,6 @@ namespace AC_Account_Manager
                 "{0} {1}:{2}",
                 verb, launchItem.AccountName, launchItem.ServerName);
             _worker.ReportProgress(pct, context);
-            
         }
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -475,11 +475,11 @@ namespace AC_Account_Manager
         }
         private void MainWindowDisable()
         {
-            this.ContentGrid.Background = new SolidColorBrush(Colors.Pink);
+            rctBlack.Fill = new SolidColorBrush(Colors.Gainsboro);
         }
         private void MainWindowEnable()
         {
-            ChangeBackgroundImageRandomly();
+            rctBlack.Fill = new SolidColorBrush(Colors.Black);
         }
         private void btnOpenUsers_Click(object sender, RoutedEventArgs e)
         {
@@ -497,22 +497,10 @@ namespace AC_Account_Manager
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
-            bool isWindowOpen = false;
-
-            foreach (Window w in Application.Current.Windows)
-            {
-                {
-                    if (w is Help)
-                        isWindowOpen = true;
-                        w.Activate();
-                }
-            }
-
-            if (!isWindowOpen)
-            {
-                Help newwindow = new Help();
-                newwindow.Show();
-            }
+            MainWindowDisable();
+            var dlg = new Help();
+            dlg.ShowDialog();
+            MainWindowEnable();
         }
     }
 }

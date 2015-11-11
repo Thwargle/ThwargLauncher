@@ -1,9 +1,9 @@
 ﻿<Window x:Class="AC_Account_Manager.ChooseProfile"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ChooseProfile" Height="300" Width="500">
+        Title="ChooseProfile" Height="300" Width="500" Icon="Images/Logo_circleonly.ico">
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" Margin="10,10,0,0" VerticalAlignment="Top" Height="224"
+        <DataGrid HorizontalAlignment="Stretch" Margin="10,10,9.6,0" VerticalAlignment="Top" Height="250"
                   ItemsSource="{Binding Path=ProfilesView}"/>
 
     </Grid>
