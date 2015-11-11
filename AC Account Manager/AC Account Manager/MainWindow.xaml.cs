@@ -43,6 +43,7 @@ namespace AC_Account_Manager
             InitializeComponent();
             DataContext = _viewModel;
 
+            MigrateSettingsIfNeeded();
             CreateFolderForCurrentUser();
 
             LoadUserAccounts(initialLoad: true);
@@ -54,6 +55,15 @@ namespace AC_Account_Manager
             if (Properties.Settings.Default.ACLocation != "")
             {
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
+            }
+        }
+        private void MigrateSettingsIfNeeded()
+        {
+            if (Properties.Settings.Default.NeedsUpgrade)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.NeedsUpgrade = false;
+                Properties.Settings.Default.Save();
             }
         }
         protected override void OnSourceInitialized(EventArgs e)

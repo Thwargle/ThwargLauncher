@@ -18,7 +18,6 @@ namespace AC_Account_Manager
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += (sender, eargs)
                 => HandleExcObject(eargs.ExceptionObject);
-
         }
         void HandleExcObject(object excObj)
         {

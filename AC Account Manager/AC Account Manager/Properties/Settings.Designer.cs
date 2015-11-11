@@ -82,5 +82,17 @@ namespace AC_Account_Manager.Properties {
                 this["LastProfileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NeedsUpgrade {
+            get {
+                return ((bool)(this["NeedsUpgrade"]));
+            }
+            set {
+                this["NeedsUpgrade"] = value;
+            }
+        }
     }
 }
