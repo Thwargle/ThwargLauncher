@@ -13,7 +13,7 @@ namespace AC_Account_Manager
             {
                 stream.WriteLine("Version: 1");
                 stream.WriteLine("Date: {0}", DateTime.UtcNow);
-                foreach (var setting in profile.CharacterSettings)
+                foreach (var setting in profile.EnumerateCharacterSettings())
                 {
                     stream.WriteLine("{0},{1},{2}", setting.AccountName, setting.ServerName, setting.ChosenCharacter);
                 }
@@ -23,7 +23,7 @@ namespace AC_Account_Manager
         {
             string filepath = GetProfileFilePath(profileName);
             if (!File.Exists(filepath)) { return null; }
-            var list = new List<CharacterSetting>();
+            var profile = new Profile();
             using (StreamReader stream = new StreamReader(filepath))
             {
                 string versionStr = stream.ReadLine();
@@ -36,16 +36,13 @@ namespace AC_Account_Manager
                     char[] delimiterChars = { ',' };
                     string[] pieces = line.Split(delimiterChars);
                     if (pieces.Length != 3) { break; }
-                    list.Add(new CharacterSetting()
-                        {
-                            AccountName = pieces[0],
-                            ServerName = pieces[1],
-                            ChosenCharacter = pieces[2]
-                        });
+                    profile.AddCharacterSetting(
+                        accountName: pieces[0],
+                        serverName: pieces[1],
+                        chosenCharacter: pieces[2]
+                        );
                 }
             }
-            var profile = new Profile();
-            profile.CharacterSettings = list;
             return profile;
         }
         private string GetProfileFilePath(string profileName)

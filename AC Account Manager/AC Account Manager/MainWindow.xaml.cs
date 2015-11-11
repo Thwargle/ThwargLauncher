@@ -131,15 +131,14 @@ namespace AC_Account_Manager
         private Profile GetCurrentProfileSettingsFromModel()
         {
             var profile = new Profile();
-            profile.CharacterSettings = 
-                (from account in _viewModel.KnownUserAccounts
-                    from server in account.Servers
-                    select new CharacterSetting()
-                        {
-                            AccountName = account.Name,
-                            ServerName = server.ServerName,
-                            ChosenCharacter = server.ChosenCharacter
-                        }).ToList();
+            foreach (var account in _viewModel.KnownUserAccounts)
+            {
+                foreach (var server in account.Servers)
+                {
+                    profile.AddCharacterSetting(accountName: account.Name, serverName: server.ServerName,
+                                                chosenCharacter: server.ChosenCharacter);
+                }
+            }
             return profile;
         }
         private void LoadCurrentProfile()
@@ -157,11 +156,10 @@ namespace AC_Account_Manager
             {
                 foreach (var server in account.Servers)
                 {
-                    var setting = profile.CharacterSettings.Find(x => x.AccountName == account.Name
-                        && x.ServerName == server.ServerName);
-                    if (setting != null)
+                    string charName = profile.GetCharacterSetting(accountName: account.Name, serverName: server.ServerName);
+                    if (charName != null)
                     {
-                        server.ChosenCharacter = setting.ChosenCharacter;
+                        server.ChosenCharacter = charName;
                     }
                 }
             }
