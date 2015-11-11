@@ -48,7 +48,6 @@ namespace AC_Account_Manager
             LoadImages();
             ChangeBackgroundImageRandomly();
 
-            //LoadAllAccountCharacters();
             WireUpBackgroundWorker();
 
             if (Properties.Settings.Default.ACLocation != "")

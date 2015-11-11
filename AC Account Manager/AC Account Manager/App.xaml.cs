@@ -33,7 +33,7 @@ namespace AC_Account_Manager
         }
         void HandleExc(Exception exc)
         {
-            Log.WriteLog("Fatal Exception: " + exc.ToString());
+            Log.WriteError("Fatal Exception: " + exc.ToString());
             MessageBox.Show("Fatal Program Error: See log file at " + Log.GetLogFilePath());
         }
     }

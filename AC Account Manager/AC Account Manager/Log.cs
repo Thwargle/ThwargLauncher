@@ -7,14 +7,18 @@ namespace AC_Account_Manager
 {
     public static class Log
     {
-        public static void WriteLog(string logText)
+        public static void WriteError(string logText)
         {
             // Write the string to a file.
             string filepath = GetLogFilePath();
 
             using (StreamWriter file = new StreamWriter(filepath, append: true))
             {
-                file.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, logText));
+                file.WriteLine("Time (UTC): {0}", DateTime.UtcNow);
+                var osInfo = new OsUtil.OperatingSystemInfo();
+                file.WriteLine("OS: {0}", osInfo.getOSInfo());
+                file.WriteLine("Culture: {0}", System.Globalization.CultureInfo.CurrentCulture.Name);
+                file.WriteLine(logText);
             }
         }
         internal static string GetLogFilePath()
