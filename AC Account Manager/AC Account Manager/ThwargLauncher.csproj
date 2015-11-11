@@ -86,6 +86,7 @@
     <Compile Include="LaunchSorter.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Profile.cs" />
     <Compile Include="ProfileManager.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="UserAccount.cs" />

@@ -6,22 +6,22 @@ namespace AC_Account_Manager
 {
     class ProfileManager
     {
-        public void Save(List<CharacterSetting> profSettings, string profile)
+        public void Save(Profile profile, string profileName)
         {
-            string filepath = GetProfileFilePath(profile);
+            string filepath = GetProfileFilePath(profileName);
             using (StreamWriter stream = new StreamWriter(filepath))
             {
                 stream.WriteLine("Version: 1");
                 stream.WriteLine("Date: {0}", DateTime.UtcNow);
-                foreach (var setting in profSettings)
+                foreach (var setting in profile.CharacterSettings)
                 {
                     stream.WriteLine("{0},{1},{2}", setting.AccountName, setting.ServerName, setting.ChosenCharacter);
                 }
             }
         }
-        public List<CharacterSetting> Load(string profile)
+        public Profile Load(string profileName)
         {
-            string filepath = GetProfileFilePath(profile);
+            string filepath = GetProfileFilePath(profileName);
             if (!File.Exists(filepath)) { return null; }
             var list = new List<CharacterSetting>();
             using (StreamReader stream = new StreamReader(filepath))
@@ -35,7 +35,7 @@ namespace AC_Account_Manager
                 {
                     char[] delimiterChars = { ',' };
                     string[] pieces = line.Split(delimiterChars);
-                    if (pieces.Length != 3) { return list; }
+                    if (pieces.Length != 3) { break; }
                     list.Add(new CharacterSetting()
                         {
                             AccountName = pieces[0],
@@ -44,7 +44,9 @@ namespace AC_Account_Manager
                         });
                 }
             }
-            return list;
+            var profile = new Profile();
+            profile.CharacterSettings = list;
+            return profile;
         }
         private string GetProfileFilePath(string profileName)
         {

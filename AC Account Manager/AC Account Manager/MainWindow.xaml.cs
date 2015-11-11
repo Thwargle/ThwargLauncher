@@ -124,13 +124,15 @@ namespace AC_Account_Manager
         }
         private void SaveCurrentProfile()
         {
-            List<CharacterSetting> settings = GetCurrentProfileSettingsFromModel();
+            Profile profile = GetCurrentProfileSettingsFromModel();
             ProfileManager mgr = new ProfileManager();
-            mgr.Save(settings, _currentProfileName);
+            mgr.Save(profile, _currentProfileName);
         }
-        private List<CharacterSetting> GetCurrentProfileSettingsFromModel()
+        private Profile GetCurrentProfileSettingsFromModel()
         {
-            return (from account in _viewModel.KnownUserAccounts
+            var profile = new Profile();
+            profile.CharacterSettings = 
+                (from account in _viewModel.KnownUserAccounts
                     from server in account.Servers
                     select new CharacterSetting()
                         {
@@ -138,23 +140,24 @@ namespace AC_Account_Manager
                             ServerName = server.ServerName,
                             ChosenCharacter = server.ChosenCharacter
                         }).ToList();
+            return profile;
         }
         private void LoadCurrentProfile()
         {
             ProfileManager mgr = new ProfileManager();
-            var profSettings = mgr.Load(_currentProfileName);
-            if (profSettings != null)
+            var profile = mgr.Load(_currentProfileName);
+            if (profile != null)
             {
-                ApplyProfileSettingsToModel(profSettings);
+                ApplyProfileToModel(profile);
             }
         }
-        private void ApplyProfileSettingsToModel(List<CharacterSetting> profSettings)
+        private void ApplyProfileToModel(Profile profile)
         {
             foreach (var account in _viewModel.KnownUserAccounts)
             {
                 foreach (var server in account.Servers)
                 {
-                    var setting = profSettings.Find(x => x.AccountName == account.Name
+                    var setting = profile.CharacterSettings.Find(x => x.AccountName == account.Name
                         && x.ServerName == server.ServerName);
                     if (setting != null)
                     {
