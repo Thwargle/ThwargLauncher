@@ -17,6 +17,7 @@ namespace AC_Account_Manager
             ProfilesTable.Columns.Add("Name", Type.GetType("System.String"));
             ProfilesTable.Columns.Add("LastLaunch", Type.GetType("System.DateTime"));
             ProfilesTable.Columns.Add("LastSaved", Type.GetType("System.DateTime"));
+            ProfilesTable.Columns.Add("LastActivation", Type.GetType("System.DateTime"));
             ProfilesTable.Columns.Add("Description", Type.GetType("System.String"));
             foreach (var profile in profiles)
             {
@@ -24,6 +25,7 @@ namespace AC_Account_Manager
                 row["Name"] = profile.Name;
                 row["LastLaunch"] = profile.LastLaunchedDate;
                 row["LastSaved"] = profile.LastSavedDate;
+                row["LastActivation"] = profile.LastActivatedDate;
                 row["Description"] = profile.Description;
                 ProfilesTable.Rows.Add(row);
             }

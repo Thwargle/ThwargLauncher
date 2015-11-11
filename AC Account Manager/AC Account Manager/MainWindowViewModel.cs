@@ -111,6 +111,7 @@ namespace AC_Account_Manager
                     profileName = "Default";
                 }
                 CurrentProfile = mgr.Load(profileName);
+                CurrentProfile.ActivateProfile();
             }
             finally
             {

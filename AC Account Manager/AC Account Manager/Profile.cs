@@ -24,7 +24,7 @@ namespace AC_Account_Manager
         {
             public string FileVersion; // compared with CurrentVersion
             public string Name = "Default";
-            public DateTime LastOpenedDate;
+            public DateTime LastActivatedDate;
             public DateTime LastSavedDate;
             public DateTime LastLaunchedDate;
             public string Description;
@@ -35,7 +35,8 @@ namespace AC_Account_Manager
         private readonly Dictionary<string, AccountState> _accountStates = new Dictionary<string, AccountState>();
         private ProfileData _profileData = new ProfileData();
         private readonly Dictionary<string, CharacterSetting> _characterSettings = new Dictionary<string, CharacterSetting>();
-        public DateTime LastOpenedDate { get { return _profileData.LastOpenedDate; } }
+        public void ActivateProfile() { _profileData.LastActivatedDate = DateTime.UtcNow; }
+        public DateTime LastActivatedDate { get { return _profileData.LastActivatedDate; } }
         public DateTime LastSavedDate { get { return _profileData.LastSavedDate; } }
         public DateTime LastLaunchedDate { get { return _profileData.LastLaunchedDate; } }
         public string Name { get { return _profileData.Name; } set { _profileData.Name = value; } }
@@ -122,7 +123,6 @@ namespace AC_Account_Manager
         {
             _profileData = Deserialize<ProfileData>(text);
             if (_profileData.FileVersion != CurrentVersion) { throw new Exception("Incompatible profile file"); }
-            _profileData.LastOpenedDate = DateTime.UtcNow;
             foreach (CharacterSetting setting in _profileData.CharacterSettings)
             {
                 this.StoreCharacterSetting(setting);
