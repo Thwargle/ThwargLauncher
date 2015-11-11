@@ -18,6 +18,7 @@ namespace AC_Account_Manager
                 var osInfo = new OsUtil.OperatingSystemInfo();
                 file.WriteLine("OS: {0}", osInfo.getOSInfo());
                 file.WriteLine("Culture: {0}", System.Globalization.CultureInfo.CurrentCulture.Name);
+                file.WriteLine("AssemblyVer: {0}", System.Reflection.Assembly.GetEntryAssembly().GetName().Version);
                 file.WriteLine(logText);
             }
         }

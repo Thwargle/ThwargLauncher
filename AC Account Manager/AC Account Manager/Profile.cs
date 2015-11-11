@@ -1,11 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 
 namespace AC_Account_Manager
 {
     class Profile
     {
+        [Serializable]
+        public class AccountState
+        {
+            public string AccountName;
+            public bool Active;
+        }
+        /// <summary>
+        /// ProfileData is the data actually saved to disk in the profile file
+        /// </summary>
+        [Serializable]
+        internal class ProfileData
+        {
+            public string FileVersion; // compared with CurrentVersion
+            public DateTime LastOpenedDate;
+            public DateTime LastSavedDate;
+            public DateTime LastLaunchedDate;
+            public string Description;
+            public List<CharacterSetting> CharacterSettings;
+            public List<AccountState> AccountStates;
+        }
+        private const string CurrentVersion = "VER-3.0";
+        private readonly Dictionary<string, AccountState> _accountStates = new Dictionary<string, AccountState>();
+        private ProfileData _profileData = new ProfileData();
         private readonly Dictionary<string, CharacterSetting> _characterSettings = new Dictionary<string, CharacterSetting>();
         public void StoreCharacterSetting(CharacterSetting charSetting)
         {
@@ -24,10 +51,6 @@ namespace AC_Account_Manager
                 return null;
             }
         }
-        public IEnumerable<CharacterSetting> EnumerateCharacterSettings()
-        {
-            return _characterSettings.Values;
-        }
         private string GetCharacterKey(string accountName, string serverName)
         {
             return accountName + ":" + serverName;
@@ -36,8 +59,6 @@ namespace AC_Account_Manager
         {
             return GetCharacterKey(accountName: charSetting.AccountName, serverName: charSetting.ServerName);
         }
-        public class AccountState { public string AccountName; public bool Active; }
-        private readonly Dictionary<string, AccountState> _accountStates = new Dictionary<string, AccountState>();
         public void StoreAccountState(string accountName, bool active)
         {
             string key = accountName;
@@ -46,22 +67,76 @@ namespace AC_Account_Manager
             accountState.Active = active;
             _accountStates[key] = accountState;
         }
-        public AccountState RetrieveAccountState(string accountName)
+        public bool RetrieveAccountState(string accountName)
         {
             string key = accountName;
             if (_accountStates.ContainsKey(key))
             {
-                return _accountStates[key];
+                return _accountStates[key].Active;
             }
             else
             {
-                return null;
+                return false;
             }
             
         }
-        public IEnumerable<AccountState> EnumerateAccountStates()
+        /// <summary>
+        /// Update our internal ProfileData object from our data
+        /// (in preparation for saving to disk)
+        /// </summary>
+        private void PrepareToSaveProfileData()
         {
-            return _accountStates.Values;
+            _profileData.FileVersion = CurrentVersion;
+            _profileData.LastSavedDate = DateTime.UtcNow;
+            _profileData.CharacterSettings = this._characterSettings.Values.ToList();
+            _profileData.AccountStates = this._accountStates.Values.ToList();
+        }
+        /// <summary>
+        /// Store all data from this profile into a string of json
+        /// </summary>
+        public string StoreToSerialized()
+        {
+            PrepareToSaveProfileData();
+            using (var stream1 = new MemoryStream())
+            {
+                var ser = new DataContractJsonSerializer(typeof(ProfileData));
+                ser.WriteObject(stream1, _profileData);
+                stream1.Position = 0;
+                using (var reader = new StreamReader(stream1))
+                {
+                    string text = reader.ReadToEnd();
+                    return text;
+                }
+            }
+        }
+        /// <summary>
+        /// Read string of json and use it to populate this profile
+        /// </summary>
+        public void LoadFromSerialized(string text)
+        {
+            _profileData = Deserialize<ProfileData>(text);
+            if (_profileData.FileVersion != CurrentVersion) { throw new Exception("Incompatible profile file"); }
+            _profileData.LastOpenedDate = DateTime.UtcNow;
+            foreach (CharacterSetting setting in _profileData.CharacterSettings)
+            {
+                this.StoreCharacterSetting(setting);
+            }
+            foreach (AccountState state in _profileData.AccountStates)
+            {
+                this.StoreAccountState(state.AccountName, state.Active);
+            }
+        }
+        /// <summary>
+        /// Read a string of json and build from it an object of type T
+        /// </summary>
+        private static T Deserialize<T>(string json)
+        {
+            var instance = Activator.CreateInstance<T>();
+            using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(json)))
+            {
+                var serializer = new DataContractJsonSerializer(instance.GetType());
+                return (T)serializer.ReadObject(ms);
+            }
         }
     }
 }

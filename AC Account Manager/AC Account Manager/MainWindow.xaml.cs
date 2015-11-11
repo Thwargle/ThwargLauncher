@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
@@ -36,6 +36,7 @@ namespace AC_Account_Manager
         public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
         private string _currentProfileName = "Profile1";
+        private Profile _currentProfile;
 
         public MainWindow()
         {
@@ -101,7 +102,6 @@ namespace AC_Account_Manager
         {
             string specificFolder = Configuration.AppFolder;
 
-            // Check if folder exists and if not, create it
             if (!Directory.Exists(specificFolder))
                 Directory.CreateDirectory(specificFolder);
             
@@ -123,16 +123,15 @@ namespace AC_Account_Manager
         }
         private void SaveCurrentProfile()
         {
-            Profile profile = GetCurrentProfileSettingsFromModel();
+            UpdateProfileFromCurrentModelSettings();
             ProfileManager mgr = new ProfileManager();
-            mgr.Save(profile, _currentProfileName);
+            mgr.Save(_currentProfile, _currentProfileName);
         }
-        private Profile GetCurrentProfileSettingsFromModel()
+        private void UpdateProfileFromCurrentModelSettings()
         {
-            var profile = new Profile();
             foreach (var account in _viewModel.KnownUserAccounts)
             {
-                profile.StoreAccountState(account.Name, account.AccountLaunchable);
+                _currentProfile.StoreAccountState(account.Name, account.AccountLaunchable);
                 foreach (var server in account.Servers)
                 {
                     var charSetting = new CharacterSetting();
@@ -140,32 +139,35 @@ namespace AC_Account_Manager
                     charSetting.ServerName = server.ServerName;
                     charSetting.Active = server.ServerSelected;
                     charSetting.ChosenCharacter = server.ChosenCharacter;
-                    profile.StoreCharacterSetting(charSetting);
+                    _currentProfile.StoreCharacterSetting(charSetting);
                 }
             }
-            return profile;
         }
         private void LoadCurrentProfile()
         {
             ProfileManager mgr = new ProfileManager();
-            var profile = mgr.Load(_currentProfileName);
-            if (profile != null)
+            try
             {
-                ApplyProfileToModel(profile);
+                _currentProfile = mgr.Load(_currentProfileName);
             }
+            catch
+            {
+                ShowMessage("Error loading profile");
+            }
+            if (_currentProfile == null)
+            {
+                _currentProfile = new Profile();
+            }
+            ApplyCurrentProfileToModel();
         }
-        private void ApplyProfileToModel(Profile profile)
+        private void ApplyCurrentProfileToModel()
         {
             foreach (var account in _viewModel.KnownUserAccounts)
             {
-                var acctState = profile.RetrieveAccountState(account.Name);
-                if (acctState != null)
-                {
-                    account.AccountLaunchable = acctState.Active;
-                }
+                account.AccountLaunchable = _currentProfile.RetrieveAccountState(account.Name);;
                 foreach (var server in account.Servers)
                 {
-                    var charSetting = profile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
+                    var charSetting = _currentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
                     if (charSetting != null)
                     {
                         server.ServerSelected = charSetting.Active;
