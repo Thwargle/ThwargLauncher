@@ -133,10 +133,15 @@ namespace AC_Account_Manager
             var profile = new Profile();
             foreach (var account in _viewModel.KnownUserAccounts)
             {
+                profile.StoreAccountState(account.Name, account.AccountLaunchable);
                 foreach (var server in account.Servers)
                 {
-                    profile.AddCharacterSetting(accountName: account.Name, serverName: server.ServerName,
-                                                chosenCharacter: server.ChosenCharacter);
+                    var charSetting = new CharacterSetting();
+                    charSetting.AccountName = account.Name;
+                    charSetting.ServerName = server.ServerName;
+                    charSetting.Active = server.ServerSelected;
+                    charSetting.ChosenCharacter = server.ChosenCharacter;
+                    profile.StoreCharacterSetting(charSetting);
                 }
             }
             return profile;
@@ -154,12 +159,22 @@ namespace AC_Account_Manager
         {
             foreach (var account in _viewModel.KnownUserAccounts)
             {
+                var acctState = profile.RetrieveAccountState(account.Name);
+                if (acctState != null)
+                {
+                    account.AccountLaunchable = acctState.Active;
+                }
                 foreach (var server in account.Servers)
                 {
-                    string charName = profile.GetCharacterSetting(accountName: account.Name, serverName: server.ServerName);
-                    if (charName != null)
+                    var charSetting = profile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
+                    if (charSetting != null)
                     {
-                        server.ChosenCharacter = charName;
+                        server.ServerSelected = charSetting.Active;
+                        server.ChosenCharacter = charSetting.ChosenCharacter;
+                        if (string.IsNullOrEmpty(server.ChosenCharacter))
+                        {
+                            server.ChosenCharacter = "None";
+                        }
                     }
                 }
             }
