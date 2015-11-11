@@ -10,9 +10,9 @@
         <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid DockPanel.Dock="Top" Height="Auto" HorizontalAlignment="Stretch">
                 <Button x:Name="btnNewProfile" ToolTip="Create a New Profile" Content="New Profile" HorizontalAlignment="Left" Margin="10,10,0,-0.2" VerticalAlignment="Top" Foreground="#FFBB8000" Width="84"/>
-                <Button x:Name="btnPreviousProfile" ToolTip="Previous Profile" Content="&lt;" HorizontalAlignment="Left" Margin="99,10,0,-0.2" VerticalAlignment="Top" Foreground="#FFBB8000" Width="20"/>
+                <Button x:Name="btnPreviousProfile" ToolTip="Previous Profile" Content="&lt;" HorizontalAlignment="Left" Margin="99,10,0,-0.2" VerticalAlignment="Top" Foreground="#FFBB8000" Width="20" Command="{Binding PrevProfileCommand}"/>
                 <TextBox x:Name="txtProfileName" HorizontalAlignment="Stretch" Height="19" Margin="124,10,208.4,-0.2" TextWrapping="Wrap" Text="{Binding Path=CurrentProfileName}" Background="#A5000000" Foreground="#FFFFB619" VerticalAlignment="Top" TextAlignment="Center"/>
-                <Button x:Name="btnNextProfile" ToolTip="Next Profile" Content="&gt;" HorizontalAlignment="Right" Margin="0,10,183.4,-0.2" VerticalAlignment="Top" Foreground="#FFBB8000" Width="20"/>
+                <Button x:Name="btnNextProfile" ToolTip="Next Profile" Content="&gt;" HorizontalAlignment="Right" Margin="0,10,183.4,-0.2" VerticalAlignment="Top" Foreground="#FFBB8000" Width="20" Command="{Binding NextProfileCommand}" />
                 <Button x:Name="btnDeleteProfile" ToolTip="Delete the Current Profile" Content="Delete Profile" HorizontalAlignment="Right" VerticalAlignment="Top" Width="86" Foreground="#FFBB8000" Margin="0,10,92.4,-0.2"/>
                 <Button x:Name="btnLaunch" Content="Launch" HorizontalAlignment="Right" Margin="0,10,10.4,-0.2" VerticalAlignment="Top" Width="77" Click="btnLaunch_Click" Foreground="#FFBB8000"/>
             </Grid>

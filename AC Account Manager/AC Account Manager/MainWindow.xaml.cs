@@ -36,9 +36,7 @@ namespace AC_Account_Manager
 
         public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
-        private Profile _currentProfile;
 
-        public string CurrentProfileName { get { return _currentProfile.Name; } }
 
         public MainWindow()
         {
@@ -117,72 +115,26 @@ namespace AC_Account_Manager
             if (!initialLoad) // we do not save the first time, because have never yet loaded
             {
                 SaveCurrentProfile();
-                Properties.Settings.Default.LastProfileName = _currentProfile.Name;
-                Properties.Settings.Default.Save();
             }
             ReloadKnownAccountsAndCharacters();
             LoadCurrentProfile();
         }
         private void SaveCurrentProfile()
         {
-            UpdateProfileFromCurrentModelSettings();
-            ProfileManager mgr = new ProfileManager();
-            mgr.Save(_currentProfile);
-        }
-        private void UpdateProfileFromCurrentModelSettings()
-        {
-            foreach (var account in _viewModel.KnownUserAccounts)
-            {
-                _currentProfile.StoreAccountState(account.Name, account.AccountLaunchable);
-                foreach (var server in account.Servers)
-                {
-                    var charSetting = new CharacterSetting();
-                    charSetting.AccountName = account.Name;
-                    charSetting.ServerName = server.ServerName;
-                    charSetting.Active = server.ServerSelected;
-                    charSetting.ChosenCharacter = server.ChosenCharacter;
-                    _currentProfile.StoreCharacterSetting(charSetting);
-                }
-            }
+            _viewModel.UpdateProfileFromCurrentModelSettings();
+            _viewModel.SaveCurrentProfile();
         }
         private void LoadCurrentProfile()
         {
-            ProfileManager mgr = new ProfileManager();
             try
             {
-                string profileName = Properties.Settings.Default.LastProfileName;
-                if (string.IsNullOrWhiteSpace(profileName)) { profileName = "Default"; }
-                _currentProfile = mgr.Load(profileName);
+                _viewModel.LoadProfile();
             }
             catch
             {
                 ShowMessage("Error loading profile");
             }
-            if (_currentProfile == null)
-            {
-                _currentProfile = new Profile();
-            }
-            ApplyCurrentProfileToModel();
-        }
-        private void ApplyCurrentProfileToModel()
-        {
-            foreach (var account in _viewModel.KnownUserAccounts)
-            {
-                account.AccountLaunchable = _currentProfile.RetrieveAccountState(account.Name);;
-                foreach (var server in account.Servers)
-                {
-                    var charSetting = _currentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
-                    if (charSetting != null)
-                    {
-                        server.ServerSelected = charSetting.Active;
-                        server.ChosenCharacter = charSetting.ChosenCharacter;
-                        if (string.IsNullOrEmpty(server.ChosenCharacter))
-                        {
-                            server.ChosenCharacter = "None";
-                        }
-                    }
-                }
-            }
+            _viewModel.ApplyCurrentProfileToModel();
         }
         private void ReloadKnownAccountsAndCharacters()
         {

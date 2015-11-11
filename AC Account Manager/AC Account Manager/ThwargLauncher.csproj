@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="ChooseProfileViewModel.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="GameLauncher.cs" />
     <Compile Include="getOS.cs" />
     <Compile Include="Help.xaml.cs">
