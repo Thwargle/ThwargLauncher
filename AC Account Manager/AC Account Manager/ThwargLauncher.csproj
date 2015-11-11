@@ -80,6 +80,10 @@
     </ApplicationDefinition>
     <Compile Include="AccountCharacter.cs" />
     <Compile Include="CharacterSetting.cs" />
+    <Compile Include="ChooseProfile.xaml.cs">
+      <DependentUpon>ChooseProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChooseProfileViewModel.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="GameLauncher.cs" />
     <Compile Include="getOS.cs" />
@@ -96,6 +100,10 @@
     <Compile Include="WindowPlacer.cs" />
     <Compile Include="WpfWindowPlacer.cs" />
     <Page Include="AddUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChooseProfile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

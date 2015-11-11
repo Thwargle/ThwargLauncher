@@ -23,6 +23,7 @@ namespace AC_Account_Manager
         internal class ProfileData
         {
             public string FileVersion; // compared with CurrentVersion
+            public string Name = "Default";
             public DateTime LastOpenedDate;
             public DateTime LastSavedDate;
             public DateTime LastLaunchedDate;
@@ -34,6 +35,11 @@ namespace AC_Account_Manager
         private readonly Dictionary<string, AccountState> _accountStates = new Dictionary<string, AccountState>();
         private ProfileData _profileData = new ProfileData();
         private readonly Dictionary<string, CharacterSetting> _characterSettings = new Dictionary<string, CharacterSetting>();
+        public DateTime LastOpenedDate { get { return _profileData.LastOpenedDate; } }
+        public DateTime LastSavedDate { get { return _profileData.LastSavedDate; } }
+        public DateTime LastLaunchedDate { get { return _profileData.LastLaunchedDate; } }
+        public string Name { get { return _profileData.Name; } set { _profileData.Name = value; } }
+        public string Description { get { return _profileData.Description; } }
         public void StoreCharacterSetting(CharacterSetting charSetting)
         {
             string key = GetCharacterKey(charSetting);

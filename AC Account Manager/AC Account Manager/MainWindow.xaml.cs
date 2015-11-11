@@ -35,7 +35,6 @@ namespace AC_Account_Manager
 
         public static string UsersFilePath = System.IO.Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
-        private string _currentProfileName = "Profile1";
         private Profile _currentProfile;
 
         public MainWindow()
@@ -117,6 +116,8 @@ namespace AC_Account_Manager
             if (!initialLoad) // we do not save the first time, because have never yet loaded
             {
                 SaveCurrentProfile();
+                Properties.Settings.Default.LastProfileName = _currentProfile.Name;
+                Properties.Settings.Default.Save();
             }
             ReloadKnownAccountsAndCharacters();
             LoadCurrentProfile();
@@ -125,7 +126,7 @@ namespace AC_Account_Manager
         {
             UpdateProfileFromCurrentModelSettings();
             ProfileManager mgr = new ProfileManager();
-            mgr.Save(_currentProfile, _currentProfileName);
+            mgr.Save(_currentProfile);
         }
         private void UpdateProfileFromCurrentModelSettings()
         {
@@ -148,7 +149,9 @@ namespace AC_Account_Manager
             ProfileManager mgr = new ProfileManager();
             try
             {
-                _currentProfile = mgr.Load(_currentProfileName);
+                string profileName = Properties.Settings.Default.LastProfileName;
+                if (string.IsNullOrWhiteSpace(profileName)) { profileName = "Default"; }
+                _currentProfile = mgr.Load(profileName);
             }
             catch
             {
@@ -458,9 +461,16 @@ namespace AC_Account_Manager
         private void btnAddUsers_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisable();
-            AddUsers add = new AddUsers();
-            add.ShowDialog();
+            var dlg = new AddUsers();
+            dlg.ShowDialog();
             LoadUserAccounts();
+            MainWindowEnable();
+        }
+        private void btnChooseProfile_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowDisable();
+            var dlg = new ChooseProfile();
+            dlg.ShowDialog();
             MainWindowEnable();
         }
         private void MainWindowDisable()

@@ -70,5 +70,17 @@ namespace AC_Account_Manager.Properties {
                 this["AddUsersWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Default")]
+        public string LastProfileName {
+            get {
+                return ((string)(this["LastProfileName"]));
+            }
+            set {
+                this["LastProfileName"] = value;
+            }
+        }
     }
 }

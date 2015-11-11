@@ -1,0 +1,10 @@
+﻿<Window x:Class="AC_Account_Manager.ChooseProfile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ChooseProfile" Height="300" Width="500">
+    <Grid>
+        <DataGrid HorizontalAlignment="Stretch" Margin="10,10,0,0" VerticalAlignment="Top" Height="224"
+                  ItemsSource="{Binding Path=ProfilesView}"/>
+
+    </Grid>
+</Window>

@@ -14,5 +14,8 @@
     <Setting Name="AddUsersWindowPlacement" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="LastProfileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
