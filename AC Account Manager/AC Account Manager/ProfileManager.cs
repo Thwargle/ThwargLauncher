@@ -40,27 +40,53 @@ namespace AC_Account_Manager
             var allProfiles = new List<Profile>();
             string profilesFolder = GetProfileFolder();
             DirectoryInfo dir = new DirectoryInfo(profilesFolder);
-            var errors = new List<string>();
+            var badProfiles = new List<string>();
             foreach (var fileInfo in dir.EnumerateFiles("*.txt"))
             {
+                string profileName = Path.GetFileNameWithoutExtension(fileInfo.Name);
                 try
                 {
-                    string profileName = Path.GetFileNameWithoutExtension(fileInfo.Name);
                     Profile profile = this.Load(profileName);
                     allProfiles.Add(profile);
                 }
                 catch
                 {
-                    errors.Add(string.Format("Error trying to open profile file: {0}", fileInfo.Name));
+                    badProfiles.Add(profileName);
                 }
             }
-            if (errors.Count > 0)
+            if (badProfiles.Count > 0)
             {
-                string msg = string.Join(", ", errors);
-                string caption = string.Format("Profile failures: {0}", errors.Count);
-                System.Windows.MessageBox.Show(msg, caption);
+                string msg = string.Format(
+                    "{0} unloadable profiles found: \r\n{1}",
+                    badProfiles.Count,
+                    string.Join(", ", badProfiles));
+                msg += "\r\nDelete unloadable profile(s)?";
+                string caption = string.Format("Profile errors: {0}", badProfiles.Count);
+                var choice = System.Windows.MessageBox.Show(msg, caption, System.Windows.MessageBoxButton.YesNo);
+                if (choice == System.Windows.MessageBoxResult.Yes)
+                {
+                    DeleteProfiles(badProfiles);
+                }
             }
             return allProfiles;
+        }
+        private void DeleteProfiles(List<string> profileNameList)
+        {
+            foreach (string profileName in profileNameList)
+            {
+                try
+                {
+                    DeleteProfile(profileName);
+                }
+                catch
+                {
+                }
+            }
+        }
+        private void DeleteProfile(string profileName)
+        {
+            string filepath = GetProfileFilePath(profileName);
+            File.Delete(filepath);
         }
         private string GetProfileFilePath(string profileName)
         {
