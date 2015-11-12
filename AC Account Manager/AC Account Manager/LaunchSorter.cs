@@ -29,13 +29,13 @@ namespace AC_Account_Manager
         /// <summary>
         /// Construct a launch list from the model account info, and sort it for optimal performance
         /// </summary>
-        public LaunchList GetLaunchList(List<UserAccount> accountList)
+        public LaunchList GetLaunchList(IEnumerable<UserAccount> accountList)
         {
             var launchList = GetLaunchListFromAccountList(accountList);
             var optimizedList = GetOptimizedLaunchList(launchList);
             return optimizedList;
         }
-        private LaunchList GetLaunchListFromAccountList(List<UserAccount> accountList)
+        private LaunchList GetLaunchListFromAccountList(IEnumerable<UserAccount> accountList)
         {
             var launchList = new LaunchList();
             foreach (var account in accountList)

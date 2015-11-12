@@ -42,6 +42,7 @@ namespace AC_Account_Manager
         {
             InitializeComponent();
             DataContext = _viewModel;
+            _viewModel.PropertyChanged += _viewModel_PropertyChanged;
 
             MigrateSettingsIfNeeded();
             EnsureDataFoldersExist();
@@ -55,6 +56,16 @@ namespace AC_Account_Manager
             if (Properties.Settings.Default.ACLocation != "")
             {
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
+            }
+        }
+
+        void _viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // TODO - this is a workaround
+            if (e.PropertyName == "KnownUserAccounts")
+            {
+                this.lstUsername.ItemsSource = null;
+                this.lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
             }
         }
         private void MigrateSettingsIfNeeded()
@@ -133,24 +144,18 @@ namespace AC_Account_Manager
                 SaveCurrentProfile();
             }
             ReloadKnownAccountsAndCharacters();
-            LoadCurrentProfile();
-        }
-        private void SaveCurrentProfile()
-        {
-            _viewModel.UpdateProfileFromCurrentModelSettings();
-            _viewModel.SaveCurrentProfile();
-        }
-        private void LoadCurrentProfile()
-        {
             try
             {
-                _viewModel.LoadProfile();
+                _viewModel.LoadMostRecentProfile();
             }
             catch
             {
-                ShowMessage("Error loading profile");
+                ShowErrorMessage("Error loading profile");
             }
-            _viewModel.ApplyCurrentProfileToModel();
+        }
+        private void SaveCurrentProfile()
+        {
+            _viewModel.SaveCurrentProfile();
         }
         private void ReloadKnownAccountsAndCharacters()
         {

@@ -12,7 +12,7 @@ namespace AC_Account_Manager
     {
         public void Reset()
         {
-            KnownUserAccounts = new List<UserAccount>();
+            KnownUserAccounts = new ObservableCollection<UserAccount>();
             SelectedUserAccountName = "";
         }
         public MainWindowViewModel()
@@ -26,6 +26,7 @@ namespace AC_Account_Manager
         }
         public void GoToNextProfile()
         {
+            SaveCurrentProfile();
             ProfileManager mgr = new ProfileManager();
             var newProfile = mgr.GetNextProfile(CurrentProfile.Name);
             if (newProfile != null)
@@ -35,6 +36,7 @@ namespace AC_Account_Manager
         }
         public void GoToPrevProfile()
         {
+            SaveCurrentProfile();
             ProfileManager mgr = new ProfileManager();
             var newProfile = mgr.GetPrevProfile(CurrentProfile.Name);
             if (newProfile != null)
@@ -44,16 +46,17 @@ namespace AC_Account_Manager
         }
         private void GotoProfile(Profile profile)
         {
-            CurrentProfile = profile;
-            OnPropertyChanged("CurrentProfileName");
+            Properties.Settings.Default.LastProfileName = profile.Name;
+            Properties.Settings.Default.Save();
+            LoadMostRecentProfile();
         }
 
-        public List<UserAccount> KnownUserAccounts { get; set; }
+        public ObservableCollection<UserAccount> KnownUserAccounts { get; set; }
         public string SelectedUserAccountName { get; set; }
         private Profile CurrentProfile { get; set; }
         public string CurrentProfileName
         {
-            get { return CurrentProfile.Name; }
+            get { return (CurrentProfile != null ? CurrentProfile.Name : ""); }
             set {
                 if (CurrentProfile.Name != value)
                 {
@@ -92,6 +95,7 @@ namespace AC_Account_Manager
                     }
                 }
             }
+            OnPropertyChanged("KnownUserAccounts");
         }
         public void UpdateProfileFromCurrentModelSettings()
         {
@@ -109,12 +113,17 @@ namespace AC_Account_Manager
                 }
             }
         }
-        public void LoadProfile()
+        public void LoadMostRecentProfile()
         {
+            string profileName = Properties.Settings.Default.LastProfileName;
+            LoadProfile(profileName);
+        }
+        private void LoadProfile(string profileName)
+        {
+            string previousProfileName = CurrentProfileName;
             ProfileManager mgr = new ProfileManager();
             try
             {
-                string profileName = Properties.Settings.Default.LastProfileName;
                 if (string.IsNullOrWhiteSpace(profileName))
                 {
                     profileName = "Default";
@@ -129,9 +138,16 @@ namespace AC_Account_Manager
                     CurrentProfile = new Profile();
                 }
             }
+            ApplyCurrentProfileToModel();
+            if (previousProfileName != CurrentProfileName)
+            {
+                OnPropertyChanged("CurrentProfileName");
+            }
         }
         public void SaveCurrentProfile()
         {
+            UpdateProfileFromCurrentModelSettings();
+
             var mgr = new ProfileManager();
             mgr.Save(CurrentProfile);
             Properties.Settings.Default.LastProfileName = CurrentProfile.Name;
