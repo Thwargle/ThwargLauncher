@@ -58,6 +58,10 @@ namespace AC_Account_Manager
                 return null;
             }
         }
+        public override string ToString()
+        {
+            return _profileData.Name;
+        }
         private string GetCharacterKey(string accountName, string serverName)
         {
             return accountName + ":" + serverName;

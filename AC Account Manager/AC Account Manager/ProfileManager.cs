@@ -35,6 +35,25 @@ namespace AC_Account_Manager
             profile.Name = profileName;
             return profile;
         }
+        public Profile GetNextProfile(string profileName)
+        {
+            var allProfiles = GetAllProfiles();
+            if (allProfiles.Count < 2) { return null; }
+            int index = allProfiles.FindIndex(i => i.Name == profileName);
+            ++index;
+            index = (index%allProfiles.Count);
+            return allProfiles[index];
+        }
+        public Profile GetPrevProfile(string profileName)
+        {
+            var allProfiles = GetAllProfiles();
+            if (allProfiles.Count < 2) { return null; }
+            int index = allProfiles.FindIndex(i => i.Name == profileName);
+            --index;
+            if (index < 0) { index += allProfiles.Count; }
+            index = (index % allProfiles.Count);
+            return allProfiles[index];
+        }
         public List<Profile> GetAllProfiles()
         {
             var allProfiles = new List<Profile>();
@@ -68,6 +87,7 @@ namespace AC_Account_Manager
                     DeleteProfiles(badProfiles);
                 }
             }
+            allProfiles.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.CurrentCulture));
             return allProfiles;
         }
         private void DeleteProfiles(List<string> profileNameList)

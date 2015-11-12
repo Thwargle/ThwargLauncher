@@ -24,36 +24,45 @@ namespace AC_Account_Manager
                     GoToPrevProfile
                 );
         }
-
         public void GoToNextProfile()
         {
-            // TODO
             ProfileManager mgr = new ProfileManager();
-            var allProfiles = mgr.GetAllProfiles();
-            if (allProfiles.Count > 1)
+            var newProfile = mgr.GetNextProfile(CurrentProfile.Name);
+            if (newProfile != null)
             {
-                if (allProfiles[0].Name != CurrentProfile.Name)
-                {
-                    CurrentProfile = allProfiles[0];
-                }
-                else
-                {
-                    CurrentProfile = allProfiles[1];
-                }
-                OnPropertyChanged("CurrentProfileName");
+                GotoProfile(newProfile);
             }
-            // ----
         }
         public void GoToPrevProfile()
         {
-            // TODO
-            GoToNextProfile();
+            ProfileManager mgr = new ProfileManager();
+            var newProfile = mgr.GetPrevProfile(CurrentProfile.Name);
+            if (newProfile != null)
+            {
+                GotoProfile(newProfile);
+            }
+        }
+        private void GotoProfile(Profile profile)
+        {
+            CurrentProfile = profile;
+            OnPropertyChanged("CurrentProfileName");
         }
 
         public List<UserAccount> KnownUserAccounts { get; set; }
         public string SelectedUserAccountName { get; set; }
         private Profile CurrentProfile { get; set; }
-        public string CurrentProfileName { get { return CurrentProfile.Name; } set { CurrentProfile.Name = value; } }
+        public string CurrentProfileName
+        {
+            get { return CurrentProfile.Name; }
+            set {
+                if (CurrentProfile.Name != value)
+                {
+                    CurrentProfile.Name = value;
+                    SaveCurrentProfile();
+                    OnPropertyChanged("CurrentProfileName");
+                }
+            }
+        }
         public ICommand NextProfileCommand { get; set; }
         public ICommand PrevProfileCommand { get; set; }
 
