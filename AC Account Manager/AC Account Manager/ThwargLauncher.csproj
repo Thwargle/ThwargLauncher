@@ -51,6 +51,9 @@
   <PropertyGroup>
     <StartupObject>AC_Account_Manager.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\Logo_circleonly.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MagFilter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -204,10 +207,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Credit.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Back.png" />
-    <Resource Include="Images\Next.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
