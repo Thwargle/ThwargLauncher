@@ -17,13 +17,41 @@ namespace AC_Account_Manager
         }
         public MainWindowViewModel()
         {
+            NewProfileCommand = new DelegateCommand(
+                    CreateNewProfile
+                );
             NextProfileCommand = new DelegateCommand(
                     GoToNextProfile
                 );
             PrevProfileCommand = new DelegateCommand(
                     GoToPrevProfile
                 );
+            DeleteProfileCommand = new DelegateCommand(
+                    DeleteProfile
+                );
         }
+        public void CreateNewProfile()
+        {
+            ProfileManager mgr = new ProfileManager();
+            var newProfile = mgr.CreateNewProfile();
+            GotoProfile(newProfile);
+        }
+        public void DeleteProfile()
+        {
+            ProfileManager mgr = new ProfileManager();
+            var nextProfile = mgr.GetPrevProfile(CurrentProfile.Name);
+
+            if(nextProfile == null)
+            {
+                nextProfile = mgr.CreateNewProfile();
+            }
+
+            var profileNametoDelete = CurrentProfile.Name;
+
+            GotoProfile(nextProfile);
+            mgr.DeleteProfile(profileNametoDelete);
+        }
+
         public void GoToNextProfile()
         {
             SaveCurrentProfile();
@@ -60,14 +88,23 @@ namespace AC_Account_Manager
             set {
                 if (CurrentProfile.Name != value)
                 {
-                    CurrentProfile.Name = value;
                     SaveCurrentProfile();
-                    OnPropertyChanged("CurrentProfileName");
+                    var profileManager = new ProfileManager();
+
+                    bool renamed = profileManager.RenameProfile(CurrentProfile.Name, value);
+
+                    if (renamed)
+                    {
+                        CurrentProfile.Name = value;
+                        OnPropertyChanged("CurrentProfileName");
+                    }
                 }
             }
         }
-        public ICommand NextProfileCommand { get; set; }
-        public ICommand PrevProfileCommand { get; set; }
+        public ICommand NextProfileCommand { get; private set; }
+        public ICommand PrevProfileCommand { get; private set; }
+        public ICommand NewProfileCommand { get; private set; }
+        public ICommand DeleteProfileCommand { get; private set; }
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -124,7 +161,7 @@ namespace AC_Account_Manager
             ProfileManager mgr = new ProfileManager();
             try
             {
-                if (string.IsNullOrWhiteSpace(profileName))
+                if (profileName == null)
                 {
                     profileName = "Default";
                 }

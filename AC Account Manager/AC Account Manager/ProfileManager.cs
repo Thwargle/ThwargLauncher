@@ -35,6 +35,35 @@ namespace AC_Account_Manager
             profile.Name = profileName;
             return profile;
         }
+        public Profile CreateNewProfile()
+        {
+            var newProfile = new Profile();
+
+            int index = 1;
+            while (true)
+            {
+                newProfile.Name = String.Format("Default{0}", index);
+                if(!File.Exists(GetProfileFilePath(newProfile.Name)))
+                {
+                    Save(newProfile);
+                    return newProfile;
+                }
+                index++;
+            }
+        }
+        public bool RenameProfile(string oldName, string newName)
+        {
+            string oldfilepath = GetProfileFilePath(oldName);
+            string newfilepath = GetProfileFilePath(newName);
+            
+            if (!File.Exists(oldfilepath)) { return false; }
+
+            File.Move(oldfilepath, newfilepath);
+            Profile newProfile = Load(newName);
+            newProfile.Name = newName;
+            Save(newProfile);
+            return true;
+        }
         public Profile GetNextProfile(string profileName)
         {
             var allProfiles = GetAllProfiles();
@@ -103,7 +132,7 @@ namespace AC_Account_Manager
                 }
             }
         }
-        private void DeleteProfile(string profileName)
+        public void DeleteProfile(string profileName)
         {
             string filepath = GetProfileFilePath(profileName);
             File.Delete(filepath);

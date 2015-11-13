@@ -94,6 +94,7 @@
     <Compile Include="LaunchSorter.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MaskedTextBox.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="ProfileManager.cs" />
     <Compile Include="Server.cs" />
