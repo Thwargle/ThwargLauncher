@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace AC_Account_Manager
         public Help()
         {
             InitializeComponent();
+            chkShowStartup.IsChecked = Properties.Settings.Default.ShowHelpAtStart;
         }
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -61,6 +63,8 @@ namespace AC_Account_Manager
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Properties.Settings.Default.ShowHelpAtStart = chkShowStartup.IsChecked.Value;
+            Properties.Settings.Default.Save();
             SaveWindowSettings();
         }
     }

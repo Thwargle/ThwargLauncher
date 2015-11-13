@@ -58,6 +58,14 @@ namespace AC_Account_Manager
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
             }
         }
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            this.Show();
+            if (Properties.Settings.Default.ShowHelpAtStart)
+            {
+                DisplayHelpWindow();
+            }
+        }
 
         void _viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -475,10 +483,15 @@ namespace AC_Account_Manager
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
+            DisplayHelpWindow();
+        }
+        private void DisplayHelpWindow()
+        {
             MainWindowDisable();
             var dlg = new Help();
             dlg.ShowDialog();
             MainWindowEnable();
         }
+
     }
 }

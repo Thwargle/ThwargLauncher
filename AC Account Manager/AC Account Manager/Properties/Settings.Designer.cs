@@ -118,5 +118,17 @@ namespace AC_Account_Manager.Properties {
                 this["HelpWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowHelpAtStart {
+            get {
+                return ((bool)(this["ShowHelpAtStart"]));
+            }
+            set {
+                this["ShowHelpAtStart"] = value;
+            }
+        }
     }
 }

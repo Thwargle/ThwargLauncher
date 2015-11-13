@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
-        Title="Thwarg-Launcher - Intelligent Account Management" Height="350" Width="525" Closing="AC_Account_Manager_Closing" Icon="Images\Logo_circleonly.ico" ResizeMode="CanResizeWithGrip">
+        Title="Thwarg-Launcher - Intelligent Account Management" Height="350" Width="525" 
+        Closing="AC_Account_Manager_Closing" Loaded="MainWindow_OnLoaded" Icon="Images\Logo_circleonly.ico" ResizeMode="CanResizeWithGrip">
     <Window.Background>
         <ImageBrush Stretch="UniformToFill"/>
     </Window.Background>
