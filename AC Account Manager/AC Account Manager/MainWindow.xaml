@@ -81,7 +81,7 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <CheckBox x:Name="AccountLaunchable" Margin="0 5 0 0" IsChecked="{Binding Path=AccountLaunchable,Mode=TwoWay}" Grid.Column="0"></CheckBox>
-                                <Expander x:Name="AccountExpander" Grid.Column="1" Header="{Binding Path=Name}" Foreground="#FFBB8000" Background="Transparent" >
+                                <Expander x:Name="AccountExpander" Grid.Column="1" Header="{Binding Path=AccountSummary}" Foreground="#FFBB8000" Background="Transparent" >
                                     <ListBox ItemsSource="{Binding Path=Servers}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch">
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="{x:Type ListBoxItem}">

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace AC_Account_Manager
 {
-    public class UserAccount
+    public class UserAccount : INotifyPropertyChanged
     {
         public UserAccount(string accountName, MagFilter.CharacterManager characterMgr)
         {
@@ -38,8 +41,17 @@ namespace AC_Account_Manager
                 {
                     this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
                 }
+                server.PropertyChanged += server_PropertyChanged;
                 // Record data
                 _servers.Add(server);
+            }
+        }
+
+        void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ServerSelected")
+            {
+                OnPropertyChanged("AccountSummary");
             }
         }
 
@@ -50,8 +62,22 @@ namespace AC_Account_Manager
         {
             get { return _servers; }
         }
+        public List<Server> ActivatedServers
+        {
+            get { return _servers.Where(x => x.ServerSelected).ToList(); }
+        }
 
-
+        public string AccountSummary
+        {
+            get
+            {
+                return string.Format(
+                    "{0} - {1}",
+                    Name,
+                    string.Join(", ", ActivatedServers)
+                    );
+            }
+        }
         public string Name
         {
             get { return _name; }
@@ -62,5 +88,12 @@ namespace AC_Account_Manager
 
         public bool AccountLaunchable { get; set; }
         public string ZoneId { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
