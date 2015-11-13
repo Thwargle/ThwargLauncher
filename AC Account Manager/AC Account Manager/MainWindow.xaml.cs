@@ -32,7 +32,6 @@ namespace AC_Account_Manager
         private System.Random _rand = new Random();
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
-        private bool _showHelp = true;
 
         public static string UsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
