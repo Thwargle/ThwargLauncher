@@ -106,5 +106,17 @@ namespace AC_Account_Manager.Properties {
                 this["ChooseProfileWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HelpWindowPlacement {
+            get {
+                return ((string)(this["HelpWindowPlacement"]));
+            }
+            set {
+                this["HelpWindowPlacement"] = value;
+            }
+        }
     }
 }

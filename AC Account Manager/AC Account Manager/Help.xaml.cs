@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
+using WindowPlacementUtil;
 
 namespace AC_Account_Manager
 {
@@ -24,6 +25,20 @@ namespace AC_Account_Manager
         public Help()
         {
             InitializeComponent();
+        }
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            LoadWindowSettings();
+        }
+        private void LoadWindowSettings()
+        {
+            this.SetPlacement(Properties.Settings.Default.HelpWindowPlacement);
+        }
+        private void SaveWindowSettings()
+        {
+            Properties.Settings.Default.HelpWindowPlacement = this.GetPlacement();
+            Properties.Settings.Default.Save();
         }
 
         private void btnDefaultPreferences_Click(object sender, RoutedEventArgs e)
@@ -43,6 +58,10 @@ namespace AC_Account_Manager
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveWindowSettings();
         }
     }
 }
