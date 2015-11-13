@@ -252,7 +252,7 @@ namespace AC_Account_Manager
             {
                 if (e.Cancelled)
                 {
-                    lblWorkerProgress.Content = "Worker Progress: Canceled";
+                    lblWorkerProgress.Content = "User Cancelled";
                 }
                 else if (e.Error != null)
                 {
@@ -260,7 +260,7 @@ namespace AC_Account_Manager
                 }
                 else
                 {
-                    lblWorkerProgress.Content = "Worker Progress: Done";
+                    lblWorkerProgress.Content = "Launcher Complete";
                 }
             }
             finally
@@ -276,7 +276,7 @@ namespace AC_Account_Manager
         {
             if (_worker.IsBusy)
             {
-                lblWorkerProgress.Content = "Worker Progress: Busy";
+                lblWorkerProgress.Content = "Launcher In Use";
             }
             else
             {
@@ -295,12 +295,15 @@ namespace AC_Account_Manager
             btnLaunch.IsEnabled = enable;
         }
 
+        private class ProgressInfo { public int Index; public int Total; public string Message; }
         void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            ProgressInfo info = (e.UserState as ProgressInfo);
             lblWorkerProgress.Content = string.Format(
-                "{0}% - {1}",
+                "{0}% - {1}/{2} - {3}",
                 e.ProgressPercentage,
-                e.UserState.ToString()
+                info.Index, info.Total,
+                info.Message
                 );
         }
 
@@ -310,7 +313,13 @@ namespace AC_Account_Manager
             string context = string.Format(
                 "{0} {1}:{2}",
                 verb, launchItem.AccountName, launchItem.ServerName);
-            _worker.ReportProgress(pct, context);
+            var progressInfo = new ProgressInfo()
+                {
+                    Index = index,
+                    Total = total,
+                    Message = context
+                };
+            _worker.ReportProgress(pct, progressInfo);
         }
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -364,13 +373,9 @@ namespace AC_Account_Manager
                     ShowErrorMessage("Exception launching game launcher: " + exc.Message);
                     break;
                 }
-                // TODO - wait for client
 
                 ++serverIndex;
                 workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
-                
-                System.Threading.Thread.Sleep(15000);
-               
             }
         }
 

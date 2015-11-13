@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using MagFilter;
@@ -14,7 +16,6 @@ namespace AC_Account_Manager
             if (string.IsNullOrWhiteSpace(exelocation)) { throw new Exception("Empty exelocation"); }
             if (string.IsNullOrWhiteSpace(serverName)) { throw new Exception("Empty serverName"); }
             if (string.IsNullOrWhiteSpace(accountName)) { throw new Exception("Empty accountName"); }
-            if (string.IsNullOrWhiteSpace(password)) { throw new Exception("Empty password"); }
             string arg1 = accountName;
             string arg2 = password;
             string arg3 = serverName;
@@ -23,7 +24,6 @@ namespace AC_Account_Manager
             string pathToFile = exelocation;
             if (arg2 == "")
             {
-                // TODO - currently not supported
                 genArgs = "-username " + arg1 + " -w " + arg3 + " -3 ";
             }
             try
@@ -33,21 +33,32 @@ namespace AC_Account_Manager
                 startInfo.Arguments = genArgs;
                 startInfo.CreateNoWindow = true;
 
-                RecordLaunchInfo(serverName, accountName, desiredCharacter);
+                RecordLaunchInfo(serverName, accountName, desiredCharacter, DateTime.UtcNow);
 
                 // This is analogous to Process.Start or CreateProcess
-                Process gameProc = Process.Start(startInfo);
-                do
+                string charFilepath = MagFilter.FileLocations.GetCharacterFilePath();
+                DateTime startWait = DateTime.Now;
+                using (FileSystemWatcher fw = WatchFile(charFilepath))
                 {
-                    while (!gameProc.HasExited)
+                    Process launcherProc = Process.Start(startInfo);
+                    bool gameReady = false;
+                    fw.Changed += delegate(object sender, FileSystemEventArgs args) { gameReady = true; };
+                    if (!gameReady)
                     {
-                        gameProc.Refresh();
-                        if (gameProc.Responding)
+                        WaitForLauncher(launcherProc);
+                        int minutes = GetConfigInt("LauncherGameTimeoutMinutes", 2);
+                        TimeSpan timeout = new TimeSpan(0, 0, minutes, 0);
+                        while (!gameReady && (DateTime.Now - startWait < timeout))
                         {
-                            return true;
+                            System.Threading.Thread.Sleep(10000);
+                            FileInfo fileInfo = new FileInfo(charFilepath);
+                            if (fileInfo.LastWriteTime >= startWait)
+                            {
+                                gameReady = true;
+                            }
                         }
                     }
-                } while (!gameProc.WaitForExit(1000));
+                }
             }
             catch (Exception exc)
             {
@@ -57,10 +68,46 @@ namespace AC_Account_Manager
             }
             return true;
         }
-        private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter)
+        private FileSystemWatcher WatchFile(string filepath)
+        {
+            return new FileSystemWatcher(
+                Path.GetDirectoryName(filepath),
+                Path.GetFileName(filepath)
+                );
+        }
+        private int GetConfigInt(string name, int defval)
+        {
+            string text = ConfigurationManager.AppSettings[name];
+            if (string.IsNullOrEmpty(text)) { return defval; }
+            int value;
+            if (int.TryParse(text, out value))
+            {
+                return value;
+            }
+            else
+            {
+                return defval;
+            }
+        }
+        private void WaitForLauncher(Process launcherProc)
+        {
+            do
+            {
+                while (!launcherProc.HasExited)
+                {
+                    launcherProc.Refresh();
+                    if (launcherProc.Responding)
+                    {
+                        return;
+                    }
+                }
+            } while (!launcherProc.WaitForExit(1000));
+        }
+        private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter, DateTime timestamp)
         {
             var ctl = new LaunchControl();
-            ctl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter);
+            ctl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter,
+                                 timestamp: timestamp);
         }
     }
 }
