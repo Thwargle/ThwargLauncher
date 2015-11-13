@@ -41,6 +41,36 @@ namespace AC_Account_Manager
         public DateTime LastLaunchedDate { get { return _profileData.LastLaunchedDate; } }
         public string Name { get { return _profileData.Name; } set { _profileData.Name = value; } }
         public string Description { get { return _profileData.Description; } }
+        public int ActiveAccountCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var acct in _accountStates.Values)
+                {
+                    if (acct.Active)
+                    {
+                        ++count;
+                    }
+                }
+                return count;
+            }
+        }
+        public int ActiveServerCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var charset in _characterSettings.Values)
+                {
+                    if (charset.Active)
+                    {
+                        ++count;
+                    }
+                }
+                return count;
+            }
+        }
         public void StoreCharacterSetting(CharacterSetting charSetting)
         {
             string key = GetCharacterKey(charSetting);

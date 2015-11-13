@@ -15,6 +15,8 @@ namespace AC_Account_Manager
         {
             ProfilesTable = new DataTable();
             ProfilesTable.Columns.Add("Name", Type.GetType("System.String"));
+            ProfilesTable.Columns.Add("ActiveAccounts", Type.GetType("System.Int32"));
+            ProfilesTable.Columns.Add("ActiveServers", Type.GetType("System.Int32"));
             ProfilesTable.Columns.Add("LastLaunch", Type.GetType("System.DateTime"));
             ProfilesTable.Columns.Add("LastSaved", Type.GetType("System.DateTime"));
             ProfilesTable.Columns.Add("LastActivation", Type.GetType("System.DateTime"));
@@ -23,6 +25,8 @@ namespace AC_Account_Manager
             {
                 DataRow row = ProfilesTable.NewRow();
                 row["Name"] = profile.Name;
+                row["ActiveAccounts"] = profile.ActiveAccountCount;
+                row["ActiveServers"] = profile.ActiveServerCount;
                 row["LastLaunch"] = profile.LastLaunchedDate;
                 row["LastSaved"] = profile.LastSavedDate;
                 row["LastActivation"] = profile.LastActivatedDate;
