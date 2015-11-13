@@ -78,6 +78,11 @@ namespace AC_Account_Manager
             Properties.Settings.Default.Save();
             LoadMostRecentProfile();
         }
+        public void RecordProfileLaunch()
+        {
+            CurrentProfile.LastLaunchedDate = DateTime.UtcNow;
+            SaveCurrentProfile();
+        }
 
         public ObservableCollection<UserAccount> KnownUserAccounts { get; set; }
         public string SelectedUserAccountName { get; set; }

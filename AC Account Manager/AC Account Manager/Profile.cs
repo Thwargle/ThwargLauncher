@@ -38,7 +38,7 @@ namespace AC_Account_Manager
         public void ActivateProfile() { _profileData.LastActivatedDate = DateTime.UtcNow; }
         public DateTime LastActivatedDate { get { return _profileData.LastActivatedDate; } }
         public DateTime LastSavedDate { get { return _profileData.LastSavedDate; } }
-        public DateTime LastLaunchedDate { get { return _profileData.LastLaunchedDate; } }
+        public DateTime LastLaunchedDate { get { return _profileData.LastLaunchedDate; } set { _profileData.LastLaunchedDate = value; } }
         public string Name { get { return _profileData.Name; } set { _profileData.Name = value; } }
         public string Description { get { return _profileData.Description; } }
         public int ActiveAccountCount

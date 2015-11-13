@@ -290,6 +290,7 @@ namespace AC_Account_Manager
                 EnableInterface(false);
                 var launchMgr = new LaunchSorter();
                 LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
+                _viewModel.RecordProfileLaunch();
                 WorkerArgs args = new WorkerArgs()
                     {
                         LaunchList = launchList
