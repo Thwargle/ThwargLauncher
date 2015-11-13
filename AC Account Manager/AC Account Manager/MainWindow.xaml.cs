@@ -364,6 +364,8 @@ namespace AC_Account_Manager
                 var launcher = new GameLauncher();
                 try
                 {
+                    var finder = new WindowFinder();
+                    finder.RecordExistingWindows();
                     bool okgo = launcher.LaunchGameClient(
                         _launcherLocation,
                         launchItem.ServerName,
@@ -375,6 +377,20 @@ namespace AC_Account_Manager
                     {
                         break;
                     }
+                    string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);
+                    if (gameCaptionPattern != null)
+                    {
+                        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(gameCaptionPattern);
+                        IntPtr hwnd = finder.FindNewWindow(regex);
+                        if (hwnd != IntPtr.Zero)
+                        {
+                            string newGameTitle = GetNewGameTitle(launchItem);
+                            if (!string.IsNullOrEmpty(newGameTitle))
+                            {
+                                finder.SetWindowTitle(hwnd, newGameTitle);
+                            }
+                        }
+                    }
                 }
                 catch (Exception exc)
                 {
@@ -385,6 +401,14 @@ namespace AC_Account_Manager
                 ++serverIndex;
                 workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
             }
+        }
+        private string GetNewGameTitle(LaunchSorter.LaunchItem launchItem)
+        {
+            string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
+            pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
+            pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
+            pattern = pattern.Replace("%CHARACTER%", launchItem.CharacterSelected);
+            return pattern;
         }
 
         private void ShowErrorMessage(string msg)

@@ -46,8 +46,8 @@ namespace AC_Account_Manager
                     if (!gameReady)
                     {
                         WaitForLauncher(launcherProc);
-                        int minutes = GetConfigInt("LauncherGameTimeoutMinutes", 2);
-                        TimeSpan timeout = new TimeSpan(0, 0, minutes, 0);
+                        int secondsTimeout = ConfigSettings.GetConfigInt("LauncherGameTimeoutSeconds", 120);
+                        TimeSpan timeout = new TimeSpan(0, 0, 0, secondsTimeout);
                         while (!gameReady && (DateTime.Now - startWait < timeout))
                         {
                             System.Threading.Thread.Sleep(10000);
@@ -74,20 +74,6 @@ namespace AC_Account_Manager
                 Path.GetDirectoryName(filepath),
                 Path.GetFileName(filepath)
                 );
-        }
-        private int GetConfigInt(string name, int defval)
-        {
-            string text = ConfigurationManager.AppSettings[name];
-            if (string.IsNullOrEmpty(text)) { return defval; }
-            int value;
-            if (int.TryParse(text, out value))
-            {
-                return value;
-            }
-            else
-            {
-                return defval;
-            }
         }
         private void WaitForLauncher(Process launcherProc)
         {
