@@ -27,6 +27,9 @@ namespace AC_Account_Manager
         {
             InitializeComponent();
             chkShowStartup.IsChecked = Properties.Settings.Default.ShowHelpAtStart;
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            var assemblyTitle = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            this.Title = string.Format("Help - {0} {1}", assemblyTitle, version);
         }
         protected override void OnSourceInitialized(EventArgs e)
         {
