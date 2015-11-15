@@ -9,9 +9,7 @@ namespace AC_Account_Manager
 {
     class WindowFinder
     {
-        /// <summary>
-        /// API calls
-        /// </summary>
+        #region API calls
         protected delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         protected static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
@@ -23,25 +21,13 @@ namespace AC_Account_Manager
         protected static extern bool IsWindowVisible(IntPtr hWnd);
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool SetWindowText(IntPtr hwnd, String lpString);
+        #endregion API calls
 
-        /// <summary>
-        /// Members
-        /// </summary>
+        #region Members
         private Dictionary<IntPtr, int> _windowMap = null;
+        #endregion Members
 
-        /*
-        protected static bool RecordWindows(IntPtr hWnd, IntPtr lParam)
-        {
-            int size = GetWindowTextLength(hWnd);
-            if (size++ > 0 && IsWindowVisible(hWnd))
-            {
-                StringBuilder sb = new StringBuilder(size);
-                GetWindowText(hWnd, sb, size);
-                Console.WriteLine(sb.ToString());
-            }
-            return true;
-        }
-         * */
+        #region Methods
         public void RecordExistingWindows()
         {
             _windowMap = new Dictionary<IntPtr, int>();
@@ -74,5 +60,6 @@ namespace AC_Account_Manager
         {
             SetWindowText(hwnd, title);
         }
+        #endregion Methods
     }
 }
