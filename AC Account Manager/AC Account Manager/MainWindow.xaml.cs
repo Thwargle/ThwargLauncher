@@ -439,11 +439,22 @@ namespace AC_Account_Manager
         }
         private string GetNewGameTitle(LaunchSorter.LaunchItem launchItem)
         {
-            string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
-            pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
-            pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
-            pattern = pattern.Replace("%CHARACTER%", launchItem.CharacterSelected);
-            return pattern;
+            if (launchItem.CharacterSelected == "None")
+            {
+                string pattern = ConfigSettings.GetConfigString("NewGameTitleNoChar", "");
+                pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
+                pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
+                return pattern;
+                
+            }
+            else
+            {
+                string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
+                pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
+                pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
+                pattern = pattern.Replace("%CHARACTER%", launchItem.CharacterSelected);
+                return pattern;
+            }
         }
 
         public static void ShowErrorMessage(string msg)
