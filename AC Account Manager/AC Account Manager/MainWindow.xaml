@@ -20,11 +20,12 @@
                 <Button x:Name="btnLaunch" Content="Launch" HorizontalAlignment="Right" Margin="0,10,10.4,-0.2" VerticalAlignment="Top" Width="77" Click="btnLaunch_Click" Foreground="#FFBB8000"/>
             </Grid>
             <Grid DockPanel.Dock="Bottom" Height="Auto" HorizontalAlignment="Stretch">
-
+                <Rectangle Fill="#FF464646" HorizontalAlignment="Stretch" Margin="0, -10, 0, 0" Height="84" VerticalAlignment="Top" />
                 <Button x:Name="btnAddUsers" Content="Add Users" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnAddUsers_Click"/>
                 <Button x:Name="btnOpenUsers" Content="Open Users" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnOpenUsers_Click"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="180,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnChooseProfile_Click" />
 
+                
                 <Label x:Name="lblLauncherLocation" Content="AC Launcher File Location:" HorizontalAlignment="Left" Margin="15,19,0,0" VerticalAlignment="Top" Foreground="#FFFFB619"/>
                 <TextBox x:Name="txtLauncherLocation" Text="C:\Turbine\Asheron's Call\ACLauncher.exe" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="15,40,55.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFBB8000" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick"/>
                 <Button x:Name="btnLauncherLocation" Content="..." ToolTip="Browse" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,40,10.4,0" Foreground="#FFFFB619" Click="btnLauncherLocation_Click" Height="23"/>

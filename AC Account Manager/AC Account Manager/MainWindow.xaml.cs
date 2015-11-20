@@ -104,6 +104,7 @@ namespace AC_Account_Manager
             _Images.Add("acwallpaperwideaerbax.jpg");
             _Images.Add("acwallpaperwideaerfalle.jpg");
             _Images.Add("acwallpaperwideGroup.jpg");
+            _Images.Add("acwallpaperwide10yrs.jpg");
         }
 
         private string PickRandomImage()
