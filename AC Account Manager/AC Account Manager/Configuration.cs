@@ -30,14 +30,13 @@ namespace AC_Account_Manager
                 return Path.Combine(mydocs, "Asheron's Call\\UserPreferences.ini");
             }
         }
-        public static string UserPreferencesBackupFile
+        public static string UserPreferencesBaseFile
         {
             get
             {
                 string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                return Path.Combine(mydocs, "Asheron's Call\\UserPreferences_backup.ini");
+                return Path.Combine(mydocs, "Asheron's Call\\UserPreferences_base.ini");
             }
         }
-
     }
 }

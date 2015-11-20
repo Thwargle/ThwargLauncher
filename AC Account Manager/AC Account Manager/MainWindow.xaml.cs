@@ -362,10 +362,7 @@ namespace AC_Account_Manager
                     var finder = new WindowFinder();
                     finder.RecordExistingWindows();
                     string launcherPath = GetLaunchItemLauncherLocation(launchItem);
-                    if (!string.IsNullOrEmpty(launchItem.CustomPreferencePath))
-                    {
-                        OverridePreferenceFile(launchItem.CustomPreferencePath);
-                    }
+                    OverridePreferenceFile(launchItem.CustomPreferencePath);
                     bool okgo = launcher.LaunchGameClient(
                         launcherPath,
                         launchItem.ServerName,
@@ -405,13 +402,23 @@ namespace AC_Account_Manager
 
         private void OverridePreferenceFile(string customPreferencePath)
         {
+            // Non-customizing launches need to restore active copy from base
+            if (string.IsNullOrEmpty(customPreferencePath))
+            {
+                if (File.Exists(Configuration.UserPreferencesBaseFile))
+                {
+                    File.Copy(Configuration.UserPreferencesBaseFile, Configuration.UserPreferencesFile, overwrite: true);
+                }
+                return;
+            }
+            // customizing launches:
             if (!File.Exists(customPreferencePath)) { return; }
             // Backup actual file first
 
-            if (!File.Exists(Configuration.UserPreferencesBackupFile))
+            if (!File.Exists(Configuration.UserPreferencesBaseFile))
             {
-                File.Copy(Configuration.UserPreferencesFile, Configuration.UserPreferencesBackupFile, overwrite: false);
-                if (!File.Exists(Configuration.UserPreferencesBackupFile)) { return; }
+                File.Copy(Configuration.UserPreferencesFile, Configuration.UserPreferencesBaseFile, overwrite: false);
+                if (!File.Exists(Configuration.UserPreferencesBaseFile)) { return; }
             }
             // Now overwrite
             File.Copy(customPreferencePath, Configuration.UserPreferencesFile, overwrite: true);
