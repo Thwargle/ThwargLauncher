@@ -10,10 +10,25 @@ namespace AC_Account_Manager
         public UserAccount(string accountName, MagFilter.CharacterManager characterMgr)
         {
             this.Name = accountName;
+            InitializeMe(characterMgr);
+        }
+        public UserAccount(string name, string password)
+        {
+            this.Name = name;
+            this.Password = password;
+            InitializeMe(null);
+        }
+        private void InitializeMe(MagFilter.CharacterManager characterMgr)
+        {
             foreach (var serverName in ServerManager.ServerList)
             {
                 // Get characters from dll
-                var charlist = characterMgr.GetCharacters(serverName: serverName, accountName: accountName);
+                MagFilter.ServerCharacterListByAccount charlist = null;
+                if (characterMgr != null)
+                {
+                    charlist = characterMgr.GetCharacters(serverName: serverName, accountName: this.Name);
+                    
+                }
                 // Construct server & character data
                 var server = new Server(serverName);
                 //create and add a default character of none.
@@ -24,21 +39,18 @@ namespace AC_Account_Manager
                 };
                 server.AvailableCharacters.Add(defaultChar);
                 server.ChosenCharacter = "None";
-                
+
                 if (charlist != null)
                 {
                     foreach (var dllChar in charlist.CharacterList)
                     {
                         var acctChar = new AccountCharacter()
-                            {
-                                Id = 99, // TODO - not used
-                                Name = dllChar.Name
-                            };
+                        {
+                            Id = 99, // TODO - not used
+                            Name = dllChar.Name
+                        };
                         server.AvailableCharacters.Add(acctChar);
                     }
-                }
-                if (charlist != null)
-                {
                     this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
                 }
                 server.PropertyChanged += server_PropertyChanged;
@@ -85,6 +97,8 @@ namespace AC_Account_Manager
         }
 
         public string Password { get; set; }
+        public string CustomLaunchPath { get; set; }
+        public string CustomPreferencePath { get; set; }
 
         public bool AccountLaunchable { get; set; }
         public string ZoneId { get; private set; }

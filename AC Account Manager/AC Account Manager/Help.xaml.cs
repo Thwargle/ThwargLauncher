@@ -48,7 +48,7 @@ namespace AC_Account_Manager
 
         private void btnDefaultPreferences_Click(object sender, RoutedEventArgs e)
         {
-            string pathtoPreferences = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Asheron's Call\\UserPreferences.ini";
+            string pathtoPreferences = Configuration.UserPreferencesFile;
 
             if (File.Exists(pathtoPreferences))
             {

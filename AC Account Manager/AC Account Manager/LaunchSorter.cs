@@ -14,6 +14,8 @@ namespace AC_Account_Manager
             public string Password;
             public string ServerName;
             public string CharacterSelected;
+            public string CustomLaunchPath;
+            public string CustomPreferencePath;
         }
         /// <summary>
         /// List of launch items sorted for performance
@@ -51,7 +53,9 @@ namespace AC_Account_Manager
                                     AccountName = account.Name,
                                     Password = account.Password,
                                     ServerName = server.ServerName,
-                                    CharacterSelected = server.ChosenCharacter
+                                    CharacterSelected = server.ChosenCharacter,
+                                    CustomLaunchPath = account.CustomLaunchPath,
+                                    CustomPreferencePath = account.CustomPreferencePath
                                 };
                             launchList.Add(launchItem);
                         }

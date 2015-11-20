@@ -22,9 +22,13 @@ namespace AC_Account_Manager
     /// </summary>
     public partial class AddUsers : Window
     {
-        public AddUsers()
+        private List<UserAccount> _userAccounts;
+        private List<UserAccount> _accountsToAdd = new List<UserAccount>();
+        public AddUsers(IEnumerable<UserAccount> userAccounts)
         {
+            _userAccounts = userAccounts.ToList();
             InitializeComponent();
+            txtUser1.Focus();
         }
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -42,25 +46,75 @@ namespace AC_Account_Manager
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            using (StreamWriter writer = File.AppendText(MainWindow.UsersFilePath))
+            _accountsToAdd.Clear();
+            if (!ValidateAndAddUser(txtUser1, txtPassword1))
             {
-                if(txtUser1.Text != "")
-                    writer.WriteLine(txtUser1.Text + "," + txtPassword1.Text);
-
-                if (txtUser2.Text != "")
-                    writer.WriteLine(txtUser2.Text + "," + txtPassword2.Text);
-
-                if (txtUser3.Text != "")
-                    writer.WriteLine(txtUser3.Text + "," + txtPassword3.Text);
-
-                if (txtUser4.Text != "")
-                    writer.WriteLine(txtUser4.Text + "," + txtPassword4.Text);
-
-                if (txtUser5.Text != "")
-                    writer.WriteLine(txtUser5.Text + "," + txtPassword5.Text);
+                return;
             }
+            if (!ValidateAndAddUser(txtUser2, txtPassword2))
+            {
+                return;
+            }
+            if (!ValidateAndAddUser(txtUser3, txtPassword3))
+            {
+                return;
+            }
+            if (!ValidateAndAddUser(txtUser4, txtPassword4))
+            {
+                return;
+            }
+            if (!ValidateAndAddUser(txtUser5, txtPassword5))
+            {
+                return;
+            }
+            
+            foreach (var acct in _accountsToAdd)
+            {
+                _userAccounts.Add(acct);
+            }
+            AccountParser parser = new AccountParser();
+            parser.WriteAccounts(_userAccounts);
 
             Close();
+        }
+        private bool ValidateAndAddUser(TextBox usernameBox, TextBox passwordBox)
+        {
+            if (usernameBox.Text != "")
+            {
+                if (!AddUserAccount(usernameBox.Text, passwordBox.Text))
+                {
+                    usernameBox.Focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+        private bool AddUserAccount(string name, string password)
+        {
+            var newacct = new UserAccount(name, password);
+            if (_userAccounts.Contains(newacct, new UserAcctComparer())
+                || _accountsToAdd.Contains(newacct, new UserAcctComparer()))
+            {
+                MainWindow.ShowErrorMessage(string.Format("Duplicate account cannot be added: {0}", name));
+                return false;
+            }
+            else
+            {
+                _accountsToAdd.Add(newacct);
+            }
+            return true;
+        }
+
+        private class UserAcctComparer : IEqualityComparer<UserAccount>
+        {
+            public bool Equals(UserAccount acct1, UserAccount acct2)
+            {
+                return acct1.Name.Trim() == acct2.Name.Trim();
+            }
+            public int GetHashCode(UserAccount acct)
+            {
+                return acct.Name.GetHashCode();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

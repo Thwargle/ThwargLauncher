@@ -22,8 +22,8 @@
         <TextBox x:Name="txtPassword4" TabIndex="7" HorizontalAlignment="Left" Height="23" Margin="155,156,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="127"/>
         <TextBox x:Name="txtPassword5" TabIndex="9" HorizontalAlignment="Left" Height="23" Margin="155,196,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="127"/>
 
-        <Button x:Name="btnAdd" TabIndex="10" Content="Add Users" HorizontalAlignment="Left" Margin="107,234,0,0" VerticalAlignment="Top" Width="75" Click="btnAdd_Click"/>
-        <Button x:Name="btnCancel" TabIndex="11" Content="Cancel Add" HorizontalAlignment="Left" Margin="107,259,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click"/>
+        <Button x:Name="btnAdd" TabIndex="10" Content="Add Users" HorizontalAlignment="Left" Margin="107,234,0,0" VerticalAlignment="Top" Width="75" Click="btnAdd_Click" IsDefault="True"/>
+        <Button x:Name="btnCancel" TabIndex="11" Content="Cancel Add" HorizontalAlignment="Left" Margin="107,259,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click" IsCancel="True"/>
 
 
     </Grid>

@@ -33,7 +33,7 @@ namespace AC_Account_Manager
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
 
-        public static string UsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
+        public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
 
 
@@ -133,12 +133,6 @@ namespace AC_Account_Manager
                 Directory.CreateDirectory(specificFolder);
             }
 
-            // Ensure characters file exists
-            if (!File.Exists(UsersFilePath))
-            {
-                var fileStream = File.Create(UsersFilePath);
-                fileStream.Close();
-            }
             // Ensure profiles folder exists
             var mgr = new ProfileManager();
             mgr.EnsureProfileFolderExists();
@@ -166,30 +160,24 @@ namespace AC_Account_Manager
         }
         private void ReloadKnownAccountsAndCharacters()
         {
-            var characterMgr = MagFilter.CharacterManager.ReadCharacters();
-            _viewModel.Reset();
-            using (var reader = new StreamReader(UsersFilePath))
+            AccountParser parser = new AccountParser();
+            List<UserAccount> accounts = null;
+            try
             {
-                while (!reader.EndOfStream)
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (string.IsNullOrWhiteSpace(line)) { continue; }
-                        string[] arr = line.Split(',');
-                        string accountName = arr[0];
-                        string password = arr[1];
-
-                        var user = new UserAccount(accountName, characterMgr)
-                        {
-                            Password = password
-                        };
-                        _viewModel.KnownUserAccounts.Add(user);
-                    }
-                }
+                accounts = parser.ReadOrMigrateAccounts(OldUsersFilePath);
             }
-            this.lstUsername.ItemsSource = null;
-            this.lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
+            catch (Exception exc)
+            {
+                Log.WriteError("Exception reading account file: " + exc.Message);
+                accounts = new List<UserAccount>();
+            }
+            _viewModel.Reset();
+            foreach (UserAccount acct in accounts)
+            {
+                _viewModel.KnownUserAccounts.Add(acct);
+            }
+            lstUsername.ItemsSource = null;
+            lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
         }
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
@@ -213,10 +201,13 @@ namespace AC_Account_Manager
         private bool CheckAccountsAndPasswords()
         {
             int count = 0;
+            var accounts = new Dictionary<string, int>();
+            int numberBlankPasswords = 0;
             foreach (var account in _viewModel.KnownUserAccounts)
             {
                 if (account.AccountLaunchable)
                 {
+                    accounts[account.Name] = 1;
                     foreach (var server in account.Servers)
                     {
                         if (server.ServerSelected)
@@ -224,17 +215,22 @@ namespace AC_Account_Manager
                             ++count;
                             if (string.IsNullOrWhiteSpace(account.Name))
                             {
+                                // We try not to let this happen, so it should be very rare
                                 ShowErrorMessage("Blank account not allowed");
                                 return false;
                             }
                             if (string.IsNullOrWhiteSpace(account.Password))
                             {
-                                ShowErrorMessage("Black password not allowed");
-                                return false;
+                                ++numberBlankPasswords;
                             }
                         }
                     }
                 }
+            }
+            if (accounts.Keys.Count > 1 && numberBlankPasswords > 0)
+            {
+                ShowErrorMessage("Blank passwords are not allowed when launching multiple accounts");
+                return false;
             }
             if (count == 0)
             {
@@ -357,7 +353,6 @@ namespace AC_Account_Manager
                     delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
                 }
 
-                ;
                 workerReportProgress("Launching", launchItem, serverIndex, serverTotal);
                 accountLaunchTimes[launchItem.AccountName] = DateTime.Now;
 
@@ -366,8 +361,13 @@ namespace AC_Account_Manager
                 {
                     var finder = new WindowFinder();
                     finder.RecordExistingWindows();
+                    string launcherPath = GetLaunchItemLauncherLocation(launchItem);
+                    if (!string.IsNullOrEmpty(launchItem.CustomPreferencePath))
+                    {
+                        OverridePreferenceFile(launchItem.CustomPreferencePath);
+                    }
                     bool okgo = launcher.LaunchGameClient(
-                        _launcherLocation,
+                        launcherPath,
                         launchItem.ServerName,
                         accountName: launchItem.AccountName,
                         password: launchItem.Password,
@@ -402,6 +402,32 @@ namespace AC_Account_Manager
                 workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
             }
         }
+
+        private void OverridePreferenceFile(string customPreferencePath)
+        {
+            if (!File.Exists(customPreferencePath)) { return; }
+            // Backup actual file first
+
+            if (!File.Exists(Configuration.UserPreferencesBackupFile))
+            {
+                File.Copy(Configuration.UserPreferencesFile, Configuration.UserPreferencesBackupFile, overwrite: false);
+                if (!File.Exists(Configuration.UserPreferencesBackupFile)) { return; }
+            }
+            // Now overwrite
+            File.Copy(customPreferencePath, Configuration.UserPreferencesFile, overwrite: true);
+        }
+
+        private string GetLaunchItemLauncherLocation(LaunchSorter.LaunchItem item)
+        {
+            if (!string.IsNullOrEmpty(item.CustomLaunchPath))
+            {
+                return item.CustomLaunchPath;
+            }
+            else
+            {
+                return _launcherLocation;
+            }
+        }
         private string GetNewGameTitle(LaunchSorter.LaunchItem launchItem)
         {
             string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
@@ -411,15 +437,15 @@ namespace AC_Account_Manager
             return pattern;
         }
 
-        private void ShowErrorMessage(string msg)
+        public static void ShowErrorMessage(string msg)
         {
-            ShowMessage(msg, "Caption", MessageBoxButton.OK, MessageBoxImage.Information);
+            ShowMessage(msg, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-        private void ShowMessage(string msg)
+        public static void ShowMessage(string msg)
         {
-            ShowMessage(msg, "Caption", MessageBoxButton.OK, MessageBoxImage.Information);
+            ShowMessage(msg, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-        private void ShowMessage(string msg, string caption, MessageBoxButton button, MessageBoxImage image)
+        public static void ShowMessage(string msg, string caption, MessageBoxButton button, MessageBoxImage image)
         {
             Application.Current.Dispatcher.Invoke(() =>
                 MessageBox.Show(msg, caption, button, image));
@@ -471,7 +497,7 @@ namespace AC_Account_Manager
         private void btnAddUsers_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisable();
-            var dlg = new AddUsers();
+            var dlg = new AddUsers(_viewModel.KnownUserAccounts);
             dlg.ShowDialog();
             LoadUserAccounts();
             MainWindowEnable();
@@ -495,7 +521,7 @@ namespace AC_Account_Manager
         {
             MainWindowDisable();
 
-            var startInfo = new ProcessStartInfo("notepad", UsersFilePath);
+            var startInfo = new ProcessStartInfo("notepad", AccountParser.AccountFilePath);
             var notepadProcess = new Process() {StartInfo = startInfo};
             if (notepadProcess.Start())
             {

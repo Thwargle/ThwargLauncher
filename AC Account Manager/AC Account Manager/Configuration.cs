@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace AC_Account_Manager
 {
@@ -21,5 +22,22 @@ namespace AC_Account_Manager
                 return specificFolder;
             }
         }
+        public static string UserPreferencesFile
+        {
+            get
+            {
+                string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                return Path.Combine(mydocs, "Asheron's Call\\UserPreferences.ini");
+            }
+        }
+        public static string UserPreferencesBackupFile
+        {
+            get
+            {
+                string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                return Path.Combine(mydocs, "Asheron's Call\\UserPreferences_backup.ini");
+            }
+        }
+
     }
 }
