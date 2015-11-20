@@ -59,17 +59,8 @@ namespace AC_Account_Manager
                         {
                             continue;
                         }
-                        string[] arr = line.Split(',');
-                        if (arr.Length < 2) { continue; }
-                        var nameValueSet = new Dictionary<string, string>();
-                        foreach (string pairstring in arr)
-                        {
-                            KeyValuePair<string, string> pair = ParseIntoPair(pairstring);
-                            if (!string.IsNullOrEmpty(pair.Key))
-                            {
-                                nameValueSet[pair.Key] = pair.Value;
-                            }
-                        }
+                        var nameValueSet = ParseLineIntoAttributeSet(line);
+                        if (nameValueSet == null) { continue; }
                         if (!nameValueSet.ContainsKey("Name")) { continue; }
                         if (!nameValueSet.ContainsKey("Password")) { continue; }
                         string accountName = nameValueSet["Name"];
@@ -88,6 +79,21 @@ namespace AC_Account_Manager
                 }
             }
             return acctList;
+        }
+        private Dictionary<string, string> ParseLineIntoAttributeSet(string line)
+        {
+            string[] arr = line.Split(',');
+            if (arr.Length < 2) { return null; }
+            var nameValueSet = new Dictionary<string, string>();
+            foreach (string pairstring in arr)
+            {
+                KeyValuePair<string, string> pair = ParseIntoPair(pairstring);
+                if (!string.IsNullOrEmpty(pair.Key))
+                {
+                    nameValueSet[pair.Key] = pair.Value;
+                }
+            }
+            return nameValueSet;
         }
 
         private KeyValuePair<string, string> ParseIntoPair(string pairstring)
