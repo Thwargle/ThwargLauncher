@@ -252,6 +252,7 @@ namespace AC_Account_Manager
 
         private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            LoadUserAccounts();
             try
             {
                 if (e.Cancelled)
