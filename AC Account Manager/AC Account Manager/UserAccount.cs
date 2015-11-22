@@ -58,6 +58,16 @@ namespace AC_Account_Manager
                 _servers.Add(server);
             }
         }
+        /// <summary>
+        /// Used to load data from file on disk
+        /// </summary>
+        public void LoadAllProperties(Dictionary<string, string> properties)
+        {
+            foreach (KeyValuePair<string, string> property in properties)
+            {
+                _properties[property.Key] = property.Value;
+            }
+        }
 
         void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -69,6 +79,7 @@ namespace AC_Account_Manager
 
         private string _name = "Unspecified";
         private readonly List<Server> _servers = new List<Server>();
+        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
 
         public List<Server> Servers
         {
@@ -83,27 +94,55 @@ namespace AC_Account_Manager
         {
             get
             {
-                return string.Format(
-                    "{0} - {1}",
-                    Name,
-                    string.Join(", ", ActivatedServers)
-                    );
+                string displayName = DisplayName;
+                string serverList = string.Join(", ", ActivatedServers);
+                return string.Format("{0} - {1}", displayName, serverList);
             }
         }
-        public string Name
+        private string GetPropertyValue(string key)
         {
-            get { return _name; }
-            private set { _name = value; }
+            if (_properties.ContainsKey(key))
+            {
+                return _properties[key];
+            }
+            else
+            {
+                return null;
+            }
         }
+        private void SetPropertyValue(string key, string value)
+        {
+            if (!_properties.ContainsKey(key) || _properties[key] != value)
+            {
+                _properties[key] = value;
+                // Do we need to notify property change?
+            }
+        }
+        public IDictionary<string, string> GetAllProperties() { return _properties; }
 
-        public string Password { get; set; }
-        public string CustomLaunchPath { get; set; }
-        public string CustomPreferencePath { get; set; }
+        public string Name { get { return GetPropertyValue("Name"); } private set { SetPropertyValue("Name", value); } }
+        public string Password { get { return GetPropertyValue("Password"); } set { SetPropertyValue("Password", value); } }
+        public string CustomLaunchPath { get { return GetPropertyValue("LaunchPath"); } }
+        public string CustomPreferencePath { get { return GetPropertyValue("PreferencePath"); } }
+        public string Alias { get { return GetPropertyValue("Alias"); } set { SetPropertyValue("Alias", value); } }
+        public string DisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Alias))
+                {
+                    return Alias;
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+        }
 
         public bool AccountLaunchable { get; set; }
         public string ZoneId { get; private set; }
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

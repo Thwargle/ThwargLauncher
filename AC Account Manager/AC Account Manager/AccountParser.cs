@@ -60,20 +60,15 @@ namespace AC_Account_Manager
                             continue;
                         }
                         var nameValueSet = ParseLineIntoAttributeSet(line);
+                        // Ignore any accounts that do not at least have Name & Password
                         if (nameValueSet == null) { continue; }
                         if (!nameValueSet.ContainsKey("Name")) { continue; }
                         if (!nameValueSet.ContainsKey("Password")) { continue; }
                         string accountName = nameValueSet["Name"];
-                        string password = nameValueSet["Password"];
-                        string launchPath = GetSetValue(nameValueSet, "LaunchPath");
-                        string preferencePath = GetSetValue(nameValueSet, "PreferencePath");
 
-                        var user = new UserAccount(accountName, characterMgr)
-                        {
-                            Password = password
-                        };
-                        if (launchPath != null) { user.CustomLaunchPath = launchPath; }
-                        if (preferencePath != null) { user.CustomPreferencePath = preferencePath; }
+                        var user = new UserAccount(accountName, characterMgr);
+                        user.LoadAllProperties(nameValueSet);
+
                         acctList.Add(user);
                     }
                 }
@@ -108,7 +103,7 @@ namespace AC_Account_Manager
             {
                 value = pairstring.Substring(index + 1);
             }
-            pair = new KeyValuePair<string, string>(key, value);
+            pair = new KeyValuePair<string, string>(Decode(key), Decode(value));
             return pair;
 
         }
@@ -142,6 +137,13 @@ namespace AC_Account_Manager
                 writer.WriteLine("Version=1");
                 foreach (var acct in acctList)
                 {
+                    StringBuilder line = new StringBuilder();
+                    foreach (KeyValuePair<string, string> property in acct.GetAllProperties())
+                    {
+                        if (line.Length > 0) { line.Append(",");}
+                        line.AppendFormat("{0}={1}", Encode(property.Key), Encode(property.Value));
+                    }
+                        /*
                     string line = string.Format(
                         "Name={0},Password={1}",
                         acct.Name, acct.Password);
@@ -153,9 +155,27 @@ namespace AC_Account_Manager
                     {
                         line += string.Format(",PreferencePath={0}", acct.CustomPreferencePath);
                     }
-                    writer.WriteLine(line);
+                         * */
+                    writer.WriteLine(line.ToString());
                 }
             }
+        }
+        /// <summary>
+        /// Text encoding that escapes commas and equals
+        /// </summary>
+        private string Encode(string text)
+        {
+            text = text.Replace("^", "^u");
+            text = text.Replace(",", "^c");
+            text = text.Replace("=", "^e");
+            return text;
+        }
+        private string Decode(string text)
+        {
+            text = text.Replace("^e", "=");
+            text = text.Replace("^c", ",");
+            text = text.Replace("^u", "^");
+            return text;
         }
         private List<UserAccount> ReadOldUserNames(MagFilter.CharacterManager characterMgr, string oldUsersFilePath)
         {
