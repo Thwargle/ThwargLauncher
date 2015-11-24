@@ -24,9 +24,9 @@ namespace AC_Account_Manager
         {
             public string FileVersion; // compared with CurrentVersion
             public string Name = "Default";
-            public DateTime LastActivatedDate;
-            public DateTime LastSavedDate;
-            public DateTime LastLaunchedDate;
+            public DateTime? LastActivatedDate;
+            public DateTime? LastSavedDate;
+            public DateTime? LastLaunchedDate;
             public string Description;
             public List<CharacterSetting> CharacterSettings;
             public List<AccountState> AccountStates;
@@ -36,9 +36,9 @@ namespace AC_Account_Manager
         private ProfileData _profileData = new ProfileData();
         private readonly Dictionary<string, CharacterSetting> _characterSettings = new Dictionary<string, CharacterSetting>();
         public void ActivateProfile() { _profileData.LastActivatedDate = DateTime.UtcNow; }
-        public DateTime LastActivatedDate { get { return _profileData.LastActivatedDate; } }
-        public DateTime LastSavedDate { get { return _profileData.LastSavedDate; } }
-        public DateTime LastLaunchedDate { get { return _profileData.LastLaunchedDate; } set { _profileData.LastLaunchedDate = value; } }
+        public DateTime? LastActivatedDate { get { return _profileData.LastActivatedDate; } }
+        public DateTime? LastSavedDate { get { return _profileData.LastSavedDate; } }
+        public DateTime? LastLaunchedDate { get { return _profileData.LastLaunchedDate; } set { _profileData.LastLaunchedDate = value; } }
         public string Name { get { return _profileData.Name; } set { _profileData.Name = value; } }
         public string Description { get { return _profileData.Description; } }
         public int ActiveAccountCount
@@ -156,6 +156,9 @@ namespace AC_Account_Manager
         public void LoadFromSerialized(string text)
         {
             _profileData = Deserialize<ProfileData>(text);
+            SanitizeDate(ref _profileData.LastActivatedDate);
+            SanitizeDate(ref _profileData.LastLaunchedDate);
+            SanitizeDate(ref _profileData.LastSavedDate);
             if (_profileData.FileVersion != CurrentVersion) { throw new Exception("Incompatible profile file"); }
             foreach (CharacterSetting setting in _profileData.CharacterSettings)
             {
@@ -164,6 +167,13 @@ namespace AC_Account_Manager
             foreach (AccountState state in _profileData.AccountStates)
             {
                 this.StoreAccountState(state.AccountName, state.Active);
+            }
+        }
+        private void SanitizeDate(ref DateTime? date)
+        {
+            if (date.HasValue && date.Value.Year < 2000)
+            {
+                date = null;
             }
         }
         /// <summary>
