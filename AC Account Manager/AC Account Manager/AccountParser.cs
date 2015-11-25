@@ -8,7 +8,7 @@ namespace AC_Account_Manager
     class AccountParser
     {
         public static string AccountFilePath = Path.Combine(Configuration.AppFolder, "Accounts.txt");
-        private const string HeaderComment = @"# Name=xxx,Password=xxx,LaunchPath=c:\xxx,PreferenceFile=c:\xxx";
+        private const string HeaderComment = @"# Name=xxx,Password=xxx,LaunchPath=c:\xxx,PreferencePath=c:\xxx,Alias=xxx";
 
         public List<UserAccount> ReadOrMigrateAccounts(string oldUsersFilePath)
         {
