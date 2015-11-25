@@ -225,6 +225,7 @@
 	<table name="AppSearch">
 		<col key="yes" def="s72">Property</col>
 		<col key="yes" def="s72">Signature_</col>
+		<row><td>DOTNETVERSION45FULL</td><td>DotNet45Full</td></row>
 	</table>
 
 	<table name="BBControl">
@@ -340,16 +341,16 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>Decal.Adapter.dll</td><td>{5099321B-8FC8-474E-9D28-04341EC2785E}</td><td>INSTALLDIR</td><td>2</td><td/><td>decal.adapter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Decal.Adapter.dll</td><td>{926D621F-6D72-4F79-A8C2-6476C66EF9FD}</td><td>INSTALLDIR</td><td>2</td><td/><td>decal.adapter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{8666A972-472E-40E2-9D65-29704DD056F7}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{AF983C62-A197-4E05-A0C6-51A8BE18DA5A}</td><td>IMAGES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>MagFilter.dll</td><td>{7F24BE1F-1BE9-47D7-9319-A2FD52E5432B}</td><td>INSTALLDIR</td><td>2</td><td/><td>magfilter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Newtonsoft.Json.dll</td><td>{DA012378-A42E-4F53-8327-41FB732B7F30}</td><td>INSTALLDIR</td><td>2</td><td/><td>newtonsoft.json.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Data.SQLite.dll</td><td>{D07A4652-240A-4D02-97B8-7D8941CBAF29}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.data.sqlite.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Thwarg_Launcher.exe</td><td>{77ECB446-78D7-45DC-9767-83A6728A29F3}</td><td>INSTALLDIR</td><td>2</td><td/><td>thwarg_launcher.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>VCS5.dll</td><td>{0CEA1C50-CE13-4D6E-A750-D2EE85F79F84}</td><td>INSTALLDIR</td><td>2</td><td/><td>vcs5.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>VirindiViewService.dll</td><td>{6A7D70F1-E286-4151-8AD1-BFD86FEB630D}</td><td>INSTALLDIR</td><td>2</td><td/><td>virindiviewservice.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>WebControlWrapper.dll</td><td>{D1E7E779-865C-4A9A-AF18-F981D57FBD5E}</td><td>INSTALLDIR</td><td>2</td><td/><td>webcontrolwrapper.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>MagFilter.dll</td><td>{B5EE60AF-948F-4805-9790-5E783DB39745}</td><td>INSTALLDIR</td><td>2</td><td/><td>magfilter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Newtonsoft.Json.dll</td><td>{195C1A73-129F-473F-AEB3-B41A225A05B7}</td><td>INSTALLDIR</td><td>2</td><td/><td>newtonsoft.json.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Data.SQLite.dll</td><td>{3FAE10E6-94FE-458D-9FB0-847DF7AD78EB}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.data.sqlite.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Thwarg_Launcher.exe</td><td>{480C9218-2F1F-4E46-BCB9-E09E497C344E}</td><td>INSTALLDIR</td><td>2</td><td/><td>thwarg_launcher.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>VCS5.dll</td><td>{DA34D87E-9DB2-402B-8521-5D4C79716822}</td><td>INSTALLDIR</td><td>2</td><td/><td>vcs5.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>VirindiViewService.dll</td><td>{0783A45B-B7EC-4C8D-B395-90B3A44BCC4C}</td><td>INSTALLDIR</td><td>2</td><td/><td>virindiviewservice.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>WebControlWrapper.dll</td><td>{C15E7692-2350-40C0-9B12-5F030FA3B309}</td><td>INSTALLDIR</td><td>2</td><td/><td>webcontrolwrapper.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -950,7 +951,7 @@
 		<row><td>LicenseAgreement</td><td>Back</td><td>NewDialog</td><td>InstallWelcome</td><td>NOT Installed</td><td>0</td></row>
 		<row><td>LicenseAgreement</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
 		<row><td>LicenseAgreement</td><td>ISPrintButton</td><td>DoAction</td><td>ISPrint</td><td>1</td><td>0</td></row>
-		<row><td>LicenseAgreement</td><td>Next</td><td>NewDialog</td><td>ReadyToInstall</td><td>AgreeToLicense = "Yes"</td><td>0</td></row>
+		<row><td>LicenseAgreement</td><td>Next</td><td>NewDialog</td><td>DestinationFolder</td><td>AgreeToLicense = "Yes"</td><td>0</td></row>
 		<row><td>MaintenanceType</td><td>Back</td><td>NewDialog</td><td>MaintenanceWelcome</td><td>1</td><td>0</td></row>
 		<row><td>MaintenanceType</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
 		<row><td>MaintenanceType</td><td>Next</td><td>NewDialog</td><td>CustomSetup</td><td>_IsMaintenance = "Change"</td><td>12</td></row>
@@ -981,7 +982,7 @@
 		<row><td>ReadmeInformation</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
 		<row><td>ReadmeInformation</td><td>Next</td><td>NewDialog</td><td>CustomerInformation</td><td>1</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>CustomSetup</td><td>Installed OR _IsSetupTypeMin = "Custom"</td><td>2</td></row>
-		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>LicenseAgreement</td><td>NOT Installed</td><td>1</td></row>
+		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>DestinationFolder</td><td>NOT Installed</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>MaintenanceType</td><td>Installed AND _IsMaintenance = "Reinstall"</td><td>3</td></row>
 		<row><td>ReadyToInstall</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>EndDialog</td><td>Return</td><td>OutOfNoRbDiskSpace &lt;&gt; 1</td><td>0</td></row>
@@ -1908,27 +1909,23 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>accoverart.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACCOVE~1.JPG|ACCoverArt.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\ACCoverArt.jpg</td><td>1</td><td/></row>
-		<row><td>acwallpaperwide10yrs.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwide10yrs.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\acwallpaperwide10yrs.jpg</td><td>1</td><td/></row>
-		<row><td>acwallpaperwideaerbax.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwideaerbax.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\acwallpaperwideaerbax.jpg</td><td>1</td><td/></row>
-		<row><td>acwallpaperwideaerfalle.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwideaerfalle.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\acwallpaperwideaerfalle.jpg</td><td>1</td><td/></row>
-		<row><td>acwallpaperwidegroup.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwideGroup.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\acwallpaperwideGroup.jpg</td><td>1</td><td/></row>
-		<row><td>credit.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>Credit.PNG</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\Credit.PNG</td><td>1</td><td/></row>
+		<row><td>accoverart.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACCOVE~1.JPG|ACCoverArt.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\ACCoverArt.jpg</td><td>1</td><td/></row>
+		<row><td>acwallpaperwide10yrs.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwide10yrs.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\acwallpaperwide10yrs.jpg</td><td>1</td><td/></row>
+		<row><td>acwallpaperwideaerbax.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwideaerbax.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\acwallpaperwideaerbax.jpg</td><td>1</td><td/></row>
+		<row><td>acwallpaperwideaerfalle.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwideaerfalle.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\acwallpaperwideaerfalle.jpg</td><td>1</td><td/></row>
+		<row><td>acwallpaperwidegroup.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>ACWALL~1.JPG|acwallpaperwideGroup.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\acwallpaperwideGroup.jpg</td><td>1</td><td/></row>
+		<row><td>credit.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>Credit.PNG</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\Credit.PNG</td><td>1</td><td/></row>
 		<row><td>decal.adapter.dll</td><td>Decal.Adapter.dll</td><td>DECALA~1.DLL|Decal.Adapter.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Decal.Adapter.dll</td><td>1</td><td/></row>
 		<row><td>decal.adapter.xml</td><td>ISX_DEFAULTCOMPONENT</td><td>DECALA~1.XML|Decal.Adapter.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Decal.Adapter.xml</td><td>1</td><td/></row>
-		<row><td>decalsetting.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>DECALS~1.PNG|DecalSetting.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\DecalSetting.png</td><td>1</td><td/></row>
-		<row><td>icon.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>Icon.ico</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\Icon.ico</td><td>1</td><td/></row>
-		<row><td>icon.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>Icon.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\Icon.png</td><td>1</td><td/></row>
-		<row><td>icon_blue.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>ICON_B~1.ICO|Icon_blue.ico</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\Icon_blue.ico</td><td>1</td><td/></row>
-		<row><td>logo_circleonly.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>LOGO_C~1.ICO|Logo_circleonly.ico</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\Logo_circleonly.ico</td><td>1</td><td/></row>
-		<row><td>logo_circleonly.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>LOGO_C~1.PNG|Logo_circleonly.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\Logo_circleonly.png</td><td>1</td><td/></row>
+		<row><td>decalsetting.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>DECALS~1.PNG|DecalSetting.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\DecalSetting.png</td><td>1</td><td/></row>
+		<row><td>logo_circleonly.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>LOGO_C~1.ICO|Logo_circleonly.ico</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\Logo_circleonly.ico</td><td>1</td><td/></row>
 		<row><td>magfilter.dll</td><td>MagFilter.dll</td><td>MAGFIL~1.DLL|MagFilter.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\MagFilter.dll</td><td>1</td><td/></row>
 		<row><td>newtonsoft.json.dll</td><td>Newtonsoft.Json.dll</td><td>NEWTON~1.DLL|Newtonsoft.Json.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Newtonsoft.Json.dll</td><td>1</td><td/></row>
 		<row><td>newtonsoft.json.xml</td><td>ISX_DEFAULTCOMPONENT</td><td>NEWTON~1.XML|Newtonsoft.Json.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Newtonsoft.Json.xml</td><td>1</td><td/></row>
 		<row><td>system.data.sqlite.dll</td><td>System.Data.SQLite.dll</td><td>SYSTEM~1.DLL|System.Data.SQLite.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\System.Data.SQLite.dll</td><td>1</td><td/></row>
 		<row><td>thwarg_launcher.exe</td><td>Thwarg_Launcher.exe</td><td>THWARG~1.EXE|Thwarg-Launcher.exe</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>1</td><td/></row>
 		<row><td>thwarg_launcher.exe.config</td><td>ISX_DEFAULTCOMPONENT</td><td>THWARG~1.CON|Thwarg-Launcher.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe.config</td><td>1</td><td/></row>
-		<row><td>userpreferences.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>USERPR~1.PNG|UserPreferences.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\Images\UserPreferences.png</td><td>1</td><td/></row>
+		<row><td>userpreferences.png</td><td>ISX_DEFAULTCOMPONENT1</td><td>USERPR~1.PNG|UserPreferences.png</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Images\UserPreferences.png</td><td>1</td><td/></row>
 		<row><td>vcs5.dll</td><td>VCS5.dll</td><td>VCS5.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\VCS5.dll</td><td>1</td><td/></row>
 		<row><td>virindiviewservice.dll</td><td>VirindiViewService.dll</td><td>VIRIND~1.DLL|VirindiViewService.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\VirindiViewService.dll</td><td>1</td><td/></row>
 		<row><td>virindiviewservice.xml</td><td>ISX_DEFAULTCOMPONENT</td><td>VIRIND~1.XML|VirindiViewService.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\VirindiViewService.xml</td><td>1</td><td/></row>
@@ -2074,16 +2071,16 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>Decal.Adapter.dll</td><td/><td/><td>_0DA47AA8_7D49_4BE0_A9BE_C7E653D480C7_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Decal.Adapter.dll</td><td/><td/><td>_0AC8E7E9_B14D_4FC8_85A6_7A605F458C19_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_1AB3F2FA_48BB_488B_994E_DC8FB5F0FABE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_72D0A304_407E_4E3F_B213_4CBB8D6E295A_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>MagFilter.dll</td><td/><td/><td>_4F7B50DD_6623_418C_BF61_8C8B98A05ED2_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Newtonsoft.Json.dll</td><td/><td/><td>_17218E71_1B86_4AA0_BCFE_F5BB54DC0D74_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Data.SQLite.dll</td><td/><td/><td>_EC5ABDD6_7867_411D_817D_ECC5338998C3_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Thwarg_Launcher.exe</td><td/><td/><td>_049C7D92_9932_4CD4_A75B_EB7D7C9AB8BB_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>VCS5.dll</td><td/><td/><td>_1E05647A_BCD9_49A0_B407_811DF48290C1_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>VirindiViewService.dll</td><td/><td/><td>_F3600F28_8F9A_46B4_8B92_0F3E6715AFC6_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>WebControlWrapper.dll</td><td/><td/><td>_4EEE6613_BB04_4D47_969E_63DAEDE5981D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>MagFilter.dll</td><td/><td/><td>_A6744B99_90C3_4902_B429_349904EC6937_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Newtonsoft.Json.dll</td><td/><td/><td>_BE43D494_4C54_41CE_A000_BA8982F5352A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Data.SQLite.dll</td><td/><td/><td>_4D57E74A_C303_4D6E_8719_5F3EF1AEF3F7_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Thwarg_Launcher.exe</td><td/><td/><td>_50AE8771_813E_4B9B_B9EF_9556F0BC5C20_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>VCS5.dll</td><td/><td/><td>_9145AA07_A4DF_4D4B_9EC4_6E8A40286359_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>VirindiViewService.dll</td><td/><td/><td>_F048C29F_58F6_4400_861E_C4D66B6EA36B_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>WebControlWrapper.dll</td><td/><td/><td>_B8F5ADE2_1B4D_40D9_AEF0_D347060BEC22_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2674,6 +2671,7 @@
 		<row><td>COMPANY_NAME</td><td>1033</td><td>Thwargle Games</td><td>0</td><td/><td>1839446336</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>1428373354</td></row>
+		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION45FULL</td><td>1033</td><td>Microsoft .NET Framework 4.5 Full package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>-979140267</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>1428373354</td></row>
@@ -3485,6 +3483,8 @@
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>1033</td><td>This setup was built with an evaluation version of InstallShield and can only be launched from setup.exe.</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>1839407168</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.vshost.exe</td><td>0</td><td/><td>1839407168</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>-979152491</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>-979127851</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>1428373354</td></row>
@@ -3774,7 +3774,7 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>1428375402</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>http://www.ThwargleGames.com</td><td>0</td><td/><td>1839446336</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>http://thwarglauncher.codeplex.com</td><td>0</td><td/><td>-979150507</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Thwargle Games</td><td>0</td><td/><td>1839446336</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>1839435872</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>1428373354</td></row>
@@ -3891,6 +3891,8 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\AC Account Manager\Images\Logo_circleonly.ico</td><td>0</td></row>
+		<row><td>Thwarg_Launcher.ex_A7885C76117D4F0E9965C46D274319AF.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
+		<row><td>Thwarg_Launcher.ex_B4C96D1729C347DDB9C0ABE02364752D.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
 		<row><td>Thwarg_Launcher.ex_BDEF4FA3AFD742229D1CA93EB3C5F06E.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
 		<row><td>Thwarg_Launcher.ex_C95C7EAAEC03420D84E1E0B203009B08.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
 		<row><td>Thwarg_Launcher.vs_20F85DDF5CA44BF2BA942B7B338091B3.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
@@ -4084,6 +4086,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 	<table name="LaunchCondition">
 		<col key="yes" def="s255">Condition</col>
 		<col def="l255">Description</col>
+		<row><td>DOTNETVERSION45FULL&gt;="#1"</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION45FULL##</td></row>
 	</table>
 
 	<table name="ListBox">
@@ -4403,7 +4406,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Thwarg-Launcher.exe</td><td/></row>
 		<row><td>ProductCode</td><td>{FE0A6B61-C5B6-4D89-B245-023FA989F0BE}</td><td/></row>
 		<row><td>ProductName</td><td>Thwarg-Launcher</td><td/></row>
-		<row><td>ProductVersion</td><td>2.0.2.0</td><td/></row>
+		<row><td>ProductVersion</td><td>2.0.4.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4416,7 +4419,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
 		<row><td>SHOWLAUNCHPROGRAM</td><td>-1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION45FULL</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{A0E19A90-ECCA-44EC-A00C-D357BF8C5878}</td><td/></row>
@@ -4461,6 +4464,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="s255">Key</col>
 		<col def="S255">Name</col>
 		<col def="I2">Type</col>
+		<row><td>DotNet45Full</td><td>2</td><td>SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full</td><td>Version</td><td>2</td></row>
 	</table>
 
 	<table name="Registry">
@@ -4479,8 +4483,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>FileKey1</td><td>Thwarg_Launcher.exe</td><td/><td>thwarg_1_thwargle_games</td><td>2</td></row>
-		<row><td>FileKey2</td><td>Thwarg_Launcher.exe</td><td/><td>thwarg_1_thwarg_launcher</td><td>2</td></row>
 		<row><td>Thwarg_Launcher.exe</td><td>Thwarg_Launcher.exe</td><td/><td>thwarg_1_thwarg_launcher</td><td>2</td></row>
 	</table>
 
@@ -4567,8 +4569,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Thwarg_Launcher.exe</td><td>thwarg_1_thwarg_launcher</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>Thwarg_Launcher.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Thwarg_Launcher.ex_BDEF4FA3AFD742229D1CA93EB3C5F06E.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>Thwarg_Launcher.exe1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>Thwarg_Launcher.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Thwarg_Launcher.ex_C95C7EAAEC03420D84E1E0B203009B08.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>Thwarg_Launcher.exe</td><td>thwarg_1_thwarg_launcher</td><td>##IDS_SHORTCUT_DISPLAY_NAME4##</td><td>Thwarg_Launcher.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Thwarg_Launcher.ex_B4C96D1729C347DDB9C0ABE02364752D.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
