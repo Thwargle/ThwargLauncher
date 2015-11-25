@@ -1,10 +1,10 @@
 ﻿<Window x:Class="AC_Account_Manager.AddUsers"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Add Users" Height="320" Width="300" Closing="Window_Closing" Icon="Images\Logo_circleonly.ico" ResizeMode="NoResize">
+        Title="Add Users" Height="320" Width="300" Closing="Window_Closing" Icon="Images/Logo_circleonly.ico" ResizeMode="NoResize">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Images\ACCoverArt.jpg" Opacity=".2"/>
+            <ImageBrush ImageSource="Images/ACCoverArt.jpg" Opacity=".2"/>
         </Grid.Background>
 
         <Label x:Name="lblUsername" Content="Username" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="Black"/>

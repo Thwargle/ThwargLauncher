@@ -18,8 +18,6 @@ namespace AC_Account_Manager
             ProfilesTable.Columns.Add("ActiveAccounts", Type.GetType("System.Int32"));
             ProfilesTable.Columns.Add("ActiveServers", Type.GetType("System.Int32"));
             ProfilesTable.Columns.Add("LastLaunch", Type.GetType("System.DateTime"));
-            ProfilesTable.Columns.Add("LastSaved", Type.GetType("System.DateTime"));
-            ProfilesTable.Columns.Add("LastActivation", Type.GetType("System.DateTime"));
             ProfilesTable.Columns.Add("Description", Type.GetType("System.String"));
             foreach (var profile in profiles)
             {
@@ -27,13 +25,15 @@ namespace AC_Account_Manager
                 row["Name"] = profile.Name;
                 row["ActiveAccounts"] = profile.ActiveAccountCount;
                 row["ActiveServers"] = profile.ActiveServerCount;
-                row["LastLaunch"] = profile.LastLaunchedDate;
-                row["LastSaved"] = profile.LastSavedDate;
-                row["LastActivation"] = profile.LastActivatedDate;
+                row["LastLaunch"] = PopulateDate(profile.LastLaunchedDate, DateTime.MinValue);
                 row["Description"] = profile.Description;
                 ProfilesTable.Rows.Add(row);
             }
             ProfilesView = new DataView(ProfilesTable);
+        }
+        private DateTime PopulateDate(DateTime? date, DateTime defval)
+        {
+            return (date.HasValue ? date.Value : defval);
         }
     }
 }
