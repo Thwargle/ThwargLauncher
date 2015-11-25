@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
         Title="Thwarg-Launcher - Intelligent Account Management" Icon="Images/Logo_circleonly.ico" Height="350" Width="525" 
-        Closing="AC_Account_Manager_Closing" Loaded="MainWindow_OnLoaded" ResizeMode="CanResizeWithGrip">
+        Closing="AC_Account_Manager_Closing" Loaded="MainWindow_OnLoaded" ResizeMode="CanResizeWithGrip"
+        MinHeight="300" MinWidth="600">
     <Window.Background>
         <ImageBrush Stretch="UniformToFill"/>
     </Window.Background>
@@ -25,12 +26,13 @@
                 <Button x:Name="btnOpenUsers" Content="Open Users" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnOpenUsers_Click"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="180,0,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnChooseProfile_Click" />
 
-                
+
                 <Label x:Name="lblLauncherLocation" Content="AC Launcher File Location:" HorizontalAlignment="Left" Margin="15,19,0,0" VerticalAlignment="Top" Foreground="#FFFFB619"/>
                 <TextBox x:Name="txtLauncherLocation" Text="C:\Turbine\Asheron's Call\ACLauncher.exe" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="15,40,55.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFBB8000" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick"/>
                 <Button x:Name="btnLauncherLocation" Content="..." ToolTip="Browse" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,40,10.4,0" Foreground="#FFFFB619" Click="btnLauncherLocation_Click" Height="23"/>
                 <Label x:Name="lblWorkerProgress" Content="" Foreground="#FFFFB619" HorizontalAlignment="Right" Margin="0,19,0.4,0" VerticalAlignment="Top" Width="300"/>
-                <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Right" Margin="0,0,10.4,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnHelp_Click"/>
+                <Button x:Name="btnCancel" Content="Cancel Launch" HorizontalAlignment="Right" Margin="0,0,90,0" VerticalAlignment="Top" Width="98" Foreground="#FFBB8000" Click="btnCancel_Click"/>
+                <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Right" Margin="0,-1,10,0" VerticalAlignment="Top" Width="75" Foreground="#FFBB8000" Click="btnHelp_Click"/>
             </Grid>
 
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

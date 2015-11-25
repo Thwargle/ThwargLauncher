@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using CommonControls;
 
@@ -38,6 +39,9 @@ namespace AC_Account_Manager
         }
         public void DeleteProfile()
         {
+            //Confirm Delete
+            if (MessageBox.Show("Are you sure you want to delete the " + CurrentProfileName + " profile?", "Confirm Delete", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK) return;
+            
             ProfileManager mgr = new ProfileManager();
             var nextProfile = mgr.GetPrevProfile(CurrentProfile.Name);
 

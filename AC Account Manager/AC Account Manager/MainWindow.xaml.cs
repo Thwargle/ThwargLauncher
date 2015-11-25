@@ -341,7 +341,7 @@ namespace AC_Account_Manager
                 if (_worker.CancellationPending)
                 {
                     e.Cancel = true;
-                    break;
+                    return;
                 }
                 DateTime lastLaunch = (accountLaunchTimes.ContainsKey(launchItem.AccountName)
                                            ? accountLaunchTimes[launchItem.AccountName]
@@ -349,6 +349,11 @@ namespace AC_Account_Manager
                 TimeSpan delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
                 while (delay.TotalMilliseconds > 0)
                 {
+                    if (_worker.CancellationPending)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
                     string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds+1);
                     workerReportProgress(context, launchItem, serverIndex, serverTotal);
 
@@ -555,6 +560,10 @@ namespace AC_Account_Manager
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
             DisplayHelpWindow();
+        }
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            _worker.CancelAsync();
         }
         private void DisplayHelpWindow()
         {

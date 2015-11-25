@@ -48,8 +48,8 @@ namespace AC_Account_Manager
                     if (_windowMap.ContainsKey(hWnd)) { return true; }
                     int size = GetWindowTextLength(hWnd);
                     if (size <= 0) { return true; }
-                    StringBuilder sb = new StringBuilder(size);
-                    GetWindowText(hWnd, sb, size);
+                    StringBuilder sb = new StringBuilder(size + 1);
+                    GetWindowText(hWnd, sb, size + 1);
                     if (!regex.IsMatch(sb.ToString())) { return true; }
                     foundWnd = hWnd;
                     return false;
