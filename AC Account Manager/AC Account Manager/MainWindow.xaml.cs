@@ -141,6 +141,7 @@ namespace AC_Account_Manager
 
         private void LoadUserAccounts(bool initialLoad = false)
         {
+            _viewModel.CreateProfileIfDoesNotExist();
             if (!initialLoad) // we do not save the first time, because have never yet loaded
             {
                 SaveCurrentProfile();

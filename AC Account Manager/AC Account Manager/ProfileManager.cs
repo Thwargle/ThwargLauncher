@@ -35,6 +35,16 @@ namespace AC_Account_Manager
             profile.Name = profileName;
             return profile;
         }
+        public void CreateProfileIfDoesNotExist(string profileName)
+        {
+            string filepath = GetProfileFilePath(profileName);
+            if (!File.Exists(filepath))
+            {
+                var newProfile = new Profile();
+                newProfile.Name = profileName;
+                Save(newProfile);
+            }
+        }
         public Profile CreateNewProfile()
         {
             var newProfile = new Profile();

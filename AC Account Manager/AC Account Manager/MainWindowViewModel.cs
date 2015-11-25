@@ -195,5 +195,15 @@ namespace AC_Account_Manager
             Properties.Settings.Default.LastProfileName = CurrentProfile.Name;
             Properties.Settings.Default.Save();
         }
+        public void CreateProfileIfDoesNotExist()
+        {
+            ProfileManager mgr = new ProfileManager();
+            string profileName = CurrentProfileName;
+            if (string.IsNullOrEmpty(profileName))
+            {
+                profileName = "Default";
+            }
+            mgr.CreateProfileIfDoesNotExist(profileName);
+        }
     }
 }
