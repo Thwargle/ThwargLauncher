@@ -341,16 +341,16 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>Decal.Adapter.dll</td><td>{926D621F-6D72-4F79-A8C2-6476C66EF9FD}</td><td>INSTALLDIR</td><td>2</td><td/><td>decal.adapter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Decal.Adapter.dll</td><td>{E5D3DEC7-B0A5-4216-AA2C-9EA796C4C954}</td><td>INSTALLDIR</td><td>2</td><td/><td>decal.adapter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{8666A972-472E-40E2-9D65-29704DD056F7}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{AF983C62-A197-4E05-A0C6-51A8BE18DA5A}</td><td>IMAGES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>MagFilter.dll</td><td>{B5EE60AF-948F-4805-9790-5E783DB39745}</td><td>INSTALLDIR</td><td>2</td><td/><td>magfilter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Newtonsoft.Json.dll</td><td>{195C1A73-129F-473F-AEB3-B41A225A05B7}</td><td>INSTALLDIR</td><td>2</td><td/><td>newtonsoft.json.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Data.SQLite.dll</td><td>{3FAE10E6-94FE-458D-9FB0-847DF7AD78EB}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.data.sqlite.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Thwarg_Launcher.exe</td><td>{480C9218-2F1F-4E46-BCB9-E09E497C344E}</td><td>INSTALLDIR</td><td>2</td><td/><td>thwarg_launcher.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>VCS5.dll</td><td>{DA34D87E-9DB2-402B-8521-5D4C79716822}</td><td>INSTALLDIR</td><td>2</td><td/><td>vcs5.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>VirindiViewService.dll</td><td>{0783A45B-B7EC-4C8D-B395-90B3A44BCC4C}</td><td>INSTALLDIR</td><td>2</td><td/><td>virindiviewservice.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>WebControlWrapper.dll</td><td>{C15E7692-2350-40C0-9B12-5F030FA3B309}</td><td>INSTALLDIR</td><td>2</td><td/><td>webcontrolwrapper.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>MagFilter.dll</td><td>{86AE6093-2525-4943-B99F-9B1F54D93FF4}</td><td>INSTALLDIR</td><td>2</td><td/><td>magfilter.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Newtonsoft.Json.dll</td><td>{BD093170-AFB6-44A7-AC0D-055CED557AE3}</td><td>INSTALLDIR</td><td>2</td><td/><td>newtonsoft.json.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Data.SQLite.dll</td><td>{4ED95347-E55B-4A12-B147-948ABDD53814}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.data.sqlite.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Thwarg_Launcher.exe</td><td>{424FE346-A2EB-480B-8096-72ABD71EF68E}</td><td>INSTALLDIR</td><td>2</td><td/><td>thwarg_launcher.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>VCS5.dll</td><td>{77FE56E9-DD67-4AD7-9651-ABECF53AA509}</td><td>INSTALLDIR</td><td>2</td><td/><td>vcs5.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>VirindiViewService.dll</td><td>{1A676AE0-ACFF-4C8C-A257-90CF8ED94C7C}</td><td>INSTALLDIR</td><td>2</td><td/><td>virindiviewservice.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>WebControlWrapper.dll</td><td>{DAB04EB1-C76C-4DF4-B51F-629F4EBBCC88}</td><td>INSTALLDIR</td><td>2</td><td/><td>webcontrolwrapper.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -2071,16 +2071,16 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>Decal.Adapter.dll</td><td/><td/><td>_0AC8E7E9_B14D_4FC8_85A6_7A605F458C19_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Decal.Adapter.dll</td><td/><td/><td>_B0816146_62C3_4371_B609_9728A9605AEA_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_1AB3F2FA_48BB_488B_994E_DC8FB5F0FABE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_72D0A304_407E_4E3F_B213_4CBB8D6E295A_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>MagFilter.dll</td><td/><td/><td>_A6744B99_90C3_4902_B429_349904EC6937_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Newtonsoft.Json.dll</td><td/><td/><td>_BE43D494_4C54_41CE_A000_BA8982F5352A_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Data.SQLite.dll</td><td/><td/><td>_4D57E74A_C303_4D6E_8719_5F3EF1AEF3F7_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Thwarg_Launcher.exe</td><td/><td/><td>_50AE8771_813E_4B9B_B9EF_9556F0BC5C20_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>VCS5.dll</td><td/><td/><td>_9145AA07_A4DF_4D4B_9EC4_6E8A40286359_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>VirindiViewService.dll</td><td/><td/><td>_F048C29F_58F6_4400_861E_C4D66B6EA36B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>WebControlWrapper.dll</td><td/><td/><td>_B8F5ADE2_1B4D_40D9_AEF0_D347060BEC22_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>MagFilter.dll</td><td/><td/><td>_5F4E0241_F86A_4C26_9EAD_D7C504653ADE_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Newtonsoft.Json.dll</td><td/><td/><td>_80054AA5_DB41_41BC_8740_08F92310F4B5_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Data.SQLite.dll</td><td/><td/><td>_BE0F9C67_5F5D_41FC_8D67_378AE58F49E2_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Thwarg_Launcher.exe</td><td/><td/><td>_B16E0651_70B9_4C2F_8BD9_992CA829D094_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>VCS5.dll</td><td/><td/><td>_9684AD60_9257_4C46_BEFB_E59C9B5C74E0_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>VirindiViewService.dll</td><td/><td/><td>_D9627865_D38B_4A1D_92D6_FFC9B767B1BE_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>WebControlWrapper.dll</td><td/><td/><td>_D92EB957_4552_479E_931B_8472A2DB8BFC_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -3485,6 +3485,7 @@
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.vshost.exe</td><td>0</td><td/><td>1839407168</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>-979152491</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>-979127851</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME5</td><td>1033</td><td>LAUNCH~1.EXE|Launch Thwarg-Launcher.exe</td><td>0</td><td/><td>-979165579</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>1428373354</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>1428373354</td></row>
@@ -3891,6 +3892,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\AC Account Manager\Images\Logo_circleonly.ico</td><td>0</td></row>
+		<row><td>Thwarg_Launcher.ex_2D993931E675404FAA6DD9E49C6BED02.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
 		<row><td>Thwarg_Launcher.ex_A7885C76117D4F0E9965C46D274319AF.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
 		<row><td>Thwarg_Launcher.ex_B4C96D1729C347DDB9C0ABE02364752D.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
 		<row><td>Thwarg_Launcher.ex_BDEF4FA3AFD742229D1CA93EB3C5F06E.exe</td><td/><td>C:\dev\thwarglauncher\AC Account Manager\AC Account Manager\bin\Release\Thwarg-Launcher.exe</td><td>0</td></row>
@@ -4569,7 +4571,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Thwarg_Launcher.exe</td><td>thwarg_1_thwarg_launcher</td><td>##IDS_SHORTCUT_DISPLAY_NAME4##</td><td>Thwarg_Launcher.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Thwarg_Launcher.ex_B4C96D1729C347DDB9C0ABE02364752D.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>Thwarg_Launcher.exe</td><td>thwarg_1_thwarg_launcher</td><td>##IDS_SHORTCUT_DISPLAY_NAME5##</td><td>Thwarg_Launcher.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Thwarg_Launcher.ex_2D993931E675404FAA6DD9E49C6BED02.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
