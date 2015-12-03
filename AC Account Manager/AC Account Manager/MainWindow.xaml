@@ -86,7 +86,9 @@
                                 </Grid.ColumnDefinitions>
                                 <CheckBox x:Name="AccountLaunchable" Margin="0 5 0 0" IsChecked="{Binding Path=AccountLaunchable,Mode=TwoWay}" Grid.Column="0"></CheckBox>
                                 <Expander x:Name="AccountExpander" Grid.Column="1" Header="{Binding Path=AccountSummary}" Foreground="#FFBB8000" Background="Transparent" >
-                                    <ListBox ItemsSource="{Binding Path=Servers}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch">
+                                    <ListBox ItemsSource="{Binding Path=Servers}" Background="Transparent" BorderThickness="0"
+                                             Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=Width}"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="{x:Type ListBoxItem}">
                                                 <Setter Property="Focusable" Value="False"></Setter>
@@ -118,17 +120,24 @@
                                                 </Setter>
                                             </Style>
                                         </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel IsItemsHost="True">
+                                                </WrapPanel>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid HorizontalAlignment="Stretch">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="15"></ColumnDefinition>
-                                                        <ColumnDefinition Width="100"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-                                                    <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
-                                                    <Label Grid.Column="1" Foreground="#FFBB8000" Content="{Binding Path=ServerName}" HorizontalAlignment="Left"></Label>
-                                                    <ComboBox Grid.Column="2" HorizontalAlignment="Right"
+                                                <Grid VerticalAlignment="Stretch">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"></RowDefinition>
+                                                        <RowDefinition Height="*"></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
+                                                        <Label Foreground="#FFBB8000" Content="{Binding Path=ServerName}" HorizontalAlignment="Left"></Label>
+                                                    </StackPanel>
+                                                    <ComboBox Grid.Row="1" HorizontalAlignment="Center"
                                                         ItemsSource="{Binding Path=AvailableCharacters,Mode=OneWay}"
                                                         DisplayMemberPath="Name"
                                                         SelectedValuePath="Name"
