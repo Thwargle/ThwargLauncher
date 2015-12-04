@@ -6,3 +6,6 @@ AC Account Manager/AC Account Manager/ThwargLauncher.csproj.user
 /AC Account Manager/ThwargLauncher/bin
 /AC Account Manager/ThwargLauncher/obj
 /AC Account Manager/ThwargLauncher.v11.suo
+/AC Account Manager/AdvancedInstaller/Setup Files/ThwargLauncherInstaller.exe
+/AC Account Manager/AdvancedInstaller/setup-cache
+/AC Account Manager/AdvancedInstaller/setup.back.aip
