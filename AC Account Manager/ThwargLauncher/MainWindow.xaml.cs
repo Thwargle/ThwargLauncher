@@ -265,6 +265,7 @@ namespace ThwargLauncher
             finally
             {
                 EnableInterface(true);
+                btnCancel.IsEnabled = false;
             }
         }
         private class WorkerArgs
@@ -280,6 +281,7 @@ namespace ThwargLauncher
             else
             {
                 EnableInterface(false);
+                btnCancel.IsEnabled = true;
                 var launchMgr = new LaunchSorter();
                 LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
                 _viewModel.RecordProfileLaunch();
@@ -358,6 +360,7 @@ namespace ThwargLauncher
                 accountLaunchTimes[launchItem.AccountName] = DateTime.Now;
 
                 var launcher = new GameLauncher();
+                launcher.StopLaunchEvent += (o, eventArgs) => { return _worker.CancellationPending; };
                 try
                 {
                     var finder = new ThwargUtils.WindowFinder();
@@ -556,6 +559,7 @@ namespace ThwargLauncher
         }
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
+            btnCancel.IsEnabled = false;
             _worker.CancelAsync();
         }
         private void DisplayHelpWindow()
