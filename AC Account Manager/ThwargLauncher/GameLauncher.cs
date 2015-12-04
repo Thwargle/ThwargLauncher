@@ -51,7 +51,8 @@ namespace ThwargLauncher
 
                 // This is analogous to Process.Start or CreateProcess
                 string charFilepath = MagFilter.FileLocations.GetCharacterFilePath();
-                DateTime startWait = DateTime.Now;
+                DateTime startWait = DateTime.UtcNow;
+                DateTime loginTime = DateTime.MaxValue;
                 using (FileSystemWatcher fw = WatchFile(charFilepath))
                 {
                     Process launcherProc = Process.Start(startInfo);
@@ -62,15 +63,28 @@ namespace ThwargLauncher
                         WaitForLauncher(launcherProc);
                         int secondsTimeout = ConfigSettings.GetConfigInt("LauncherGameTimeoutSeconds", 120);
                         TimeSpan timeout = new TimeSpan(0, 0, 0, secondsTimeout);
-                        while (!gameReady && (DateTime.Now - startWait < timeout))
+                        while (!gameReady && (DateTime.UtcNow - startWait < timeout))
                         {
                             if (CheckForStop())
                                 return false;
                             System.Threading.Thread.Sleep(1000);
                             FileInfo fileInfo = new FileInfo(charFilepath);
-                            if (fileInfo.LastWriteTime >= startWait)
+                            if (loginTime == DateTime.MaxValue)
                             {
-                                gameReady = true;
+                                // First we wait until DLL writes character file
+                                if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
+                                {
+                                    loginTime = DateTime.UtcNow;
+                                }
+                            }
+                            else
+                            {
+                                // Then we give it 6 more seconds to complete login
+                                if (DateTime.UtcNow >= loginTime.AddSeconds(6))
+                                {
+                                    gameReady = true;
+                                }
+                                
                             }
                         }
                     }
