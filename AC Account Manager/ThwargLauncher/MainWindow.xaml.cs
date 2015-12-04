@@ -53,7 +53,8 @@ namespace ThwargLauncher
         }
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            BeginWebService();
+            //TODO: Implement Web Service Stuff
+            //BeginWebService();
             this.Show();
             if (Properties.Settings.Default.ShowHelpAtStart)
             {
