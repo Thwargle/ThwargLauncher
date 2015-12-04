@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     public static class Log
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     /// <summary>
     /// Class which handles actually reading and writing profile (json) string to & from disk

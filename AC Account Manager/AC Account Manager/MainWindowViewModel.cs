@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using CommonControls;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {

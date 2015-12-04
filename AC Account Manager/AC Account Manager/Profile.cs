@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     class Profile
     {

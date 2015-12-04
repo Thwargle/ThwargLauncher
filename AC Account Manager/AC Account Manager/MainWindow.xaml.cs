@@ -2,24 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-//using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Threading;
 using WindowPlacementUtil;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -29,7 +22,7 @@ namespace AC_Account_Manager
         //private Dictionary<string, List<AccountCharacter>> _allAccountCharacters;
         
         private List<string> _Images = new List<string>();
-        private System.Random _rand = new Random();
+        private Random _rand = new Random();
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
 
@@ -367,7 +360,7 @@ namespace AC_Account_Manager
                 var launcher = new GameLauncher();
                 try
                 {
-                    var finder = new WindowFinder();
+                    var finder = new ThwargUtils.WindowFinder();
                     finder.RecordExistingWindows();
                     string launcherPath = GetLaunchItemLauncherLocation(launchItem);
                     OverridePreferenceFile(launchItem.CustomPreferencePath);
@@ -509,7 +502,7 @@ namespace AC_Account_Manager
             OpenLauncherLocation();
         }
 
-        private void AC_Account_Manager_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveWindowSettings();
             SaveCurrentProfile();

@@ -3,10 +3,9 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using MagFilter;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     class GameLauncher
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     public class AccountCharacter
     {

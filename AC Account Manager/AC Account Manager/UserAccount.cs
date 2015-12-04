@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace AC_Account_Manager
+namespace ThwargLauncher
 {
     public class UserAccount : INotifyPropertyChanged
     {
