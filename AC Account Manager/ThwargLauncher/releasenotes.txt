@@ -1,0 +1,18 @@
+﻿Release Notes for ThwargLauncher
+
+Launcher Created 2015 by Jonathan Newberry and Perry Rapp.
+For use with the Asheron's Call game client to streamline multiple account/server instances.
+
+
+
+2015-11-25, Jonathan Newberry and Perry Rapp
+	* Notes prior to this date are unrecorded.
+
+	- Fixed a bug where timezone was not handled properly by c# and json serialization
+	- Added cancel button for launch sequence
+	- Added a msgbox to confirm/deny deleting profiles
+	- Fixed invalid profile message when application first launched
+	- Set min main window height/width
+	- Modified the comments on the accounts.txt file to correctly reflect all possible parameters
+	- Allow account alias (displayed on main window instead of actual account name)
+	- Fixed bug for renaming window title correctly

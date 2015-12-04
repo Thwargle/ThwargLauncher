@@ -1,0 +1,26 @@
+﻿<Window x:Class="ThwargLauncher.Help"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="(Dynamic)" Height="500" Width="300" Closing="Window_Closing" ResizeMode="NoResize" Icon="Images/Logo_circleonly.ico">
+    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+        <ScrollViewer>
+            <ItemsControl>
+                <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" Height="179" Margin="10,10,0,0"><Span Foreground="Black" Language="en-us"><Run Text="Using this method of multi-clienting only requires a single install of AC"/></Span><LineBreak/><LineBreak/><Run Text="Locate your Documents\Asheron's Call\UserPreferences.ini and open with a text editor."/><LineBreak/><Run/><LineBreak/><Run Text="A button is included below that will attempt to open the file at it's default location."/><LineBreak/><Run/><LineBreak/><Span Foreground="Black" Language="en-us"><Run Text="Find [Net] and change ComputeUniquePort to True and save"/></Span></TextBlock>
+                <Button x:Name="btnDefaultPreferences" Content="Open Preferences Default Location" HorizontalAlignment="Stretch" VerticalAlignment="Top" Click="btnDefaultPreferences_Click"/>
+                <Image HorizontalAlignment="Left" Height="148" VerticalAlignment="Top" Width="261" Source="Images/UserPreferences.png"/>
+                <Separator HorizontalAlignment="Left" Height="10" VerticalAlignment="Top" Width="281" BorderThickness="10" BorderBrush="#FF008BBF"/>
+                <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Open Decal - Options - Check &quot;Dual Log&quot; and Click Ok" VerticalAlignment="Top" Height="38" />
+                <Image HorizontalAlignment="Left" Height="261" VerticalAlignment="Top" Width="261" Source="Images/DecalSetting.png"/>
+                <Image HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="255" Source="Images/Credit.PNG"/>
+            </ItemsControl>
+        </ScrollViewer>
+        <CheckBox Grid.Row="1" x:Name="chkShowStartup" Content="Show at Startup" HorizontalAlignment="Left" IsChecked="True" VerticalAlignment="Top"/>
+        <Button Grid.Row="1" x:Name="btnOK" Content="Ok" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="btnOK_Click"/>
+        </Grid>
+    
+</Window>
