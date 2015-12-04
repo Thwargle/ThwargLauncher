@@ -28,6 +28,7 @@ namespace ThwargLauncher
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
+        private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
 
 
         public MainWindow()
@@ -52,11 +53,20 @@ namespace ThwargLauncher
         }
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
+            BeginWebService();
             this.Show();
             if (Properties.Settings.Default.ShowHelpAtStart)
             {
                 DisplayHelpWindow();
             }
+        }
+        private void BeginWebService()
+        {
+            _webManager.Listen();
+        }
+        private void EndWebService()
+        {
+            _webManager.StopListening();
         }
 
         void _viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -507,6 +517,7 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            EndWebService();
             SaveWindowSettings();
             SaveCurrentProfile();
 

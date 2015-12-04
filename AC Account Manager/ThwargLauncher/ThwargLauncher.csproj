@@ -65,6 +65,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -105,6 +106,11 @@
     <Compile Include="ProfileManager.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="UserAccount.cs" />
+    <Compile Include="WebService\GameCommand.cs" />
+    <Compile Include="WebService\GameSetting.cs" />
+    <Compile Include="WebService\IThwargListener.cs" />
+    <Compile Include="WebService\ThwargListenerHandler.cs" />
+    <Compile Include="WebService\WebServiceManager.cs" />
     <Compile Include="WindowFinder.cs" />
     <Compile Include="WindowPlacer.cs" />
     <Compile Include="WpfWindowPlacer.cs" />
