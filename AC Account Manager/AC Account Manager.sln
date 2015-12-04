@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThwargLauncher", "AC Account Manager\ThwargLauncher.csproj", "{BB684843-D1B1-42D6-A65C-71C57E75E420}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThwargLauncher", "ThwargLauncher\ThwargLauncher.csproj", "{BB684843-D1B1-42D6-A65C-71C57E75E420}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Installer", "Installer\Installer.isproj", "{591C053A-1187-429B-8EA5-8D295DBD6C80}"
 EndProject
