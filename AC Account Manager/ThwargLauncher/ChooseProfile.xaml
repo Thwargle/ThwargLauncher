@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ChooseProfile" Height="300" Width="500" Icon="Images\Logo_circleonly.ico" Closing="Window_Closing">
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" Margin="10,10,9.6,0" VerticalAlignment="Top" Height="250"
-                  ItemsSource="{Binding Path=ProfilesView}"/>
+        <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
+                  ItemsSource="{Binding Path=ProfilesView}" />
 
     </Grid>
 </Window>

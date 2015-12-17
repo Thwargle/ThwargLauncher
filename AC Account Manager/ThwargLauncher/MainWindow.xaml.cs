@@ -33,6 +33,18 @@ namespace ThwargLauncher
 
         public MainWindow()
         {
+            // run the updater application if it is where we expect it to be (installation root), and wait for it to finish before loading
+            if (System.IO.File.Exists("updater.exe"))
+            {
+                // if we would like to get the exit code of the updater app and log it later, we have it.
+                int exitCode;
+                using (Process proc = Process.Start("updater.exe"))
+                {
+                    proc.WaitForExit();
+                    exitCode = proc.ExitCode;
+                }
+            }
+
             InitializeComponent();
             DataContext = _viewModel;
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
@@ -518,7 +530,8 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            EndWebService();
+            //TODO: Implement Web Service Stuff
+            //EndWebService();
             SaveWindowSettings();
             SaveCurrentProfile();
 
@@ -582,5 +595,9 @@ namespace ThwargLauncher
             MainWindowEnable();
         }
 
+        private void txtProfileName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            btnChooseProfile_Click(sender, e);
+        }
     }
 }
