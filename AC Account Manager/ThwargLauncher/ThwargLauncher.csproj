@@ -86,10 +86,10 @@
     <Compile Include="AccountCharacter.cs" />
     <Compile Include="AccountParser.cs" />
     <Compile Include="CharacterSetting.cs" />
-    <Compile Include="ChooseProfile.xaml.cs">
+    <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChooseProfileViewModel.cs" />
+    <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DelegateCommand.cs" />
@@ -102,8 +102,9 @@
     <Compile Include="Log.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MaskedTextBox.cs" />
-    <Compile Include="Profile.cs" />
-    <Compile Include="ProfileManager.cs" />
+    <Compile Include="ProfileManagement\Profile.cs" />
+    <Compile Include="ProfileManagement\ProfileChoiceViewModel.cs" />
+    <Compile Include="ProfileManagement\ProfileManager.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="UserAccount.cs" />
     <Compile Include="WebService\GameCommand.cs" />
@@ -118,7 +119,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ChooseProfile.xaml">
+    <Page Include="ProfileManagement\ChooseProfile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
