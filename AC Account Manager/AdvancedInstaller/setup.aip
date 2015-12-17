@@ -22,7 +22,7 @@
     <ROW Property="ProductCode" Value="1033:{7D591D2B-D9A4-43DE-BC80-BE48ED88B7FD} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="2.2.3.1" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.2.4.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -33,25 +33,49 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
     <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
+    <ROW Directory="Images_Dir" Directory_Parent="APPDIR" DefaultDir="Images"/>
     <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="ACCoverArt.jpg" ComponentId="{6C58CEE3-2EE5-4A9C-B385-71E0B0F483F2}" Directory_="Images_Dir" Attributes="0" KeyPath="ACCoverArt.jpg" Type="0"/>
     <ROW Component="AI_ExePath" ComponentId="{5C7BC5D3-2D3B-46FC-A2A6-4EA55FA9C493}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
+    <ROW Component="Decal.Adapter.dll" ComponentId="{8BEC767A-8C3B-4CD7-81EC-6971DA292B36}" Directory_="APPDIR" Attributes="0" KeyPath="Decal.Adapter.dll"/>
     <ROW Component="MagFilter.dll" ComponentId="{60A24580-799C-4E0D-9A55-FB2D8FB1D6C6}" Directory_="APPDIR" Attributes="0" KeyPath="MagFilter.dll"/>
+    <ROW Component="Newtonsoft.Json.dll" ComponentId="{C8787569-DBBD-4F7E-A4F9-E4DB32E06125}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
     <ROW Component="ProductInformation" ComponentId="{534845BF-ED5A-4898-BEBA-55464386A2B9}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{63E2417C-10B2-4878-9650-4B8E782C1BD2}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="ThwargLauncher.exe" ComponentId="{4FCECFE5-6D37-417A-A4C3-094EEDEA8AAA}" Directory_="APPDIR" Attributes="0" KeyPath="ThwargLauncher.exe"/>
+    <ROW Component="VCS5.dll" ComponentId="{E282A294-1839-45AE-8A9F-62250E92E2ED}" Directory_="APPDIR" Attributes="0" KeyPath="VCS5.dll"/>
+    <ROW Component="VirindiViewService.dll" ComponentId="{924688CE-C3DC-45C0-AC92-91537CED247F}" Directory_="APPDIR" Attributes="0" KeyPath="VirindiViewService.dll"/>
+    <ROW Component="VirindiViewService.xml" ComponentId="{0F63A4D9-B1FA-40B9-B1C9-B7A74980D57A}" Directory_="APPDIR" Attributes="0" KeyPath="VirindiViewService.xml" Type="0"/>
+    <ROW Component="WebControlWrapper.dll" ComponentId="{8B0022BC-F608-46CE-B2E2-6D084D43CC09}" Directory_="APPDIR" Attributes="0" KeyPath="WebControlWrapper.dll"/>
     <ROW Component="updater.exe" ComponentId="{EF193832-3372-4BCB-B654-67B262593350}" Directory_="APPDIR" Attributes="0" KeyPath="updater.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath MagFilter.dll ProductInformation SHORTCUTDIR ThwargLauncher.exe updater.exe"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="ACCoverArt.jpg AI_ExePath Decal.Adapter.dll MagFilter.dll Newtonsoft.Json.dll ProductInformation SHORTCUTDIR ThwargLauncher.exe VCS5.dll VirindiViewService.dll VirindiViewService.xml WebControlWrapper.dll updater.exe"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="ACCoverArt.jpg" Component_="ACCoverArt.jpg" FileName="ACCOVE~1.JPG|ACCoverArt.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\ACCoverArt.jpg" SelfReg="false" NextFile="acwallpaperwide10yrs.jpg"/>
+    <ROW File="Credit.PNG" Component_="ACCoverArt.jpg" FileName="Credit.PNG" Attributes="0" SourcePath="..\ThwargLauncher\Images\Credit.PNG" SelfReg="false" NextFile="DecalSetting.png"/>
+    <ROW File="Decal.Adapter.dll" Component_="Decal.Adapter.dll" FileName="DECALA~1.DLL|Decal.Adapter.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Decal.Adapter.dll" SelfReg="false" NextFile="Newtonsoft.Json.dll"/>
+    <ROW File="DecalSetting.png" Component_="ACCoverArt.jpg" FileName="DECALS~1.PNG|DecalSetting.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\DecalSetting.png" SelfReg="false" NextFile="Logo_circleonly.ico"/>
+    <ROW File="Logo_circleonly.ico" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.ICO|Logo_circleonly.ico" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.ico" SelfReg="false" NextFile="Logo_circleonly.png"/>
+    <ROW File="Logo_circleonly.png" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.PNG|Logo_circleonly.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.png" SelfReg="false" NextFile="UserPreferences.png"/>
     <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\..\..\magtools\thwargle\Mag-Filter\bin\Release\MagFilter.dll" SelfReg="false" NextFile="updater.exe"/>
+    <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
     <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~1.EXE|Thwarg-Launcher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe" SelfReg="false" NextFile="MagFilter.dll" DigSign="true"/>
-    <ROW File="updater.exe" Component_="updater.exe" FileName="updater.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_STUBS&gt;updater.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="UserPreferences.png" Component_="ACCoverArt.jpg" FileName="USERPR~1.PNG|UserPreferences.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\UserPreferences.png" SelfReg="false" NextFile="Decal.Adapter.dll"/>
+    <ROW File="VCS5.dll" Component_="VCS5.dll" FileName="VCS5.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VCS5.dll" SelfReg="false" NextFile="VirindiViewService.dll"/>
+    <ROW File="VirindiViewService.dll" Component_="VirindiViewService.dll" FileName="VIRIND~1.DLL|VirindiViewService.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.dll" SelfReg="false" NextFile="WebControlWrapper.dll"/>
+    <ROW File="VirindiViewService.xml" Component_="VirindiViewService.xml" FileName="VIRIND~1.XML|VirindiViewService.xml" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.xml" SelfReg="false"/>
+    <ROW File="WebControlWrapper.dll" Component_="WebControlWrapper.dll" FileName="WEBCON~1.DLL|WebControlWrapper.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\WebControlWrapper.dll" SelfReg="false" NextFile="VirindiViewService.xml"/>
+    <ROW File="acwallpaperwide10yrs.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~1.JPG|acwallpaperwide10yrs.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwide10yrs.jpg" SelfReg="false" NextFile="acwallpaperwideaerbax.jpg"/>
+    <ROW File="acwallpaperwideGroup.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~4.JPG|acwallpaperwideGroup.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwideGroup.jpg" SelfReg="false" NextFile="Credit.PNG"/>
+    <ROW File="acwallpaperwideaerbax.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~2.JPG|acwallpaperwideaerbax.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwideaerbax.jpg" SelfReg="false" NextFile="acwallpaperwideaerfalle.jpg"/>
+    <ROW File="acwallpaperwideaerfalle.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~3.JPG|acwallpaperwideaerfalle.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwideaerfalle.jpg" SelfReg="false" NextFile="acwallpaperwideGroup.jpg"/>
+    <ROW File="updater.exe" Component_="updater.exe" FileName="updater.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_STUBS&gt;updater.exe" SelfReg="false" NextFile="ACCoverArt.jpg" DigSign="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="4" UpdatesUrl="http://www.thwargle.com/thwarglauncher/updates/updates.txt" EulaPathLocId="*" IntroTextPathLocId="*"/>
