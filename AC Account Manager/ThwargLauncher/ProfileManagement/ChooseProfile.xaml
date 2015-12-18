@@ -5,9 +5,17 @@
     <Grid>
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllProfiles}"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"
+                  AlternatingRowBackground="Wheat">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name,Mode=TwoWay}"></DataGridTextColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Select" Click="Select_OnClick" Margin="5 0 5 0"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description,Mode=TwoWay}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Active Accounts" Binding="{Binding ActiveAccounts,Mode=OneWay}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Active Servers" Binding="{Binding ActiveServers,Mode=OneWay}"></DataGridTextColumn>

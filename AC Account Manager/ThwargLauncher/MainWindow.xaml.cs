@@ -555,7 +555,15 @@ namespace ThwargLauncher
             var dlg = new ChooseProfile();
             var result = dlg.ShowDialog();
             MainWindowEnable();
-            _viewModel.LoadMostRecentProfile();
+            if (result.HasValue && result.Value && !string.IsNullOrEmpty(dlg.ProfileNameChosen))
+            {
+                string desiredProfileName = dlg.ProfileNameChosen;
+                _viewModel.GotoSpecificProfile(desiredProfileName);
+            }
+            else
+            {
+                _viewModel.LoadMostRecentProfile();
+            }
         }
         private void MainWindowDisable()
         {

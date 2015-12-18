@@ -15,6 +15,7 @@ namespace ThwargLauncher
     public partial class ChooseProfile : Window
     {
         private ChooseProfileViewModel _viewModel = null;
+        public string ProfileNameChosen { get; private set; }
         public ChooseProfile()
         {
             InitializeComponent();
@@ -41,6 +42,17 @@ namespace ThwargLauncher
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveWindowSettings();
+        }
+
+        private void Select_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (sender as Button);
+            if (button == null) { return; }
+            var profileModel = (button.DataContext as ProfileChoiceViewModel);
+            if (profileModel == null) { return; }
+            ProfileNameChosen = profileModel.Name;
+            this.DialogResult = true;
+            this.Close();
         }
     }
 }

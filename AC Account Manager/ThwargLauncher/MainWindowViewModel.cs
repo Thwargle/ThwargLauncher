@@ -76,9 +76,17 @@ namespace ThwargLauncher
                 GotoProfile(newProfile);
             }
         }
+        public void GotoSpecificProfile(string profileName)
+        {
+            GotoProfileByName(profileName);
+        }
         private void GotoProfile(Profile profile)
         {
-            Properties.Settings.Default.LastProfileName = profile.Name;
+            GotoProfileByName(profile.Name);
+        }
+        private void GotoProfileByName(string profileName)
+        {
+            Properties.Settings.Default.LastProfileName = profileName;
             Properties.Settings.Default.Save();
             LoadMostRecentProfile();
         }
@@ -158,6 +166,11 @@ namespace ThwargLauncher
                     CurrentProfile.StoreCharacterSetting(charSetting);
                 }
             }
+        }
+        public void ReloadCurrentProfile()
+        {
+            SaveCurrentProfile();
+            LoadMostRecentProfile();
         }
         public void LoadMostRecentProfile()
         {

@@ -16,9 +16,11 @@ namespace ThwargLauncher
             set
             {
                 var profileManager = new ProfileManager();
+                // profile manager renames the actual profile on the disk
                 bool renamed = profileManager.RenameProfile(_profile.Name, value);
                 if (renamed)
                 {
+                    _profile.Name = value;
                     OnPropertyChanged("CurrentProfileName");
                 }
             }
