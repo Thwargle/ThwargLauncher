@@ -175,6 +175,11 @@ namespace ThwargLauncher
                     profileName = "Default";
                 }
                 CurrentProfile = mgr.Load(profileName);
+                if (CurrentProfile == null && profileName != "Default")
+                {
+                    profileName = "Default";
+                    CurrentProfile = mgr.Load(profileName);
+                }
                 CurrentProfile.ActivateProfile();
             }
             finally

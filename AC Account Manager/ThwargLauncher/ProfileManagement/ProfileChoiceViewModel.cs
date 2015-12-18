@@ -23,7 +23,17 @@ namespace ThwargLauncher
                 }
             }
         }
-        public string Description { get { return _profile.Description; } }
+        public string Description
+        {
+            get { return _profile.Description; }
+            set
+            {
+                _profile.Description = value;
+                var profileManager = new ProfileManager();
+                profileManager.Save(_profile);
+
+            }
+        }
         public int ActiveAccounts { get { return _profile.ActiveAccountCount; } }
         public int ActiveServers { get { return _profile.ActiveServerCount; } }
         public DateTime LastLaunch { get { return PopulateDate(_profile.LastLaunchedDate, DateTime.MinValue); } }

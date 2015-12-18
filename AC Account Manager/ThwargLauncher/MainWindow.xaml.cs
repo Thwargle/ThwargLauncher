@@ -553,8 +553,9 @@ namespace ThwargLauncher
         {
             MainWindowDisable();
             var dlg = new ChooseProfile();
-            dlg.ShowDialog();
+            var result = dlg.ShowDialog();
             MainWindowEnable();
+            _viewModel.LoadMostRecentProfile();
         }
         private void MainWindowDisable()
         {

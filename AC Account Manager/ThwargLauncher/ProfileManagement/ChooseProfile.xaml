@@ -4,7 +4,17 @@
         Title="ChooseProfile" Height="300" Width="500" Icon="..\Images\Logo_circleonly.ico" Closing="Window_Closing">
     <Grid>
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
-                  ItemsSource="{Binding Path=AllProfiles}" />
+                  ItemsSource="{Binding Path=AllProfiles}"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name,Mode=TwoWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description,Mode=TwoWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Active Accounts" Binding="{Binding ActiveAccounts,Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Active Servers" Binding="{Binding ActiveServers,Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Last Launch" Binding="{Binding LastLaunch,Mode=OneWay}"></DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>
