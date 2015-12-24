@@ -94,10 +94,36 @@ namespace ThwargLauncher
         {
             get
             {
-                string displayName = DisplayName;
-                string serverList = string.Join(", ", ActivatedServers);
-                return string.Format("{0} - {1}", displayName, serverList);
+                var serverInfos = new List<string>();
+                foreach (Server server in _servers)
+                {
+                    if (server.ServerSelected)
+                    {
+                        if (ServerHasChosenCharacter(server))
+                        {
+                            string entry = string.Format("{0}->{1}", server.ServerName, server.ChosenCharacter);
+                            serverInfos.Add(entry);
+                        }
+                        else
+                        {
+                            string entry = server.ServerName;
+                            serverInfos.Add(entry);
+                        }
+                    }
+                }
+                string text = DisplayName;
+                if (serverInfos.Any())
+                {
+                    text += ": " + string.Join(", ", serverInfos);
+                }
+                return text;
             }
+        }
+        private bool ServerHasChosenCharacter(Server server)
+        {
+            if (string.IsNullOrEmpty(server.ChosenCharacter)) { return false; }
+            if (server.ChosenCharacter == "None") { return false; }
+            return true;
         }
         private string GetPropertyValue(string key)
         {
