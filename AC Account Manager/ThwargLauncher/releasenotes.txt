@@ -24,3 +24,6 @@ VERSION 2.2.4.0
 	- Fixed button colors
 	- Improved installer
 	- Fixed window rename
+VERSION 2.2.6.0
+	- Updated the ChooseProfile window to properly allow choosing and modifying existing profiles
+	- Made application check for updates at startup

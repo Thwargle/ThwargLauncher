@@ -51,7 +51,7 @@ namespace ThwargLauncher
                 "Harvestgain",
                 "Verdantine",
                 "Leafcull",
-                "Wintersebb",
+                "WintersEbb",
                 "Morningthaw",
                 "Darktide",
                 "Solclaim"

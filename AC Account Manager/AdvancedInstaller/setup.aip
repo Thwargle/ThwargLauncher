@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="12.5.1" version="12.5.1" Modules="enterprise" RootPath="." Language="en" Id="{EAD58DB8-9A41-46AB-B011-2A1EB7A88C91}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.5.1" version="12.6.1" Modules="enterprise" RootPath="." Language="en" Id="{EAD58DB8-9A41-46AB-B011-2A1EB7A88C91}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="DigCertStoreComponent;AutorunComponent;MultipleInstancesComponent;MsiJavaComponent;MsiExtComponent;MsiAssemblyComponent;MsiDriverPackagesComponent;MsiServInstComponent;MsiOrgComponent;ActSyncAppComponent;PreReqComponent;MsiThemeComponent;BackgroundImagesComponent;DictionaryComponent;ScheduledTasksComponent;CPLAppletComponent;GameUxComponent;FirewallExceptionComponent;UserAccountsComponent;MsiClassComponent;WebApplicationsComponent;MsiOdbcDataSrcComponent;SqlConnectionComponent;SharePointSlnComponent;SilverlightSlnComponent;MsiAppSearchComponent;MsiInstExSeqComponent;MsiDirectEditorComponent"/>
   </COMPONENT>
@@ -19,16 +19,18 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{7D591D2B-D9A4-43DE-BC80-BE48ED88B7FD} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{4ADF87A1-59BC-4BEC-91FD-6CAE375A716B} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="2.2.4.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.2.6.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40" MultiBuildValue="AnyCPU_Release:Windows NT 4.0" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40Display" MultiBuildValue="AnyCPU_Release:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="AnyCPU_Release:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="AnyCPU_Release:Windows 2000" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
@@ -66,10 +68,11 @@
     <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\..\..\magtools\thwargle\Mag-Filter\bin\Release\MagFilter.dll" SelfReg="false" NextFile="updater.exe"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
     <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~1.EXE|Thwarg-Launcher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe" SelfReg="false" NextFile="MagFilter.dll" DigSign="true"/>
+    <ROW File="ThwargLauncher.exe.config" Component_="VirindiViewService.xml" FileName="THWARG~1.CON|Thwarg-Launcher.exe.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe.config" SelfReg="false"/>
     <ROW File="UserPreferences.png" Component_="ACCoverArt.jpg" FileName="USERPR~1.PNG|UserPreferences.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\UserPreferences.png" SelfReg="false" NextFile="Decal.Adapter.dll"/>
     <ROW File="VCS5.dll" Component_="VCS5.dll" FileName="VCS5.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VCS5.dll" SelfReg="false" NextFile="VirindiViewService.dll"/>
     <ROW File="VirindiViewService.dll" Component_="VirindiViewService.dll" FileName="VIRIND~1.DLL|VirindiViewService.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.dll" SelfReg="false" NextFile="WebControlWrapper.dll"/>
-    <ROW File="VirindiViewService.xml" Component_="VirindiViewService.xml" FileName="VIRIND~1.XML|VirindiViewService.xml" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.xml" SelfReg="false"/>
+    <ROW File="VirindiViewService.xml" Component_="VirindiViewService.xml" FileName="VIRIND~1.XML|VirindiViewService.xml" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.xml" SelfReg="false" NextFile="ThwargLauncher.exe.config"/>
     <ROW File="WebControlWrapper.dll" Component_="WebControlWrapper.dll" FileName="WEBCON~1.DLL|WebControlWrapper.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\WebControlWrapper.dll" SelfReg="false" NextFile="VirindiViewService.xml"/>
     <ROW File="acwallpaperwide10yrs.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~1.JPG|acwallpaperwide10yrs.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwide10yrs.jpg" SelfReg="false" NextFile="acwallpaperwideaerbax.jpg"/>
     <ROW File="acwallpaperwideGroup.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~4.JPG|acwallpaperwideGroup.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwideGroup.jpg" SelfReg="false" NextFile="Credit.PNG"/>
@@ -221,6 +224,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="AnyCPU_Release"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="AnyCPU_Release"/>
     <ROW Condition="SETUPEXEDIR OR (REMOVE=&quot;ALL&quot;)" Description="This package can only be run from a bootstrapper." DescriptionLocId="AI.LaunchCondition.RequireBootstrapper" IsPredefined="true" Builds="AnyCPU_Release"/>
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="AnyCPU_Release"/>
   </COMPONENT>
