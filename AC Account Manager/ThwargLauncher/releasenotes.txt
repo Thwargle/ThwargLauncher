@@ -27,3 +27,12 @@ VERSION 2.2.4.0
 VERSION 2.2.6.0
 	- Updated the ChooseProfile window to properly allow choosing and modifying existing profiles
 	- Made application check for updates at startup
+VERSION 2.2.8.0
+	- Fixed a bug with naming of WintersEbb where server list as Wintersebb but responds with WintersEbb (notice E casing)
+	- Added Account Management interface
+	- Added Account Launch Priority
+	- Fixed deployment of App.config
+	- Added truncation of server choices per account
+	- Now shows selected character on the account and server row
+	- Updated the UI on Char Dropdown
+	- Updater no longer requires the user to click OK when there are no updates.

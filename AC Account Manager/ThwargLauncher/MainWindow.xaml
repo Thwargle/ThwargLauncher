@@ -24,8 +24,8 @@
             <Grid DockPanel.Dock="Bottom" Height="Auto" HorizontalAlignment="Stretch">
                 <Rectangle Fill="#FF464646" HorizontalAlignment="Stretch" Margin="0, -10, 0, 0" Height="84" VerticalAlignment="Top" />
                 <Button x:Name="btnAddUsers" Content="Add Users" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnAddUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
-                <Button x:Name="btnEditUsers" Content="Edit Users" HorizontalAlignment="Left" Margin="130,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnEditUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
-                <Button x:Name="btnOpenUsers" Content="Open Users" HorizontalAlignment="Left" Margin="190,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnOpenUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
+                <Button x:Name="btnEditUsers" Content="Edit Users" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnEditUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
+                <Button x:Name="btnOpenUsers" Visibility="Collapsed" Content="Open Users" HorizontalAlignment="Left" Margin="190,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnOpenUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="275,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnChooseProfile_Click" Background="#FFF6D18F" FontWeight="Bold" />
 
 

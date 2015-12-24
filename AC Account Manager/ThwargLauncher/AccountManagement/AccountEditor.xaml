@@ -12,7 +12,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" Margin="10,0,52,31" VerticalAlignment="Stretch"
+        <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,35" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllAccounts}"
                   AutoGenerateColumns="False"
                   AlternatingRowBackground="Wheat">
@@ -31,6 +31,6 @@
                 <DataGridCheckBoxColumn Header="SC" Binding="{Binding SolclaimEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="ApplyBtn"  Content="Apply" HorizontalAlignment="Left" Margin="294,243,0,0" VerticalAlignment="Top" Width="75" Click="ApplyBtn_Click" />
+        <Button x:Name="ApplyBtn"  Content="Apply" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Click="ApplyBtn_Click" Margin="0,0,10,10" />
     </Grid>
 </Window>
