@@ -38,7 +38,10 @@ namespace ThwargLauncher
             {
                 // if we would like to get the exit code of the updater app and log it later, we have it.
                 int exitCode;
-                using (Process proc = Process.Start("updater.exe"))
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.Arguments = "/silent";
+                info.FileName = "updater.exe";
+                using (Process proc = Process.Start(info))
                 {
                     proc.WaitForExit();
                     exitCode = proc.ExitCode;
