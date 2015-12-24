@@ -11,6 +11,7 @@ namespace ThwargLauncher
         public class LaunchItem
         {
             public string AccountName;
+            public string Priority;
             public string Password;
             public string ServerName;
             public string CharacterSelected;
@@ -51,6 +52,7 @@ namespace ThwargLauncher
                             var launchItem = new LaunchItem()
                                 {
                                     AccountName = account.Name,
+                                    Priority = account.Priority,
                                     Password = account.Password,
                                     ServerName = server.ServerName,
                                     CharacterSelected = server.ChosenCharacter,
@@ -81,9 +83,10 @@ namespace ThwargLauncher
                 }
                 launchItemsByAccountName[key].Add(item);
             }
-            // Sort bins by # items
-            var sortedLists = launchItemsByAccountName.Values.OrderByDescending(x => x.Count).ToList();
-            // Build list starting with most populated bin, and taking one per bin until all taken
+            // Sort bins first by priority and then by #items
+            // (so if they all have same priority, it starts with most populous bins, as they involve most 5 minute delays)
+            var sortedLists = launchItemsByAccountName.Values.OrderBy(x => x.First().Priority).ThenByDescending(x => x.Count).ToList();
+            // Build list starting with most priority bin, and taking one per bin until all taken
             int i = 0;
             var sortedLaunchList = new LaunchList();
             while (sortedLists.Count > 0)
@@ -96,7 +99,10 @@ namespace ThwargLauncher
                 {
                     sortedLists.RemoveAt(i);
                 }
-                ++i;
+                else
+                {
+                    ++i;
+                }
                 if (i >= sortedLists.Count)
                 {
                     i = 0;

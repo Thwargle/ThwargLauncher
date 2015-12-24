@@ -1,0 +1,36 @@
+﻿<Window x:Class="ThwargLauncher.AccountManagement.AccountEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="User Editor" Height="300" Width="800" Icon="..\Images\Logo_circleonly.ico" Closing="Window_Closing">
+    <Window.Resources>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="IsEditing" Value="True" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <DataGrid HorizontalAlignment="Stretch" Margin="10,0,52,31" VerticalAlignment="Stretch"
+                  ItemsSource="{Binding Path=AllAccounts}"
+                  AutoGenerateColumns="False"
+                  AlternatingRowBackground="Wheat">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Alias" Binding="{Binding Alias,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Priority" Binding="{Binding Priority,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="FF" Binding="{Binding FrostfellEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="TD" Binding="{Binding ThistledownEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="HG" Binding="{Binding HarvestgainEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="VT" Binding="{Binding VerdantineEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="LC" Binding="{Binding LeafcullEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="WE" Binding="{Binding WintersEbbEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="MT" Binding="{Binding MorningthawEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="DT" Binding="{Binding DarktideEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="SC" Binding="{Binding SolclaimEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="ApplyBtn"  Content="Apply" HorizontalAlignment="Left" Margin="294,243,0,0" VerticalAlignment="Top" Width="75" Click="ApplyBtn_Click" />
+    </Grid>
+</Window>

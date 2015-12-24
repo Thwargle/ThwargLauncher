@@ -84,7 +84,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AccountManagement\AccountCharacter.cs" />
+    <Compile Include="AccountManagement\AccountEditor.xaml.cs">
+      <DependentUpon>AccountEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountManagement\AccountEditorViewModel.cs" />
     <Compile Include="AccountManagement\AccountParser.cs" />
+    <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="CharacterSetting.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
@@ -115,6 +120,10 @@
     <Compile Include="WindowFinder.cs" />
     <Compile Include="WindowPlacer.cs" />
     <Compile Include="WpfWindowPlacer.cs" />
+    <Page Include="AccountManagement\AccountEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AccountManagement\AddUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

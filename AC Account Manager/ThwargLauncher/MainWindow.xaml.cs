@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.IO;
+using ThwargLauncher.AccountManagement;
 using WindowPlacementUtil;
 
 namespace ThwargLauncher
@@ -379,7 +380,8 @@ namespace ThwargLauncher
                     workerReportProgress(context, launchItem, serverIndex, serverTotal);
 
                     System.Threading.Thread.Sleep(1000);
-                    delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
+                    delay = new TimeSpan(0, 0, 10) - (DateTime.Now - lastLaunch);
+                    //delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch); // TODO
                 }
 
                 workerReportProgress("Launching", launchItem, serverIndex, serverTotal);
@@ -588,6 +590,15 @@ namespace ThwargLauncher
             }
             LoadUserAccounts();
             MainWindowEnable();
+        }
+        private void btnEditUsers_Click(object sender, RoutedEventArgs e)
+        {
+            AccountEditorViewModel acevm = new AccountEditorViewModel(this._viewModel.KnownUserAccounts);
+            
+            AccountEditor dlg = new AccountEditor();
+            dlg.DataContext = acevm;
+            dlg.ShowDialog();
+            LoadUserAccounts();
         }
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)

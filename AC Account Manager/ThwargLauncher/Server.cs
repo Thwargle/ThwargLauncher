@@ -27,7 +27,21 @@ namespace ThwargLauncher
             }
         }
         public List<AccountCharacter> AvailableCharacters { get; private set; }
-        public string ChosenCharacter { get; set; }
+
+        private string _chosenCharacter;
+        public string ChosenCharacter
+        {
+            get { return _chosenCharacter; }
+            set
+            {
+                if (_chosenCharacter != value)
+                {
+                    _chosenCharacter = value;
+                    OnPropertyChanged("ChosenCharacter");
+                }
+            }
+        }
+        
         public override string ToString()
         {
             return ServerName;

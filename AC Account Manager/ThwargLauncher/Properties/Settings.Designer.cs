@@ -130,5 +130,17 @@ namespace ThwargLauncher.Properties {
                 this["ShowHelpAtStart"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AccountEditorWindowPlacement {
+            get {
+                return ((string)(this["AccountEditorWindowPlacement"]));
+            }
+            set {
+                this["AccountEditorWindowPlacement"] = value;
+            }
+        }
     }
 }

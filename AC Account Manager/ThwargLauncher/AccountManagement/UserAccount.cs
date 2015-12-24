@@ -7,21 +7,35 @@ namespace ThwargLauncher
 {
     public class UserAccount : INotifyPropertyChanged
     {
+        private MagFilter.CharacterManager _characterMgr;
         public UserAccount(string accountName, MagFilter.CharacterManager characterMgr)
         {
             this.Name = accountName;
-            InitializeMe(characterMgr);
+            this._characterMgr = characterMgr;
         }
         public UserAccount(string name, string password)
         {
             this.Name = name;
             this.Password = password;
-            InitializeMe(null);
         }
-        private void InitializeMe(MagFilter.CharacterManager characterMgr)
+        public bool IsServerEnabled(string serverName)
         {
+            string propName = serverName + "Enabled";
+            string value = GetPropertyByName(propName);
+            if (string.IsNullOrEmpty(value)) { return false; }
+            return bool.Parse(value);
+        }
+        public void SetServerEnabled(string serverName, bool enabled)
+        {
+            string propName = serverName + "Enabled";
+            SetPropertyByName(propName, enabled.ToString());
+        }
+        private void InitializeMe()
+        {
+            MagFilter.CharacterManager characterMgr = _characterMgr;
             foreach (var serverName in ServerManager.ServerList)
             {
+                if (!IsServerEnabled(serverName)) { continue; }
                 // Get characters from dll
                 MagFilter.ServerCharacterListByAccount charlist = null;
                 if (characterMgr != null)
@@ -67,11 +81,12 @@ namespace ThwargLauncher
             {
                 _properties[property.Key] = property.Value;
             }
+            InitializeMe();
         }
 
         void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ServerSelected")
+            if (e.PropertyName == "ServerSelected" || e.PropertyName == "ChosenCharacter")
             {
                 OnPropertyChanged("AccountSummary");
             }
@@ -125,6 +140,7 @@ namespace ThwargLauncher
             if (server.ChosenCharacter == "None") { return false; }
             return true;
         }
+        public string GetPropertyByName(string key) { return GetPropertyValue(key); }
         private string GetPropertyValue(string key)
         {
             if (_properties.ContainsKey(key))
@@ -136,21 +152,23 @@ namespace ThwargLauncher
                 return null;
             }
         }
+        public void SetPropertyByName(string key, string value) { SetPropertyValue(key, value); }
         private void SetPropertyValue(string key, string value)
         {
             if (!_properties.ContainsKey(key) || _properties[key] != value)
             {
                 _properties[key] = value;
-                // Do we need to notify property change?
+                //OnPropertyChanged(key);
             }
         }
         public IDictionary<string, string> GetAllProperties() { return _properties; }
 
-        public string Name { get { return GetPropertyValue("Name"); } private set { SetPropertyValue("Name", value); } }
+        public string Name { get { return GetPropertyValue("Name"); } set { SetPropertyValue("Name", value); } }
         public string Password { get { return GetPropertyValue("Password"); } set { SetPropertyValue("Password", value); } }
         public string CustomLaunchPath { get { return GetPropertyValue("LaunchPath"); } }
         public string CustomPreferencePath { get { return GetPropertyValue("PreferencePath"); } }
         public string Alias { get { return GetPropertyValue("Alias"); } set { SetPropertyValue("Alias", value); } }
+        public string Priority { get { return GetPropertyValue("Priority"); } set { SetPropertyValue("Priority", value); } }
         public string DisplayName
         {
             get
