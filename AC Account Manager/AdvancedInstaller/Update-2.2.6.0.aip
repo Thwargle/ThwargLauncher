@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.5.1" version="12.6.1" Modules="update" RootPath="." Language="en" Id="{D8ABF252-9381-441E-976E-EF0DDE66BF60}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="ProductVersion" Value="2.2.6.0"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="ReleaseDate" Value="18321"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="Version" Value="2.2.6.0"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="UpdatedApplications" Value="ThwargLauncher[2.2.4-2.2.6]"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="Description" Value="Updated the ChooseProfile window to properly allow choosing and modifying existing profiles&#13;&#10;Made application check for updates at startup"/>
+    <ROW Section="ThwargLauncher-2.2.6.0" Key="BugFix" Value="Fixed MagFilter to properly handle UI Interactions"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="ProductVersion" Value="2.2.8.0"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="ReleaseDate" Value="18328"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="Version" Value="2.2.8.0"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="Description" Value="Upped version from 2.2.6.0 to 2.2.8.0 with several new features, the best of which is the new Account Management window."/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="Enhancement" Value="Added Account Management interface&#13;&#10;Added Account Launch Priority&#13;&#10;Added truncation of server choices per account&#13;&#10;Now shows selected character on the account and server row"/>
+    <ROW Section="ThwargLauncher-2.2.8.0" Key="BugFix" Value="Fixed a bug with naming of WintersEbb where server list as Wintersebb but responds with WintersEbb (notice E casing)&#13;&#10;Fixed deployment of App.config&#13;&#10;Updated the UI on Char Dropdown&#13;&#10;Updater no longer requires the user to click OK when there are no updates"/>
+    <ATTRIBUTE name="OutputFileName" value="updates.txt"/>
+    <ATTRIBUTE name="OutputFolder" value="Updates"/>
+  </COMPONENT>
+</DOCUMENT>
