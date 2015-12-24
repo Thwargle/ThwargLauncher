@@ -83,8 +83,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AccountCharacter.cs" />
-    <Compile Include="AccountParser.cs" />
+    <Compile Include="AccountManagement\AccountCharacter.cs" />
+    <Compile Include="AccountManagement\AccountParser.cs" />
     <Compile Include="CharacterSetting.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
@@ -106,7 +106,7 @@
     <Compile Include="ProfileManagement\ProfileChoiceViewModel.cs" />
     <Compile Include="ProfileManagement\ProfileManager.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="UserAccount.cs" />
+    <Compile Include="AccountManagement\UserAccount.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />
     <Compile Include="WebService\IThwargListener.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="WindowFinder.cs" />
     <Compile Include="WindowPlacer.cs" />
     <Compile Include="WpfWindowPlacer.cs" />
-    <Page Include="AddUsers.xaml">
+    <Page Include="AccountManagement\AddUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,7 +131,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AddUsers.xaml.cs">
+    <Compile Include="AccountManagement\AddUsers.xaml.cs">
       <DependentUpon>AddUsers.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
