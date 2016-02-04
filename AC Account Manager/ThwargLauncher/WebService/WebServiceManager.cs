@@ -27,7 +27,11 @@ namespace ThwargLauncher.WebService
         }
         public void StopListening()
         {
-            _serviceHost.Close();
+            if (_serviceHost != null && _serviceHost.State == CommunicationState.Opened)
+            {
+                _serviceHost.Close();
+                
+            }
         }
     }
 }

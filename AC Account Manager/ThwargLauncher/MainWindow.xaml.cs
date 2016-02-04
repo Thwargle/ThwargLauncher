@@ -70,7 +70,7 @@ namespace ThwargLauncher
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             //TODO: Implement Web Service Stuff
-            //BeginWebService();
+            BeginWebService();
             this.Show();
             if (Properties.Settings.Default.ShowHelpAtStart)
             {
@@ -79,11 +79,27 @@ namespace ThwargLauncher
         }
         private void BeginWebService()
         {
-            _webManager.Listen();
+            try
+            {
+                _webManager.Listen();
+            }
+            catch (Exception exc)
+            {
+                Log.WriteError("Exception starting web service: " + exc.Message);
+                ShowErrorMessage("Failed to start web service");
+
+            }
         }
         private void EndWebService()
         {
-            _webManager.StopListening();
+            try
+            {
+                _webManager.StopListening();
+            }
+            catch (Exception exc)
+            {
+                Log.WriteError("Exception stopping web service: " + exc.Message);
+            }
         }
 
         void _viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -536,7 +552,7 @@ namespace ThwargLauncher
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //TODO: Implement Web Service Stuff
-            //EndWebService();
+            EndWebService();
             SaveWindowSettings();
             SaveCurrentProfile();
 
