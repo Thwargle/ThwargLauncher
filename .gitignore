@@ -2,7 +2,7 @@
 /AC Account Manager/AC Account Manager/obj
 /AC Account Manager/AC Account Manager/bin
 /AC Account Manager/AC Account Manager.v11.suo
-AC Account Manager/AC Account Manager/ThwargLauncher.csproj.user
+/AC Account Manager/AC Account Manager/ThwargLauncher.csproj.user
 /AC Account Manager/ThwargLauncher/bin
 /AC Account Manager/ThwargLauncher/obj
 /AC Account Manager/ThwargLauncher.v11.suo
@@ -11,3 +11,6 @@ AC Account Manager/AC Account Manager/ThwargLauncher.csproj.user
 /AC Account Manager/AdvancedInstaller/setup.back.aip
 /AC Account Manager/Setup Files/ThwargLauncherInstaller.exe
 /AC Account Manager/AdvancedInstaller/Update-2.2.6.0.back.aip
+/AC Account Manager/ReserveWebServiceAddress/ReserveWebServiceAddress.v11.suo
+/AC Account Manager/ReserveWebServiceAddress/bin
+/AC Account Manager/ReserveWebServiceAddress/obj
