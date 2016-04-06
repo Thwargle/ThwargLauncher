@@ -130,7 +130,7 @@ namespace ThwargLauncher
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void ApplyCurrentProfileToModel()
+        public void ApplyCurrentProfileToModel(bool preserveStatus)
         {
             foreach (var account in this.KnownUserAccounts)
             {
@@ -140,6 +140,11 @@ namespace ThwargLauncher
                     var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
                     if (charSetting != null)
                     {
+                        server.ServerStatusSymbol = "";
+                        if (preserveStatus)
+                        {
+                            server.ServerStatusSymbol = charSetting.ServerStatusSymbol;
+                        }
                         server.ServerSelected = charSetting.Active;
                         server.ChosenCharacter = charSetting.ChosenCharacter;
                         if (string.IsNullOrEmpty(server.ChosenCharacter))
@@ -159,6 +164,7 @@ namespace ThwargLauncher
                 foreach (var server in account.Servers)
                 {
                     var charSetting = new CharacterSetting();
+                    charSetting.ServerStatusSymbol = server.ServerStatusSymbol;
                     charSetting.AccountName = account.Name;
                     charSetting.ServerName = server.ServerName;
                     charSetting.Active = server.ServerSelected;
@@ -202,7 +208,8 @@ namespace ThwargLauncher
                     CurrentProfile = new Profile();
                 }
             }
-            ApplyCurrentProfileToModel();
+            bool preserveStatus = (previousProfileName == CurrentProfileName);
+            ApplyCurrentProfileToModel(preserveStatus);
             if (previousProfileName != CurrentProfileName)
             {
                 OnPropertyChanged("CurrentProfileName");
@@ -227,5 +234,35 @@ namespace ThwargLauncher
             }
             mgr.CreateProfileIfDoesNotExist(profileName);
         }
+
+        internal void updateAccountStatus(bool success, string serverName, string accountName)
+        {
+            foreach (var account in KnownUserAccounts)
+            {
+                if (account.Name == accountName)
+                {
+                    var server = account.Servers.Find(x => x.ServerName == serverName);
+                    server.ServerStatusSymbol = GetStatusSymbol(success);
+                    account.notifyAccountSummaryChanged();
+                }
+            }
+        }
+
+        private string GetStatusSymbol(bool status)
+        {
+            //todo handle cancelled state
+            string statusSymbol = "✖";
+            if (status)
+            {
+                statusSymbol = "✔";
+            }
+            else
+            {
+                statusSymbol = "֎";
+            }
+
+            return statusSymbol;
+        }
+
     }
 }

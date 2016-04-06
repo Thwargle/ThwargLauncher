@@ -8,6 +8,10 @@ using MagFilter;
 namespace ThwargLauncher
 {
     public delegate bool ShouldStopLaunching(object sender, EventArgs e);
+    /// <summary>
+    /// Called by Launch Manager to actually fire off a process for one game
+    /// Called on worker thread
+    /// </summary>
     class GameLauncher
     {
         public event ShouldStopLaunching StopLaunchEvent;
@@ -40,6 +44,8 @@ namespace ThwargLauncher
             {
                 genArgs = "-username " + arg1 + " -w " + arg3 + " -3 ";
             }
+            bool gameReady = false;
+            Process launcherProc = null;
             try
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -55,8 +61,7 @@ namespace ThwargLauncher
                 DateTime loginTime = DateTime.MaxValue;
                 using (FileSystemWatcher fw = WatchFile(charFilepath))
                 {
-                    Process launcherProc = Process.Start(startInfo);
-                    bool gameReady = false;
+                    launcherProc = Process.Start(startInfo);
                     fw.Changed += delegate(object sender, FileSystemEventArgs args) { gameReady = true; };
                     if (!gameReady)
                     {
@@ -66,7 +71,15 @@ namespace ThwargLauncher
                         while (!gameReady && (DateTime.UtcNow - startWait < timeout))
                         {
                             if (CheckForStop())
+                            {
+                                // User canceled
+                                if (!launcherProc.HasExited)
+                                {
+                                    launcherProc.Kill();
+                                }
                                 return false;
+                                
+                            }
                             System.Threading.Thread.Sleep(1000);
                             FileInfo fileInfo = new FileInfo(charFilepath);
                             if (loginTime == DateTime.MaxValue)
@@ -80,11 +93,11 @@ namespace ThwargLauncher
                             else
                             {
                                 // Then we give it 6 more seconds to complete login
-                                if (DateTime.UtcNow >= loginTime.AddSeconds(6))
+                                int loginTimeSeconds = ConfigSettings.GetConfigInt("LauncherGameLoginTime", 6);
+                                if (DateTime.UtcNow >= loginTime.AddSeconds(loginTimeSeconds))
                                 {
                                     gameReady = true;
                                 }
-                                
                             }
                         }
                     }
@@ -96,7 +109,14 @@ namespace ThwargLauncher
                     "Failed to launch program. Check path '{0}': {1}",
                     exelocation, exc.Message));
             }
-            return true;
+            if (!gameReady)
+            {
+                if (launcherProc != null && !launcherProc.HasExited)
+                {
+                    launcherProc.Kill();
+                }
+            }
+            return gameReady;
         }
         private FileSystemWatcher WatchFile(string filepath)
         {

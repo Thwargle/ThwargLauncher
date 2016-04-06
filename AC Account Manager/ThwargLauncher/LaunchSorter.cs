@@ -28,6 +28,17 @@ namespace ThwargLauncher
             public void Add(LaunchItem item) { _launchItems.Add(item); }
             public IEnumerable<LaunchItem> GetLaunchList() { return _launchItems; }
             public int GetLaunchItemCount() { return _launchItems.Count; }
+            public LaunchItem PopTop()
+            {
+                if (_launchItems.Count == 0)
+                {
+                    return null;
+                }
+                var poppedItem = _launchItems[0];
+                _launchItems.RemoveAt(0);
+                return poppedItem;
+            }
+            public void PushBottom(LaunchItem item) { Add(item); }
         }
         /// <summary>
         /// Construct a launch list from the model account info, and sort it for optimal performance

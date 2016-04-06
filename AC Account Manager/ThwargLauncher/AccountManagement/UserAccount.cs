@@ -84,6 +84,11 @@ namespace ThwargLauncher
             InitializeMe();
         }
 
+        public void notifyAccountSummaryChanged()
+        {
+            OnPropertyChanged("AccountSummary");
+        }
+
         void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ServerSelected" || e.PropertyName == "ChosenCharacter")
@@ -116,7 +121,7 @@ namespace ThwargLauncher
                     {
                         if (ServerHasChosenCharacter(server))
                         {
-                            string entry = string.Format("{0}->{1}", server.ServerName, server.ChosenCharacter);
+                            string entry = string.Format("{0}{1}->{2}", server.ServerStatusSymbol, server.ServerName, server.ChosenCharacter);
                             serverInfos.Add(entry);
                         }
                         else

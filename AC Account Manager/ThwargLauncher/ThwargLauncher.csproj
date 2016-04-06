@@ -91,6 +91,7 @@
     <Compile Include="AccountManagement\AccountParser.cs" />
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="CharacterSetting.cs" />
+    <Compile Include="LaunchManager.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>

@@ -9,9 +9,11 @@ namespace ThwargLauncher
         public Server(string serverName)
         {
             AvailableCharacters = new List<AccountCharacter>();
+            ServerStatusSymbol = "";
             ServerName = serverName;
         }
 
+        public string ServerStatusSymbol { get; set; }
         public string ServerName { get; set; }
         private bool _serverSelected;
         public bool ServerSelected

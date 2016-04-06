@@ -31,7 +31,7 @@ namespace ThwargLauncher
             public List<CharacterSetting> CharacterSettings;
             public List<AccountState> AccountStates;
         }
-        private const string CurrentVersion = "VER-3.0";
+        private const string CurrentVersion = "VER-4.0";
         private readonly Dictionary<string, AccountState> _accountStates = new Dictionary<string, AccountState>();
         private ProfileData _profileData = new ProfileData();
         private readonly Dictionary<string, CharacterSetting> _characterSettings = new Dictionary<string, CharacterSetting>();
@@ -92,6 +92,7 @@ namespace ThwargLauncher
                 return null;
             }
         }
+
         public override string ToString()
         {
             return _profileData.Name;
