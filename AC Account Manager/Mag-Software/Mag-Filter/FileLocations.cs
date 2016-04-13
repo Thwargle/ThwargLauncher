@@ -41,7 +41,7 @@ namespace MagFilter
         /// creates it if it doesn't yet exist
         /// </summary>
         /// <returns></returns>
-        private string GetRunningFolder()
+        public static string GetRunningFolder()
         {
             string profilesFolder = Path.Combine(AppFolder, "Running");
             if (!Directory.Exists(profilesFolder))

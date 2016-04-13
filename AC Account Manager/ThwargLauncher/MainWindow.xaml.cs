@@ -31,6 +31,8 @@ namespace ThwargLauncher
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
 
+        private System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem> _launchConcurrentQueue = 
+            new System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem>();
 
         public MainWindow()
         {
@@ -313,7 +315,7 @@ namespace ThwargLauncher
         }
         private class WorkerArgs
         {
-            public LaunchSorter.LaunchList LaunchList;
+            public System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem> ConcurrentLaunchQueue;
         }
         private void LaunchAllClientsOnAllServersOnThread()
         {
@@ -325,14 +327,24 @@ namespace ThwargLauncher
             {
                 EnableInterface(false);
                 btnCancel.IsEnabled = true;
-                var launchMgr = new LaunchSorter();
-                LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
+                UpdateConcurrentQueue();
                 _viewModel.RecordProfileLaunch();
                 WorkerArgs args = new WorkerArgs()
                     {
-                        LaunchList = launchList
+                        ConcurrentLaunchQueue = _launchConcurrentQueue
                     };
                 _worker.RunWorkerAsync(args);
+            }
+        }
+        private void UpdateConcurrentQueue()
+        {
+            var launchMgr = new LaunchSorter();
+            LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
+            // TODO - this list includes everything checked
+            // does not exclude stuff already running or already on queue
+            foreach (var item in launchList.GetLaunchList())
+            {
+                _launchConcurrentQueue.Enqueue(item);
             }
         }
         private void EnableInterface(bool enable)
@@ -371,24 +383,30 @@ namespace ThwargLauncher
             WorkerArgs args = (e.Argument as WorkerArgs);
             if (args == null) { return; }
             int serverIndex = 0;
-            int serverTotal = args.LaunchList.GetLaunchItemCount();
+            System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem> globalQueue = args.ConcurrentLaunchQueue;
+            int serverTotal = globalQueue.Count;
 
-            while (args.LaunchList.GetLaunchItemCount() > 0)
+            LaunchSorter.LaunchItem launchItem = null;
+            while (globalQueue.TryDequeue(out launchItem))
             {
-                var launchItem = args.LaunchList.PopTop();
                 LaunchManager mgr = new LaunchManager(_launcherLocation);
                 mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
-                bool success = mgr.LaunchGameHandlingDelaysAndTitles(_worker, launchItem);
-                if (success)
+                var launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker, launchItem);
+                
+                if (launchResult.Success)
                 {
                     UpdateAccountStatus(true, launchItem);
                     ++serverIndex;
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
+                    // TODO
+                    // record game info
+                    // launchItem's server, account, character
+                    // and launchResult.ProcessId
                 }
                 else
                 {
                     UpdateAccountStatus(false, launchItem);
-                    args.LaunchList.PushBottom(launchItem);
+                    globalQueue.Enqueue(launchItem);
                     workerReportProgress("Requeued", launchItem, serverIndex, serverTotal);
                 }
 

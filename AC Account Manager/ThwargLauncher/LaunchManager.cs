@@ -12,6 +12,11 @@ namespace ThwargLauncher
     /// </summary>
     class LaunchManager
     {
+        public class LaunchManagerResult
+        {
+            public bool Success;
+            public int ProcessId;
+        }
         public delegate void ReportStatusHandler(string status, LaunchSorter.LaunchItem launchItem);
         public event ReportStatusHandler ReportStatusEvent;
 
@@ -23,21 +28,23 @@ namespace ThwargLauncher
             _launcherLocation = launcherLocation;
 
         }
-        public bool LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker, LaunchSorter.LaunchItem launchItem)
+        public LaunchManagerResult LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker, LaunchSorter.LaunchItem launchItem)
         {
+            var result = new LaunchManagerResult();
             if (worker.CancellationPending)
             {
-                return false;
+                return result;
             }
             DateTime lastLaunch = (_accountLaunchTimes.ContainsKey(launchItem.AccountName)
                                        ? _accountLaunchTimes[launchItem.AccountName]
                                        : DateTime.MinValue);
             TimeSpan delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
+            GameLaunchResult gameLaunchResult = null;
             while (delay.TotalMilliseconds > 0)
             {
                 if (worker.CancellationPending)
                 {
-                    return false;
+                    return result;
                 }
                 string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds + 1);
                 ReportStatus(context, launchItem);
@@ -57,16 +64,16 @@ namespace ThwargLauncher
                 finder.RecordExistingWindows();
                 string launcherPath = GetLaunchItemLauncherLocation(launchItem);
                 OverridePreferenceFile(launchItem.CustomPreferencePath);
-                bool okgo = launcher.LaunchGameClient(
+                gameLaunchResult = launcher.LaunchGameClient(
                     launcherPath,
                     launchItem.ServerName,
                     accountName: launchItem.AccountName,
                     password: launchItem.Password,
                     desiredCharacter: launchItem.CharacterSelected
                     );
-                if (!okgo)
+                if (!gameLaunchResult.Success)
                 {
-                    return false;
+                    return result;
                 }
                 string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);
                 if (gameCaptionPattern != null)
@@ -86,9 +93,14 @@ namespace ThwargLauncher
             catch (Exception exc)
             {
                 ReportStatus("Exception launching game launcher: " + exc.Message, launchItem);
-                return false;
+                return result;
             }
-            return true;
+            if (gameLaunchResult != null && gameLaunchResult.Success)
+            {
+                result.Success = true;
+                result.ProcessId = gameLaunchResult.ProcessId;
+            }
+            return result;
         }
         private void OverridePreferenceFile(string customPreferencePath)
         {

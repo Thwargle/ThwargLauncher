@@ -7,6 +7,11 @@ using MagFilter;
 
 namespace ThwargLauncher
 {
+    public class GameLaunchResult
+    {
+        public bool Success;
+        public int ProcessId;
+    }
     public delegate bool ShouldStopLaunching(object sender, EventArgs e);
     /// <summary>
     /// Called by Launch Manager to actually fire off a process for one game
@@ -28,8 +33,9 @@ namespace ThwargLauncher
             }
         }
 
-        public bool LaunchGameClient(string exelocation, string serverName, string accountName, string password, string desiredCharacter)
+        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string desiredCharacter)
         {
+            var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
             if (string.IsNullOrWhiteSpace(exelocation)) { throw new Exception("Empty exelocation"); }
             if (string.IsNullOrWhiteSpace(serverName)) { throw new Exception("Empty serverName"); }
@@ -46,6 +52,7 @@ namespace ThwargLauncher
             }
             bool gameReady = false;
             Process launcherProc = null;
+            LaunchControl.LaunchResponse launchResponse = null;
             try
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -76,7 +83,7 @@ namespace ThwargLauncher
                             {
                                 launcherProc.Kill();
                             }
-                            return false;
+                            return result;
                                 
                         }
                         System.Threading.Thread.Sleep(1000);
@@ -89,13 +96,16 @@ namespace ThwargLauncher
                                 characterFileWrittenTime = DateTime.UtcNow;
                             }
                         }
-                        else if (IsValidCharacterName(desiredCharacter) && loginTime == DateTime.MaxValue)
+                        else if (loginTime == DateTime.MaxValue)
                         {
-                            // Now we wait until DLL logs in
+                            // Now we wait until DLL logs in or user logs in interactively
                             FileInfo fileInfo = new FileInfo(launchResponseFilepath);
                             if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
                             {
                                 loginTime = DateTime.UtcNow;
+                                LaunchControl launchCtl = new LaunchControl();
+                                TimeSpan maxLatency = DateTime.UtcNow - startWait;
+                                launchResponse = launchCtl.GetLaunchResponse(maxLatency);
                             }
                         }
                         else
@@ -123,7 +133,12 @@ namespace ThwargLauncher
                     launcherProc.Kill();
                 }
             }
-            return gameReady;
+            if (launchResponse != null && launchResponse.IsValid)
+            {
+                result.Success = gameReady;
+                result.ProcessId = launchResponse.ProcessId;
+            }
+            return result;
         }
         private bool IsValidCharacterName(string characterName)
         {
