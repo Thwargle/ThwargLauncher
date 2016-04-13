@@ -163,6 +163,11 @@ namespace ThwargLauncher
             string filepath = Path.Combine(profilesFolder, filename);
             return filepath;
         }
+        /// <summary>
+        /// Returns path to the folder where we store profiles
+        /// creates it if it doesn't yet exist
+        /// </summary>
+        /// <returns></returns>
         private string GetProfileFolder()
         {
             string profilesFolder = Path.Combine(Configuration.AppFolder, "Profiles");

@@ -16,16 +16,19 @@ namespace MagFilter
 
 		public void FilterCore_ClientDispatch(object sender, NetworkMessageEventArgs e)
 		{
-			if (e.Message.Type == 0xF7C8) // Enter Game
-				freshLogin = true;
+            if (e.Message.Type == 0xF7C8) // Enter Game
+            {
+                freshLogin = true;
+                log.WriteLogMsg("TODO - write PID");
+            }
 
 			if (freshLogin && e.Message.Type == 0xF7B1 && Convert.ToInt32(e.Message["action"]) == 0xA1) // Character Materialize (Any time is done portalling in, login or portal)
 			{
-				freshLogin = false;
+                freshLogin = false;
 
 				if (loginMessageQueue.Count > 0)
 				{
-					sendingLastEnter = false;
+                    sendingLastEnter = false;
 					CoreManager.Current.RenderFrame += new EventHandler<EventArgs>(Current_RenderFrame);
 				}
 			}

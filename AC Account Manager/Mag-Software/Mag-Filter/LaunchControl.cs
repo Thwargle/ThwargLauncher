@@ -33,14 +33,14 @@ namespace MagFilter
                         if (BeginsWith(lines[0], "ServerName:")
                             && BeginsWith(lines[1], "AccountName:")
                             && BeginsWith(lines[2], "CharacterName:")
-                            && BeginsWith(lines[3], "Time:")
+                            && BeginsWith(lines[3], "TimeUtc:")
                             )
                         {
                             info.ServerName = lines[0].Substring("ServerName:".Length);
                             info.AccountName = lines[1].Substring("AccountName:".Length);
                             info.CharacterName = lines[2].Substring("CharacterName:".Length);
                             DateTime parsedLaunchTime;
-                            if (DateTime.TryParse(lines[3].Substring("Time:".Length), out parsedLaunchTime))
+                            if (DateTime.TryParse(lines[3].Substring("TimeUtc:".Length), out parsedLaunchTime))
                             {
                                 info.LaunchTime = parsedLaunchTime;
                                 TimeSpan maxLatency = new TimeSpan(0, 0, 5, 0);
@@ -71,7 +71,7 @@ namespace MagFilter
                 file.WriteLine("ServerName:" + serverName);
                 file.WriteLine("AccountName:" + accountName);
                 file.WriteLine("CharacterName:" + characterName);
-                file.WriteLine("Time:" + timestamp);
+                file.WriteLine("TimeUtc:" + timestamp);
             }
         }
     }

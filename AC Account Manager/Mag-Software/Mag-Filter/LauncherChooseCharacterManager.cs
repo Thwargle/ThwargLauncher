@@ -90,7 +90,10 @@ namespace MagFilter
                             }
                         }
                     }
-                    log.WriteLogMsg("launcherChooseCharTimer_Tick: LaunchInfo too old: " + launchInfo.LaunchTime.ToString());
+                    else
+                    {
+                        log.WriteLogMsg("launcherChooseCharTimer_Tick: LaunchInfo too old: " + launchInfo.LaunchTime.ToString());
+                    }
                 }
                 else
                 {

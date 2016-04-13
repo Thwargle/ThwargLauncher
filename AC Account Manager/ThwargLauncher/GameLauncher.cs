@@ -62,7 +62,7 @@ namespace ThwargLauncher
                 using (FileSystemWatcher fw = WatchFile(charFilepath))
                 {
                     launcherProc = Process.Start(startInfo);
-                    fw.Changed += delegate(object sender, FileSystemEventArgs args) { gameReady = true; };
+                    //fw.Changed += delegate(object sender, FileSystemEventArgs args) { gameReady = true; };
                     if (!gameReady)
                     {
                         WaitForLauncher(launcherProc);
