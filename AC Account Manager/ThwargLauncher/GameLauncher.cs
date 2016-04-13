@@ -61,54 +61,50 @@ namespace ThwargLauncher
                 DateTime startWait = DateTime.UtcNow;
                 DateTime characterFileWrittenTime = DateTime.MaxValue;
                 DateTime loginTime = DateTime.MaxValue;
-                using (FileSystemWatcher fw = WatchFile(charFilepath))
+                launcherProc = Process.Start(startInfo);
+                if (!gameReady)
                 {
-                    launcherProc = Process.Start(startInfo);
-                    //fw.Changed += delegate(object sender, FileSystemEventArgs args) { gameReady = true; };
-                    if (!gameReady)
+                    WaitForLauncher(launcherProc);
+                    int secondsTimeout = ConfigSettings.GetConfigInt("LauncherGameTimeoutSeconds", 120);
+                    TimeSpan timeout = new TimeSpan(0, 0, 0, secondsTimeout);
+                    while (!gameReady && (DateTime.UtcNow - startWait < timeout))
                     {
-                        WaitForLauncher(launcherProc);
-                        int secondsTimeout = ConfigSettings.GetConfigInt("LauncherGameTimeoutSeconds", 120);
-                        TimeSpan timeout = new TimeSpan(0, 0, 0, secondsTimeout);
-                        while (!gameReady && (DateTime.UtcNow - startWait < timeout))
+                        if (CheckForStop())
                         {
-                            if (CheckForStop())
+                            // User canceled
+                            if (!launcherProc.HasExited)
                             {
-                                // User canceled
-                                if (!launcherProc.HasExited)
-                                {
-                                    launcherProc.Kill();
-                                }
-                                return false;
+                                launcherProc.Kill();
+                            }
+                            return false;
                                 
-                            }
-                            System.Threading.Thread.Sleep(1000);
-                            if (characterFileWrittenTime == DateTime.MaxValue)
+                        }
+                        System.Threading.Thread.Sleep(1000);
+                        if (characterFileWrittenTime == DateTime.MaxValue)
+                        {
+                            // First we wait until DLL writes character file
+                            FileInfo fileInfo = new FileInfo(charFilepath);
+                            if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
                             {
-                                // First we wait until DLL writes character file
-                                FileInfo fileInfo = new FileInfo(charFilepath);
-                                if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
-                                {
-                                    characterFileWrittenTime = DateTime.UtcNow;
-                                }
+                                characterFileWrittenTime = DateTime.UtcNow;
                             }
-                            else if (IsValidCharacterName(desiredCharacter) && loginTime == DateTime.MaxValue)
+                        }
+                        else if (IsValidCharacterName(desiredCharacter) && loginTime == DateTime.MaxValue)
+                        {
+                            // Now we wait until DLL logs in
+                            FileInfo fileInfo = new FileInfo(launchResponseFilepath);
+                            if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
                             {
-                                // Now we wait until DLL logs in
-                                FileInfo fileInfo = new FileInfo(launchResponseFilepath);
-                                if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
-                                {
-                                    loginTime = DateTime.UtcNow;
-                                }
+                                loginTime = DateTime.UtcNow;
                             }
-                            else
+                        }
+                        else
+                        {
+                            // Then we give it 6 more seconds to complete login
+                            int loginTimeSeconds = ConfigSettings.GetConfigInt("LauncherGameLoginTime", 0);
+                            if (DateTime.UtcNow >= characterFileWrittenTime.AddSeconds(loginTimeSeconds))
                             {
-                                // Then we give it 6 more seconds to complete login
-                                int loginTimeSeconds = ConfigSettings.GetConfigInt("LauncherGameLoginTime", 0);
-                                if (DateTime.UtcNow >= characterFileWrittenTime.AddSeconds(loginTimeSeconds))
-                                {
-                                    gameReady = true;
-                                }
+                                gameReady = true;
                             }
                         }
                     }
