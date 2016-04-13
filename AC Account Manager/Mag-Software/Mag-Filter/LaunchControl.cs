@@ -37,16 +37,20 @@ namespace MagFilter
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
                 if (lines.Length != 4) { return info; }
-                if (!BeginsWith(lines[0], "TimeUtc:")
-                    || !BeginsWith(lines[1], "ServerName:")
-                    || !BeginsWith(lines[2], "AccountName:")
-                    || !BeginsWith(lines[3], "CharacterName:")
+                string timeUtcLine = lines[0];
+                string serverNameLine = lines[1];
+                string accountNameLine = lines[2];
+                string characterNameLine = lines[3];
+                if (!BeginsWith(timeUtcLine, "TimeUtc:")
+                    || !BeginsWith(serverNameLine, "ServerName:")
+                    || !BeginsWith(accountNameLine, "AccountName:")
+                    || !BeginsWith(characterNameLine, "CharacterName:")
                     )
                 {
                     return info;
                 }
                 DateTime parsedTime;
-                if (!DateTime.TryParse(lines[0].Substring("TimeUtc:".Length), out parsedTime))
+                if (!DateTime.TryParse(timeUtcLine.Substring("TimeUtc:".Length), out parsedTime))
                 {
                     return info;
                 }
@@ -56,9 +60,9 @@ namespace MagFilter
                 {
                     return info;
                 }
-                info.ServerName = lines[1].Substring("ServerName:".Length);
-                info.AccountName = lines[2].Substring("AccountName:".Length);
-                info.CharacterName = lines[3].Substring("CharacterName:".Length);
+                info.ServerName = serverNameLine.Substring("ServerName:".Length);
+                info.AccountName = accountNameLine.Substring("AccountName:".Length);
+                info.CharacterName = characterNameLine.Substring("CharacterName:".Length);
                 info.IsValid = true;
                 return info;
             }
@@ -78,14 +82,16 @@ namespace MagFilter
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
                 if (lines.Length != 2) { return info; }
-                if (!BeginsWith(lines[0], "TimeUtc:")
-                    || !BeginsWith(lines[1], "ProcessId:")
+                string timeUtcLine = lines[0];
+                string processIdLine = lines[1];
+                if (!BeginsWith(timeUtcLine, "TimeUtc:")
+                    || !BeginsWith(processIdLine, "ProcessId:")
                     )
                 {
                     return info;
                 }
                 DateTime parsedTime;
-                if (!DateTime.TryParse(lines[3].Substring("TimeUtc:".Length), out parsedTime))
+                if (!DateTime.TryParse(timeUtcLine.Substring("TimeUtc:".Length), out parsedTime))
                 {
                     return info;
                 }
@@ -94,7 +100,7 @@ namespace MagFilter
                 {
                     return info;
                 }
-                string text = lines[0].Substring("ProcessId".Length);
+                string text = processIdLine.Substring("ProcessId:".Length);
                 int parsedPid = 0;
                 if (!int.TryParse(text, out parsedPid))
                 {
