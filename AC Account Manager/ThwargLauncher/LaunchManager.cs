@@ -17,7 +17,7 @@ namespace ThwargLauncher
             public bool Success;
             public int ProcessId;
         }
-        public delegate void ReportStatusHandler(string status, LaunchSorter.LaunchItem launchItem);
+        public delegate void ReportStatusHandler(string status, LaunchItem launchItem);
         public event ReportStatusHandler ReportStatusEvent;
 
         readonly Dictionary<string, DateTime> _accountLaunchTimes = new Dictionary<string, DateTime>();
@@ -28,7 +28,7 @@ namespace ThwargLauncher
             _launcherLocation = launcherLocation;
 
         }
-        public LaunchManagerResult LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker, LaunchSorter.LaunchItem launchItem)
+        public LaunchManagerResult LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker, LaunchItem launchItem)
         {
             var result = new LaunchManagerResult();
             if (worker.CancellationPending)
@@ -126,7 +126,7 @@ namespace ThwargLauncher
             File.Copy(customPreferencePath, Configuration.UserPreferencesFile, overwrite: true);
         }
 
-        private string GetLaunchItemLauncherLocation(LaunchSorter.LaunchItem item)
+        private string GetLaunchItemLauncherLocation(LaunchItem item)
         {
             if (!string.IsNullOrEmpty(item.CustomLaunchPath))
             {
@@ -137,7 +137,7 @@ namespace ThwargLauncher
                 return _launcherLocation;
             }
         }
-        private string GetNewGameTitle(LaunchSorter.LaunchItem launchItem)
+        private string GetNewGameTitle(LaunchItem launchItem)
         {
             if (launchItem.CharacterSelected == "None")
             {
@@ -156,7 +156,7 @@ namespace ThwargLauncher
                 return pattern;
             }
         }
-        private void ReportStatus(string status, LaunchSorter.LaunchItem launchItem)
+        private void ReportStatus(string status, LaunchItem launchItem)
         {
             if (ReportStatusEvent != null)
             {

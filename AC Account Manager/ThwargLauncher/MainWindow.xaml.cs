@@ -31,8 +31,8 @@ namespace ThwargLauncher
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
 
-        private System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem> _launchConcurrentQueue = 
-            new System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem>();
+        private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
+            new System.Collections.Concurrent.ConcurrentQueue<LaunchItem>();
 
         public MainWindow()
         {
@@ -315,7 +315,7 @@ namespace ThwargLauncher
         }
         private class WorkerArgs
         {
-            public System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem> ConcurrentLaunchQueue;
+            public System.Collections.Concurrent.ConcurrentQueue<LaunchItem> ConcurrentLaunchQueue;
         }
         private void LaunchAllClientsOnAllServersOnThread()
         {
@@ -364,7 +364,7 @@ namespace ThwargLauncher
                 );
         }
 
-        void workerReportProgress(string verb, LaunchSorter.LaunchItem launchItem, int index, int total)
+        void workerReportProgress(string verb, LaunchItem launchItem, int index, int total)
         {
             int pct = (int)(100.0 * index / total);
             string context = string.Format(
@@ -383,10 +383,10 @@ namespace ThwargLauncher
             WorkerArgs args = (e.Argument as WorkerArgs);
             if (args == null) { return; }
             int serverIndex = 0;
-            System.Collections.Concurrent.ConcurrentQueue<LaunchSorter.LaunchItem> globalQueue = args.ConcurrentLaunchQueue;
+            System.Collections.Concurrent.ConcurrentQueue<LaunchItem> globalQueue = args.ConcurrentLaunchQueue;
             int serverTotal = globalQueue.Count;
 
-            LaunchSorter.LaunchItem launchItem = null;
+            LaunchItem launchItem = null;
             while (globalQueue.TryDequeue(out launchItem))
             {
                 LaunchManager mgr = new LaunchManager(_launcherLocation);
@@ -419,12 +419,12 @@ namespace ThwargLauncher
             }
         }
 
-        private void UpdateAccountStatus(bool success, LaunchSorter.LaunchItem launchItem)
+        private void UpdateAccountStatus(bool success, LaunchItem launchItem)
         {
             _viewModel.updateAccountStatus(success, launchItem.ServerName, launchItem.AccountName);
         }
 
-        private void HandleLaunchMgrStatus(string status, LaunchSorter.LaunchItem launchItem, int serverIndex, int serverTotal)
+        private void HandleLaunchMgrStatus(string status, LaunchItem launchItem, int serverIndex, int serverTotal)
         {
             workerReportProgress(status, launchItem, serverIndex, serverTotal);
         }

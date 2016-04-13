@@ -6,19 +6,6 @@ namespace ThwargLauncher
     class LaunchSorter
     {
         /// <summary>
-        /// Info for one game launch
-        /// </summary>
-        public class LaunchItem
-        {
-            public string AccountName;
-            public string Priority;
-            public string Password;
-            public string ServerName;
-            public string CharacterSelected;
-            public string CustomLaunchPath;
-            public string CustomPreferencePath;
-        }
-        /// <summary>
         /// List of launch items sorted for performance
         /// </summary>
         public class LaunchList
