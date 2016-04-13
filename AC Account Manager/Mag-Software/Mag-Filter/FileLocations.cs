@@ -14,12 +14,19 @@ namespace MagFilter
             return PluginPersonalFolder.FullName + @"\" + PluginName + ".xml";
         }
         /// <summary>
-        /// Info from exe 
+        /// Launch file contains instructions (character) name from ThwargLauncher.exe for Mag-Filter.dll
         /// </summary>
-        /// <returns></returns>
-        public static string GetCurrentLaunchFile()
+        public static string GetCurrentLaunchFilePath()
         {
             string path = Path.Combine(AppFolder, PluginName + "_launch.txt");
+            return path;
+        }
+        /// <summary>
+        /// Launch response file contains pid of game, given by Mag-Filter.dll to ThwargLauncher.exe
+        /// </summary>
+        public static string GetCurrentLaunchResponseFilePath()
+        {
+            string path = Path.Combine(AppFolder, PluginName + "_launchResponse.txt");
             return path;
         }
 

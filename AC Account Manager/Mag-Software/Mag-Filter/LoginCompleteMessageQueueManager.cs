@@ -19,7 +19,8 @@ namespace MagFilter
             if (e.Message.Type == 0xF7C8) // Enter Game
             {
                 freshLogin = true;
-                log.WriteLogMsg("TODO - write PID");
+                LaunchControl launchCtl = new LaunchControl();
+                launchCtl.RecordLaunchResponse(DateTime.UtcNow);
             }
 
 			if (freshLogin && e.Message.Type == 0xF7B1 && Convert.ToInt32(e.Message["action"]) == 0xA1) // Character Materialize (Any time is done portalling in, login or portal)

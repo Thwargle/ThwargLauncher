@@ -57,7 +57,9 @@ namespace ThwargLauncher
 
                 // This is analogous to Process.Start or CreateProcess
                 string charFilepath = MagFilter.FileLocations.GetCharacterFilePath();
+                string launchResponseFilepath = MagFilter.FileLocations.GetCurrentLaunchResponseFilePath();
                 DateTime startWait = DateTime.UtcNow;
+                DateTime characterFileWrittenTime = DateTime.MaxValue;
                 DateTime loginTime = DateTime.MaxValue;
                 using (FileSystemWatcher fw = WatchFile(charFilepath))
                 {
@@ -81,10 +83,19 @@ namespace ThwargLauncher
                                 
                             }
                             System.Threading.Thread.Sleep(1000);
-                            FileInfo fileInfo = new FileInfo(charFilepath);
-                            if (loginTime == DateTime.MaxValue)
+                            if (characterFileWrittenTime == DateTime.MaxValue)
                             {
                                 // First we wait until DLL writes character file
+                                FileInfo fileInfo = new FileInfo(charFilepath);
+                                if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
+                                {
+                                    characterFileWrittenTime = DateTime.UtcNow;
+                                }
+                            }
+                            else if (IsValidCharacterName(desiredCharacter) && loginTime == DateTime.MaxValue)
+                            {
+                                // Now we wait until DLL logs in
+                                FileInfo fileInfo = new FileInfo(launchResponseFilepath);
                                 if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
                                 {
                                     loginTime = DateTime.UtcNow;
@@ -93,8 +104,8 @@ namespace ThwargLauncher
                             else
                             {
                                 // Then we give it 6 more seconds to complete login
-                                int loginTimeSeconds = ConfigSettings.GetConfigInt("LauncherGameLoginTime", 6);
-                                if (DateTime.UtcNow >= loginTime.AddSeconds(loginTimeSeconds))
+                                int loginTimeSeconds = ConfigSettings.GetConfigInt("LauncherGameLoginTime", 0);
+                                if (DateTime.UtcNow >= characterFileWrittenTime.AddSeconds(loginTimeSeconds))
                                 {
                                     gameReady = true;
                                 }
@@ -117,6 +128,12 @@ namespace ThwargLauncher
                 }
             }
             return gameReady;
+        }
+        private bool IsValidCharacterName(string characterName)
+        {
+            if (string.IsNullOrEmpty(characterName)) { return false; }
+            if (characterName == "None") { return false; }
+            return true;
         }
         private FileSystemWatcher WatchFile(string filepath)
         {
@@ -141,11 +158,11 @@ namespace ThwargLauncher
                 }
             } while (!launcherProc.WaitForExit(1000));
         }
-        private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter, DateTime timestamp)
+        private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter, DateTime timestampUtc)
         {
             var ctl = new LaunchControl();
             ctl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter,
-                                 timestamp: timestamp);
+                                 timestampUtc: timestampUtc);
         }
     }
 }
