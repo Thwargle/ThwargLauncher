@@ -8,14 +8,18 @@ namespace MagFilter
     class log
     {
         private static object _locker = new object();
-        private static string _logFilepath = null;
+        private static string _logFilepath = "";
 
+        public static string GetLogFilepath()
+        {
+            return _logFilepath;
+        }
         public static void WriteLogMsg(string logText)
         {
             lock (_locker)
             {
                 // Use log path specified in dll.config, or default to Decal Plugin folder with hardcoded name
-                if (_logFilepath == null)
+                if (string.IsNullOrEmpty(_logFilepath))
                 {
                     AssemblySettings settings = new AssemblySettings();
                     _logFilepath = FileLocations.ExpandFilepath(settings["LogFilepath"]);

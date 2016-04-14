@@ -75,8 +75,7 @@ namespace MagFilter
                     if (DateTime.UtcNow - launchInfo.LaunchTime < FiveMinutes)
                     {
                         var ourCharacter = new DefaultFirstCharacter(launchInfo.ServerName, zonename, launchInfo.CharacterName);
-                        log.WriteLogMsg("launcherChooseCharTimer_Tick: LaunchInfo valid");
-                        log.WriteLogMsg("Character: " + launchInfo.CharacterName);
+                        log.WriteLogMsg("Character login requested: " + launchInfo.CharacterName);
 
                         if (ourCharacter.ZoneId == zonename && ourCharacter.Server == server)
                         {
@@ -86,7 +85,11 @@ namespace MagFilter
 
                             if (state == 3)
                             {
-                                loginCharacterTools.LoginCharacter(ourCharacter.CharacterName);
+                                bool ok = loginCharacterTools.LoginCharacter(ourCharacter.CharacterName);
+                                if (ok)
+                                {
+                                    Heartbeat.RecordCharacterName(ourCharacter.CharacterName);
+                                }
                             }
                         }
                     }

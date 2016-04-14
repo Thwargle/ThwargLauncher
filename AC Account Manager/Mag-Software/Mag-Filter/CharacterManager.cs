@@ -52,6 +52,11 @@ namespace MagFilter
                 return;
             }
             log.WriteLogMsg("LaunchInfo valid");
+
+            // Pass info to Heartbeat
+            Heartbeat.RecordServer(launchInfo.ServerName);
+            Heartbeat.RecordAccount(launchInfo.AccountName);
+
             string key = GetKey(server: server, accountName: launchInfo.AccountName);
             var clist = new ServerCharacterListByAccount()
                 {
