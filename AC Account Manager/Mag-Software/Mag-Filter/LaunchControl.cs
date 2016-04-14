@@ -30,7 +30,11 @@ namespace MagFilter
             var info = new LaunchInfo();
             string filepath = FileLocations.GetCurrentLaunchFilePath();
 
-            if (!File.Exists(filepath)) { return info; }
+            if (!File.Exists(filepath))
+            {
+                log.WriteLogMsg(string.Format("No launch file found: '{0}'", filepath));
+                return info;
+            }
             using (var file = new StreamReader(filepath))
             {
                 string contents = file.ReadToEnd();
@@ -47,17 +51,20 @@ namespace MagFilter
                     || !BeginsWith(characterNameLine, "CharacterName:")
                     )
                 {
+                    log.WriteLogMsg("Launch file not parsed successfully");
                     return info;
                 }
                 DateTime parsedTime;
                 if (!DateTime.TryParse(timeUtcLine.Substring("TimeUtc:".Length), out parsedTime))
                 {
+                    log.WriteLogMsg("Launch file TimeUtc not valid");
                     return info;
                 }
                 info.LaunchTime = parsedTime;
                 TimeSpan maxLatency = new TimeSpan(0, 0, 5, 0);
                 if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
                 {
+                    log.WriteLogMsg("Launch file TimeUtc too old");
                     return info;
                 }
                 info.ServerName = serverNameLine.Substring("ServerName:".Length);

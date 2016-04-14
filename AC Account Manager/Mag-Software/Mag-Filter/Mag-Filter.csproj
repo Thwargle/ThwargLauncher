@@ -74,6 +74,7 @@
     <Compile Include="..\Shared\User32.cs">
       <Link>Shared\User32.cs</Link>
     </Compile>
+    <Compile Include="AssemblySettings.cs" />
     <Compile Include="AutoRetryLogin.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="CharacterManager.cs" />

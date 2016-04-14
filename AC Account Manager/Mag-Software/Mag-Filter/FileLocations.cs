@@ -51,6 +51,13 @@ namespace MagFilter
             return profilesFolder;
         }
 
+        public static string GetRunningProcessDllToExeFilepath(int processId)
+        {
+            string filename = string.Format("game_{0}.txt", System.Diagnostics.Process.GetCurrentProcess().Id);
+            string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
+            return filepath;
+        }
+
         public static string AppFolder
         {
             get
@@ -69,7 +76,6 @@ namespace MagFilter
             }
         }
 
-
         internal static DirectoryInfo PluginPersonalFolder
         {
             get
@@ -86,6 +92,20 @@ namespace MagFilter
 
                 return pluginPersonalFolder;
             }
+        }
+
+        public static string ExpandFilepath(string filepath)
+        {
+            filepath = Environment.ExpandEnvironmentVariables(filepath);
+            string pid = System.Diagnostics.Process.GetCurrentProcess().Id.ToString();
+            filepath = filepath.Replace("%PID%", pid);
+            return filepath;
+        }
+
+        public static void CreateAnyNeededFolders(string filepath)
+        {
+            string folder = new FileInfo(filepath).Directory.FullName;
+            Directory.CreateDirectory(folder);
         }
     }
 }

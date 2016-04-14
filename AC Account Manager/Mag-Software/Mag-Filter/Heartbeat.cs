@@ -13,11 +13,12 @@ namespace MagFilter
             theHeartbeat.StartBeating();
         }
         private System.Windows.Forms.Timer _timer = null;
-        private string _filepath;
+        private string _gameToLauncherFilepath;
+        private string _logFilepath;
         private void StartBeating()
         {
-            string filename = string.Format("game_{0}.txt", System.Diagnostics.Process.GetCurrentProcess().Id);
-            _filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
+            int dllProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
+            _gameToLauncherFilepath = FileLocations.GetRunningProcessDllToExeFilepath(dllProcessId);
 
             int intervalMilliseconds = 3000;
             _timer = new System.Windows.Forms.Timer();
@@ -29,10 +30,11 @@ namespace MagFilter
 
         void _timer_Tick(object sender, EventArgs e)
         {
-            using (var file = new System.IO.StreamWriter(_filepath, append: false))
+            using (var file = new System.IO.StreamWriter(_gameToLauncherFilepath, append: false))
             {
                 TimeSpan span = DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime;
                 file.WriteLine("UptimeSeconds:{0}", (int)span.TotalSeconds);
+                file.WriteLine("logFilepath:{0}", _logFilepath);
             }
         }
     }
