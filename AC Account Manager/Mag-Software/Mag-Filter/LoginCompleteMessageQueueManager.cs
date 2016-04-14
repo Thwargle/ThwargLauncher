@@ -35,6 +35,19 @@ namespace MagFilter
 			}
 		}
 
+        private void DebugMessage(NetworkMessageEventArgs e)
+        {
+            bool dbg = true;
+            for (int i = 0; i < e.Message.Count; ++i)
+            {
+                object oval = e.Message[i];
+                if (oval != null)
+                {
+                    string sval = oval.ToString();
+                }
+            }
+        }
+
 		void Current_RenderFrame(object sender, EventArgs e)
 		{
 			try
