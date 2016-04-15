@@ -41,6 +41,19 @@ namespace MagFilter
             _timer.Tick += _timer_Tick;
             _timer.Enabled = true;
             _timer.Start();
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+        }
+
+        void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            lock (_locker)
+            {
+                if (_timer != null)
+                {
+                    log.WriteLogMsg("process exist");
+                    _timer.Stop();
+                }
+            }
         }
 
         void _timer_Tick(object sender, EventArgs e)
