@@ -31,6 +31,7 @@ namespace ThwargLauncher
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
         private GameMonitor _gameMonitor = new GameMonitor();
+        private UiGameMonitorBridge _uiGameMonitorBridge = null;
 
         private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
             new System.Collections.Concurrent.ConcurrentQueue<LaunchItem>();
@@ -82,6 +83,8 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringGame()
         {
+            _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
+            _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
             /*
             try
@@ -98,6 +101,7 @@ namespace ThwargLauncher
         }
         private void EndMonitoringGame()
         {
+            _uiGameMonitorBridge.Stop();
             _gameMonitor.Stop();
             /*
             try

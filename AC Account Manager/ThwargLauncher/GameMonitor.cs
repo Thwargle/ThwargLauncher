@@ -17,6 +17,11 @@ namespace ThwargLauncher
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
+
+        public enum GameChangeType { StartGame, EndGame, ChangeGame };
+        public delegate void GameChangeHandler(GameChangeType changeType, GameStatus gameStatus);
+        public event GameChangeHandler GameChangeEvent;
+
         public void Start() // main thread
         {
             int intervalMilliseconds = 3000;
@@ -80,17 +85,20 @@ namespace ThwargLauncher
                         gameStatus.AccountName = response.Status.AccountName;
                         gameStatus.ServerName = response.Status.ServerName;
                         gameStatus.CharacterName = response.Status.CharacterName;
+                        NotifyGameChange(GameChangeType.StartGame, gameStatus);
                     }
                     if (gameStatus.AccountName != response.Status.AccountName
                         || gameStatus.ServerName != response.Status.ServerName)
                     {
-                        // TODO - ?
                         Log.WriteError(string.Format("Account/Server change in heartbeat file!: {0}", heartbeatFile));
+                        gameStatus.AccountName = response.Status.AccountName;
+                        gameStatus.ServerName = response.Status.ServerName;
+                        NotifyGameChange(GameChangeType.ChangeGame, gameStatus);
                     }
                     if (gameStatus.CharacterName != response.Status.CharacterName)
                     {
-                        Log.WriteError(string.Format("Character change in heartbeat file: {0}", heartbeatFile));
-                        // TODO - event trigger
+                        gameStatus.CharacterName = response.Status.CharacterName;
+                        NotifyGameChange(GameChangeType.ChangeGame, gameStatus);
                     }
                 }
                 else
@@ -117,8 +125,9 @@ namespace ThwargLauncher
                         // obsolete heartbeat file
                         if (_statusMap.ContainsKey(processId))
                         {
+                            var gameStatus = _statusMap[processId];
                             _statusMap.Remove(processId);
-                            // TODO - event trigger
+                            NotifyGameChange(GameChangeType.EndGame, gameStatus);
                         }
                         processId = 0;
                     }
@@ -138,7 +147,7 @@ namespace ThwargLauncher
                         string heartbeatFile = MagFilter.FileLocations.GetRunningProcessDllToExeFilepath(processId);
                         gameStatus.ProcessStatusFilepath = heartbeatFile;
                         _statusMap.Add(processId, gameStatus);
-                        // TODO - event trigger
+                        // Do not notify yet because we don't have the gameStatus populated yet
                     }
                 }
             }
@@ -147,6 +156,13 @@ namespace ThwargLauncher
                 File.Delete(filepath);
             }
             _lastCleanupUtc = DateTime.UtcNow;
+        }
+        private void NotifyGameChange(GameChangeType changeType, GameStatus gameStatus)
+        {
+            if (GameChangeEvent != null)
+            {
+                GameChangeEvent(changeType, gameStatus);
+            }
         }
     }
 }
