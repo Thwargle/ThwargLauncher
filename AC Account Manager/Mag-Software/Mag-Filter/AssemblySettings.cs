@@ -104,16 +104,19 @@ public class AssemblySettings
             const string nodeName = "assemblySettings";
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(new XmlTextReader(cfgFile));
-            
-            XmlNodeList nodes = doc.GetElementsByTagName(nodeName);
-
-            foreach( XmlNode node in nodes )
+            if (System.IO.File.Exists(cfgFile))
             {
-                if( node.LocalName == nodeName )
+                doc.Load(new XmlTextReader(cfgFile));
+
+                XmlNodeList nodes = doc.GetElementsByTagName(nodeName);
+
+                foreach (XmlNode node in nodes)
                 {
-                    DictionarySectionHandler handler = new DictionarySectionHandler();
-                    return (IDictionary)handler.Create(null, null, node);
+                    if (node.LocalName == nodeName)
+                    {
+                        DictionarySectionHandler handler = new DictionarySectionHandler();
+                        return (IDictionary)handler.Create(null, null, node);
+                    }
                 }
             }
         }
