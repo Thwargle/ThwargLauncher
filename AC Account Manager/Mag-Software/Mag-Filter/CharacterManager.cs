@@ -45,7 +45,7 @@ namespace MagFilter
 
         public void WriteCharacters(string server, string zonename, List<Character> characters)
         {
-            var launchInfo = (new LaunchControl()).GetLaunchInfo();
+            var launchInfo = LaunchControl.GetLaunchInfo();
             if (!launchInfo.IsValid)
             {
                 log.WriteLogMsg("LaunchInfo not valid");

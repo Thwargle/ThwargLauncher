@@ -53,9 +53,24 @@ namespace MagFilter
 
         public static string GetRunningProcessDllToExeFilepath(int processId)
         {
-            string filename = string.Format("game_{0}.txt", System.Diagnostics.Process.GetCurrentProcess().Id);
+            string filename = string.Format("game_{0}.txt", processId);
             string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
             return filepath;
+        }
+        // returns 0 for failure to parse
+        public static int GetProcessIdFromProcessDllToExeFilepath(string filename)
+        {
+            if (filename.Length < 10) { return 0; }
+            if (!filename.StartsWith("game_", StringComparison.CurrentCultureIgnoreCase)) { return 0; }
+            if (!filename.EndsWith(".txt", StringComparison.CurrentCultureIgnoreCase)) { return 0; }
+            int processId = 0;
+            int i1 = "game_".Length;
+            int len1 = filename.Length - "game_".Length - ".txt".Length;
+            if (!int.TryParse(filename.Substring(i1, len1), out processId))
+            {
+                return 0;
+            }
+            return processId;
         }
 
         public static string AppFolder

@@ -19,7 +19,7 @@ namespace MagFilter
             if (e.Message.Type == 0xF7C8) // Enter Game
             {
                 freshLogin = true;
-                (new LaunchControl()).RecordLaunchResponse(DateTime.UtcNow);
+                LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
                 Heartbeat.LaunchHeartbeat();
             }
 

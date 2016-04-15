@@ -22,10 +22,30 @@ namespace MagFilter
             public DateTime ResponseTime;
             public int ProcessId;
         }
+        public class HeartbeatResponse
+        {
+            public bool IsValid;
+            public HeartbeatGameStatus Status = new HeartbeatGameStatus();
+            public string LogFilepath;
+        }
+        /// <summary>
+        /// Called by ThwargLauncher
+        /// </summary>
+        public static void RecordLaunchInfo(string serverName, string accountName, string characterName, DateTime timestampUtc)
+        {
+            string filepath = FileLocations.GetCurrentLaunchFilePath();
+            using (var file = new StreamWriter(filepath, append: false))
+            {
+                file.WriteLine("TimeUtc:" + timestampUtc);
+                file.WriteLine("ServerName:" + serverName);
+                file.WriteLine("AccountName:" + accountName);
+                file.WriteLine("CharacterName:" + characterName);
+            }
+        }
         /// <summary>
         /// Called by Mag-Filter
         /// </summary>
-        public LaunchInfo GetLaunchInfo()
+        internal static LaunchInfo GetLaunchInfo()
         {
             var info = new LaunchInfo();
             string filepath = FileLocations.GetCurrentLaunchFilePath();
@@ -41,35 +61,45 @@ namespace MagFilter
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
                 if (lines.Length != 4) { return info; }
-                string timeUtcLine = lines[0];
-                string serverNameLine = lines[1];
-                string accountNameLine = lines[2];
-                string characterNameLine = lines[3];
-                if (!BeginsWith(timeUtcLine, "TimeUtc:")
-                    || !BeginsWith(serverNameLine, "ServerName:")
-                    || !BeginsWith(accountNameLine, "AccountName:")
-                    || !BeginsWith(characterNameLine, "CharacterName:")
-                    )
+                int index = 0;
+
+                // Parse TimeUtc & validate
                 {
-                    log.WriteLogMsg("Launch file not parsed successfully");
-                    return info;
+                    var lrx = ParseDateTimeSetting(lines[index], "TimeUtc:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file TimeUtc not parsed successfully"); return info; }
+                    info.LaunchTime = lrx.Value;
                 }
-                DateTime parsedTime;
-                if (!DateTime.TryParse(timeUtcLine.Substring("TimeUtc:".Length), out parsedTime))
-                {
-                    log.WriteLogMsg("Launch file TimeUtc not valid");
-                    return info;
-                }
-                info.LaunchTime = parsedTime;
                 TimeSpan maxLatency = new TimeSpan(0, 0, 5, 0);
                 if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
                 {
                     log.WriteLogMsg("Launch file TimeUtc too old");
                     return info;
                 }
-                info.ServerName = serverNameLine.Substring("ServerName:".Length);
-                info.AccountName = accountNameLine.Substring("AccountName:".Length);
-                info.CharacterName = characterNameLine.Substring("CharacterName:".Length);
+
+                // Parse ServerName
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "ServerName:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file ServerName not parsed successfully"); return info; }
+                    info.ServerName = lrx.Value;
+                }
+
+                // Parse AccountName
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "AccountName:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file AccountName not parsed successfully"); return info; }
+                    info.AccountName = lrx.Value;
+                }
+
+                // Parse CharacterName
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "CharacterName:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file CharacterName not parsed successfully"); return info; }
+                    info.CharacterName = lrx.Value;
+                }
+
                 info.IsValid = true;
                 return info;
             }
@@ -77,7 +107,20 @@ namespace MagFilter
         /// <summary>
         /// Called by Mag-Filter
         /// </summary>
-        public LaunchResponse GetLaunchResponse(TimeSpan maxLatency)
+        internal static void RecordLaunchResponse(DateTime timestampUtc)
+        {
+            string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
+            using (var file = new StreamWriter(filepath, append: false))
+            {
+                int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
+                file.WriteLine("TimeUtc:" + timestampUtc);
+                file.WriteLine("ProcessId:{0}", pid);
+            }
+        }
+        /// <summary>
+        /// Called by ThwargLauncher
+        /// </summary>
+        public static LaunchResponse GetLaunchResponse(TimeSpan maxLatency)
         {
             var info = new LaunchResponse();
             string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
@@ -89,69 +132,148 @@ namespace MagFilter
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
                 if (lines.Length != 2) { return info; }
-                string timeUtcLine = lines[0];
-                string processIdLine = lines[1];
-                if (!BeginsWith(timeUtcLine, "TimeUtc:")
-                    || !BeginsWith(processIdLine, "ProcessId:")
-                    )
-                {
-                    return info;
-                }
-                DateTime parsedTime;
-                if (!DateTime.TryParse(timeUtcLine.Substring("TimeUtc:".Length), out parsedTime))
-                {
-                    return info;
-                }
-                info.ResponseTime = parsedTime;
+                int index = 0;
+
+                // Parse TimeUtc & validate
+                var lr1 = ParseDateTimeSetting(lines[index], "TimeUtc:");
+                if (!lr1.IsValid) { return info; }
+                info.ResponseTime = lr1.Value;
                 if (DateTime.UtcNow - info.ResponseTime >= maxLatency)
                 {
                     return info;
                 }
-                string text = processIdLine.Substring("ProcessId:".Length);
-                int parsedPid = 0;
-                if (!int.TryParse(text, out parsedPid))
-                {
-                    return info;
-                }
-                info.ProcessId = parsedPid;
+
+                // Parse ProcessId
+                ++index;
+                var lr2 = ParseIntSetting(lines[index], "ProcessId:");
+                if (!lr2.IsValid) { return info; }
+                info.ProcessId = lr2.Value;
+
                 info.IsValid = true;
             }
             return info;
+        }
+        internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status)
+        {
+            using (var file = new System.IO.StreamWriter(filepath, append: false))
+            {
+                TimeSpan span = DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime;
+                file.WriteLine("UptimeSeconds:{0}", (int)span.TotalSeconds);
+                file.WriteLine("ServerName:{0}", status.ServerName);
+                file.WriteLine("AccountName:{0}", status.AccountName);
+                file.WriteLine("CharacterName:{0}", status.CharacterName);
+                file.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
+            }
+        }
+        public static HeartbeatResponse GetHeartbeatStatus(string filepath)
+        {
+            var info = new HeartbeatResponse();
+            if (string.IsNullOrEmpty(filepath)) { return info; }
+            if (!File.Exists(filepath)) { return info; }
+            using (var file = new StreamReader(filepath))
+            {
+                string contents = file.ReadToEnd();
+                string[] stringSeps = new string[] { "\r\n" };
+                string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
+                if (lines.Length != 5) { return info; }
+                int index = 0;
+
+                // Parse UptimeSeconds & validate
+                {
+                    var lrx = ParseIntSetting(lines[index], "UptimeSeconds:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file UptimeSeconds not parsed successfully"); return info; }
+                    info.Status.UptimeSeconds = lrx.Value;
+                }
+
+                // Parse ServerName
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "ServerName:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file ServerName not parsed successfully"); return info; }
+                    info.Status.ServerName = lrx.Value;
+                }
+
+                // Parse AccountName
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "AccountName:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file AccountName not parsed successfully"); return info; }
+                    info.Status.AccountName = lrx.Value;
+                }
+
+                // Parse CharacterName
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "CharacterName:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file CharacterName not parsed successfully"); return info; }
+                    info.Status.CharacterName = lrx.Value;
+                }
+
+                // Parse LogFilepath
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "LogFilepath:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file LogFilepath not parsed successfully"); return info; }
+                    info.LogFilepath = lrx.Value;
+                }
+
+                info.IsValid = true;
+            }
+            return info;
+        }
+        private class StringSetting { public bool IsValid; public string Value; }
+        private static StringSetting ParseStringSetting(string line, string prefix)
+        {
+            var result = new StringSetting();
+            if (BeginsWith(line, prefix))
+            {
+                string text = line.Substring(prefix.Length);
+                result.IsValid = true;
+                result.Value = text;
+            }
+            return result;
+        }
+        private class IntSetting { public bool IsValid; public int Value; }
+        private static IntSetting ParseIntSetting(string line, string prefix)
+        {
+            var result = new IntSetting();
+            var strret = ParseStringSetting(line, prefix);
+            if (strret.IsValid)
+            {
+                string text = strret.Value;
+                int value = 0;
+                if (int.TryParse(text, out value))
+                {
+                    result.IsValid = true;
+                    result.Value = value;
+                }
+            }
+            return result;
+        }
+        private class DateTimeSetting { public bool IsValid; public DateTime Value; }
+        private static DateTimeSetting ParseDateTimeSetting(string line, string prefix)
+        {
+            var result = new DateTimeSetting();
+            var strret = ParseStringSetting(line, prefix);
+            if (strret.IsValid)
+            {
+                string text = strret.Value;
+                DateTime value = DateTime.MinValue;
+                if (DateTime.TryParse(text, out value))
+                {
+                    result.IsValid = true;
+                    result.Value = value;
+                }
+            }
+            return result;
         }
         /// <summary>
         /// Line starts with specified prefix and has at least one character beyond it
         ///  (primarily used to Substring(prefix.Length) will not fail
         /// </summary>
-        private bool BeginsWith(string line, string prefix)
+        private static bool BeginsWith(string line, string prefix)
         {
             return line != null && line.StartsWith(prefix) && line.Length > prefix.Length;
-        }
-        /// <summary>
-        /// Called by ThwargLauncher
-        /// </summary>
-        public void RecordLaunchInfo(string serverName, string accountName, string characterName, DateTime timestampUtc)
-        {
-            string filepath = FileLocations.GetCurrentLaunchFilePath();
-            using (var file = new StreamWriter(filepath, append: false))
-            {
-                file.WriteLine("TimeUtc:" + timestampUtc);
-                file.WriteLine("ServerName:" + serverName);
-                file.WriteLine("AccountName:" + accountName);
-                file.WriteLine("CharacterName:" + characterName);
-            }
-        }
-        /// <summary>
-        /// Called by Mag-Filter dll to pass pid to ThwargLauncher.exe
-        /// </summary>
-        public void RecordLaunchResponse(DateTime timestampUtc)
-        {
-            string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
-            using (var file = new StreamWriter(filepath, append: false))
-            {
-                int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
-                file.WriteLine("TimeUtc:" + timestampUtc);
-                file.WriteLine("ProcessId:{0}", pid);
-            }
         }
     }
 }

@@ -9,26 +9,25 @@ namespace MagFilter
         private static object _locker = new object();
         private static Heartbeat theHeartbeat = new Heartbeat();
 
+        private HeartbeatGameStatus _status = new HeartbeatGameStatus();
+
         public static void RecordServer(string ServerName)
         {
-            theHeartbeat._serverName = ServerName;
+            theHeartbeat._status.ServerName = ServerName;
         }
         public static void RecordAccount(string AccountName)
         {
-            theHeartbeat._accountName = AccountName;
+            theHeartbeat._status.AccountName = AccountName;
         }
         public static void RecordCharacterName(string CharacterName)
         {
-            theHeartbeat._characterName = CharacterName;
+            theHeartbeat._status.CharacterName = CharacterName;
         }
         public static void LaunchHeartbeat()
         {
             theHeartbeat.StartBeating();
         }
         private System.Windows.Forms.Timer _timer = null;
-        private string _serverName;
-        private string _accountName;
-        private string _characterName;
         private string _gameToLauncherFilepath;
         private void StartBeating()
         {
@@ -55,20 +54,11 @@ namespace MagFilter
                 }
             }
         }
-
         void _timer_Tick(object sender, EventArgs e)
         {
             lock (_locker)
             {
-                using (var file = new System.IO.StreamWriter(_gameToLauncherFilepath, append: false))
-                {
-                    TimeSpan span = DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime;
-                    file.WriteLine("UptimeSeconds:{0}", (int)span.TotalSeconds);
-                    file.WriteLine("ServerName:{0}", _serverName);
-                    file.WriteLine("AccountName:{0}", _accountName);
-                    file.WriteLine("CharacterName:{0}", _characterName);
-                    file.WriteLine("logFilepath:{0}", log.GetLogFilepath());
-                }
+                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
         }
     }

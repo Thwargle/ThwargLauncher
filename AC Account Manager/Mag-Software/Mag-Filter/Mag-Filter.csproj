@@ -79,6 +79,7 @@
     <Compile Include="Character.cs" />
     <Compile Include="CharacterManager.cs" />
     <Compile Include="Heartbeat.cs" />
+    <Compile Include="HeartbeatGameStatus.cs" />
     <Compile Include="LauncherChooseCharacterManager.cs" />
     <Compile Include="DefaultFirstCharacter.cs" />
     <Compile Include="DefaultFirstCharacterManager.cs" />

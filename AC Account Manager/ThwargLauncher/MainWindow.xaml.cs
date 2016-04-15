@@ -30,6 +30,7 @@ namespace ThwargLauncher
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel = new MainWindowViewModel();
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
+        private GameMonitor _gameMonitor = new GameMonitor();
 
         private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
             new System.Collections.Concurrent.ConcurrentQueue<LaunchItem>();
@@ -72,15 +73,17 @@ namespace ThwargLauncher
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             //TODO: Implement Web Service Stuff
-            //BeginWebService();
+            BeginMonitoringGame();
             this.Show();
             if (Properties.Settings.Default.ShowHelpAtStart)
             {
                 DisplayHelpWindow();
             }
         }
-        private void BeginWebService()
+        private void BeginMonitoringGame()
         {
+            _gameMonitor.Start();
+            /*
             try
             {
                 _webManager.Listen();
@@ -91,9 +94,12 @@ namespace ThwargLauncher
                 ShowErrorMessage("Failed to start web service");
 
             }
+             * */
         }
-        private void EndWebService()
+        private void EndMonitoringGame()
         {
+            _gameMonitor.Stop();
+            /*
             try
             {
                 _webManager.StopListening();
@@ -102,6 +108,7 @@ namespace ThwargLauncher
             {
                 Log.WriteError("Exception stopping web service: " + exc.Message);
             }
+             * */
         }
 
         void _viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -346,6 +353,7 @@ namespace ThwargLauncher
             {
                 _launchConcurrentQueue.Enqueue(item);
             }
+            _gameMonitor.QueueReread();
         }
         private void EnableInterface(bool enable)
         {
@@ -477,8 +485,7 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //TODO: Implement Web Service Stuff
-            EndWebService();
+            EndMonitoringGame();
             SaveWindowSettings();
             SaveCurrentProfile();
 

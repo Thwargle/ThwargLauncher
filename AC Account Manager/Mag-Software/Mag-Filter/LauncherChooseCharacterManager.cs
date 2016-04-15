@@ -70,7 +70,7 @@ namespace MagFilter
 			try
 			{
                 // Override - instead of using the plugin xml, use the launch file
-                var launchInfo = (new LaunchControl()).GetLaunchInfo();
+                var launchInfo = LaunchControl.GetLaunchInfo();
                 if (launchInfo.IsValid)
                 {
                     TimeSpan FiveMinutes = new TimeSpan(0, 0, 5, 0);

@@ -103,9 +103,8 @@ namespace ThwargLauncher
                             if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
                             {
                                 loginTime = DateTime.UtcNow;
-                                LaunchControl launchCtl = new LaunchControl();
                                 TimeSpan maxLatency = DateTime.UtcNow - startWait;
-                                launchResponse = launchCtl.GetLaunchResponse(maxLatency);
+                                launchResponse = LaunchControl.GetLaunchResponse(maxLatency);
                             }
                         }
                         else
@@ -171,8 +170,7 @@ namespace ThwargLauncher
         }
         private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter, DateTime timestampUtc)
         {
-            var ctl = new LaunchControl();
-            ctl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter,
+            LaunchControl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter,
                                  timestampUtc: timestampUtc);
         }
     }
