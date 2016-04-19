@@ -174,8 +174,8 @@ namespace ThwargLauncher
                                  timestampUtc: timestampUtc);
 
             // TODO
-            // var x = LaunchControl.DebugGetLaunchInfo();
-            // and verify x
+            var x = LaunchControl.DebugGetLaunchInfo();
+            // verify x
         }
     }
 }

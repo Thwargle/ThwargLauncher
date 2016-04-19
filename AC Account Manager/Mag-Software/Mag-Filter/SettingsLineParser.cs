@@ -11,10 +11,12 @@ namespace MagFilter
         {
             if (name == null) throw new ArgumentNullException("name");
             Name = name;
+            Parameters = new Dictionary<string, string>();
         }
 
         public string Name { get; private set; }
         public IDictionary<string, string> Parameters { get; set; }
+        public string SingleParameter { get; set; }
         public string GetStringParam(string key)
         {
             if (!this.Parameters.ContainsKey(key)) { throw new Exception(string.Format("Missing string param: '{0}'", key)); }
@@ -32,12 +34,24 @@ namespace MagFilter
         public Setting ExtractLine(string line)
         {
             var pos = line.IndexOfAny(new[] { '=', ':' });
-            if (pos == -1 || line[pos] == ':')
+            if (pos == -1)
+            {
                 throw new FormatException("Expected an equals sign and that it's positioned before the first colon");
-
+            }
             var setting = new Setting(line.Substring(0, pos));
-            setting.Parameters = ExtractParameters(line.Substring(pos + 1));
-
+            string value = "";
+            if (pos + 1 < line.Length)
+            {
+                value = line.Substring(pos + 1);
+                if (line[pos] == ':')
+                {
+                    setting.SingleParameter = value;
+                }
+                else
+                {
+                    setting.Parameters = ExtractParameters(value);
+                }
+            }
             return setting;
         }
 
