@@ -50,30 +50,37 @@ namespace MagFilter
         internal static LaunchInfo GetLaunchInfo()
         {
             var info = new LaunchInfo();
-            string filepath = FileLocations.GetCurrentLaunchFilePath();
-
-            if (!File.Exists(filepath))
+            try
             {
-                log.WriteLogMsg(string.Format("No launch file found: '{0}'", filepath));
-                return info;
-            }
-            var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                string filepath = FileLocations.GetCurrentLaunchFilePath();
 
-            info.LaunchTime = settings.GetValue("Timestamp").GetDateParam("TimeUtc");
-            TimeSpan maxLatency = new TimeSpan(0, 0, 0, 30); // 30 seconds max latency from exe call to game launch
-            if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
+                if (!File.Exists(filepath))
+                {
+                    log.WriteLogMsg(string.Format("No launch file found: '{0}'", filepath));
+                    return info;
+                }
+                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+
+                info.LaunchTime = settings.GetValue("Timestamp").GetDateParam("TimeUtc");
+                TimeSpan maxLatency = new TimeSpan(0, 0, 0, 30); // 30 seconds max latency from exe call to game launch
+                if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
+                {
+                    log.WriteLogMsg(string.Format("DateTime.UtcNow-'{0}', info.LaunchTime='{1}', maxLatency='{2}'", DateTime.UtcNow, info.LaunchTime, maxLatency));
+                    log.WriteLogMsg("Launch file TimeUtc too old");
+                    return info;
+                }
+
+                var gameInstance = settings.GetValue("GameInstance");
+                info.ServerName = gameInstance.GetStringParam("ServerName");
+                info.AccountName = gameInstance.GetStringParam("AccountName");
+                info.CharacterName = gameInstance.GetStringParam("CharacterName");
+
+                info.IsValid = true;
+            }
+            catch (Exception exc)
             {
-                log.WriteLogMsg(string.Format("DateTime.UtcNow-'{0}', info.LaunchTime='{1}', maxLatency='{2}'", DateTime.UtcNow, info.LaunchTime, maxLatency));
-                log.WriteLogMsg("Launch file TimeUtc too old");
-                return info;
+                log.WriteLogMsg(string.Format("GetLaunchInfo exception: {0}", exc));
             }
-
-            var gameInstance = settings.GetValue("GameInstance");
-            info.ServerName = gameInstance.GetStringParam("ServerName");
-            info.AccountName = gameInstance.GetStringParam("AccountName");
-            info.CharacterName = gameInstance.GetStringParam("CharacterName");
-
-            info.IsValid = true;
             return info;
         }
         /// <summary>
