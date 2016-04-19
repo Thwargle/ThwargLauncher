@@ -73,8 +73,6 @@ namespace MagFilter
             info.AccountName = gameInstance.GetStringParam("AccountName");
             info.CharacterName = gameInstance.GetStringParam("CharacterName");
 
-            log.WriteLogMsg(string.Format("ServerName='{0}', CharacterName='{1}'", info.ServerName, info.CharacterName));
-
             info.IsValid = true;
             return info;
         }
