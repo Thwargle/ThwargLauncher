@@ -27,6 +27,8 @@ namespace MagFilter
 		LoginNextCharacterManager loginNextCharacterManager;
 
         private string PluginName { get { return FileLocations.PluginName; } }
+
+        public void ExternalStartup() { Startup(); } // for game emulator
 		protected override void Startup()
 		{
             Debug.Init(FileLocations.PluginPersonalFolder.FullName + @"\Exceptions.txt", PluginName);
@@ -55,7 +57,8 @@ namespace MagFilter
 
         }
 
-		protected override void Shutdown()
+        public void ExternalShutdown() { Shutdown(); } // for game emulator
+        protected override void Shutdown()
 		{
 			ClientDispatch -= new EventHandler<NetworkMessageEventArgs>(FilterCore_ClientDispatch);
 			ServerDispatch -= new EventHandler<NetworkMessageEventArgs>(FilterCore_ServerDispatch);
@@ -64,6 +67,10 @@ namespace MagFilter
 			CommandLineText -= new EventHandler<ChatParserInterceptEventArgs>(FilterCore_CommandLineText);
 		}
 
+        public void CallFilterCoreClientDispatch(object sender, NetworkMessageEventArgs e) // for game emulator
+        {
+            FilterCore_ClientDispatch(sender, e);
+        }
 		void FilterCore_ClientDispatch(object sender, NetworkMessageEventArgs e)
 		{
 			try
