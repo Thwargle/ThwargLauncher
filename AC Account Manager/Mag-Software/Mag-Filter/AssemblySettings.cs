@@ -100,7 +100,9 @@ public class AssemblySettings
         //
         try
         {
-            string cfgFile = asm.CodeBase + ".config";
+            string cfgUncPath = asm.CodeBase + ".config";
+            string cfgFile = new Uri(cfgUncPath).LocalPath; // convert file:// with more forward slashes into a proper path
+
             const string nodeName = "assemblySettings";
 
             XmlDocument doc = new XmlDocument();

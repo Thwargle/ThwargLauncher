@@ -172,6 +172,10 @@ namespace ThwargLauncher
         {
             LaunchControl.RecordLaunchInfo(serverName: serverName, accountName: accountName, characterName: desiredCharacter,
                                  timestampUtc: timestampUtc);
+
+            // TODO
+            // var x = LaunchControl.DebugGetLaunchInfo();
+            // and verify x
         }
     }
 }

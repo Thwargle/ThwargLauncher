@@ -36,11 +36,13 @@ namespace MagFilter
             string filepath = FileLocations.GetCurrentLaunchFilePath();
             using (var file = new StreamWriter(filepath, append: false))
             {
-                file.WriteLine("TimeUtc:" + timestampUtc);
-                file.WriteLine("ServerName:" + serverName);
-                file.WriteLine("AccountName:" + accountName);
-                file.WriteLine("CharacterName:" + characterName);
+                file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc); // Format :O converted back out of UTC
+                file.WriteLine("GameInstance=ServerName:'{0}' AccountName:'{1}' CharacterName:'{2}'", serverName, accountName, characterName);
             }
+        }
+        public static LaunchInfo DebugGetLaunchInfo()
+        {
+            return GetLaunchInfo();
         }
         /// <summary>
         /// Called by Mag-Filter
@@ -55,54 +57,26 @@ namespace MagFilter
                 log.WriteLogMsg(string.Format("No launch file found: '{0}'", filepath));
                 return info;
             }
-            using (var file = new StreamReader(filepath))
+            var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+
+            info.LaunchTime = settings.GetValue("Timestamp").GetDateParam("TimeUtc");
+            TimeSpan maxLatency = new TimeSpan(0, 0, 5, 0);
+            if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
             {
-                string contents = file.ReadToEnd();
-                string[] stringSeps = new string[] { "\r\n" };
-                string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length != 4) { return info; }
-                int index = 0;
-
-                // Parse TimeUtc & validate
-                {
-                    var lrx = ParseDateTimeSetting(lines[index], "TimeUtc:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file TimeUtc not parsed successfully"); return info; }
-                    info.LaunchTime = lrx.Value;
-                }
-                TimeSpan maxLatency = new TimeSpan(0, 0, 5, 0);
-                if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
-                {
-                    log.WriteLogMsg("Launch file TimeUtc too old");
-                    return info;
-                }
-
-                // Parse ServerName
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "ServerName:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file ServerName not parsed successfully"); return info; }
-                    info.ServerName = lrx.Value;
-                }
-
-                // Parse AccountName
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "AccountName:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file AccountName not parsed successfully"); return info; }
-                    info.AccountName = lrx.Value;
-                }
-
-                // Parse CharacterName
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "CharacterName:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Launch file CharacterName not parsed successfully"); return info; }
-                    info.CharacterName = lrx.Value;
-                }
-
-                info.IsValid = true;
+                log.WriteLogMsg(string.Format("DateTime.UtcNow-'{0}', info.LaunchTime='{1}', maxLatency='{2}'", DateTime.UtcNow, info.LaunchTime, maxLatency));
+                log.WriteLogMsg("Launch file TimeUtc too old");
                 return info;
             }
+
+            var gameInstance = settings.GetValue("GameInstance");
+            info.ServerName = gameInstance.GetStringParam("ServerName");
+            info.AccountName = gameInstance.GetStringParam("AccountName");
+            info.CharacterName = gameInstance.GetStringParam("CharacterName");
+
+            log.WriteLogMsg(string.Format("ServerName='{0}', CharacterName='{1}'", info.ServerName, info.CharacterName));
+
+            info.IsValid = true;
+            return info;
         }
         /// <summary>
         /// Called by Mag-Filter
@@ -153,7 +127,7 @@ namespace MagFilter
             }
             return info;
         }
-        internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status)
+        internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status, string key, string value)
         {
             using (var file = new System.IO.StreamWriter(filepath, append: false))
             {
@@ -163,6 +137,10 @@ namespace MagFilter
                 file.WriteLine("AccountName:{0}", status.AccountName);
                 file.WriteLine("CharacterName:{0}", status.CharacterName);
                 file.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
+                if (key != null)
+                {
+                    file.WriteLine("{0}:{1}", key, value);
+                }
             }
         }
         public static HeartbeatResponse GetHeartbeatStatus(string filepath)

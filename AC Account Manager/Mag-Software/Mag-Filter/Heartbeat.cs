@@ -37,7 +37,7 @@ namespace MagFilter
             int intervalMilliseconds = 3000;
             _timer = new System.Windows.Forms.Timer();
             _timer.Interval = intervalMilliseconds;
-            _timer.Tick += _timer_Tick;
+            _timer.Tick += timer_Tick;
             _timer.Enabled = true;
             _timer.Start();
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
@@ -49,16 +49,32 @@ namespace MagFilter
             {
                 if (_timer != null)
                 {
-                    log.WriteLogMsg("process exist");
+                    log.WriteLogMsg("process exit");
                     _timer.Stop();
                 }
             }
         }
-        void _timer_Tick(object sender, EventArgs e)
+        void timer_Tick(object sender, EventArgs e)
+        {
+            SendMessageImpl(null, null);
+        }
+        public void SendImmediateMessage(string key, string value)
         {
             lock (_locker)
             {
-                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
+                _timer.Stop();
+                SendMessageImpl(key, value);
+                _timer.Start();
+            }
+        }
+        /// <summary>
+        /// This may be called on timer thread *OR* on external caller's thread
+        /// </summary>
+        private void SendMessageImpl(string key, string value)
+        {
+            lock (_locker)
+            {
+                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status, key, value);
             }
         }
     }

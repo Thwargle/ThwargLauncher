@@ -9,7 +9,7 @@ using Decal.Adapter;
 
 namespace MagFilter
 {
-	[FriendlyName("Mag-Filter")]
+	[FriendlyName("MagFilter")]
 	public class FilterCore : FilterBase
 	{
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -43,8 +43,10 @@ namespace MagFilter
 			ServerDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ServerDispatch);
 			WindowMessage += new EventHandler<WindowMessageEventArgs>(FilterCore_WindowMessage);
 
+
 			CommandLineText += new EventHandler<ChatParserInterceptEventArgs>(FilterCore_CommandLineText);
 		}
+
         private void LogStartup()
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -65,6 +67,8 @@ namespace MagFilter
 			WindowMessage -= new EventHandler<WindowMessageEventArgs>(FilterCore_WindowMessage);
 
 			CommandLineText -= new EventHandler<ChatParserInterceptEventArgs>(FilterCore_CommandLineText);
+
+            log.WriteLogMsg("FilterCore-Shutdown");
 		}
 
         public void CallFilterCoreClientDispatch(object sender, NetworkMessageEventArgs e) // for game emulator
