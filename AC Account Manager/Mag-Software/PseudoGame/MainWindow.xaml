@@ -6,9 +6,9 @@
         <Button x:Name="LoadMagFilterButton" Content="Load Mag-Filter" HorizontalAlignment="Left" Margin="90,113.53,0,0" VerticalAlignment="Top" Width="140"
                 Command="{Binding LoadMagFilterCommand}" IsEnabled="False"/>
         <Button x:Name="UnloadMagFilterButton" Content="Unload Mag-Filter" HorizontalAlignment="Left" Margin="90,152,0,0" VerticalAlignment="Top" Width="140"
-                Command="{Binding ShutdownMagFilterCommand}" IsEnabled="False"/>
+                Command="{Binding UnloadMagFilterCommand}" IsEnabled="False"/>
         <Button x:Name="StartupMagFilterButton" Content="Startup Mag-Filter" HorizontalAlignment="Left" Margin="264,114,0,0" VerticalAlignment="Top" Width="140"
-        	Command="{Binding LoadMagFilterCommand}"/>
+        	Command="{Binding StartupMagFilterCommand}"/>
         <Button x:Name="ShutdownMagFilterButton" Content="Shutdown Mag-Filter" HorizontalAlignment="Left" Margin="264,152,0,0" VerticalAlignment="Top" Width="140"
         	Command="{Binding ShutdownMagFilterCommand}"/>
 
