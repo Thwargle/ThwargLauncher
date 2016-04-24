@@ -13,6 +13,7 @@ namespace PseudoGame
         public ICommand UnloadMagFilterCommand { get; private set; }
         public ICommand StartupMagFilterCommand { get; private set; }
         public ICommand ShutdownMagFilterCommand { get; private set; }
+        public ICommand ShowRunningFolderCommand { get; private set; }
         // dynamic AppDomain objects
         private AppDomain _appDomain;
         private Assembly _magFilterAssembly;
@@ -27,6 +28,7 @@ namespace PseudoGame
             UnloadMagFilterCommand = new DelegateCommand(UnloadMagFilter);
             StartupMagFilterCommand = new DelegateCommand(StartupMagFilter);
             ShutdownMagFilterCommand = new DelegateCommand(ShutdownMagFilter);
+            ShowRunningFolderCommand = new DelegateCommand(ShowRunningFolder);
         }
         public void LoadMagFilter()
         {
@@ -92,6 +94,12 @@ namespace PseudoGame
 
             _magFilterCore.ExternalShutdown();
             _magFilterCore = null;
+        }
+        public void ShowRunningFolder()
+        {
+            string folder = MagFilter.FileLocations.GetRunningFolder();
+            if (!System.IO.Directory.Exists(folder)) { ErrorMsg("Directory does not exist: " + folder); return; }
+            System.Diagnostics.Process.Start("explorer.exe", folder);
         }
 
         private void ErrorMsg(string msg)

@@ -4,3 +4,4 @@
  Add ChangeLog.txt (this file)
  Disable dynamic assembly load & unload of Mag-Filter (b/c it excepts when called from front-end)
    and instead implement Startup & Shutdown buttons linked to Mag-Filter in current AppDomain
+ Add & implement "Show Running Folder" button

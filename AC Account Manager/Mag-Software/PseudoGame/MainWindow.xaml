@@ -11,6 +11,8 @@
         	Command="{Binding StartupMagFilterCommand}"/>
         <Button x:Name="ShutdownMagFilterButton" Content="Shutdown Mag-Filter" HorizontalAlignment="Left" Margin="264,152,0,0" VerticalAlignment="Top" Width="140"
         	Command="{Binding ShutdownMagFilterCommand}"/>
+        <Button x:Name="ShowRunningFolderButton" Content="Show Running Folder" HorizontalAlignment="Left" Margin="34,32,0,0" VerticalAlignment="Top" Width="140"
+        	Command="{Binding ShowRunningFolderCommand}"/>
 
     </Grid>
 </Window>
