@@ -10,15 +10,22 @@ namespace PseudoGame
     class MainViewModel
     {
         public ICommand LoadMagFilterCommand { get; private set; }
+        public ICommand UnloadMagFilterCommand { get; private set; }
+        public ICommand StartupMagFilterCommand { get; private set; }
         public ICommand ShutdownMagFilterCommand { get; private set; }
+        // dynamic AppDomain objects
         private AppDomain _appDomain;
         private Assembly _magFilterAssembly;
         private Type _magFilterCoreType;
         private object _magFilterObject;
+        // static AppDomain objects
+        private MagFilter.FilterCore _magFilterCore;
 
         public MainViewModel()
         {
             LoadMagFilterCommand = new DelegateCommand(LoadMagFilter);
+            UnloadMagFilterCommand = new DelegateCommand(UnloadMagFilter);
+            StartupMagFilterCommand = new DelegateCommand(StartupMagFilter);
             ShutdownMagFilterCommand = new DelegateCommand(ShutdownMagFilter);
         }
         public void LoadMagFilter()
@@ -30,6 +37,7 @@ namespace PseudoGame
             _appDomain = AppDomain.CreateDomain("Mag-Filter-AppDomain", evidence, domainInfo);
 
             Type proxyType = typeof(ProxyDomain);
+            // Wound up getting exceptions from this when called from launcher
             var value = (ProxyDomain)_appDomain.CreateInstanceAndUnwrap(
                 proxyType.Assembly.FullName,
                 proxyType.FullName
@@ -44,7 +52,6 @@ namespace PseudoGame
             _magFilterObject = Activator.CreateInstance(_magFilterCoreType);
             MethodInfo startupMethod = _magFilterCoreType.GetMethod("ExternalStartup");
             startupMethod.Invoke(_magFilterObject, null);
-
             
             /*
 
@@ -57,7 +64,7 @@ namespace PseudoGame
              * 
              * */
         }
-        public void ShutdownMagFilter()
+        public void UnloadMagFilter()
         {
             if (_appDomain == null) { ErrorMsg("AppDomain not loaded"); return; }
             if (_magFilterCoreType != null && _magFilterObject != null)
@@ -71,11 +78,26 @@ namespace PseudoGame
             GC.WaitForPendingFinalizers(); // wait until GC has finished its work
             GC.Collect();
         }
+
+        public void StartupMagFilter()
+        {
+            if (_magFilterCore != null) { ErrorMsg("_magFilterCore not null"); return; }
+
+            _magFilterCore = new MagFilter.FilterCore();
+            _magFilterCore.ExternalStartup();
+        }
+        public void ShutdownMagFilter()
+        {
+            if (_magFilterCore == null) { ErrorMsg("_magFilterCore is null"); return; }
+
+            _magFilterCore.ExternalShutdown();
+            _magFilterCore = null;
+        }
+
         private void ErrorMsg(string msg)
         {
             System.Windows.MessageBox.Show(msg);
         }
-
 
         public class ProxyDomain : MarshalByRefObject
         {
