@@ -256,7 +256,7 @@ namespace ThwargLauncher
             }
             else
             {
-                statusSymbol = "֎";
+                statusSymbol = "🎻";  //☔
             }
 
             return statusSymbol;

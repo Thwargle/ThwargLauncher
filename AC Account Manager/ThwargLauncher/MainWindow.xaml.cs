@@ -440,9 +440,11 @@ namespace ThwargLauncher
             int serverTotal = globalQueue.Count;
 
             LaunchItem launchItem = null;
+            var accountLaunchTimes = new Dictionary<string, DateTime>();
+
             while (globalQueue.TryDequeue(out launchItem))
-            {
-                LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem);
+            {    
+                LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem, accountLaunchTimes);
                 mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
                 var launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
                 

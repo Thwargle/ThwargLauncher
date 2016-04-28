@@ -27,14 +27,15 @@ namespace ThwargLauncher
             }
         }
 
-        readonly Dictionary<string, DateTime> _accountLaunchTimes = new Dictionary<string, DateTime>();
         private string _launcherLocation;
         private LaunchItem _launchItem;
+        private Dictionary<string, DateTime> _accountLaunchTimes;
 
-        public LaunchManager(string launcherLocation, LaunchItem launchItem)
+        public LaunchManager(string launcherLocation, LaunchItem launchItem, Dictionary<string, DateTime> accountLaunchTimes)
         {
             _launcherLocation = launcherLocation;
             _launchItem = launchItem;
+            _accountLaunchTimes = accountLaunchTimes;
 
         }
         public LaunchManagerResult LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker)
@@ -59,7 +60,7 @@ namespace ThwargLauncher
                 ReportStatus(context, _launchItem);
 
                 System.Threading.Thread.Sleep(1000);
-                delay = new TimeSpan(0, 0, 10) - (DateTime.Now - lastLaunch);
+                delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
             }
 
             ReportStatus("Launching", _launchItem);

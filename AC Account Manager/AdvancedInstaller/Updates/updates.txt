@@ -1,5 +1,22 @@
 ;aiu;
 
+[ThwargLauncher-3.0.0.0]
+Name = ThwargLauncher
+ProductVersion = 3.0.0.0
+URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
+Size = 8113892
+ReleaseDate = 28/04/2016
+MD5 = 9123197fd28502e90e956594c77d9b2e
+ServerFileName = ThwargLauncherInstaller.exe
+Flags = Critical
+RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
+Version = 3.0.0.0
+Description = Added new Heartbeat functionality to maintain and detect running games. The Launch button will only launch accounts which are not already running (i.e. have crashed).
+Description1 = Added back a button for opening user Accounts.
+Feature = So many you'll be playing violins for days.
+Enhancement = It's free.. still..
+BugFix = Various and many.
+
 [ThwargLauncher-2.2.8.0]
 Name = ThwargLauncher
 ProductVersion = 2.2.8.0

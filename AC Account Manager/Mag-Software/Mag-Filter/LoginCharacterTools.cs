@@ -12,7 +12,7 @@ namespace MagFilter
 		int characterSlots;
 	    private bool written;
 
-		public readonly List<Character> characters = new List<Character>();
+	    public List<Character> characters = null;
 
 		internal void FilterCore_ServerDispatch(object sender, NetworkMessageEventArgs e)
 		{
@@ -33,7 +33,7 @@ namespace MagFilter
                 log.WriteLogMsg("Inside ServerDispatch. 0xF658");
 				characterSlots = Convert.ToInt32(e.Message["slotCount"]);
 
-				characters.Clear();
+				characters = new List<Character>();
 
 				MessageStruct charactersStruct = e.Message.Struct("characters");
 
@@ -51,7 +51,7 @@ namespace MagFilter
 			}
             if (!written)
             {
-                if (server != null && zonename != null && characters.Count > 0)
+                if (server != null && zonename != null && characters != null)
                 {
                     CharacterManager mgr = CharacterManager.ReadCharacters();
 			        mgr.WriteCharacters(server: server, zonename: zonename, characters: characters);

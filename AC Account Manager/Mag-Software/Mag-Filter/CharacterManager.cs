@@ -51,6 +51,10 @@ namespace MagFilter
                 log.WriteLogMsg("LaunchInfo not valid");
                 return;
             }
+            if (!IsValidCharacterName(launchInfo.CharacterName))
+            {
+                LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
+            }
             log.WriteLogMsg("LaunchInfo valid");
 
             // Pass info to Heartbeat
@@ -70,6 +74,13 @@ namespace MagFilter
             {
                 file.Write(contents);
             }
+        }
+
+        private bool IsValidCharacterName(string characterName)
+        {
+            if (string.IsNullOrEmpty(characterName)) { return false; }
+            if (characterName == "None") { return false; }
+            return true;
         }
 
         public static CharacterManager ReadCharacters()

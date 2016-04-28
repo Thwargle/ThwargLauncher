@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{0C286280-FD8C-4FA2-A281-7F23BB9E2A81} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{F722007D-4FE2-4E02-B189-FB88C48E32B1} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="2.2.8.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="3.0.0.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -65,7 +65,7 @@
     <ROW File="DecalSetting.png" Component_="ACCoverArt.jpg" FileName="DECALS~1.PNG|DecalSetting.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\DecalSetting.png" SelfReg="false" NextFile="Logo_circleonly.ico"/>
     <ROW File="Logo_circleonly.ico" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.ICO|Logo_circleonly.ico" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.ico" SelfReg="false" NextFile="Logo_circleonly.png"/>
     <ROW File="Logo_circleonly.png" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.PNG|Logo_circleonly.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.png" SelfReg="false" NextFile="UserPreferences.png"/>
-    <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\..\..\magtools\thwargle\Mag-Filter\bin\Release\MagFilter.dll" SelfReg="false" NextFile="updater.exe"/>
+    <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\Mag-Software\Mag-Filter\bin\Release\MagFilter.dll" SelfReg="false" NextFile="updater.exe"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
     <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~1.EXE|Thwarg-Launcher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe" SelfReg="false" NextFile="MagFilter.dll" DigSign="true"/>
     <ROW File="ThwargLauncher.exe.config" Component_="VirindiViewService.xml" FileName="THWARG~1.CON|Thwarg-Launcher.exe.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe.config" SelfReg="false"/>

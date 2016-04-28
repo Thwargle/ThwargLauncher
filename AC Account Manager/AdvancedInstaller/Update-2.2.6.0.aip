@@ -31,6 +31,20 @@
     <ROW Section="ThwargLauncher-2.2.8.0" Key="Description" Value="Upped version from 2.2.6.0 to 2.2.8.0 with several new features, the best of which is the new Account Management window."/>
     <ROW Section="ThwargLauncher-2.2.8.0" Key="Enhancement" Value="Added Account Management interface&#13;&#10;Added Account Launch Priority&#13;&#10;Added truncation of server choices per account&#13;&#10;Now shows selected character on the account and server row"/>
     <ROW Section="ThwargLauncher-2.2.8.0" Key="BugFix" Value="Fixed a bug with naming of WintersEbb where server list as Wintersebb but responds with WintersEbb (notice E casing)&#13;&#10;Fixed deployment of App.config&#13;&#10;Updated the UI on Char Dropdown&#13;&#10;Updater no longer requires the user to click OK when there are no updates"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="ProductVersion" Value="3.0.0.0"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="ReleaseDate" Value="18588"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Version" Value="3.0.0.0"/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Description" Value="Added new Heartbeat functionality to maintain and detect running games. The Launch button will only launch accounts which are not already running (i.e. have crashed).&#13;&#10;Added back a button for opening user Accounts."/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Feature" Value="So many you&apos;ll be playing violins for days."/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="Enhancement" Value="It&apos;s free.. still.."/>
+    <ROW Section="ThwargLauncher-3.0.0.0" Key="BugFix" Value="Various and many."/>
     <ATTRIBUTE name="OutputFileName" value="updates.txt"/>
     <ATTRIBUTE name="OutputFolder" value="Updates"/>
   </COMPONENT>
