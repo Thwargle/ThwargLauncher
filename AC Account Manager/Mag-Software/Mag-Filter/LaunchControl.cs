@@ -21,6 +21,7 @@ namespace MagFilter
             public bool IsValid;
             public DateTime ResponseTime;
             public int ProcessId;
+            public string MagFilterVersion;
         }
         public class HeartbeatResponse
         {
@@ -94,6 +95,7 @@ namespace MagFilter
                 int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
                 file.WriteLine("TimeUtc:" + timestampUtc);
                 file.WriteLine("ProcessId:{0}", pid);
+                file.WriteLine("MagFilterVersion:{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
             }
         }
         /// <summary>
@@ -110,7 +112,7 @@ namespace MagFilter
                 string contents = file.ReadToEnd();
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length != 2) { return info; }
+                if (lines.Length != 3) { return info; }
                 int index = 0;
 
                 // Parse TimeUtc & validate
@@ -128,6 +130,12 @@ namespace MagFilter
                 if (!lr2.IsValid) { return info; }
                 info.ProcessId = lr2.Value;
 
+                // Parse ProcessId
+                ++index;
+                var lsv = ParseStringSetting(lines[index], "MagFilterVersion:");
+                if (!lsv.IsValid) { return info; }
+                info.MagFilterVersion = lsv.Value;
+
                 info.IsValid = true;
             }
             return info;
@@ -142,6 +150,8 @@ namespace MagFilter
                 file.WriteLine("AccountName:{0}", status.AccountName);
                 file.WriteLine("CharacterName:{0}", status.CharacterName);
                 file.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
+                file.WriteLine("ProcessId:{0}", System.Diagnostics.Process.GetCurrentProcess().Id);
+                file.WriteLine("MagFilterVersion:{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
                 if (key != null)
                 {
                     file.WriteLine("{0}:{1}", key, value);
@@ -158,7 +168,7 @@ namespace MagFilter
                 string contents = file.ReadToEnd();
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length != 5) { return info; }
+                if (lines.Length != 7) { return info; }
                 int index = 0;
 
                 // Parse UptimeSeconds & validate
@@ -199,6 +209,23 @@ namespace MagFilter
                     if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file LogFilepath not parsed successfully"); return info; }
                     info.LogFilepath = lrx.Value;
                 }
+
+                // Parse ProcessId
+                ++index;
+                {
+                    var lrx = ParseIntSetting(lines[index], "ProcessId:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file ProcessId not parsed successfully"); return info; }
+                    info.Status.ProcessId = lrx.Value;
+                }
+
+                // Parse MagFilterVersion
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "MagFilterVersion:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file MagFilterVersion not parsed successfully"); return info; }
+                    info.Status.MagFilterVersion = lrx.Value;
+                }
+
 
                 info.IsValid = true;
             }

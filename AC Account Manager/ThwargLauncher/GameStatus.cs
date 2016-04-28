@@ -9,5 +9,6 @@ namespace ThwargLauncher
         public string CharacterName;
         public int ProcessId;
         public string ProcessStatusFilepath;
+        public int UptimeSeconds = -1;
     }
 }

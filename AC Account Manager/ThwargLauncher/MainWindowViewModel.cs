@@ -11,13 +11,15 @@ namespace ThwargLauncher
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        private GameStatusMap _gameStatusMap;
         public void Reset()
         {
             KnownUserAccounts = new ObservableCollection<UserAccount>();
             SelectedUserAccountName = "";
         }
-        public MainWindowViewModel()
+        public MainWindowViewModel(GameStatusMap gameStatusMap)
         {
+            _gameStatusMap = gameStatusMap;
             NewProfileCommand = new DelegateCommand(
                     CreateNewProfile
                 );
@@ -130,7 +132,7 @@ namespace ThwargLauncher
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void ApplyCurrentProfileToModel(bool preserveStatus)
+        public void ApplyCurrentProfileToModel()
         {
             foreach (var account in this.KnownUserAccounts)
             {
@@ -140,11 +142,9 @@ namespace ThwargLauncher
                     var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
                     if (charSetting != null)
                     {
-                        server.ServerStatusSymbol = "";
-                        if (preserveStatus)
-                        {
-                            server.ServerStatusSymbol = charSetting.ServerStatusSymbol;
-                        }
+                        bool isRunning = _gameStatusMap.HasGameStatusByServerAccount(server.ServerName, account.Name);
+                        string statusSymbol = GetStatusSymbol(isRunning);
+                        server.ServerStatusSymbol = statusSymbol;
                         server.ServerSelected = charSetting.Active;
                         server.ChosenCharacter = charSetting.ChosenCharacter;
                         if (string.IsNullOrEmpty(server.ChosenCharacter))
@@ -164,7 +164,6 @@ namespace ThwargLauncher
                 foreach (var server in account.Servers)
                 {
                     var charSetting = new CharacterSetting();
-                    charSetting.ServerStatusSymbol = server.ServerStatusSymbol;
                     charSetting.AccountName = account.Name;
                     charSetting.ServerName = server.ServerName;
                     charSetting.Active = server.ServerSelected;
@@ -208,8 +207,7 @@ namespace ThwargLauncher
                     CurrentProfile = new Profile();
                 }
             }
-            bool preserveStatus = (previousProfileName == CurrentProfileName);
-            ApplyCurrentProfileToModel(preserveStatus);
+            ApplyCurrentProfileToModel();
             if (previousProfileName != CurrentProfileName)
             {
                 OnPropertyChanged("CurrentProfileName");

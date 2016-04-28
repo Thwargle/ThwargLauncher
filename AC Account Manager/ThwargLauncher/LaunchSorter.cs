@@ -30,39 +30,10 @@ namespace ThwargLauncher
         /// <summary>
         /// Construct a launch list from the model account info, and sort it for optimal performance
         /// </summary>
-        public LaunchList GetLaunchList(IEnumerable<UserAccount> accountList)
+        public LaunchList SortLaunchList(LaunchList launchList)
         {
-            var launchList = GetLaunchListFromAccountList(accountList);
             var optimizedList = GetOptimizedLaunchList(launchList);
             return optimizedList;
-        }
-        private LaunchList GetLaunchListFromAccountList(IEnumerable<UserAccount> accountList)
-        {
-            var launchList = new LaunchList();
-            foreach (var account in accountList)
-            {
-                if (account.AccountLaunchable)
-                {
-                    foreach (var server in account.Servers)
-                    {
-                        if (server.ServerSelected)
-                        {
-                            var launchItem = new LaunchItem()
-                                {
-                                    AccountName = account.Name,
-                                    Priority = account.Priority,
-                                    Password = account.Password,
-                                    ServerName = server.ServerName,
-                                    CharacterSelected = server.ChosenCharacter,
-                                    CustomLaunchPath = account.CustomLaunchPath,
-                                    CustomPreferencePath = account.CustomPreferencePath
-                                };
-                            launchList.Add(launchItem);
-                        }
-                    }
-                }
-            }
-            return launchList;
         }
         /// <summary>
         /// Reorder launch items by starting with account with most launches

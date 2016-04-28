@@ -21,6 +21,16 @@ namespace ThwargLauncher
     {
         public event ShouldStopLaunching StopLaunchEvent;
 
+        public delegate void ReportGameStatusHandler(string status);
+        public event ReportGameStatusHandler ReportGameStatusEvent;
+        private void ReportGameStatus(string status)
+        {
+            if (ReportGameStatusEvent != null)
+            {
+                ReportGameStatusEvent(status);
+            }
+        }
+
         private bool CheckForStop()
         {
             if (StopLaunchEvent != null)
@@ -86,6 +96,8 @@ namespace ThwargLauncher
                             return result;
                                 
                         }
+                        ReportGameStatus(string.Format("Waiting for game: {0} seconds",
+                            (int)((DateTime.UtcNow - startWait).TotalSeconds)));
                         System.Threading.Thread.Sleep(1000);
                         if (characterFileWrittenTime == DateTime.MaxValue)
                         {
@@ -154,6 +166,7 @@ namespace ThwargLauncher
         }
         private void WaitForLauncher(Process launcherProc)
         {
+            DateTime startUtc = DateTime.UtcNow;
             do
             {
                 while (!launcherProc.HasExited)
@@ -166,6 +179,8 @@ namespace ThwargLauncher
                         return;
                     }
                 }
+                ReportGameStatus(string.Format("Waiting for launcher: {0} seconds",
+                    (int)((DateTime.UtcNow - startUtc).TotalSeconds)));
             } while (!launcherProc.WaitForExit(1000));
         }
         private void RecordLaunchInfo(string serverName, string accountName, string desiredCharacter, DateTime timestampUtc)

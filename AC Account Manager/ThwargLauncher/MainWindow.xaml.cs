@@ -28,9 +28,10 @@ namespace ThwargLauncher
         private string _launcherLocation;
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
-        private MainWindowViewModel _viewModel = new MainWindowViewModel();
+        private MainWindowViewModel _viewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
-        private GameMonitor _gameMonitor = new GameMonitor();
+        private GameStatusMap _gameStatusMap;
+        private GameMonitor _gameMonitor;
         private UiGameMonitorBridge _uiGameMonitorBridge = null;
 
         private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
@@ -54,6 +55,8 @@ namespace ThwargLauncher
             }
 
             InitializeComponent();
+            _gameStatusMap = new GameStatusMap();
+            _viewModel = new MainWindowViewModel(_gameStatusMap);
             DataContext = _viewModel;
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
 
@@ -83,6 +86,7 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringGame()
         {
+            _gameMonitor = new GameMonitor(_gameStatusMap);
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
@@ -349,10 +353,9 @@ namespace ThwargLauncher
         }
         private void UpdateConcurrentQueue()
         {
-            var launchMgr = new LaunchSorter();
-            LaunchSorter.LaunchList launchList = launchMgr.GetLaunchList(_viewModel.KnownUserAccounts);
-            // TODO - this list includes everything checked
-            // does not exclude stuff already running or already on queue
+            var launchSorter = new LaunchSorter();
+            var launchList = GetLaunchListFromAccountList(_viewModel.KnownUserAccounts);
+            launchList = launchSorter.SortLaunchList(launchList);
             foreach (var item in launchList.GetLaunchList())
             {
                 _launchConcurrentQueue.Enqueue(item);
@@ -362,6 +365,44 @@ namespace ThwargLauncher
         private void EnableInterface(bool enable)
         {
             btnLaunch.IsEnabled = enable;
+        }
+        /// <summary>
+        /// Get all server/accounts that are checked to be launched
+        /// AND that are not already running
+        /// </summary>
+        /// <param name="accountList"></param>
+        /// <returns></returns>
+        private LaunchSorter.LaunchList GetLaunchListFromAccountList(IEnumerable<UserAccount> accountList)
+        {
+            var launchList = new LaunchSorter.LaunchList();
+            foreach (var account in accountList)
+            {
+                if (account.AccountLaunchable)
+                {
+                    foreach (var server in account.Servers)
+                    {
+                        if (server.ServerSelected)
+                        {
+                            if (_gameStatusMap.HasGameStatusByServerAccount(serverName: server.ServerName, accountName: account.Name))
+                            {
+                                continue;
+                            }
+                            var launchItem = new LaunchItem()
+                                {
+                                    AccountName = account.Name,
+                                    Priority = account.Priority,
+                                    Password = account.Password,
+                                    ServerName = server.ServerName,
+                                    CharacterSelected = server.ChosenCharacter,
+                                    CustomLaunchPath = account.CustomLaunchPath,
+                                    CustomPreferencePath = account.CustomPreferencePath
+                                };
+                            launchList.Add(launchItem);
+                        }
+                    }
+                }
+            }
+            return launchList;
         }
 
         private class ProgressInfo { public int Index; public int Total; public string Message; }
@@ -401,9 +442,9 @@ namespace ThwargLauncher
             LaunchItem launchItem = null;
             while (globalQueue.TryDequeue(out launchItem))
             {
-                LaunchManager mgr = new LaunchManager(_launcherLocation);
+                LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem);
                 mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
-                var launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker, launchItem);
+                var launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
                 
                 if (launchResult.Success)
                 {

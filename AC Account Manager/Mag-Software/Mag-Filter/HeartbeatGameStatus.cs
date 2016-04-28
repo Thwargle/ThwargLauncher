@@ -8,5 +8,7 @@ namespace MagFilter
         public string AccountName;
         public string CharacterName;
         public int UptimeSeconds;
+        public int ProcessId;
+        public string MagFilterVersion;
     }
 }

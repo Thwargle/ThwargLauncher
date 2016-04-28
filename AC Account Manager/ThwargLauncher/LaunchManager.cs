@@ -19,24 +19,33 @@ namespace ThwargLauncher
         }
         public delegate void ReportStatusHandler(string status, LaunchItem launchItem);
         public event ReportStatusHandler ReportStatusEvent;
+        private void ReportStatus(string status, LaunchItem launchItem)
+        {
+            if (ReportStatusEvent != null)
+            {
+                ReportStatusEvent(status, launchItem);
+            }
+        }
 
         readonly Dictionary<string, DateTime> _accountLaunchTimes = new Dictionary<string, DateTime>();
         private string _launcherLocation;
+        private LaunchItem _launchItem;
 
-        public LaunchManager(string launcherLocation)
+        public LaunchManager(string launcherLocation, LaunchItem launchItem)
         {
             _launcherLocation = launcherLocation;
+            _launchItem = launchItem;
 
         }
-        public LaunchManagerResult LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker, LaunchItem launchItem)
+        public LaunchManagerResult LaunchGameHandlingDelaysAndTitles(BackgroundWorker worker)
         {
             var result = new LaunchManagerResult();
             if (worker.CancellationPending)
             {
                 return result;
             }
-            DateTime lastLaunch = (_accountLaunchTimes.ContainsKey(launchItem.AccountName)
-                                       ? _accountLaunchTimes[launchItem.AccountName]
+            DateTime lastLaunch = (_accountLaunchTimes.ContainsKey(_launchItem.AccountName)
+                                       ? _accountLaunchTimes[_launchItem.AccountName]
                                        : DateTime.MinValue);
             TimeSpan delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
             GameLaunchResult gameLaunchResult = null;
@@ -47,29 +56,30 @@ namespace ThwargLauncher
                     return result;
                 }
                 string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds + 1);
-                ReportStatus(context, launchItem);
+                ReportStatus(context, _launchItem);
 
                 System.Threading.Thread.Sleep(1000);
                 delay = new TimeSpan(0, 0, 10) - (DateTime.Now - lastLaunch);
             }
 
-            ReportStatus("Launching", launchItem);
-            _accountLaunchTimes[launchItem.AccountName] = DateTime.Now;
+            ReportStatus("Launching", _launchItem);
+            _accountLaunchTimes[_launchItem.AccountName] = DateTime.Now;
 
             var launcher = new GameLauncher();
+            launcher.ReportGameStatusEvent += (o) => { ReportStatus(o, _launchItem); };
             launcher.StopLaunchEvent += (o, eventArgs) => { return worker.CancellationPending; };
             try
             {
                 var finder = new ThwargUtils.WindowFinder();
                 finder.RecordExistingWindows();
-                string launcherPath = GetLaunchItemLauncherLocation(launchItem);
-                OverridePreferenceFile(launchItem.CustomPreferencePath);
+                string launcherPath = GetLaunchItemLauncherLocation(_launchItem);
+                OverridePreferenceFile(_launchItem.CustomPreferencePath);
                 gameLaunchResult = launcher.LaunchGameClient(
                     launcherPath,
-                    launchItem.ServerName,
-                    accountName: launchItem.AccountName,
-                    password: launchItem.Password,
-                    desiredCharacter: launchItem.CharacterSelected
+                    _launchItem.ServerName,
+                    accountName: _launchItem.AccountName,
+                    password: _launchItem.Password,
+                    desiredCharacter: _launchItem.CharacterSelected
                     );
                 if (!gameLaunchResult.Success)
                 {
@@ -82,7 +92,7 @@ namespace ThwargLauncher
                     IntPtr hwnd = finder.FindNewWindow(regex);
                     if (hwnd != IntPtr.Zero)
                     {
-                        string newGameTitle = GetNewGameTitle(launchItem);
+                        string newGameTitle = GetNewGameTitle(_launchItem);
                         if (!string.IsNullOrEmpty(newGameTitle))
                         {
                             finder.SetWindowTitle(hwnd, newGameTitle);
@@ -92,7 +102,7 @@ namespace ThwargLauncher
             }
             catch (Exception exc)
             {
-                ReportStatus("Exception launching game launcher: " + exc.Message, launchItem);
+                ReportStatus("Exception launching game launcher: " + exc.Message, _launchItem);
                 return result;
             }
             if (gameLaunchResult != null && gameLaunchResult.Success)
@@ -156,13 +166,5 @@ namespace ThwargLauncher
                 return pattern;
             }
         }
-        private void ReportStatus(string status, LaunchItem launchItem)
-        {
-            if (ReportStatusEvent != null)
-            {
-                ReportStatusEvent(status, launchItem);
-            }
-        }
-
     }
 }

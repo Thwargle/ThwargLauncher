@@ -93,6 +93,7 @@
     <Compile Include="CharacterSetting.cs" />
     <Compile Include="GameMonitor.cs" />
     <Compile Include="GameStatus.cs" />
+    <Compile Include="GameStatusMap.cs" />
     <Compile Include="LaunchItem.cs" />
     <Compile Include="LaunchManager.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
