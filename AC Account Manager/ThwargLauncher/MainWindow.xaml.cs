@@ -329,6 +329,7 @@ namespace ThwargLauncher
                 if (e.Cancelled)
                 {
                     lblWorkerProgress.Content = "User Cancelled";
+                    ClearLaunchQueue();
                 }
                 else if (e.Error != null)
                 {
@@ -343,6 +344,15 @@ namespace ThwargLauncher
             {
                 EnableInterface(true);
                 btnCancel.IsEnabled = false;
+            }
+        }
+        private void ClearLaunchQueue()
+        {
+            {
+                LaunchItem item;
+                while (_launchConcurrentQueue.TryDequeue(out item))
+                {
+                }
             }
         }
         private class WorkerArgs
