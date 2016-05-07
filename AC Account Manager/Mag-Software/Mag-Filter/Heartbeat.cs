@@ -74,7 +74,14 @@ namespace MagFilter
         {
             lock (_locker)
             {
-                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status, key, value);
+                try
+                {
+                    LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status, key, value);
+                }
+                catch
+                {
+                    log.WriteLogMsg("Exception writing heartbeat status");
+                }
             }
         }
     }
