@@ -40,21 +40,7 @@ namespace ThwargLauncher
 
         public MainWindow()
         {
-            // run the updater application if it is where we expect it to be (installation root), and wait for it to finish before loading
-            if (System.IO.File.Exists("updater.exe"))
-            {
-                // if we would like to get the exit code of the updater app and log it later, we have it.
-                int exitCode;
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.Arguments = "/silent";
-                info.FileName = "updater.exe";
-                using (Process proc = Process.Start(info))
-                {
-                    proc.WaitForExit();
-                    exitCode = proc.ExitCode;
-                }
-            }
-
+            CheckForProgramUpdate();
             InitializeComponent();
             _gameStatusMap = new GameStatusMap();
             _viewModel = new MainWindowViewModel(_gameStatusMap);
@@ -83,6 +69,23 @@ namespace ThwargLauncher
             if (Properties.Settings.Default.ShowHelpAtStart)
             {
                 DisplayHelpWindow();
+            }
+        }
+        private void CheckForProgramUpdate()
+        {
+            // run the updater application if it is where we expect it to be (installation root), and wait for it to finish before loading
+            if (System.IO.File.Exists("updater.exe"))
+            {
+                // if we would like to get the exit code of the updater app and log it later, we have it.
+                int exitCode;
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.Arguments = "/silent";
+                info.FileName = "updater.exe";
+                using (Process proc = Process.Start(info))
+                {
+                    proc.WaitForExit();
+                    exitCode = proc.ExitCode;
+                }
             }
         }
         private void BeginMonitoringGame()
