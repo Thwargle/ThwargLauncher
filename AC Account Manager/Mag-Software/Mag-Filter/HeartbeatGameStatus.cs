@@ -4,11 +4,15 @@ namespace MagFilter
 {
     public class HeartbeatGameStatus
     {
+        public const string MASTER_FILE_VERSION = "1.2";
+
+        public string FileVersion;
         public string ServerName;
         public string AccountName;
         public string CharacterName;
         public int UptimeSeconds;
         public int ProcessId;
         public string MagFilterVersion;
+        public string MagFilterFilePath;
     }
 }

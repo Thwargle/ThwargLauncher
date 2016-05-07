@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace MagFilter
 {
@@ -28,6 +27,23 @@ namespace MagFilter
             public bool IsValid;
             public HeartbeatGameStatus Status = new HeartbeatGameStatus();
             public string LogFilepath;
+        }
+        public class MagFilterInfo
+        {
+            public string MagFilterPath;
+            public string MagFilterVersion;
+        }
+        /// <summary>
+        /// Called by ThwargLauncher
+        /// </summary>
+        /// <returns></returns>
+        public static MagFilterInfo GetMagFilterInfo()
+        {
+            var info = new MagFilterInfo();
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            info.MagFilterVersion = assembly.GetName().Version.ToString();
+            info.MagFilterPath = assembly.Location;
+            return info;
         }
         /// <summary>
         /// Called by ThwargLauncher
@@ -145,19 +161,23 @@ namespace MagFilter
             using (var file = new System.IO.StreamWriter(filepath, append: false))
             {
                 TimeSpan span = DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime;
+                file.WriteLine("FileVersion:{0}", HeartbeatGameStatus.MASTER_FILE_VERSION);
                 file.WriteLine("UptimeSeconds:{0}", (int)span.TotalSeconds);
                 file.WriteLine("ServerName:{0}", status.ServerName);
                 file.WriteLine("AccountName:{0}", status.AccountName);
                 file.WriteLine("CharacterName:{0}", status.CharacterName);
                 file.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
                 file.WriteLine("ProcessId:{0}", System.Diagnostics.Process.GetCurrentProcess().Id);
-                file.WriteLine("MagFilterVersion:{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                file.WriteLine("MagFilterVersion:{0}", assembly.GetName().Version);
+                file.WriteLine("MagFilterFilePath:{0}", assembly.Location);
                 if (key != null)
                 {
                     file.WriteLine("{0}:{1}", key, value);
                 }
             }
         }
+        public static string GetHeartbeatStatusFileVersion() { return HeartbeatGameStatus.MASTER_FILE_VERSION; }
         public static HeartbeatResponse GetHeartbeatStatus(string filepath)
         {
             var info = new HeartbeatResponse();
@@ -168,8 +188,16 @@ namespace MagFilter
                 string contents = file.ReadToEnd();
                 string[] stringSeps = new string[] { "\r\n" };
                 string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length != 7) { return info; }
+                if (lines.Length != 9) { return info; }
                 int index = 0;
+
+                // Parse FileVersion
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "FileVersion:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file FileVersion not parsed successfully"); return info; }
+                    info.Status.FileVersion = lrx.Value;
+                }
 
                 // Parse UptimeSeconds & validate
                 {
@@ -226,6 +254,13 @@ namespace MagFilter
                     info.Status.MagFilterVersion = lrx.Value;
                 }
 
+                // Parse MagFilterFilePath
+                ++index;
+                {
+                    var lrx = ParseStringSetting(lines[index], "MagFilterFilePath:");
+                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file MagFilterFilePath not parsed successfully"); return info; }
+                    info.Status.MagFilterFilePath = lrx.Value;
+                }
 
                 info.IsValid = true;
             }

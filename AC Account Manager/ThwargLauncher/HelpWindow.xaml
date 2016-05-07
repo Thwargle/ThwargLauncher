@@ -19,8 +19,10 @@
                 <Image HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="255" Source="Images/Credit.PNG"/>
             </ItemsControl>
         </ScrollViewer>
-        <CheckBox Grid.Row="1" x:Name="chkShowStartup" Content="Show at Startup" HorizontalAlignment="Left" IsChecked="True" VerticalAlignment="Top"/>
-        <Button Grid.Row="1" x:Name="btnOK" Content="Ok" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="btnOK_Click"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <CheckBox x:Name="chkShowStartup" Content="Show at Startup" HorizontalAlignment="Left" IsChecked="True" VerticalAlignment="Top"/>
+            <Button x:Name="btnDiagnostics" Content="Diagnostics" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="btnDiagnostics_Click"/>
+            <Button x:Name="btnOK" Content="Ok" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="btnOK_Click"/>
+        </StackPanel>
         </Grid>
-    
 </Window>

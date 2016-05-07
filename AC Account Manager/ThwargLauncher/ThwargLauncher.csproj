@@ -91,9 +91,15 @@
     <Compile Include="AccountManagement\AccountParser.cs" />
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="CharacterSetting.cs" />
+    <Compile Include="Configurator.cs" />
+    <Compile Include="DiagnosticWindow.xaml.cs">
+      <DependentUpon>DiagnosticWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosticWindowViewModel.cs" />
     <Compile Include="GameMonitor.cs" />
     <Compile Include="GameStatus.cs" />
     <Compile Include="GameStatusMap.cs" />
+    <Compile Include="HelpWindowViewModel.cs" />
     <Compile Include="LaunchItem.cs" />
     <Compile Include="LaunchManager.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
@@ -131,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AccountManagement\AddUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DiagnosticWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

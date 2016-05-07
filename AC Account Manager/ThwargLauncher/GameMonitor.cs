@@ -11,7 +11,8 @@ namespace ThwargLauncher
         private static object _locker = new object();
 
         private System.Timers.Timer _timer = new System.Timers.Timer();
-        private GameStatusMap _map;
+        private readonly GameStatusMap _map;
+        private Configurator _configurator;
         private TimeSpan _liveInterval = new TimeSpan(0, 1, 0); // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
@@ -24,9 +25,10 @@ namespace ThwargLauncher
         public delegate void GameChangeHandler(GameChangeType changeType, GameStatus gameStatus);
         public event GameChangeHandler GameChangeEvent;
 
-        public GameMonitor(GameStatusMap map)
+        public GameMonitor(GameStatusMap map, Configurator configurator)
         {
             _map = map;
+            _configurator = configurator;
         }
         public void Start() // main thread
         {
@@ -219,6 +221,16 @@ namespace ThwargLauncher
                 gameStatus.UptimeSeconds = response.Status.UptimeSeconds;
                 gameStatus.ProcessStatusFilepath = filepath;
                 _map.AddGameStatus(gameStatus);
+                if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
+                {
+                    _configurator.AddGameConfig(
+                        new Configurator.GameConfig()
+                        {
+                            MagFilterPath = response.Status.MagFilterFilePath,
+                            MagFilterVersion = response.Status.MagFilterVersion
+                        }
+                        );
+                }
                 NotifyGameChange(GameChangeType.StartGame, gameStatus);
             }
         }

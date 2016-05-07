@@ -31,6 +31,7 @@ namespace ThwargLauncher
         private MainWindowViewModel _viewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
         private GameStatusMap _gameStatusMap;
+        private Configurator _configurator;
         private GameMonitor _gameMonitor;
         private UiGameMonitorBridge _uiGameMonitorBridge = null;
 
@@ -86,7 +87,9 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringGame()
         {
-            _gameMonitor = new GameMonitor(_gameStatusMap);
+            _configurator = new Configurator();
+            RecordGameDll();
+            _gameMonitor = new GameMonitor(_gameStatusMap, _configurator);
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
@@ -102,6 +105,17 @@ namespace ThwargLauncher
 
             }
              * */
+        }
+        private void RecordGameDll()
+        {
+            var info = MagFilter.LaunchControl.GetMagFilterInfo();
+            _configurator.AddGameConfig(
+                new Configurator.GameConfig()
+                    {
+                        MagFilterPath = info.MagFilterPath,
+                        MagFilterVersion = info.MagFilterVersion
+                    }
+                );
         }
         private void EndMonitoringGame()
         {
@@ -609,7 +623,7 @@ namespace ThwargLauncher
         private void DisplayHelpWindow()
         {
             MainWindowDisable();
-            var dlg = new HelpWindow();
+            var dlg = new HelpWindow(new HelpWindowViewModel(_configurator));
             dlg.ShowDialog();
             MainWindowEnable();
         }
