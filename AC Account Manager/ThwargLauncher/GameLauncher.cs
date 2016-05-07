@@ -96,8 +96,8 @@ namespace ThwargLauncher
                             return result;
                                 
                         }
-                        ReportGameStatus(string.Format("Waiting for game: {0} seconds",
-                            (int)((DateTime.UtcNow - startWait).TotalSeconds)));
+                        ReportGameStatus(string.Format("Waiting for game: {0}/{1} sec",
+                            (int)((DateTime.UtcNow - startWait).TotalSeconds), secondsTimeout));
                         System.Threading.Thread.Sleep(1000);
                         if (characterFileWrittenTime == DateTime.MaxValue)
                         {
