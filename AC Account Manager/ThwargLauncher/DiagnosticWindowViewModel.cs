@@ -22,10 +22,12 @@ namespace ThwargLauncher
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             text.AppendFormat("ThwargLauncher: {0} - {1}",
                 assembly.GetName().Version, assembly.Location);
+            text.AppendLine();
 
             foreach (Configurator.GameConfig config in _configurator.GetGameConfigs())
             {
-                text.AppendFormat("MagFilter: {0} - {1}\n", config.MagFilterVersion, config.MagFilterPath);
+                text.AppendFormat("MagFilter: {0} - {1}", config.MagFilterVersion, config.MagFilterPath);
+                text.AppendLine();
             }
             return text.ToString();
         }

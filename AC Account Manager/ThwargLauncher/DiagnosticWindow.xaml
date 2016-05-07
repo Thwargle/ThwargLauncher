@@ -3,6 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DiagnosticsWindow" Height="300" Width="300">
     <Grid>
-        <TextBox Text="{Binding Path=DiagnosticInfo,Mode=OneWay}" HorizontalAlignment="Left" Height="215" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+        <TextBox Text="{Binding Path=DiagnosticInfo,Mode=OneWay}" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" />
     </Grid>
 </Window>
