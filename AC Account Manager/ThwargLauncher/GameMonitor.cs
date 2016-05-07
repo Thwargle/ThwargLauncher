@@ -72,7 +72,9 @@ namespace ThwargLauncher
         }
         private bool ShouldWeCleanup()
         {
-            if (_lastCleanupUtc == DateTime.MinValue || DateTime.UtcNow - _lastCleanupUtc > _cleanupInterval)
+            bool forceCleanup = false; // for debugging use
+            if (forceCleanup || _lastCleanupUtc == DateTime.MinValue
+                || DateTime.UtcNow - _lastCleanupUtc > _cleanupInterval)
             {
                 return true;
             }
@@ -87,7 +89,9 @@ namespace ThwargLauncher
         }
         private bool ShouldWeReadProcessFiles()
         {
-            if (_lastReadProcesFilesUtc == DateTime.MinValue || DateTime.UtcNow - _lastReadProcesFilesUtc > _rereadProcessFilesInterval)
+            bool forceRead = false; // for debugging use
+            if (forceRead || _lastReadProcesFilesUtc == DateTime.MinValue
+                || DateTime.UtcNow - _lastReadProcesFilesUtc > _rereadProcessFilesInterval)
             {
                 return true;
             }
