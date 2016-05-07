@@ -184,88 +184,34 @@ namespace MagFilter
         public static HeartbeatResponse GetHeartbeatStatus(string filepath)
         {
             var info = new HeartbeatResponse();
-            if (string.IsNullOrEmpty(filepath)) { return info; }
-            if (!File.Exists(filepath)) { return info; }
-            using (var file = new StreamReader(filepath))
+            try
             {
-                string contents = file.ReadToEnd();
-                string[] stringSeps = new string[] { "\r\n" };
-                string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length != 9) { return info; }
-                int index = 0;
+                if (string.IsNullOrEmpty(filepath)) { return info; }
+                if (!File.Exists(filepath)) { return info; }
 
-                // Parse FileVersion
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "FileVersion:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file FileVersion not parsed successfully"); return info; }
-                    info.Status.FileVersion = lrx.Value;
-                }
+                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
 
-                // Parse UptimeSeconds & validate
+                info.Status.FileVersion = settings.GetValue("FileVersion").GetSingleParam();
+                if (!info.Status.FileVersion.StartsWith(HeartbeatGameStatus.MASTER_FILE_VERSION_COMPAT))
                 {
-                    var lrx = ParseIntSetting(lines[index], "UptimeSeconds:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file UptimeSeconds not parsed successfully"); return info; }
-                    info.Status.UptimeSeconds = lrx.Value;
+                    throw new Exception(string.Format(
+                        "Incompatible heartbeat status file version: {0}",
+                        info.Status.FileVersion));
                 }
-
-                // Parse ServerName
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "ServerName:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file ServerName not parsed successfully"); return info; }
-                    info.Status.ServerName = lrx.Value;
-                }
-
-                // Parse AccountName
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "AccountName:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file AccountName not parsed successfully"); return info; }
-                    info.Status.AccountName = lrx.Value;
-                }
-
-                // Parse CharacterName
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "CharacterName:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file CharacterName not parsed successfully"); return info; }
-                    info.Status.CharacterName = lrx.Value;
-                }
-
-                // Parse LogFilepath
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "LogFilepath:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file LogFilepath not parsed successfully"); return info; }
-                    info.LogFilepath = lrx.Value;
-                }
-
-                // Parse ProcessId
-                ++index;
-                {
-                    var lrx = ParseIntSetting(lines[index], "ProcessId:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file ProcessId not parsed successfully"); return info; }
-                    info.Status.ProcessId = lrx.Value;
-                }
-
-                // Parse MagFilterVersion
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "MagFilterVersion:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file MagFilterVersion not parsed successfully"); return info; }
-                    info.Status.MagFilterVersion = lrx.Value;
-                }
-
-                // Parse MagFilterFilePath
-                ++index;
-                {
-                    var lrx = ParseStringSetting(lines[index], "MagFilterFilePath:");
-                    if (!lrx.IsValid) { log.WriteLogMsg("Heartbeat file MagFilterFilePath not parsed successfully"); return info; }
-                    info.Status.MagFilterFilePath = lrx.Value;
-                }
+                info.Status.UptimeSeconds = settings.GetValue("UptimeSeconds").GetSingleIntParam();
+                info.Status.ServerName = settings.GetValue("ServerName").GetSingleParam();
+                info.Status.AccountName = settings.GetValue("AccountName").GetSingleParam();
+                info.Status.CharacterName = settings.GetValue("CharacterName").GetSingleParam();
+                info.LogFilepath = settings.GetValue("LogFilepath").GetSingleParam();
+                info.Status.ProcessId = settings.GetValue("ProcessId").GetSingleIntParam();
+                info.Status.MagFilterVersion = settings.GetValue("MagFilterVersion").GetSingleParam();
+                info.Status.MagFilterFilePath = settings.GetValue("MagFilterFilePath").GetSingleParam();
 
                 info.IsValid = true;
+            }
+            catch (Exception exc)
+            {
+                log.WriteLogMsg(string.Format("GetHeartbeatStatus exception: {0}", exc));
             }
             return info;
         }
