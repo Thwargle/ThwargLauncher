@@ -19,7 +19,14 @@ namespace MagFilter
             if (e.Message.Type == 0xF7C8) // Enter Game
             {
                 freshLogin = true;
-                LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
+                try
+                {
+                    LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
+                }
+                catch
+                {
+                    log.WriteLogMsg("FilterCore_ClientDispatch: Exception trying to record launch response");
+                }
                 Heartbeat.LaunchHeartbeat();
             }
 

@@ -177,6 +177,9 @@ namespace MagFilter
                 }
             }
         }
+        /// <summary>
+        /// Called by ThwargLauncher
+        /// </summary>
         public static string GetHeartbeatStatusFileVersion() { return HeartbeatGameStatus.MASTER_FILE_VERSION; }
         public static HeartbeatResponse GetHeartbeatStatus(string filepath)
         {

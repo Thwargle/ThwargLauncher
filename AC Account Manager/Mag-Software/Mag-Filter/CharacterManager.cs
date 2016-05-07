@@ -53,7 +53,14 @@ namespace MagFilter
             }
             if (!IsValidCharacterName(launchInfo.CharacterName))
             {
-                LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
+                try
+                {
+                    LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
+                }
+                catch
+                {
+                    log.WriteLogMsg("WriteCharacters: Exception trying to record launch response");
+                }
             }
             log.WriteLogMsg("LaunchInfo valid");
 
