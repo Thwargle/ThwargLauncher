@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace MagFilter
 {
+    /// <summary>
+    /// A dictionary of settings parsed out of a settings file
+    /// which is a file of settings lines (see Setting class for setting line syntax)
+    /// </summary>
     class SettingsCollection
     {
-        private Dictionary<string, Setting> Settings = new Dictionary<string, Setting>();
+        private readonly Dictionary<string, Setting> _settings = new Dictionary<string, Setting>();
         public void AddSetting(Setting setting)
         {
-            Settings[setting.Name] = setting;
+            _settings[setting.Name] = setting;
         }
-        public bool ContainsKey(string key) { return Settings.ContainsKey(key); }
+        public bool ContainsKey(string key) { return _settings.ContainsKey(key); }
         public Setting GetValue(string key)
         {
-            if (!Settings.ContainsKey(key)) { throw new Exception(string.Format("Missing key '{0}'", key)); }
-            return Settings[key];
+            if (!_settings.ContainsKey(key)) { throw new Exception(string.Format("Missing key '{0}'", key)); }
+            return _settings[key];
         }
     }
-
+    /// <summary>
+    /// A parser to read a text file into a SettingsCollection dictionary of named settings
+    /// </summary>
     class SettingsFileParser
     {
         public SettingsCollection ReadSettingsFile(string filepath)

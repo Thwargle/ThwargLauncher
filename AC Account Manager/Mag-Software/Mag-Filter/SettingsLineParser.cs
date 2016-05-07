@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
 
 namespace MagFilter
 {
+    /// <summary>
+    /// A setting is a single line in a setting file
+    /// and holds the setting name along with either 
+    /// One value, e.g., character:JohnDoe
+    /// or multiple values, e.g., characters=primary:JohnDoe secondary:JaneDoe
+    /// Single or double quotes may be used around values,
+    ///     e.g., names=primary:"John Doe" secondary:'Jane Doe'
+    /// </summary>
     public class Setting
     {
         public Setting(string name)
@@ -29,7 +35,9 @@ namespace MagFilter
             return DateTime.Parse(this.Parameters[key]);
         }
     }
-
+    /// <summary>
+    /// Class to parse a single line into a Setting (used by SettingsFileParser)
+    /// </summary>
     public class SettingsLineParser
     {
         public Setting ExtractLine(string line)
