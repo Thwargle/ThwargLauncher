@@ -16,6 +16,7 @@ namespace MagFilter
 
         public string Name { get; private set; }
         public IDictionary<string, string> Parameters { get; set; }
+        public bool HasSingleParameter() { return SingleParameter != null; }
         public string SingleParameter { get; set; }
         public string GetStringParam(string key)
         {
@@ -33,23 +34,27 @@ namespace MagFilter
     {
         public Setting ExtractLine(string line)
         {
+            Setting setting = null;
             var pos = line.IndexOfAny(new[] { '=', ':' });
             if (pos == -1)
             {
-                throw new FormatException("Expected an equals sign and that it's positioned before the first colon");
+                // Entire line is setting name, no parameters at all
+                setting = new Setting(line);
             }
-            var setting = new Setting(line.Substring(0, pos));
-            string value = "";
-            if (pos + 1 < line.Length)
+            else
             {
-                value = line.Substring(pos + 1);
-                if (line[pos] == ':')
+                setting = new Setting(line.Substring(0, pos));
+                if (pos + 1 < line.Length)
                 {
-                    setting.SingleParameter = value;
-                }
-                else
-                {
-                    setting.Parameters = ExtractParameters(value);
+                    string value = line.Substring(pos + 1);
+                    if (line[pos] == ':')
+                    {
+                        setting.SingleParameter = value;
+                    }
+                    else
+                    {
+                        setting.Parameters = ExtractParameters(value);
+                    }
                 }
             }
             return setting;
