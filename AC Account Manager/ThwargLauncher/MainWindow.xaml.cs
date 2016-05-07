@@ -609,7 +609,7 @@ namespace ThwargLauncher
         private void DisplayHelpWindow()
         {
             MainWindowDisable();
-            var dlg = new Help();
+            var dlg = new HelpWindow();
             dlg.ShowDialog();
             MainWindowEnable();
         }

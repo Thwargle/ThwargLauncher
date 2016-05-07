@@ -105,8 +105,8 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="GameLauncher.cs" />
     <Compile Include="getOS.cs" />
-    <Compile Include="Help.xaml.cs">
-      <DependentUpon>Help.xaml</DependentUpon>
+    <Compile Include="HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LaunchSorter.cs" />
     <Compile Include="Log.cs" />
@@ -138,7 +138,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Help.xaml">
+    <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
