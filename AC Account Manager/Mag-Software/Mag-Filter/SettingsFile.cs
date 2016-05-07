@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace MagFilter
+namespace GenericSettingsFile
 {
     /// <summary>
     /// A dictionary of settings parsed out of a settings file
     /// which is a file of settings lines (see Setting class for setting line syntax)
     /// </summary>
-    class SettingsCollection
+    public class SettingsCollection
     {
         private readonly Dictionary<string, Setting> _settings = new Dictionary<string, Setting>();
         public void AddSetting(Setting setting)

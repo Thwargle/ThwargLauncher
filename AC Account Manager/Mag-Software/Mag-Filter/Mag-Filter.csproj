@@ -96,6 +96,7 @@
     <Compile Include="ProxyDomain.cs" />
     <Compile Include="ServerCharacterListByAccount.cs" />
     <Compile Include="SettingsFile.cs" />
+    <Compile Include="SettingHelpers.cs" />
     <Compile Include="SettingsLineParser.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Shared\VCS_Connector.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using GenericSettingsFile;
 
 namespace MagFilter
 {
@@ -17,7 +18,11 @@ namespace MagFilter
         }
         public class LaunchResponse
         {
+            public const string MASTER_FILE_VERSION = "1.2";
+            public const string MASTER_FILE_VERSION_COMPAT = "1";
+
             public bool IsValid;
+            public string FileVersion;
             public DateTime ResponseTime;
             public int ProcessId;
             public string MagFilterVersion;
@@ -120,39 +125,36 @@ namespace MagFilter
         public static LaunchResponse GetLaunchResponse(TimeSpan maxLatency)
         {
             var info = new LaunchResponse();
-            string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
-
-            if (!File.Exists(filepath)) { return info; }
-            using (var file = new StreamReader(filepath))
+            try
             {
-                string contents = file.ReadToEnd();
-                string[] stringSeps = new string[] { "\r\n" };
-                string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length != 3) { return info; }
-                int index = 0;
+                string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
+                if (string.IsNullOrEmpty(filepath)) { return info; }
+                if (!File.Exists(filepath)) { return info; }
 
-                // Parse TimeUtc & validate
-                var lr1 = ParseDateTimeSetting(lines[index], "TimeUtc:");
-                if (!lr1.IsValid) { return info; }
-                info.ResponseTime = lr1.Value;
+                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+
+                info.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
+                if (!info.FileVersion.StartsWith(LaunchResponse.MASTER_FILE_VERSION_COMPAT))
+                {
+                    throw new Exception(string.Format(
+                        "Incompatible launch response file version: {0}",
+                        info.FileVersion));
+                }
+
+                info.ResponseTime = SettingHelpers.GetSingleDateTimeValue(settings, "TimeUtc");
                 if (DateTime.UtcNow - info.ResponseTime >= maxLatency)
                 {
                     return info;
                 }
-
-                // Parse ProcessId
-                ++index;
-                var lr2 = ParseIntSetting(lines[index], "ProcessId:");
-                if (!lr2.IsValid) { return info; }
-                info.ProcessId = lr2.Value;
-
-                // Parse ProcessId
-                ++index;
-                var lsv = ParseStringSetting(lines[index], "MagFilterVersion:");
-                if (!lsv.IsValid) { return info; }
-                info.MagFilterVersion = lsv.Value;
+                info.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
+                info.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
+                info.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
 
                 info.IsValid = true;
+            }
+            catch (Exception exc)
+            {
+                log.WriteLogMsg(string.Format("GetLaunchResponse exception: {0}", exc));
             }
             return info;
         }
@@ -191,21 +193,21 @@ namespace MagFilter
 
                 var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
 
-                info.Status.FileVersion = settings.GetValue("FileVersion").GetSingleParam();
+                info.Status.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
                 if (!info.Status.FileVersion.StartsWith(HeartbeatGameStatus.MASTER_FILE_VERSION_COMPAT))
                 {
                     throw new Exception(string.Format(
                         "Incompatible heartbeat status file version: {0}",
                         info.Status.FileVersion));
                 }
-                info.Status.UptimeSeconds = settings.GetValue("UptimeSeconds").GetSingleIntParam();
-                info.Status.ServerName = settings.GetValue("ServerName").GetSingleParam();
-                info.Status.AccountName = settings.GetValue("AccountName").GetSingleParam();
-                info.Status.CharacterName = settings.GetValue("CharacterName").GetSingleParam();
-                info.LogFilepath = settings.GetValue("LogFilepath").GetSingleParam();
-                info.Status.ProcessId = settings.GetValue("ProcessId").GetSingleIntParam();
-                info.Status.MagFilterVersion = settings.GetValue("MagFilterVersion").GetSingleParam();
-                info.Status.MagFilterFilePath = settings.GetValue("MagFilterFilePath").GetSingleParam();
+                info.Status.UptimeSeconds = SettingHelpers.GetSingleIntValue(settings, "UptimeSeconds");
+                info.Status.ServerName = SettingHelpers.GetSingleStringValue(settings, "ServerName");
+                info.Status.AccountName = SettingHelpers.GetSingleStringValue(settings, "AccountName");
+                info.Status.CharacterName = SettingHelpers.GetSingleStringValue(settings, "CharacterName");
+                info.LogFilepath = SettingHelpers.GetSingleStringValue(settings, "LogFilepath");
+                info.Status.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
+                info.Status.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
+                info.Status.MagFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "MagFilterFilePath");
 
                 info.IsValid = true;
             }

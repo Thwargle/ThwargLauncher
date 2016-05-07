@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MagFilter
+namespace GenericSettingsFile
 {
     /// <summary>
     /// A setting is a single line in a setting file
@@ -23,23 +23,6 @@ namespace MagFilter
         public string Name { get; private set; }
         public IDictionary<string, string> Parameters { get; set; }
         public bool HasSingleParameter() { return SingleParameter != null; }
-        public string GetSingleParam()
-        {
-            if (!HasSingleParameter()) { throw new Exception(string.Format("Setting '{0}' does not have single param", Name)); }
-            return SingleParameter;
-        }
-        public int GetSingleIntParam()
-        {
-            string str = GetSingleParam();
-            try
-            {
-                return int.Parse(str);
-            }
-            catch
-            {
-                throw new Exception(string.Format("Setting '{0}' fails to parse as int", Name));
-            }
-        }
         public string SingleParameter { get; set; }
         // Extracting parameters from within a multivalue
         public string GetStringParam(string key)
