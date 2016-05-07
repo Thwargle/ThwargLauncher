@@ -114,6 +114,7 @@ namespace MagFilter
             using (var file = new StreamWriter(filepath, append: false))
             {
                 int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
+                file.WriteLine("FileVersion:{0}", LaunchResponse.MASTER_FILE_VERSION);
                 file.WriteLine("TimeUtc:" + timestampUtc);
                 file.WriteLine("ProcessId:{0}", pid);
                 file.WriteLine("MagFilterVersion:{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
@@ -148,7 +149,6 @@ namespace MagFilter
                 }
                 info.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
                 info.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
-                info.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
 
                 info.IsValid = true;
             }
