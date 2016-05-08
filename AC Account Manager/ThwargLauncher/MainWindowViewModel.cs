@@ -39,7 +39,7 @@ namespace ThwargLauncher
             var newProfile = mgr.CreateNewProfile();
             GotoProfile(newProfile);
         }
-        public void DeleteProfile()
+        private void DeleteProfile()
         {
             //Confirm Delete
             if (MessageBox.Show("Are you sure you want to delete the " + CurrentProfileName + " profile?", "Confirm Delete", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK) return;
@@ -68,7 +68,7 @@ namespace ThwargLauncher
                 GotoProfile(newProfile);
             }
         }
-        public void GoToPrevProfile()
+        private void GoToPrevProfile()
         {
             SaveCurrentProfile();
             ProfileManager mgr = new ProfileManager();
