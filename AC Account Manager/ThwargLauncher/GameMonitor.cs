@@ -123,7 +123,7 @@ namespace ThwargLauncher
             foreach (var gameSession in _map.GetAllGameSessions())
             {
                 string heartbeatFile = gameSession.ProcessStatusFilepath;
-                var status = GetStatusFromHeartbeatFileTime(heartbeatFile);
+                var status = GetStatusFromHeartbeatFileTime(gameSession);
                 if (status == ServerAccountStatus.None)
                 {
                     deadGames.Add(gameSession);
@@ -152,13 +152,18 @@ namespace ThwargLauncher
             foreach (var gameSession in _map.GetAllGameSessions())
             {
                 string heartbeatFile = gameSession.ProcessStatusFilepath;
+                if (string.IsNullOrEmpty(heartbeatFile))
+                {
+                    // This occurs when launching game session
+                    continue;
+                }
                 var response = MagFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
                 if (!response.IsValid)
                 {
                     Log.WriteError(string.Format("Invalid contents in heartbeat file: {0}", heartbeatFile));
                     continue;
                 }
-                var status = GetStatusFromHeartbeatFileTime(heartbeatFile);
+                var status = GetStatusFromHeartbeatFileTime(gameSession);
                 bool newGame = false;
                 bool changedGame = false;
                 bool changedStatus = false;
@@ -212,9 +217,21 @@ namespace ThwargLauncher
             }
             gameSession.UptimeSeconds = response.Status.UptimeSeconds;
         }
-        private ServerAccountStatus GetStatusFromHeartbeatFileTime(string heartbeatFile)
+        private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)
         {
-            if (string.IsNullOrEmpty(heartbeatFile)) { return ServerAccountStatus.Starting; }
+            if (gameSession.Status == ServerAccountStatus.Starting) { return ServerAccountStatus.Starting; }
+            if (string.IsNullOrEmpty(gameSession.ProcessStatusFilepath))
+            {
+                if (gameSession.Status == ServerAccountStatus.Running)
+                {
+                    return ServerAccountStatus.Warning;
+                }
+                else
+                {
+                    return gameSession.Status;
+                }
+            }
+            string heartbeatFile = gameSession.ProcessStatusFilepath;   
             DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
             TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
             if (elapsed < _warningInterval)

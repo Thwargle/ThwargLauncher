@@ -32,6 +32,7 @@ namespace ThwargLauncher
             DeleteProfileCommand = new DelegateCommand(
                     DeleteProfile
                 );
+            LoadStatusSymbols();
         }
         private void CreateNewProfile()
         {
@@ -245,19 +246,26 @@ namespace ThwargLauncher
                 }
             }
         }
+        private string _SessionStatusNone;
+        private string _SessionStatusStarting;
+        private string _SessionStatusRunning;
+        private string _SessionStatusWarning;
+        private void LoadStatusSymbols()
+        {
+            _SessionStatusNone = ConfigSettings.GetConfigString("SessionStatusNone", "🎻");
+            _SessionStatusStarting = ConfigSettings.GetConfigString("SessionStatusStarting", "=");
+            _SessionStatusRunning = ConfigSettings.GetConfigString("SessionStatusRunning", "✔");
+            _SessionStatusWarning = ConfigSettings.GetConfigString("SessionStatusWarning", "☔");
 
+        }
         private string GetStatusSymbol(ServerAccountStatus status)
         {
             switch (status)
             {
-                case ServerAccountStatus.None:
-                    return "🎻";
-                case ServerAccountStatus.Starting:
-                    return "=";
-                case ServerAccountStatus.Running:
-                    return "✔";
-                case ServerAccountStatus.Warning:
-                    return "☔";
+                case ServerAccountStatus.None: return _SessionStatusNone;
+                case ServerAccountStatus.Starting: return _SessionStatusStarting;
+                case ServerAccountStatus.Running: return _SessionStatusRunning;
+                case ServerAccountStatus.Warning: return _SessionStatusWarning;
                 default:
                     return "✖";
             }

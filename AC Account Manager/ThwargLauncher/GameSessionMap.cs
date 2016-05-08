@@ -155,6 +155,19 @@ namespace ThwargLauncher
                 }
             }
         }
+        public void EndAllLaunchingSessions()
+        {
+            lock (_locker)
+            {
+                foreach (var gameSession in _sessionByProcessId.Values)
+                {
+                    if (gameSession.Status == ServerAccountStatus.Starting)
+                    {
+                        gameSession.Status = ServerAccountStatus.Warning;
+                    }
+                }
+            }
+        }
         private string GetServerAccountKey(GameSession gameSession)
         {
             return GetServerAccountKey(gameSession.ServerName, gameSession.AccountName);

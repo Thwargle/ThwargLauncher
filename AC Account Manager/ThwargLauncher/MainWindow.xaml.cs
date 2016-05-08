@@ -339,6 +339,7 @@ namespace ThwargLauncher
                 {
                     lblWorkerProgress.Content = "Launcher Complete";
                 }
+                _gameSessionMap.EndAllLaunchingSessions();
             }
             finally
             {
