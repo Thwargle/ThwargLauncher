@@ -40,3 +40,5 @@ VERSION 3.0.0.0   (2016-04-28)
 	- Added new Heartbeat functionality to maintain and detect running games.
 	The Launch button will only launch accounts which are not already running (i.e. have crashed).
 	- Added back a button for opening user Accounts
+VERSION *NEW*   (Unreleased)
+	- Added Diagnostics window
