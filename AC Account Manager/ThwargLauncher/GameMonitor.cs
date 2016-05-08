@@ -73,8 +73,12 @@ namespace ThwargLauncher
         private bool ShouldWeCleanup()
         {
             bool forceCleanup = false; // for debugging use
-            if (forceCleanup || _lastCleanupUtc == DateTime.MinValue
-                || DateTime.UtcNow - _lastCleanupUtc > _cleanupInterval)
+            if (forceCleanup || _lastCleanupUtc == DateTime.MinValue)
+            {
+                return true;
+            }
+            TimeSpan elapsed = DateTime.UtcNow - _lastCleanupUtc;
+            if (elapsed > _cleanupInterval)
             {
                 return true;
             }
@@ -90,8 +94,12 @@ namespace ThwargLauncher
         private bool ShouldWeReadProcessFiles()
         {
             bool forceRead = false; // for debugging use
-            if (forceRead || _lastReadProcesFilesUtc == DateTime.MinValue
-                || DateTime.UtcNow - _lastReadProcesFilesUtc > _rereadProcessFilesInterval)
+            if (forceRead || _lastReadProcesFilesUtc == DateTime.MinValue)
+            {
+                return true;
+            }
+            TimeSpan elapsed = DateTime.UtcNow - _lastReadProcesFilesUtc;
+            if (elapsed > _rereadProcessFilesInterval)
             {
                 return true;
             }
@@ -115,7 +123,8 @@ namespace ThwargLauncher
             {
                 string heartbeatFile = gameStatus.ProcessStatusFilepath;
                 DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
-                if (DateTime.UtcNow - writtenUtc > _liveInterval)
+                TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
+                if (elapsed > _liveInterval)
                 {
                     deadGames.Add(gameStatus);
                 }
