@@ -474,8 +474,18 @@ namespace ThwargLauncher
             {    
                 LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem, accountLaunchTimes);
                 mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
-                var launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
-                
+                LaunchManager.LaunchManagerResult launchResult;
+                try
+                {
+                    _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
+                    UpdateAccountStatus(ServerAccountStatus.Starting, launchItem);
+                    launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
+                }
+                finally
+                {
+                    _gameSessionMap.EndLaunchingSession(launchItem.ServerName, launchItem.AccountName);
+                }
+
                 if (launchResult.Success)
                 {
                     // Don't think we need to UpdateAccountStatus here

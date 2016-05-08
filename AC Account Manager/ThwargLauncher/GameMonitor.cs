@@ -153,54 +153,68 @@ namespace ThwargLauncher
             {
                 string heartbeatFile = gameSession.ProcessStatusFilepath;
                 var response = MagFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
-                if (response.IsValid)
-                {
-                    var status = GetStatusFromHeartbeatFileTime(heartbeatFile);
-                    bool statusChanged = false;
-                    if (gameSession.Status != status)
-                    {
-                        statusChanged = true;
-                        gameSession.Status = status;
-                    }
-                    if (gameSession.AccountName == null)
-                    {
-                        // newly found
-                        gameSession.AccountName = response.Status.AccountName;
-                        gameSession.ServerName = response.Status.ServerName;
-                        gameSession.CharacterName = response.Status.CharacterName;
-                        gameSession.UptimeSeconds = response.Status.UptimeSeconds;
-                        NotifyGameChange(GameChangeType.StartGame, gameSession);
-                    }
-                    else if (gameSession.AccountName != response.Status.AccountName
-                        || gameSession.ServerName != response.Status.ServerName)
-                    {
-                        // This doesn't make sense and shouldn't happen
-                        // Account & Server should be fixed for the life of a game session
-                        Log.WriteError(string.Format("Account/Server change in heartbeat file!: {0}", heartbeatFile));
-                        gameSession.AccountName = response.Status.AccountName;
-                        gameSession.ServerName = response.Status.ServerName;
-                        gameSession.UptimeSeconds = response.Status.UptimeSeconds;
-                        NotifyGameChange(GameChangeType.ChangeGame, gameSession);
-                    }
-                    else if (gameSession.CharacterName != response.Status.CharacterName)
-                    {
-                        gameSession.CharacterName = response.Status.CharacterName;
-                        gameSession.UptimeSeconds = response.Status.UptimeSeconds;
-                        NotifyGameChange(GameChangeType.ChangeGame, gameSession);
-                    }
-                    else if (statusChanged)
-                    {
-                        NotifyGameChange(GameChangeType.ChangeStatus, gameSession);
-                    }
-                }
-                else
+                if (!response.IsValid)
                 {
                     Log.WriteError(string.Format("Invalid contents in heartbeat file: {0}", heartbeatFile));
+                    continue;
+                }
+                var status = GetStatusFromHeartbeatFileTime(heartbeatFile);
+                bool newGame = false;
+                bool changedGame = false;
+                bool changedStatus = false;
+                if (gameSession.AccountName == null)
+                {
+                    newGame = true;
+                }
+                else if (gameSession.AccountName != response.Status.AccountName
+                    || gameSession.ServerName != response.Status.ServerName)
+                {
+                    // This doesn't make sense and shouldn't happen
+                    // Account & Server should be fixed for the life of a game session
+                    Log.WriteError(string.Format("Account/Server change in heartbeat file!: {0}", heartbeatFile));
+                    changedGame = true;
+                }
+                else if (gameSession.CharacterName != response.Status.CharacterName)
+                {
+                    changedGame = true;
+                }
+                else if (gameSession.Status != status)
+                {
+                    changedStatus = true;
+                    gameSession.Status = status;
+                }
+                UpdateGameSessionFromHeartbeatStatus(gameSession, heartbeatFile, response);
+                if (newGame)
+                {
+                    NotifyGameChange(GameChangeType.StartGame, gameSession);
+                }
+                else if (changedGame)
+                {
+                    NotifyGameChange(GameChangeType.ChangeGame, gameSession);
+                }
+                else if (changedStatus)
+                {
+                    NotifyGameChange(GameChangeType.ChangeStatus, gameSession);
                 }
             }
         }
+        private void UpdateGameSessionFromHeartbeatStatus(GameSession gameSession, 
+            string filepath, MagFilter.LaunchControl.HeartbeatResponse response)
+        {
+            gameSession.ProcessStatusFilepath = filepath;
+            if (!response.IsValid) { return; }
+            gameSession.AccountName = response.Status.AccountName;
+            gameSession.ServerName = response.Status.ServerName;
+            gameSession.CharacterName = response.Status.CharacterName;
+            if (gameSession.ProcessId != response.Status.ProcessId)
+            {
+                _map.SetGameSessionProcessId(gameSession, response.Status.ProcessId);
+            }
+            gameSession.UptimeSeconds = response.Status.UptimeSeconds;
+        }
         private ServerAccountStatus GetStatusFromHeartbeatFileTime(string heartbeatFile)
         {
+            if (string.IsNullOrEmpty(heartbeatFile)) { return ServerAccountStatus.Starting; }
             DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
             TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
             if (elapsed < _warningInterval)
@@ -269,14 +283,13 @@ namespace ThwargLauncher
             var response = MagFilter.LaunchControl.GetHeartbeatStatus(filepath);
             if (response.IsValid)
             {
-                var gameSession = new GameSession();
-                gameSession.AccountName = response.Status.AccountName;
-                gameSession.CharacterName = response.Status.CharacterName;
-                gameSession.ServerName = response.Status.ServerName;
-                gameSession.ProcessId = processId;
-                gameSession.UptimeSeconds = response.Status.UptimeSeconds;
-                gameSession.ProcessStatusFilepath = filepath;
-                _map.AddGameSession(gameSession);
+                var gameSession = _map.GetGameSessionByServerAccount(response.Status.ServerName, response.Status.AccountName);
+                if (gameSession == null)
+                {
+                    gameSession = new GameSession();
+                    _map.AddGameSession(gameSession);
+                }
+                UpdateGameSessionFromHeartbeatStatus(gameSession, filepath, response);
                 if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
                 {
                     _configurator.AddGameConfig(

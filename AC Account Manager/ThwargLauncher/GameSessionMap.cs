@@ -30,6 +30,24 @@ namespace ThwargLauncher
                 _sessionByServerAccount.Add(key, gameSession);
             }
         }
+        public void SetGameSessionProcessId(GameSession gameSession, int processId)
+        {
+            lock (_locker)
+            {
+                if (gameSession.ProcessId == processId) { return; }
+                // This should only occur with starting game sessions
+                // when they find their process id after finding their heartbeat file
+                if (gameSession.ProcessId != 0)
+                {
+                    // This should not occur
+                    // ProcessId should only change when a starting game session with process id 0 (unknown)
+                    // finds its heartbeat file the first time
+                }
+                _sessionByProcessId.Remove(gameSession.ProcessId);
+                gameSession.ProcessId = processId;
+                _sessionByProcessId.Add(gameSession.ProcessId, gameSession);
+            }
+        }
         public bool HasGameSessionByProcessId(int processId)
         {
             return GetGameSessionByProcessId(processId) != null;
@@ -64,23 +82,30 @@ namespace ThwargLauncher
         {
             lock (_locker)
             {
-                string key = GetServerAccountKey(serverName, accountName);
-                if (_sessionByServerAccount.ContainsKey(key))
-                {
-                    return _sessionByServerAccount[key];
-                }
-                else
-                {
-                    return null;
-                }
+                return GetGameSessionByServerAccountImplUnlocked(serverName, accountName);
+            }
+        }
+        private GameSession GetGameSessionByServerAccountImplUnlocked(string serverName, string accountName)
+        {
+            string key = GetServerAccountKey(serverName, accountName);
+            if (_sessionByServerAccount.ContainsKey(key))
+            {
+                return _sessionByServerAccount[key];
+            }
+            else
+            {
+                return null;
             }
         }
         public List<GameSession> GetAllGameSessions()
         {
             var allStatuses = new List<GameSession>();
-            foreach (var gameSession in _sessionByProcessId.Values)
+            lock (_locker)
             {
-                allStatuses.Add(gameSession);
+                foreach (var gameSession in _sessionByProcessId.Values)
+                {
+                    allStatuses.Add(gameSession);
+                }
             }
             return allStatuses;
         }
@@ -93,6 +118,40 @@ namespace ThwargLauncher
                     GameSession gameSession = _sessionByProcessId[processId];
                     _sessionByProcessId.Remove(processId);
                     _sessionByServerAccount.Remove(GetServerAccountKey(gameSession));
+                }
+            }
+        }
+        public void StartLaunchingSession(string serverName, string accountName)
+        {
+            lock (_locker)
+            {
+                var gameSession = GetGameSessionByServerAccountImplUnlocked(serverName, accountName);
+                if (gameSession != null)
+                {
+                    gameSession.Status = ServerAccountStatus.Starting;
+                }
+                else
+                {
+                    gameSession = new GameSession();
+                    gameSession.ServerName = serverName;
+                    gameSession.AccountName = accountName;
+                    gameSession.Status = ServerAccountStatus.Starting;
+                    AddGameSession(gameSession);
+                }
+            }
+        }
+        public void EndLaunchingSession(string serverName, string accountName)
+        {
+            lock (_locker)
+            {
+                var gameSession = GetGameSessionByServerAccountImplUnlocked(serverName, accountName);
+                if (gameSession != null)
+                {
+                    if (gameSession.Status == ServerAccountStatus.Starting)
+                    {
+                        // If it never made it out of starting, then it should be set to warning
+                        gameSession.Status = ServerAccountStatus.Warning;
+                    }
                 }
             }
         }
