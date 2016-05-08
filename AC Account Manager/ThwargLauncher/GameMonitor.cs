@@ -11,9 +11,10 @@ namespace ThwargLauncher
         private static object _locker = new object();
 
         private System.Timers.Timer _timer = new System.Timers.Timer();
-        private readonly GameStatusMap _map;
+        private readonly GameSessionMap _map;
         private Configurator _configurator;
-        private TimeSpan _liveInterval = new TimeSpan(0, 1, 0); // must be written this recently to be alive
+        private TimeSpan _liveInterval; // must be written this recently to be alive
+        private TimeSpan _warningInterval; // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
@@ -21,19 +22,19 @@ namespace ThwargLauncher
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
 
-        public enum GameChangeType { StartGame, EndGame, ChangeGame };
-        public delegate void GameChangeHandler(GameChangeType changeType, GameStatus gameStatus);
+        public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus };
+        public delegate void GameChangeHandler(GameChangeType changeType, GameSession gameSession);
         public event GameChangeHandler GameChangeEvent;
 
-        public GameMonitor(GameStatusMap map, Configurator configurator)
+        public GameMonitor(GameSessionMap map, Configurator configurator)
         {
             _map = map;
             _configurator = configurator;
         }
         public void Start() // main thread
         {
-            int seconds = ConfigSettings.GetConfigInt("HeartbeatFailedTimeoutSeconds", 60);
-            _liveInterval = TimeSpan.FromSeconds(seconds);
+            _liveInterval = TimeSpan.FromSeconds(ConfigSettings.GetConfigInt("HeartbeatFailedTimeoutSeconds", 60));
+            _warningInterval = TimeSpan.FromSeconds(ConfigSettings.GetConfigInt("HeartbeatWarningTimeoutSeconds", 15));
 
             int intervalMilliseconds = 3000;
             //intervalMilliseconds = 20000; // TODO
@@ -118,19 +119,27 @@ namespace ThwargLauncher
         /// </summary>
         private void CheckLiveProcessFiles()
         {
-            var deadGames = new List<GameStatus>();
-            foreach (var gameStatus in _map.GetAllGameStatuses())
+            var deadGames = new List<GameSession>();
+            foreach (var gameSession in _map.GetAllGameSessions())
             {
-                string heartbeatFile = gameStatus.ProcessStatusFilepath;
-                DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
-                TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
-                if (elapsed > _liveInterval)
+                string heartbeatFile = gameSession.ProcessStatusFilepath;
+                var status = GetStatusFromHeartbeatFileTime(heartbeatFile);
+                if (status == ServerAccountStatus.None)
                 {
-                    deadGames.Add(gameStatus);
+                    deadGames.Add(gameSession);
+                }
+                else
+                {
+                    if (gameSession.Status != status)
+                    {
+                        gameSession.Status = status;
+                        NotifyGameChange(GameChangeType.ChangeStatus, gameSession);
+                    }
                 }
             }
             foreach (var deadGame in deadGames)
             {
+                deadGame.Status = ServerAccountStatus.None;
                 RemoveObsoleteHeartbeatFile(deadGame.ProcessId);
             }
         }
@@ -140,40 +149,73 @@ namespace ThwargLauncher
         /// </summary>
         private void ReadProcessFiles()
         {
-            foreach (var gameStatus in _map.GetAllGameStatuses())
+            foreach (var gameSession in _map.GetAllGameSessions())
             {
-                string heartbeatFile = gameStatus.ProcessStatusFilepath;
+                string heartbeatFile = gameSession.ProcessStatusFilepath;
                 var response = MagFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
                 if (response.IsValid)
                 {
-                    if (gameStatus.AccountName == null)
+                    var status = GetStatusFromHeartbeatFileTime(heartbeatFile);
+                    bool statusChanged = false;
+                    if (gameSession.Status != status)
+                    {
+                        statusChanged = true;
+                        gameSession.Status = status;
+                    }
+                    if (gameSession.AccountName == null)
                     {
                         // newly found
-                        gameStatus.AccountName = response.Status.AccountName;
-                        gameStatus.ServerName = response.Status.ServerName;
-                        gameStatus.CharacterName = response.Status.CharacterName;
-                        gameStatus.UptimeSeconds = response.Status.UptimeSeconds;
-                        NotifyGameChange(GameChangeType.StartGame, gameStatus);
+                        gameSession.AccountName = response.Status.AccountName;
+                        gameSession.ServerName = response.Status.ServerName;
+                        gameSession.CharacterName = response.Status.CharacterName;
+                        gameSession.UptimeSeconds = response.Status.UptimeSeconds;
+                        NotifyGameChange(GameChangeType.StartGame, gameSession);
                     }
-                    if (gameStatus.AccountName != response.Status.AccountName
-                        || gameStatus.ServerName != response.Status.ServerName)
+                    else if (gameSession.AccountName != response.Status.AccountName
+                        || gameSession.ServerName != response.Status.ServerName)
                     {
+                        // This doesn't make sense and shouldn't happen
+                        // Account & Server should be fixed for the life of a game session
                         Log.WriteError(string.Format("Account/Server change in heartbeat file!: {0}", heartbeatFile));
-                        gameStatus.AccountName = response.Status.AccountName;
-                        gameStatus.ServerName = response.Status.ServerName;
-                        gameStatus.UptimeSeconds = response.Status.UptimeSeconds;
-                        NotifyGameChange(GameChangeType.ChangeGame, gameStatus);
+                        gameSession.AccountName = response.Status.AccountName;
+                        gameSession.ServerName = response.Status.ServerName;
+                        gameSession.UptimeSeconds = response.Status.UptimeSeconds;
+                        NotifyGameChange(GameChangeType.ChangeGame, gameSession);
                     }
-                    if (gameStatus.CharacterName != response.Status.CharacterName)
+                    else if (gameSession.CharacterName != response.Status.CharacterName)
                     {
-                        gameStatus.CharacterName = response.Status.CharacterName;
-                        gameStatus.UptimeSeconds = response.Status.UptimeSeconds;
-                        NotifyGameChange(GameChangeType.ChangeGame, gameStatus);
+                        gameSession.CharacterName = response.Status.CharacterName;
+                        gameSession.UptimeSeconds = response.Status.UptimeSeconds;
+                        NotifyGameChange(GameChangeType.ChangeGame, gameSession);
+                    }
+                    else if (statusChanged)
+                    {
+                        NotifyGameChange(GameChangeType.ChangeStatus, gameSession);
                     }
                 }
                 else
                 {
                     Log.WriteError(string.Format("Invalid contents in heartbeat file: {0}", heartbeatFile));
+                }
+            }
+        }
+        private ServerAccountStatus GetStatusFromHeartbeatFileTime(string heartbeatFile)
+        {
+            DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
+            TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
+            if (elapsed < _warningInterval)
+            {
+                return ServerAccountStatus.Running;
+            }
+            else
+            {
+                if (elapsed > _liveInterval)
+                {
+                    return ServerAccountStatus.None;
+                }
+                else
+                {
+                    return ServerAccountStatus.Warning;
                 }
             }
         }
@@ -187,9 +229,10 @@ namespace ThwargLauncher
                 if (fileInfo.Extension == ".txt")
                 {
                     processId = MagFilter.FileLocations.GetProcessIdFromProcessDllToExeFilepath(fileInfo.Name);
-                    if (DateTime.UtcNow - fileInfo.LastWriteTimeUtc < _liveInterval)
+                    TimeSpan elapsed = (DateTime.UtcNow - fileInfo.LastWriteTimeUtc);
+                    if (elapsed < _liveInterval)
                     {
-                        if (_map.HasGameStatusByProcessId(processId))
+                        if (_map.HasGameSessionByProcessId(processId))
                         {
                             // This is a known game we are monitoring
                         }
@@ -226,14 +269,14 @@ namespace ThwargLauncher
             var response = MagFilter.LaunchControl.GetHeartbeatStatus(filepath);
             if (response.IsValid)
             {
-                var gameStatus = new GameStatus();
-                gameStatus.AccountName = response.Status.AccountName;
-                gameStatus.CharacterName = response.Status.CharacterName;
-                gameStatus.ServerName = response.Status.ServerName;
-                gameStatus.ProcessId = processId;
-                gameStatus.UptimeSeconds = response.Status.UptimeSeconds;
-                gameStatus.ProcessStatusFilepath = filepath;
-                _map.AddGameStatus(gameStatus);
+                var gameSession = new GameSession();
+                gameSession.AccountName = response.Status.AccountName;
+                gameSession.CharacterName = response.Status.CharacterName;
+                gameSession.ServerName = response.Status.ServerName;
+                gameSession.ProcessId = processId;
+                gameSession.UptimeSeconds = response.Status.UptimeSeconds;
+                gameSession.ProcessStatusFilepath = filepath;
+                _map.AddGameSession(gameSession);
                 if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
                 {
                     _configurator.AddGameConfig(
@@ -244,24 +287,25 @@ namespace ThwargLauncher
                         }
                         );
                 }
-                NotifyGameChange(GameChangeType.StartGame, gameStatus);
+                NotifyGameChange(GameChangeType.StartGame, gameSession);
             }
         }
         private void RemoveObsoleteHeartbeatFile(int processId)
         {
             // obsolete heartbeat file
-            var gameStatus = _map.GetGameStatusByProcessId(processId);
-            if (gameStatus != null)
+            var gameSession = _map.GetGameSessionByProcessId(processId);
+            if (gameSession != null)
             {
-                _map.RemoveGameStatusByProcessId(processId);
-                NotifyGameChange(GameChangeType.EndGame, gameStatus);
+                _map.RemoveGameSessionByProcessId(processId);
+                gameSession.Status = ServerAccountStatus.None;
+                NotifyGameChange(GameChangeType.EndGame, gameSession);
             }
         }
-        private void NotifyGameChange(GameChangeType changeType, GameStatus gameStatus)
+        private void NotifyGameChange(GameChangeType changeType, GameSession gameSession)
         {
             if (GameChangeEvent != null)
             {
-                GameChangeEvent(changeType, gameStatus);
+                GameChangeEvent(changeType, gameSession);
             }
         }
     }

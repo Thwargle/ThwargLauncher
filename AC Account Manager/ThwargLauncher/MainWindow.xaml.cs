@@ -30,7 +30,7 @@ namespace ThwargLauncher
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
-        private GameStatusMap _gameStatusMap;
+        private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
         private GameMonitor _gameMonitor;
         private UiGameMonitorBridge _uiGameMonitorBridge = null;
@@ -42,8 +42,8 @@ namespace ThwargLauncher
         {
             CheckForProgramUpdate();
             InitializeComponent();
-            _gameStatusMap = new GameStatusMap();
-            _viewModel = new MainWindowViewModel(_gameStatusMap);
+            _gameSessionMap = new GameSessionMap();
+            _viewModel = new MainWindowViewModel(_gameSessionMap);
             DataContext = _viewModel;
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
 
@@ -92,7 +92,7 @@ namespace ThwargLauncher
         {
             _configurator = new Configurator();
             RecordGameDll();
-            _gameMonitor = new GameMonitor(_gameStatusMap, _configurator);
+            _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
@@ -410,7 +410,8 @@ namespace ThwargLauncher
                     {
                         if (server.ServerSelected)
                         {
-                            if (_gameStatusMap.HasGameStatusByServerAccount(serverName: server.ServerName, accountName: account.Name))
+                            var state = _gameSessionMap.GetGameSessionStateByServerAccount(serverName: server.ServerName, accountName: account.Name);
+                            if (state != ServerAccountStatus.None)
                             {
                                 continue;
                             }
@@ -477,7 +478,7 @@ namespace ThwargLauncher
                 
                 if (launchResult.Success)
                 {
-                    UpdateAccountStatus(true, launchItem);
+                    // Don't think we need to UpdateAccountStatus here
                     ++serverIndex;
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                     // TODO
@@ -487,7 +488,7 @@ namespace ThwargLauncher
                 }
                 else
                 {
-                    UpdateAccountStatus(false, launchItem);
+                    // Don't think we need to UpdateAccountStatus here
                     globalQueue.Enqueue(launchItem);
                     workerReportProgress("Requeued", launchItem, serverIndex, serverTotal);
                 }
@@ -500,12 +501,10 @@ namespace ThwargLauncher
 
             }
         }
-
-        private void UpdateAccountStatus(bool success, LaunchItem launchItem)
+        private void UpdateAccountStatus(ServerAccountStatus status, LaunchItem launchItem)
         {
-            _viewModel.updateAccountStatus(success, launchItem.ServerName, launchItem.AccountName);
+            _viewModel.updateAccountStatus(status, launchItem.ServerName, launchItem.AccountName);
         }
-
         private void HandleLaunchMgrStatus(string status, LaunchItem launchItem, int serverIndex, int serverTotal)
         {
             workerReportProgress(status, launchItem, serverIndex, serverTotal);

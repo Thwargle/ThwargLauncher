@@ -97,8 +97,8 @@
     </Compile>
     <Compile Include="DiagnosticWindowViewModel.cs" />
     <Compile Include="GameMonitor.cs" />
-    <Compile Include="GameStatus.cs" />
-    <Compile Include="GameStatusMap.cs" />
+    <Compile Include="GameRename.cs" />
+    <Compile Include="GameSessionMap.cs" />
     <Compile Include="HelpWindowViewModel.cs" />
     <Compile Include="LaunchItem.cs" />
     <Compile Include="LaunchManager.cs" />
@@ -123,6 +123,7 @@
     <Compile Include="ProfileManagement\ProfileManager.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="AccountManagement\UserAccount.cs" />
+    <Compile Include="ServerAccountStatus.cs" />
     <Compile Include="UiGameMonitorBridge.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />

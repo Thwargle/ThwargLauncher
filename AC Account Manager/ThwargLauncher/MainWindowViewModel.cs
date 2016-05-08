@@ -11,15 +11,15 @@ namespace ThwargLauncher
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        private GameStatusMap _gameStatusMap;
+        private GameSessionMap _gameSessionMap;
         public void Reset()
         {
             KnownUserAccounts = new ObservableCollection<UserAccount>();
             SelectedUserAccountName = "";
         }
-        public MainWindowViewModel(GameStatusMap gameStatusMap)
+        public MainWindowViewModel(GameSessionMap gameSessionMap)
         {
-            _gameStatusMap = gameStatusMap;
+            _gameSessionMap = gameSessionMap;
             NewProfileCommand = new DelegateCommand(
                     CreateNewProfile
                 );
@@ -142,8 +142,8 @@ namespace ThwargLauncher
                     var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
                     if (charSetting != null)
                     {
-                        bool isRunning = _gameStatusMap.HasGameStatusByServerAccount(server.ServerName, account.Name);
-                        string statusSymbol = GetStatusSymbol(isRunning);
+                        var state = _gameSessionMap.GetGameSessionStateByServerAccount(server.ServerName, account.Name);
+                        string statusSymbol = GetStatusSymbol(state);
                         server.ServerStatusSymbol = statusSymbol;
                         server.ServerSelected = charSetting.Active;
                         server.ChosenCharacter = charSetting.ChosenCharacter;
@@ -233,34 +233,34 @@ namespace ThwargLauncher
             mgr.CreateProfileIfDoesNotExist(profileName);
         }
 
-        internal void updateAccountStatus(bool success, string serverName, string accountName)
+        internal void updateAccountStatus(ServerAccountStatus status, string serverName, string accountName)
         {
             foreach (var account in KnownUserAccounts)
             {
                 if (account.Name == accountName)
                 {
                     var server = account.Servers.Find(x => x.ServerName == serverName);
-                    server.ServerStatusSymbol = GetStatusSymbol(success);
+                    server.ServerStatusSymbol = GetStatusSymbol(status);
                     account.notifyAccountSummaryChanged();
                 }
             }
         }
 
-        private string GetStatusSymbol(bool status)
+        private string GetStatusSymbol(ServerAccountStatus status)
         {
-            //todo handle cancelled state
-            string statusSymbol = "✖";
-            if (status)
+            switch (status)
             {
-                statusSymbol = "✔";
+                case ServerAccountStatus.None:
+                    return "🎻";
+                case ServerAccountStatus.Starting:
+                    return "=";
+                case ServerAccountStatus.Running:
+                    return "✔";
+                case ServerAccountStatus.Warning:
+                    return "☔";
+                default:
+                    return "✖";
             }
-            else
-            {
-                statusSymbol = "🎻";  //☔
-            }
-
-            return statusSymbol;
         }
-
     }
 }

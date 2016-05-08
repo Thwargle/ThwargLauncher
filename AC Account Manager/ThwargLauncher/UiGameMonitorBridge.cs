@@ -30,19 +30,18 @@ namespace ThwargLauncher
         /// Handle events from Game Monitor, on monitor thread
         /// We just dispatch them asynchronously over to ui thread
         /// </summary>
-        private void _gameMonitor_GameChangeEvent(GameMonitor.GameChangeType changeType, GameStatus gameStatus)
+        private void _gameMonitor_GameChangeEvent(GameMonitor.GameChangeType changeType, GameSession gameSession)
         {
             object state = null;
             _uicontext.Post(new SendOrPostCallback(
-                (obj) => UiHandleGameChangeEvent(changeType, gameStatus)), state);
+                (obj) => UiHandleGameChangeEvent(changeType, gameSession)), state);
         }
         /// <summary>
         /// Handle Game Monitor events, now on ui thread
         /// </summary>
-        private void UiHandleGameChangeEvent(GameMonitor.GameChangeType changeType, GameStatus gameStatus)
+        private void UiHandleGameChangeEvent(GameMonitor.GameChangeType changeType, GameSession gameSession)
         {
-            bool success = (changeType == GameMonitor.GameChangeType.EndGame ? false : true);
-            _viewModel.updateAccountStatus(success, gameStatus.ServerName, gameStatus.AccountName);
+            _viewModel.updateAccountStatus(gameSession.Status, gameSession.ServerName, gameSession.AccountName);
         }
     }
 }
