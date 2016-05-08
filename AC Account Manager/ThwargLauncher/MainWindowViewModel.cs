@@ -33,7 +33,7 @@ namespace ThwargLauncher
                     DeleteProfile
                 );
         }
-        public void CreateNewProfile()
+        private void CreateNewProfile()
         {
             ProfileManager mgr = new ProfileManager();
             var newProfile = mgr.CreateNewProfile();

@@ -3,6 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DiagnosticsWindow" Height="300" Width="300">
     <Grid>
-        <TextBox Text="{Binding Path=DiagnosticInfo,Mode=OneWay}" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" />
+        <TextBox Text="{Binding Path=DiagnosticInfo,Mode=OneWay}" HorizontalAlignment="Stretch" Margin="0,0,0,46" TextWrapping="Wrap" VerticalAlignment="Stretch" />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Content="Open Logs" Command="{Binding OpenLogsCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>

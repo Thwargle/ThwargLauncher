@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
+using CommonControls;
 
 namespace ThwargLauncher
 {
     public class DiagnosticWindowViewModel
     {
         private readonly Configurator _configurator;
+        public ICommand OpenLogsCommand { get; private set; }
 
         public DiagnosticWindowViewModel(Configurator configurator)
         {
             _configurator = configurator;
+            OpenLogsCommand = new DelegateCommand(
+                    PerformOpenLogs
+                );
+
         }
         public string DiagnosticInfo { get { return GetDiagnosticString(); } }
         private string GetDiagnosticString()
@@ -30,6 +35,16 @@ namespace ThwargLauncher
                 text.AppendLine();
             }
             return text.ToString();
+        }
+        private void PerformOpenLogs()
+        {
+            string filepath = MagFilter.FileLocations.GetRunningFolder();
+            if (string.IsNullOrEmpty(filepath))
+            {
+                System.Windows.MessageBox.Show("Empty running folder returned from MagFilter!");
+                return;
+            }
+            System.Diagnostics.Process.Start(filepath);
         }
     }
 }
