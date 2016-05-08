@@ -10,7 +10,11 @@ namespace MagFilter
     {
         public class LaunchInfo
         {
+            public const string MASTER_FILE_VERSION = "1.2";
+            public const string MASTER_FILE_VERSION_COMPAT = "1";
+
             public bool IsValid;
+            public string FileVersion;
             public DateTime LaunchTime;
             public string ServerName;
             public string AccountName;
@@ -58,8 +62,10 @@ namespace MagFilter
             string filepath = FileLocations.GetCurrentLaunchFilePath();
             using (var file = new StreamWriter(filepath, append: false))
             {
-                file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc); // Format :O converted back out of UTC
-                file.WriteLine("GameInstance=ServerName:'{0}' AccountName:'{1}' CharacterName:'{2}'", serverName, accountName, characterName);
+                file.WriteLine("FileVersion:{0}", LaunchInfo.MASTER_FILE_VERSION);
+                file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc);
+                file.WriteLine("GameInstance=ServerName:'{0}' AccountName:'{1}' CharacterName:'{2}'",
+                    serverName, accountName, characterName);
             }
         }
         public static LaunchInfo DebugGetLaunchInfo()
@@ -82,6 +88,14 @@ namespace MagFilter
                     return info;
                 }
                 var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+
+                info.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
+                if (!info.FileVersion.StartsWith(LaunchInfo.MASTER_FILE_VERSION_COMPAT))
+                {
+                    throw new Exception(string.Format(
+                        "Incompatible launch info file version: {0}",
+                        info.FileVersion));
+                }
 
                 info.LaunchTime = settings.GetValue("Timestamp").GetDateParam("TimeUtc");
                 TimeSpan maxLatency = new TimeSpan(0, 0, 0, 30); // 30 seconds max latency from exe call to game launch
