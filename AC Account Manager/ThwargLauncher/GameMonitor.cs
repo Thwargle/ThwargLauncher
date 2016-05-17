@@ -301,12 +301,17 @@ namespace ThwargLauncher
             if (response.IsValid)
             {
                 var gameSession = _map.GetGameSessionByServerAccount(response.Status.ServerName, response.Status.AccountName);
+                bool newGame = false;
                 if (gameSession == null)
                 {
                     gameSession = new GameSession();
-                    _map.AddGameSession(gameSession);
+                    newGame = true;
                 }
                 UpdateGameSessionFromHeartbeatStatus(gameSession, filepath, response);
+                if (newGame)
+                {
+                    _map.AddGameSession(gameSession);
+                }
                 if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
                 {
                     _configurator.AddGameConfig(
