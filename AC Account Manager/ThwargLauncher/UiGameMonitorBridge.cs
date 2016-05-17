@@ -21,27 +21,46 @@ namespace ThwargLauncher
         public void Start()
         {
             _gameMonitor.GameChangeEvent += _gameMonitor_GameChangeEvent;
+            _gameMonitor.GameCommandEvent +=_gameMonitor_GameCommandEvent;
         }
         public void Stop()
         {
             _gameMonitor.GameChangeEvent -= _gameMonitor_GameChangeEvent;
+            _gameMonitor.GameCommandEvent -= _gameMonitor_GameCommandEvent;
         }
         /// <summary>
         /// Handle events from Game Monitor, on monitor thread
         /// We just dispatch them asynchronously over to ui thread
         /// </summary>
-        private void _gameMonitor_GameChangeEvent(GameMonitor.GameChangeType changeType, GameSession gameSession)
+        private void _gameMonitor_GameChangeEvent(GameSession gameSession, GameMonitor.GameChangeType changeType)
         {
             object state = null;
             _uicontext.Post(new SendOrPostCallback(
-                (obj) => UiHandleGameChangeEvent(changeType, gameSession)), state);
+                (obj) => UiHandleGameChangeEvent(gameSession, changeType)), state);
         }
         /// <summary>
         /// Handle Game Monitor events, now on ui thread
         /// </summary>
-        private void UiHandleGameChangeEvent(GameMonitor.GameChangeType changeType, GameSession gameSession)
+        private void UiHandleGameChangeEvent(GameSession gameSession, GameMonitor.GameChangeType changeType)
         {
-            _viewModel.updateAccountStatus(gameSession.Status, gameSession.ServerName, gameSession.AccountName);
+            _viewModel.UpdateAccountStatus(gameSession.ServerName, gameSession.AccountName, gameSession.Status);
+        }
+        /// <summary>
+        /// Handle events from Game Monitor, on monitor thread
+        /// We just dispatch them asynchronously over to ui thread
+        /// </summary>
+        private void _gameMonitor_GameCommandEvent(GameSession gameSession, string command)
+        {
+            object state = null;
+            _uicontext.Post(new SendOrPostCallback(
+                (obj) => UiHandleGameChangeEvent(gameSession, command)), state);
+        }
+        /// <summary>
+        /// Handle Game Command events, now on ui thread
+        /// </summary>
+        private void UiHandleGameChangeEvent(GameSession gameSession, string command)
+        {
+            _viewModel.ExecuteGameCommand(gameSession.ServerName, gameSession.AccountName, command);
         }
     }
 }

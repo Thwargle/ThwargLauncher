@@ -15,5 +15,6 @@ namespace MagFilter
         public int ProcessId;
         public string MagFilterVersion;
         public string MagFilterFilePath;
+        public string Command;
     }
 }

@@ -234,17 +234,37 @@ namespace ThwargLauncher
             mgr.CreateProfileIfDoesNotExist(profileName);
         }
 
-        internal void updateAccountStatus(ServerAccountStatus status, string serverName, string accountName)
+        internal void UpdateAccountStatus(string serverName, string accountName, ServerAccountStatus status)
+        {
+            AccountServer acctServer = FindServer(serverName, accountName);
+            if (acctServer != null)
+            {
+                acctServer.tServer.ServerStatusSymbol = GetStatusSymbol(status);
+                acctServer.tAccount.notifyAccountSummaryChanged();
+            }
+        }
+        internal void ExecuteGameCommand(string serverName, string accountName, string command)
+        {
+            AccountServer acctServer = FindServer(serverName, accountName);
+            if (acctServer != null)
+            {
+                acctServer.tServer.ServerStatusSymbol = command;
+                acctServer.tAccount.notifyAccountSummaryChanged();
+            }
+        }
+        class AccountServer { public Server tServer; public UserAccount tAccount; }
+        private AccountServer FindServer(string serverName, string accountName)
         {
             foreach (var account in KnownUserAccounts)
             {
                 if (account.Name == accountName)
                 {
                     var server = account.Servers.Find(x => x.ServerName == serverName);
-                    server.ServerStatusSymbol = GetStatusSymbol(status);
-                    account.notifyAccountSummaryChanged();
+                    AccountServer acctServer = new AccountServer() { tAccount = account, tServer = server };
+                    return acctServer;
                 }
             }
+            return null;
         }
         private string _SessionStatusNone;
         private string _SessionStatusStarting;

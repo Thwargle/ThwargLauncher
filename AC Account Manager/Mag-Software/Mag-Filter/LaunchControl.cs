@@ -222,6 +222,10 @@ namespace MagFilter
                 info.Status.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
                 info.Status.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
                 info.Status.MagFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "MagFilterFilePath");
+                if (settings.ContainsKey("Command"))
+                {
+                    info.Status.Command = DecodeString(SettingHelpers.GetSingleStringValue(settings, "Command"));
+                }
 
                 info.IsValid = true;
             }
@@ -284,6 +288,24 @@ namespace MagFilter
         private static bool BeginsWith(string line, string prefix)
         {
             return line != null && line.StartsWith(prefix) && line.Length > prefix.Length;
+        }
+        public static string EncodeString(string text)
+        {
+            if (text == null) { return ""; }
+            text = text.Replace("|", "|V");
+            text = text.Replace("\"", "|Q");
+            text = text.Replace(",", "|C");
+            text = text.Replace("'", "|q");
+            return text;
+        }
+        public static string DecodeString(string text)
+        {
+            if (text == null) { return ""; }
+            text = text.Replace("|q", "'");
+            text = text.Replace("|C", ",");
+            text = text.Replace("|Q", "\"");
+            text = text.Replace("|V", "|");
+            return text;
         }
     }
 }

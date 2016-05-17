@@ -23,8 +23,10 @@ namespace ThwargLauncher
         private bool _isWorking = false; // reentrancy guard
 
         public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus };
-        public delegate void GameChangeHandler(GameChangeType changeType, GameSession gameSession);
+        public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
         public event GameChangeHandler GameChangeEvent;
+        public delegate void GameCommandHandler(GameSession gameSession, string command);
+        public event GameCommandHandler GameCommandEvent;
 
         public GameMonitor(GameSessionMap map, Configurator configurator)
         {
@@ -133,7 +135,7 @@ namespace ThwargLauncher
                     if (gameSession.Status != status)
                     {
                         gameSession.Status = status;
-                        NotifyGameChange(GameChangeType.ChangeStatus, gameSession);
+                        NotifyGameChange(gameSession, GameChangeType.ChangeStatus);
                     }
                 }
             }
@@ -191,15 +193,19 @@ namespace ThwargLauncher
                 UpdateGameSessionFromHeartbeatStatus(gameSession, heartbeatFile, response);
                 if (newGame)
                 {
-                    NotifyGameChange(GameChangeType.StartGame, gameSession);
+                    NotifyGameChange(gameSession, GameChangeType.StartGame);
                 }
                 else if (changedGame)
                 {
-                    NotifyGameChange(GameChangeType.ChangeGame, gameSession);
+                    NotifyGameChange(gameSession, GameChangeType.ChangeGame);
                 }
                 else if (changedStatus)
                 {
-                    NotifyGameChange(GameChangeType.ChangeStatus, gameSession);
+                    NotifyGameChange(gameSession, GameChangeType.ChangeStatus);
+                }
+                if (!string.IsNullOrEmpty(response.Status.Command))
+                {
+                    NotifyGameCommand(gameSession, response.Status.Command);
                 }
             }
         }
@@ -322,7 +328,7 @@ namespace ThwargLauncher
                         }
                         );
                 }
-                NotifyGameChange(GameChangeType.StartGame, gameSession);
+                NotifyGameChange(gameSession, GameChangeType.StartGame);
             }
         }
         private void RemoveObsoleteHeartbeatFile(int processId)
@@ -333,14 +339,21 @@ namespace ThwargLauncher
             {
                 _map.RemoveGameSessionByProcessId(processId);
                 gameSession.Status = ServerAccountStatus.None;
-                NotifyGameChange(GameChangeType.EndGame, gameSession);
+                NotifyGameChange(gameSession, GameChangeType.EndGame);
             }
         }
-        private void NotifyGameChange(GameChangeType changeType, GameSession gameSession)
+        private void NotifyGameChange(GameSession gameSession, GameChangeType changeType)
         {
             if (GameChangeEvent != null)
             {
-                GameChangeEvent(changeType, gameSession);
+                GameChangeEvent(gameSession, changeType);
+            }
+        }
+        private void NotifyGameCommand( GameSession gameSession, string command)
+        {
+            if (GameCommandEvent != null)
+            {
+                GameCommandEvent(gameSession, command);
             }
         }
     }

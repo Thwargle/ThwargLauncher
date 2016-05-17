@@ -58,13 +58,13 @@ namespace MagFilter
         {
             SendMessageImpl(null, null);
         }
-        public void SendImmediateMessage(string key, string value)
+        public static void SendImmediateMessage(string key, string value)
         {
             lock (_locker)
             {
-                _timer.Stop();
-                SendMessageImpl(key, value);
-                _timer.Start();
+                theHeartbeat._timer.Stop();
+                theHeartbeat.SendMessageImpl(key, value);
+                theHeartbeat._timer.Start();
             }
         }
         /// <summary>
@@ -72,17 +72,18 @@ namespace MagFilter
         /// </summary>
         private void SendMessageImpl(string key, string value)
         {
-            lock (_locker)
+            try
             {
-                try
-                {
-                    LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status, key, value);
-                }
-                catch
-                {
-                    log.WriteLogMsg("Exception writing heartbeat status");
-                }
+                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status, EncodeString(key), EncodeString(value));
             }
+            catch
+            {
+                log.WriteLogMsg("Exception writing heartbeat status");
+            }
+    }
+        private static string EncodeString(string text)
+        {
+            return LaunchControl.EncodeString(text);
         }
     }
 }

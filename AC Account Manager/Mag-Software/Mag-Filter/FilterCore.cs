@@ -24,6 +24,7 @@ namespace MagFilter
 
 		DefaultFirstCharacterManager defaultFirstCharacterManager;
 	    private LauncherChooseCharacterManager chooseCharacterManager;
+        private MagFilterCommandManager magFilterCommandManager;
 		LoginNextCharacterManager loginNextCharacterManager;
 
         private string PluginName { get { return FileLocations.PluginName; } }
@@ -37,6 +38,7 @@ namespace MagFilter
 
 			defaultFirstCharacterManager = new DefaultFirstCharacterManager(loginCharacterTools);
             chooseCharacterManager = new LauncherChooseCharacterManager(loginCharacterTools);
+            magFilterCommandManager = new MagFilterCommandManager();
 			loginNextCharacterManager = new LoginNextCharacterManager(loginCharacterTools);
 
 			ClientDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ClientDispatch);
@@ -56,7 +58,6 @@ namespace MagFilter
                 assembly.GetName().Version,
                 System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location)
                                 ));
-
         }
 
         public void ExternalShutdown() { Shutdown(); } // for game emulator
@@ -119,7 +120,8 @@ namespace MagFilter
 				defaultFirstCharacterManager.FilterCore_CommandLineText(sender, e);
                 chooseCharacterManager.FilterCore_CommandLineText(sender, e);
 				loginNextCharacterManager.FilterCore_CommandLineText(sender, e);
-			}
+                magFilterCommandManager.FilterCore_CommandLineText(sender, e);
+            }
 			catch (Exception ex) { Debug.LogException(ex); }
 		}
 	}

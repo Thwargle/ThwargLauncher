@@ -514,7 +514,7 @@ namespace ThwargLauncher
         }
         private void UpdateAccountStatus(ServerAccountStatus status, LaunchItem launchItem)
         {
-            _viewModel.updateAccountStatus(status, launchItem.ServerName, launchItem.AccountName);
+            _viewModel.UpdateAccountStatus(launchItem.ServerName, launchItem.AccountName, status);
         }
         private void HandleLaunchMgrStatus(string status, LaunchItem launchItem, int serverIndex, int serverTotal)
         {
