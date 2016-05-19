@@ -32,7 +32,7 @@ namespace MagFilter
         private void StartBeating()
         {
             int dllProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
-            _gameToLauncherFilepath = FileLocations.GetRunningProcessDllToExeFilepath(dllProcessId);
+            _gameToLauncherFilepath = FileLocations.GetProcessHeartbeatFilepath(dllProcessId);
 
             int intervalMilliseconds = 3000;
             _timer = new System.Windows.Forms.Timer();
