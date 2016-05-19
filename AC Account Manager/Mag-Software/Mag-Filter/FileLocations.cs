@@ -51,14 +51,14 @@ namespace MagFilter
             return profilesFolder;
         }
 
-        public static string GetProcessHeartbeatFilepath(int processId)
+        internal static string GetProcessHeartbeatFilepath(int processId)
         {
             string filename = string.Format("game_{0}.txt", processId);
             string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
             return filepath;
         }
         // returns 0 for failure to parse
-        public static int GetProcessIdFromProcessDllToExeFilepath(string filename)
+        public static int GetProcessIdFromProcessHeartbeatFilepath(string filename)
         {
             if (filename.Length < 10) { return 0; }
             if (!filename.StartsWith("game_", StringComparison.CurrentCultureIgnoreCase)) { return 0; }
