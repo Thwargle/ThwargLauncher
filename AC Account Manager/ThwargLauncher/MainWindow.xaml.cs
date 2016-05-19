@@ -96,18 +96,7 @@ namespace ThwargLauncher
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
-            /*
-            try
-            {
-                _webManager.Listen();
-            }
-            catch (Exception exc)
-            {
-                Log.WriteError("Exception starting web service: " + exc.Message);
-                ShowErrorMessage("Failed to start web service");
-
-            }
-             * */
+            Log.WriteHeader();
         }
         private void RecordGameDll()
         {
