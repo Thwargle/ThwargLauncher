@@ -11,7 +11,7 @@ namespace ThwargLauncher
         public static void WriteError(string logText)
         {
             // Write the string to a file.
-            string filepath = GetLogFilePath();
+            string filepath = GetLauncherLogPath();
 
             lock (_locker)
             {
@@ -26,7 +26,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        internal static string GetLogFilePath()
+        internal static string GetLauncherLogPath()
         {
             string filepath = WriteableDataFolder.FullName + @"\ThwargLauncher_log.txt";
             return filepath;
