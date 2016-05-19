@@ -22,11 +22,12 @@ namespace MagFilter
                 if (string.IsNullOrEmpty(_logFilepath))
                 {
                     AssemblySettings settings = new AssemblySettings();
-                    _logFilepath = FileLocations.ExpandFilepath(settings["LogFilepath"]);
-                    if (string.IsNullOrEmpty(_logFilepath))
+                    string filepath = settings["LogFilepath"];
+                    if (string.IsNullOrEmpty(filepath))
                     {
-                        _logFilepath = FileLocations.PluginPersonalFolder.FullName + @"\MagFilter2_Log.txt";
+                        filepath = FileLocations.AppLogsFolder +  @"\Mag-Filter_%PID%_log.txt";
                     }
+                    _logFilepath = FileLocations.ExpandFilepath(filepath);
                     // Create any needed folders
                     FileLocations.CreateAnyNeededFolders(_logFilepath);
                 }
