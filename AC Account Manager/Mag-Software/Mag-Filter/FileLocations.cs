@@ -51,7 +51,7 @@ namespace MagFilter
             return profilesFolder;
         }
 
-        internal static string GetProcessHeartbeatFilepath(int processId)
+        internal static string GetGameHeartbeatFilepath(int processId)
         {
             string filename = string.Format("game_{0}.txt", processId);
             string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
