@@ -72,6 +72,18 @@ namespace MagFilter
             }
             return processId;
         }
+        public static string GetGameToLauncherFilepath(int processId)
+        {
+            string filename = string.Format("gameToLauncher_{0}.txt", processId);
+            string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
+            return filepath;
+        }
+        public static string GetLauncherToGameFilepath(int processId)
+        {
+            string filename = string.Format("launcherToGame_{0}.txt", processId);
+            string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
+            return filepath;
+        }
 
         public static string AppBaseFolder
         {
