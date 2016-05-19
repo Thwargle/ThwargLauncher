@@ -96,12 +96,12 @@
       <DependentUpon>DiagnosticWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DiagnosticWindowViewModel.cs" />
-    <Compile Include="GameMonitor.cs" />
-    <Compile Include="GameSession.cs" />
-    <Compile Include="GameSessionMap.cs" />
+    <Compile Include="GameManagement\GameMonitor.cs" />
+    <Compile Include="GameManagement\GameSession.cs" />
+    <Compile Include="GameManagement\GameSessionMap.cs" />
     <Compile Include="HelpWindowViewModel.cs" />
-    <Compile Include="LaunchItem.cs" />
-    <Compile Include="LaunchManager.cs" />
+    <Compile Include="GameLaunching\LaunchItem.cs" />
+    <Compile Include="GameLaunching\LaunchManager.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
@@ -109,22 +109,22 @@
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />
-    <Compile Include="GameLauncher.cs" />
+    <Compile Include="GameLaunching\GameLauncher.cs" />
     <Compile Include="UtilityCode\getOS.cs" />
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LaunchSorter.cs" />
+    <Compile Include="GameLaunching\LaunchSorter.cs" />
     <Compile Include="UtilityCode\Log.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="UtilityCode\MaskedTextBox.cs" />
     <Compile Include="ProfileManagement\Profile.cs" />
     <Compile Include="ProfileManagement\ProfileChoiceViewModel.cs" />
     <Compile Include="ProfileManagement\ProfileManager.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="GameManagement\Server.cs" />
     <Compile Include="AccountManagement\UserAccount.cs" />
-    <Compile Include="ServerAccountStatus.cs" />
-    <Compile Include="UiGameMonitorBridge.cs" />
+    <Compile Include="GameManagement\ServerAccountStatus.cs" />
+    <Compile Include="GameManagement\UiGameMonitorBridge.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />
     <Compile Include="WebService\IThwargListener.cs" />
