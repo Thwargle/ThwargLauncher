@@ -102,6 +102,10 @@
     <Compile Include="HelpWindowViewModel.cs" />
     <Compile Include="GameLaunching\LaunchItem.cs" />
     <Compile Include="GameLaunching\LaunchManager.cs" />
+    <Compile Include="LogEntry.cs" />
+    <Compile Include="LogViewerWindow.xaml.cs">
+      <DependentUpon>LogViewerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
@@ -125,6 +129,7 @@
     <Compile Include="AccountManagement\UserAccount.cs" />
     <Compile Include="GameManagement\ServerAccountStatus.cs" />
     <Compile Include="GameManagement\UiGameMonitorBridge.cs" />
+    <Compile Include="UtilityCode\PropertyChangedBase.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />
     <Compile Include="WebService\IThwargListener.cs" />
@@ -142,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DiagnosticWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LogViewerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -600,6 +600,11 @@ namespace ThwargLauncher
         {
             rctBlack.Fill = new SolidColorBrush(Colors.Black);
         }
+        private void btnShowCommandsWindow_Click(object sender, RoutedEventArgs e)
+        {
+            LogViewerWindow w = new LogViewerWindow();
+            w.Show();
+        }
         private void btnOpenUsers_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisable();
