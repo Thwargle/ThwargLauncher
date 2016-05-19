@@ -58,7 +58,7 @@ namespace MagFilter
             return filepath;
         }
         // returns 0 for failure to parse
-        public static int GetProcessIdFromProcessHeartbeatFilepath(string filename)
+        public static int GetProcessIdFromGameHeartbeatFilepath(string filename)
         {
             if (filename.Length < 10) { return 0; }
             if (!filename.StartsWith("game_", StringComparison.CurrentCultureIgnoreCase)) { return 0; }

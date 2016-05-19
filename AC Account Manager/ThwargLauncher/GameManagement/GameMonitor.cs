@@ -265,7 +265,7 @@ namespace ThwargLauncher
                 int processId = 0;
                 if (fileInfo.Extension == ".txt")
                 {
-                    processId = MagFilter.FileLocations.GetProcessIdFromProcessHeartbeatFilepath(fileInfo.Name);
+                    processId = MagFilter.FileLocations.GetProcessIdFromGameHeartbeatFilepath(fileInfo.Name);
                     TimeSpan elapsed = (DateTime.UtcNow - fileInfo.LastWriteTimeUtc);
                     if (elapsed < _liveInterval)
                     {
