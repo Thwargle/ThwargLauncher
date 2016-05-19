@@ -28,10 +28,12 @@ namespace ThwargLauncher
         }
         internal static string GetLauncherLogPath()
         {
-            string filepath = WriteableDataFolder.FullName + @"\ThwargLauncher_log.txt";
+            string filepath = MagFilter.FileLocations.AppLogsFolder + @"\ThwargLauncher-%PID%_log.txt";
+            filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
+            MagFilter.FileLocations.CreateAnyNeededFolders(filepath);
             return filepath;
         }
-        internal static DirectoryInfo WriteableDataFolder
+        internal static DirectoryInfo WriteableDataFolder_Unused
         {
             get
             {
