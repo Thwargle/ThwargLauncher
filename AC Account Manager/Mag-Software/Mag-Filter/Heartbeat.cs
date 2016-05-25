@@ -8,6 +8,7 @@ namespace MagFilter
     {
         private static object _locker = new object();
         private static Heartbeat theHeartbeat = new Heartbeat();
+        private Channels.Channel _myChannel = Channels.Channel.MakeGameChannel();
 
         private HeartbeatGameStatus _status = new HeartbeatGameStatus();
 
@@ -22,6 +23,12 @@ namespace MagFilter
         public static void RecordCharacterName(string CharacterName)
         {
             theHeartbeat._status.CharacterName = CharacterName;
+        }
+        public static void SendCommand(string commandString)
+        {
+            theHeartbeat._myChannel.EnqueueOutbound(
+                new Channels.Command(DateTime.UtcNow, commandString)
+                );
         }
         public static void LaunchHeartbeat()
         {
@@ -56,31 +63,87 @@ namespace MagFilter
         }
         void timer_Tick(object sender, EventArgs e)
         {
-            SendMessageImpl(null, null);
+            if (System.Threading.Monitor.TryEnter(_locker))
+            {
+                try
+                {
+                    SendAndReceiveCommands();
+                }
+                finally
+                {
+                    System.Threading.Monitor.Exit(_locker);
+                }
+            }
         }
-        public static void SendImmediateMessage(string key, string value)
+        public static void SendAndReceiveImmediately()
         {
+            if (System.Threading.Monitor.TryEnter(_locker))
+            {
+                try
+                {
+                    theHeartbeat._timer.Stop();
+                    theHeartbeat.SendAndReceiveCommands();
+                    theHeartbeat._timer.Start();
+                }
+                finally
+                {
+                    System.Threading.Monitor.Exit(_locker);
+                }
+            }
             lock (_locker)
             {
-                theHeartbeat._timer.Stop();
-                theHeartbeat.SendMessageImpl(key, value);
-                theHeartbeat._timer.Start();
             }
         }
         /// <summary>
         /// This may be called on timer thread *OR* on external caller's thread
         /// </summary>
-        private void SendMessageImpl(string key, string value)
+        private void SendAndReceiveCommands()
         {
             try
             {
-                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status, EncodeString(key), EncodeString(value));
+                LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
-            catch
+            catch (Exception exc)
             {
-                log.WriteLogMsg("Exception writing heartbeat status");
+                log.WriteLogMsg("Exception writing heartbeat status: " + exc.ToString());
             }
-    }
+            try
+            {
+                if (_myChannel.HasOutboundCommands())
+                {
+                    var writer = new Channels.ChannelWriter();
+                    writer.WriteCommandsToFile(_myChannel);
+                }
+            }
+            catch (Exception exc)
+            {
+                log.WriteLogMsg("Exception writing command file status: " + exc.ToString());
+            }
+            try
+            {
+                ReadAndProcessInboundCommands();
+            }
+            catch (Exception exc)
+            {
+                log.WriteLogMsg("Exception reading command file status: " + exc.ToString());
+            }
+        }
+        private void ReadAndProcessInboundCommands()
+        {
+            var writer = new Channels.ChannelWriter();
+            writer.ReadCommandsFromFile(_myChannel);
+            DateTime myack = _myChannel.LastInboundProcessedUtc;
+            while (_myChannel.HasInboundCommandCount())
+            {
+                var cmd = _myChannel.DequeueInbound();
+                if (cmd.TimeStampUtc > myack)
+                {
+                    myack = cmd.TimeStampUtc;
+                }
+                Mag.Shared.PostMessageTools.SendMsg(cmd.CommandString);
+            }
+            _myChannel.LastInboundProcessedUtc = myack;
+        }
         private static string EncodeString(string text)
         {
             return LaunchControl.EncodeString(text);

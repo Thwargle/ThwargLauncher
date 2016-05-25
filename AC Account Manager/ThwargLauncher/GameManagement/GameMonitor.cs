@@ -71,6 +71,7 @@ namespace ThwargLauncher
                 ReadProcessFiles();
             }
             CheckLiveProcessFiles();
+            SendAndReceiveCommands();
             _isWorking = false;
         }
         private bool ShouldWeCleanup()
@@ -143,6 +144,25 @@ namespace ThwargLauncher
             {
                 deadGame.Status = ServerAccountStatus.None;
                 RemoveObsoleteHeartbeatFile(deadGame.ProcessId);
+            }
+        }
+        private void SendAndReceiveCommands()
+        {
+            foreach (var gameSession in _map.GetAllGameSessions())
+            {
+                if (gameSession.GameChannel != null)
+                {
+                    if (gameSession.GameChannel.NeedsToWrite)
+                    {
+                        var writer = new MagFilter.Channels.ChannelWriter();
+                        writer.WriteCommandsToFile(gameSession.GameChannel);
+                    }
+                    if (true)
+                    {
+                        var writer = new MagFilter.Channels.ChannelWriter();
+                        writer.ReadCommandsFromFile(gameSession.GameChannel);
+                    }
+                }
             }
         }
         /// <summary>
@@ -220,6 +240,10 @@ namespace ThwargLauncher
             if (gameSession.ProcessId != response.Status.ProcessId)
             {
                 _map.SetGameSessionProcessId(gameSession, response.Status.ProcessId);
+            }
+            if (gameSession.GameChannel == null)
+            {
+                gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(response.Status.ProcessId);
             }
             gameSession.UptimeSeconds = response.Status.UptimeSeconds;
         }

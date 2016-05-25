@@ -16,14 +16,14 @@ namespace MagFilter.Channels
             DateTime timestampUtc = DateTime.UtcNow;
             using (var file = new StreamWriter(filepath, append: false))
             {
-                file.WriteLine("FileVersion={0}", MASTER_FILE_VERSION);
+                file.WriteLine("FileVersion:{0}", MASTER_FILE_VERSION);
                 file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc);
-                file.WriteLine("Acknowledgement={0}", cmdset.Acknowledgement);
+                file.WriteLine("AcknowledgementUtc:{0}", cmdset.Acknowledgement);
                 file.WriteLine("CommandCount={0}", cmdset.Commands.Count);
                 for (int i=0; i<cmdset.Commands.Count; ++i)
                 {
                     Command cmd = cmdset.Commands[i];
-                    file.WriteLine("Command{0}=TimeStamp:'{1}' CommandString:'{2}'", i, cmd.TimeStamp, cmd.CommandString);
+                    file.WriteLine("Command{0}=TimeStampUtc:'{1}' CommandString:'{2}'", i, cmd.TimeStampUtc, cmd.CommandString);
                 }
             }
         }
@@ -53,14 +53,14 @@ namespace MagFilter.Channels
                         timestamp));
                     return null;
                 }
-                DateTime acknowledgement = SettingHelpers.GetSingleDateTimeValue(settings, "Acknowledgement");
+                DateTime acknowledgement = SettingHelpers.GetSingleDateTimeValue(settings, "AcknowledgementUtc");
                 int ncmds = SettingHelpers.GetSingleIntValue(settings, "CommandCount");
                 List<Command> cmdlist = new List<Command>(ncmds);
                 for (int i = 0; i < ncmds; ++i)
                 {
                     string key = string.Format("Command{0}", i + 1);
                     var cmdData = settings.GetValue(key);
-                    DateTime time = cmdData.GetDateParam("TimeStamp");
+                    DateTime time = cmdData.GetDateParam("TimeStampUtc");
                     string cmdString = cmdData.GetStringParam("CommandString");
                     var cmd = new Command(time, cmdString);
                     cmdlist.Add(cmd);

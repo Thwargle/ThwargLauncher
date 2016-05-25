@@ -5,9 +5,9 @@ namespace MagFilter.Channels
 {
     class CommandSet
     {
-        public readonly List<Command> Commands;
+        public readonly IList<Command> Commands;
         public readonly DateTime Acknowledgement;
-        public CommandSet(List<Command> commands, DateTime acknowledgement)
+        public CommandSet(IList<Command> commands, DateTime acknowledgement)
         {
             this.Commands = commands;
             this.Acknowledgement = acknowledgement;

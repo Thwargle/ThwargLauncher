@@ -172,7 +172,7 @@ namespace MagFilter
             }
             return info;
         }
-        internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status, string key, string value)
+        internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status)
         {
             using (var file = new System.IO.StreamWriter(filepath, append: false))
             {
@@ -187,10 +187,6 @@ namespace MagFilter
                 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 file.WriteLine("MagFilterVersion:{0}", assembly.GetName().Version);
                 file.WriteLine("MagFilterFilePath:{0}", assembly.Location);
-                if (key != null)
-                {
-                    file.WriteLine("{0}:{1}", key, value);
-                }
             }
         }
         /// <summary>
@@ -222,10 +218,6 @@ namespace MagFilter
                 info.Status.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
                 info.Status.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
                 info.Status.MagFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "MagFilterFilePath");
-                if (settings.ContainsKey("Command"))
-                {
-                    info.Status.Command = DecodeString(SettingHelpers.GetSingleStringValue(settings, "Command"));
-                }
 
                 info.IsValid = true;
             }

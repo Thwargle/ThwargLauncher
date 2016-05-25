@@ -11,5 +11,6 @@ namespace ThwargLauncher
         public string ProcessStatusFilepath;
         public int UptimeSeconds = -1;
         public ServerAccountStatus Status = ServerAccountStatus.None;
+        public MagFilter.Channels.Channel GameChannel;
     }
 }

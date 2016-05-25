@@ -31,8 +31,9 @@ namespace MagFilter
             {
                 if (e.Text.Length > CMDCommand.Length)
                 {
-                    string command = e.Text.Substring(CMDCommand.Length, e.Text.Length - CMDCommand.Length);
-                    Heartbeat.SendImmediateMessage("Command", command);
+                    string commandString = e.Text.Substring(CMDCommand.Length, e.Text.Length - CMDCommand.Length);
+                    Heartbeat.SendCommand(commandString);
+                    Heartbeat.SendAndReceiveImmediately();
                 }
                 e.Eat = true;
             }
