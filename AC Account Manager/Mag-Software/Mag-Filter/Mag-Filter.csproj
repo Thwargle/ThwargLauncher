@@ -76,8 +76,13 @@
     </Compile>
     <Compile Include="AssemblySettings.cs" />
     <Compile Include="AutoRetryLogin.cs" />
+    <Compile Include="Channels\Channel.cs" />
+    <Compile Include="Channels\ChannelWriter.cs" />
+    <Compile Include="Channels\CommandWriter.cs" />
+    <Compile Include="Channels\Command.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="CharacterManager.cs" />
+    <Compile Include="Channels\CommandSet.cs" />
     <Compile Include="Heartbeat.cs" />
     <Compile Include="HeartbeatGameStatus.cs" />
     <Compile Include="LauncherChooseCharacterManager.cs" />
