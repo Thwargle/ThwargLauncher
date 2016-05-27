@@ -119,7 +119,7 @@
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameLaunching\LaunchSorter.cs" />
-    <Compile Include="UtilityCode\Log.cs" />
+    <Compile Include="UtilityCode\Logger.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="UtilityCode\MaskedTextBox.cs" />
     <Compile Include="ProfileManagement\Profile.cs" />

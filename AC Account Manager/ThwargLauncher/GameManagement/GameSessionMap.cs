@@ -19,7 +19,7 @@ namespace ThwargLauncher
             {
                 if (_sessionByProcessId.ContainsKey(gameSession.ProcessId))
                 {
-                    Log.WriteError(string.Format("Duplicate process id in AddGameSession: {0}", gameSession.ProcessId));
+                    Logger.WriteError(string.Format("Duplicate process id in AddGameSession: {0}", gameSession.ProcessId));
                 }
                 else
                 {
@@ -28,7 +28,7 @@ namespace ThwargLauncher
                 string key = GetServerAccountKey(gameSession);
                 if (_sessionByServerAccount.ContainsKey(key))
                 {
-                    Log.WriteError(string.Format("Duplicate server/account in AddGameSession: {0}", key));
+                    Logger.WriteError(string.Format("Duplicate server/account in AddGameSession: {0}", key));
                 }
                 else
                 {

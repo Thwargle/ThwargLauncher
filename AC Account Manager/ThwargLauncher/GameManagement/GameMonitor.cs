@@ -182,7 +182,7 @@ namespace ThwargLauncher
                 var response = MagFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
                 if (!response.IsValid)
                 {
-                    Log.WriteError(string.Format("Invalid contents in heartbeat file: {0}", heartbeatFile));
+                    Logger.WriteError(string.Format("Invalid contents in heartbeat file: {0}", heartbeatFile));
                     continue;
                 }
                 var status = GetStatusFromHeartbeatFileTime(gameSession);
@@ -198,7 +198,7 @@ namespace ThwargLauncher
                 {
                     // This doesn't make sense and shouldn't happen
                     // Account & Server should be fixed for the life of a game session
-                    Log.WriteError(string.Format("Account/Server change in heartbeat file!: {0}", heartbeatFile));
+                    Logger.WriteError(string.Format("Account/Server change in heartbeat file!: {0}", heartbeatFile));
                     changedGame = true;
                 }
                 else if (gameSession.CharacterName != response.Status.CharacterName)

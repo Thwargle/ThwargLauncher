@@ -30,8 +30,8 @@ namespace ThwargLauncher
         }
         void HandleExc(Exception exc)
         {
-            Log.WriteError("Fatal Exception: " + exc.ToString());
-            MessageBox.Show("Fatal Program Error: See log file at " + Log.GetLauncherLogPath());
+            Logger.WriteError("Fatal Exception: " + exc.ToString());
+            MessageBox.Show("Fatal Program Error: See log file at " + Logger.GetLauncherLogPath());
         }
     }
 }

@@ -246,7 +246,7 @@ namespace ThwargLauncher
         internal void ExecuteGameCommand(string serverName, string accountName, string command)
         {
             AccountServer acctServer = FindServer(serverName, accountName);
-            Log.WriteInfo(string.Format(
+            Logger.WriteInfo(string.Format(
                 "Command received from server='{0}', account='{1}': {2}",
                 serverName, accountName, command));
             // TODO
@@ -256,7 +256,7 @@ namespace ThwargLauncher
             }
             else
             {
-                Log.WriteError("Command received from unknown server/account");
+                Logger.WriteError("Command received from unknown server/account");
             }
         }
         class AccountServer { public Server tServer; public UserAccount tAccount; }

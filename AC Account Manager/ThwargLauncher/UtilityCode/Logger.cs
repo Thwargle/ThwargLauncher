@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ThwargLauncher
 {
-    public static class Log
+    public static class Logger
     {
         private static object _locker = new object();
 

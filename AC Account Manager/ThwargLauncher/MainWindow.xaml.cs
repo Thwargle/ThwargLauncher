@@ -96,7 +96,7 @@ namespace ThwargLauncher
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
-            Log.WriteHeader();
+            Logger.WriteHeader();
         }
         private void RecordGameDll()
         {
@@ -229,7 +229,7 @@ namespace ThwargLauncher
             }
             catch (Exception exc)
             {
-                Log.WriteError("Exception reading account file: " + exc.Message);
+                Logger.WriteError("Exception reading account file: " + exc.Message);
                 accounts = new List<UserAccount>();
             }
             _viewModel.Reset();
