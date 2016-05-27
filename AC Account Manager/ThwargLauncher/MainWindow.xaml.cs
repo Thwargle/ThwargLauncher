@@ -96,7 +96,7 @@ namespace ThwargLauncher
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
-            Logger.WriteHeader();
+            Logger.BeginLogging();
         }
         private void RecordGameDll()
         {

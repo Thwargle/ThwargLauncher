@@ -121,6 +121,7 @@
     <Compile Include="GameLaunching\LaunchSorter.cs" />
     <Compile Include="UtilityCode\Logger.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="UtilityCode\LogWriter.cs" />
     <Compile Include="UtilityCode\MaskedTextBox.cs" />
     <Compile Include="ProfileManagement\Profile.cs" />
     <Compile Include="ProfileManagement\ProfileChoiceViewModel.cs" />
