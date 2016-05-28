@@ -10,6 +10,7 @@ namespace MagFilter
     {
         private const string CMDVersion = "/mf version";
         private const string CMDCommand = "/mf command ";
+        private const string CMDTest = "/mf test ";
         public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
         {
             if (e.Text.StartsWith(CMDVersion))
@@ -34,6 +35,15 @@ namespace MagFilter
                     string commandString = e.Text.Substring(CMDCommand.Length, e.Text.Length - CMDCommand.Length);
                     Heartbeat.SendCommand(commandString);
                     Heartbeat.SendAndReceiveImmediately();
+                }
+                e.Eat = true;
+            }
+            else if (e.Text.StartsWith(CMDTest))
+            {
+                if (e.Text.Length > CMDTest.Length)
+                {
+                    string commandString = e.Text.Substring(CMDTest.Length, e.Text.Length - CMDTest.Length);
+                    Mag.Shared.PostMessageTools.SendMsg(commandString);
                 }
                 e.Eat = true;
             }

@@ -97,6 +97,7 @@
       <DependentUpon>DiagnosticWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DiagnosticWindowViewModel.cs" />
+    <Compile Include="GameManagement\CommandManager.cs" />
     <Compile Include="GameManagement\GameMonitor.cs" />
     <Compile Include="GameManagement\GameSession.cs" />
     <Compile Include="GameManagement\GameSessionMap.cs" />

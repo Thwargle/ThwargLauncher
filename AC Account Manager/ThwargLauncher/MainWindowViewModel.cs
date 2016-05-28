@@ -255,7 +255,7 @@ namespace ThwargLauncher
         {
             AccountServer acctServer = FindServer(serverName, accountName);
             Logger.WriteInfo(string.Format(
-                "Command received from server='{0}', account='{1}': {2}",
+                "QQQ - not currently invoked -- Command received from server='{0}', account='{1}': {2}",
                 serverName, accountName, command));
             // TODO
             // write code to implement commands from game to launcher

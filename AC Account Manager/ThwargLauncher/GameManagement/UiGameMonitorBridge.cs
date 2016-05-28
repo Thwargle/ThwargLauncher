@@ -24,12 +24,10 @@ namespace ThwargLauncher
         public void Start()
         {
             _gameMonitor.GameChangeEvent += _gameMonitor_GameChangeEvent;
-            _gameMonitor.GameCommandEvent +=_gameMonitor_GameCommandEvent;
         }
         public void Stop()
         {
             _gameMonitor.GameChangeEvent -= _gameMonitor_GameChangeEvent;
-            _gameMonitor.GameCommandEvent -= _gameMonitor_GameCommandEvent;
         }
         /// <summary>
         /// Handle events from Game Monitor, on monitor thread

@@ -18,6 +18,7 @@ namespace ThwargLauncher
         private GameMonitor _gameMonitor;
         private UiGameMonitorBridge _uiGameMonitorBridge = null;
         private LogWriter _logWriter = null;
+        private CommandManager _commandManager = null;
 
         public AppCoordinator()
         {
@@ -39,8 +40,9 @@ namespace ThwargLauncher
             _configurator = new Configurator();
             RecordGameDll();
             _gameSessionMap = new GameSessionMap();
-            _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _viewModel = new MainWindowViewModel(_gameSessionMap, _configurator);
+            _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
+            _commandManager = new CommandManager(_gameMonitor, _gameSessionMap);
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
