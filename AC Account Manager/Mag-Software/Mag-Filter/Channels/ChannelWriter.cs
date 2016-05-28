@@ -42,7 +42,7 @@ namespace MagFilter.Channels
         private string GetChannelOutboundFilepath(Channel channel)
         {
             string prefix = (channel.InGameDll ? "outcmds" : "incmds");
-            string filename = string.Format("{0}_{1}", prefix, channel.ProcessId);
+            string filename = string.Format("{0}_{1}.txt", prefix, channel.ProcessId);
             string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
             return filepath;
         }

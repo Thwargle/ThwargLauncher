@@ -75,6 +75,7 @@ namespace ThwargLauncher
             }
             CheckLiveProcessFiles();
             SendAndReceiveCommands();
+            ProcessAnyPendingCommnds();
             _isWorking = false;
         }
         private bool ShouldWeCleanup()
@@ -168,6 +169,20 @@ namespace ThwargLauncher
                 }
             }
         }
+        private void ProcessAnyPendingCommnds()
+        {
+            foreach (var gameSession in _map.GetAllGameSessions())
+            {
+                if (gameSession.GameChannel != null)
+                {
+                    var cmd = gameSession.GameChannel.DequeueInbound();
+                    if (cmd != null && cmd.CommandString != null)
+                    {
+                        NotifyGameCommand(gameSession, cmd.CommandString);
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Read all process files
         ///  Check if any characters have changed
@@ -226,10 +241,6 @@ namespace ThwargLauncher
                 {
                     NotifyGameChange(gameSession, GameChangeType.ChangeStatus);
                 }
-                if (!string.IsNullOrEmpty(response.Status.Command))
-                {
-                    NotifyGameCommand(gameSession, response.Status.Command);
-                }
             }
         }
         private void UpdateGameSessionFromHeartbeatStatus(GameSession gameSession, 
@@ -287,7 +298,7 @@ namespace ThwargLauncher
         {
             DirectoryInfo dir = new DirectoryInfo(MagFilter.FileLocations.GetRunningFolder());
             var filepathsToDelete = new List<string>();
-            foreach (var fileInfo in dir.EnumerateFiles())
+            foreach (var fileInfo in dir.EnumerateFiles("game_*.txt"))
             {
                 int processId = 0;
                 if (fileInfo.Extension == ".txt")

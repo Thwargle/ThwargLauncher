@@ -19,11 +19,11 @@ namespace MagFilter.Channels
                 file.WriteLine("FileVersion:{0}", MASTER_FILE_VERSION);
                 file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc);
                 file.WriteLine("AcknowledgementUtc:{0}", cmdset.Acknowledgement);
-                file.WriteLine("CommandCount={0}", cmdset.Commands.Count);
+                file.WriteLine("CommandCount:{0}", cmdset.Commands.Count);
                 for (int i=0; i<cmdset.Commands.Count; ++i)
                 {
                     Command cmd = cmdset.Commands[i];
-                    file.WriteLine("Command{0}=TimeStampUtc:'{1}' CommandString:'{2}'", i, cmd.TimeStampUtc, cmd.CommandString);
+                    file.WriteLine("Command{0}=TimeStampUtc:'{1}' CommandString:'{2}'", i+1, cmd.TimeStampUtc, cmd.CommandString);
                 }
             }
         }
