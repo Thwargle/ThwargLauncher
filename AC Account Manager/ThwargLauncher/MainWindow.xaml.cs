@@ -442,17 +442,11 @@ namespace ThwargLauncher
 
                 if (launchResult.Success)
                 {
-                    // Don't think we need to UpdateAccountStatus here
                     ++serverIndex;
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
-                    // TODO
-                    // record game info
-                    // launchItem's server, account, character
-                    // and launchResult.ProcessId
                 }
                 else
                 {
-                    // Don't think we need to UpdateAccountStatus here
                     globalQueue.Enqueue(launchItem);
                     workerReportProgress("Requeued", launchItem, serverIndex, serverTotal);
                 }

@@ -13,6 +13,10 @@ namespace ThwargLauncher
         {
             public string MagFilterPath;
             public string MagFilterVersion;
+            public override string ToString()
+            {
+                return string.Format("MagFilterVersion={0}, MagFilterPath={1}", this.MagFilterVersion, this.MagFilterPath);
+            }
         }
 
         private Dictionary<string, GameConfig> _map = new Dictionary<string, GameConfig>();
@@ -28,6 +32,10 @@ namespace ThwargLauncher
         public IList<GameConfig> GetGameConfigs()
         {
             return _map.Values.ToList();
+        }
+        public int GetNumberGameConfigs()
+        {
+            return _map.Keys.Count;
         }
         private string GetConfigKey(GameConfig config)
         {

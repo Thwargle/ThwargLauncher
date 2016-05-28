@@ -347,13 +347,16 @@ namespace ThwargLauncher
                 }
                 if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
                 {
-                    _configurator.AddGameConfig(
-                        new Configurator.GameConfig()
+                    var gameConfig = new Configurator.GameConfig()
                         {
                             MagFilterPath = response.Status.MagFilterFilePath,
                             MagFilterVersion = response.Status.MagFilterVersion
-                        }
-                        );
+                        };
+                    _configurator.AddGameConfig(gameConfig);
+                    Logger.WriteInfo(string.Format(
+                        "MagFilter#{0} found: {1}",
+                        _configurator.GetNumberGameConfigs(),
+                        gameConfig));
                 }
                 NotifyGameChange(gameSession, GameChangeType.StartGame);
             }
