@@ -97,16 +97,15 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringGame()
         {
+            // Logger is a static object, so it already exists
             string logfilepath = GetLauncherLogPath();
             _logWriter = new LogWriter(logfilepath);
-            _logWriter.Initialize();
             _configurator = new Configurator();
             RecordGameDll();
             _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
-            Logger.BeginLogging("Begin");
         }
         private void RecordGameDll()
         {

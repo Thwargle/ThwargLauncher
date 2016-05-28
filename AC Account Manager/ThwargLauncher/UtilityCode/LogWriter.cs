@@ -14,19 +14,17 @@ namespace ThwargLauncher
         public LogWriter(string filepath)
         {
             this._filepath = filepath;
+            Initialize();
+            WriteHeader();
         }
         public void Initialize()
         {
             Logger.Instance.MessageEvent += Logger_MessageEvent;
         }
-
         private void Logger_MessageEvent(Logger.LogLevel level, string msg)
         {
             switch (level)
             {
-                case Logger.LogLevel.Begin:
-                    WriteHeader();
-                    break;
                 case Logger.LogLevel.Error:
                     WriteError(msg);
                     break;
@@ -35,7 +33,7 @@ namespace ThwargLauncher
                     break;
             }
         }
-        public void WriteHeader()
+        private void WriteHeader()
         {
             // Write the string to a file.
             lock (_locker)
