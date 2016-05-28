@@ -43,7 +43,7 @@ namespace MagFilter
                 if (e.Text.Length > CMDTest.Length)
                 {
                     string commandString = e.Text.Substring(CMDTest.Length, e.Text.Length - CMDTest.Length);
-                    Mag.Shared.PostMessageTools.SendMsg(commandString);
+                    DecalProxy.DispatchChatToBoxWithPluginIntercept(commandString);
                 }
                 e.Eat = true;
             }

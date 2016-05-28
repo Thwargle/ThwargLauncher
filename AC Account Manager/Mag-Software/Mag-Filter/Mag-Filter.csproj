@@ -62,6 +62,9 @@
     <Compile Include="..\Shared\Debug.cs">
       <Link>Shared\Debug.cs</Link>
     </Compile>
+    <Compile Include="..\Shared\DecalProxy.cs">
+      <Link>Shared\DecalProxy.cs</Link>
+    </Compile>
     <Compile Include="..\Shared\PostMessageTools.cs">
       <Link>Shared\PostMessageTools.cs</Link>
     </Compile>
@@ -73,6 +76,9 @@
     </Compile>
     <Compile Include="..\Shared\User32.cs">
       <Link>Shared\User32.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\VCS_Connector.cs">
+      <Link>Shared\VCS_Connector.cs</Link>
     </Compile>
     <Compile Include="AssemblySettings.cs" />
     <Compile Include="AutoRetryLogin.cs" />
@@ -105,7 +111,6 @@
     <Compile Include="SettingHelpers.cs" />
     <Compile Include="SettingsLineParser.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
-    <Compile Include="Shared\VCS_Connector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

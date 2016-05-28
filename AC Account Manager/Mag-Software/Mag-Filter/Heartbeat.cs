@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Mag.Shared;
+
 namespace MagFilter
 {
     class Heartbeat
@@ -140,9 +142,14 @@ namespace MagFilter
                 {
                     myack = cmd.TimeStampUtc;
                 }
-                Mag.Shared.PostMessageTools.SendMsg(cmd.CommandString);
+                ExecuteGameCommandString(cmd.CommandString);
             }
             _myChannel.LastInboundProcessedUtc = myack;
+        }
+        private void ExecuteGameCommandString(string commandString)
+        {
+            // Note: "Mag.Shared.PostMessageTools.SendMsg" does not work
+            DecalProxy.DispatchChatToBoxWithPluginIntercept(commandString);
         }
         private static string EncodeString(string text)
         {
