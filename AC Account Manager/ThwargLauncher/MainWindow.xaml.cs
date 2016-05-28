@@ -557,10 +557,9 @@ namespace ThwargLauncher
         {
             rctBlack.Fill = new SolidColorBrush(Colors.Black);
         }
-        private void btnShowCommandsWindow_Click(object sender, RoutedEventArgs e)
+        private void btnLogWindow_Click(object sender, RoutedEventArgs e)
         {
-            LogViewerWindow w = new LogViewerWindow();
-            w.Show();
+            _viewModel.DisplayLogWindow();
         }
         private void btnOpenUsers_Click(object sender, RoutedEventArgs e)
         {

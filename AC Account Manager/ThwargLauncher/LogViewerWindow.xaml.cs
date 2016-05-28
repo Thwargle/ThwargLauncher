@@ -24,32 +24,34 @@ namespace ThwargLauncher
         private List<string> words;
         private int maxword;
         private int index;
+        LogViewerViewModel _viewModel;
 
-        public ObservableCollection<LogEntry> LogEntries { get; set; }
-
-        public LogViewerWindow()
+        internal LogViewerWindow(LogViewerViewModel viewModel)
         {
+            _viewModel = viewModel;
+
             InitializeComponent();
 
             random = new Random();
             words = TestData.Split(' ').ToList();
             maxword = words.Count - 1;
 
-            DataContext = LogEntries = new ObservableCollection<LogEntry>();
-            Enumerable.Range(0, 200000)
+            DataContext = _viewModel.LogEntries;
+            Enumerable.Range(0, 20000)
                       .ToList()
-                      .ForEach(x => LogEntries.Add(GetRandomEntry()));
+                      .ForEach(x => _viewModel.LogEntries.Add(GetRandomEntry()));
 
-            Timer = new System.Threading.Timer(x => AddRandomEntry(), null, 1000, 10);
+//            Timer = new System.Threading.Timer(x => AddRandomEntry(), null, 1000, 10);
         }
 
         private System.Threading.Timer Timer;
         private System.Random random;
+        /*
         private void AddRandomEntry()
         {
             Dispatcher.BeginInvoke((Action)(() => LogEntries.Add(GetRandomEntry())));
         }
-
+        */
         private LogEntry GetRandomEntry()
         {
             if (random.Next(1, 10) > 1)

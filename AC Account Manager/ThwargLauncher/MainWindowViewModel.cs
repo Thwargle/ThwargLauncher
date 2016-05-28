@@ -308,5 +308,11 @@ namespace ThwargLauncher
             var dlg = new HelpWindow(new HelpWindowViewModel(_configurator));
             dlg.ShowDialog();
         }
+        public void DisplayLogWindow()
+        {
+            LogViewerViewModel viewmodel = new LogViewerViewModel();
+            LogViewerWindow w = new LogViewerWindow(viewmodel);
+            w.Show();
+        }
     }
 }

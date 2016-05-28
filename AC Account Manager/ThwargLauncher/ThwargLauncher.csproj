@@ -104,6 +104,7 @@
     <Compile Include="GameLaunching\LaunchItem.cs" />
     <Compile Include="GameLaunching\LaunchManager.cs" />
     <Compile Include="LogEntry.cs" />
+    <Compile Include="LogViewerViewModel.cs" />
     <Compile Include="LogViewerWindow.xaml.cs">
       <DependentUpon>LogViewerWindow.xaml</DependentUpon>
     </Compile>

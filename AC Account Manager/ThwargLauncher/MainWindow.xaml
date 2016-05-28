@@ -27,7 +27,7 @@
                 <Button x:Name="btnEditUsers" Content="Edit Users" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnEditUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnOpenUsers" Content="Open User File" HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Top" Width="102" Foreground="Black" Click="btnOpenUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="285,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnChooseProfile_Click" Background="#FFF6D18F" FontWeight="Bold" />
-                <Button x:Name="btnShowCommandWindow" Content="Commands" HorizontalAlignment="Left" Margin="365,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnShowCommandsWindow_Click" Background="#FFF6D18F" FontWeight="Bold" />
+                <Button x:Name="btnLogWindow" Content="Log" HorizontalAlignment="Left" Margin="365,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnLogWindow_Click" Background="#FFF6D18F" FontWeight="Bold" />
 
 
                 <Label x:Name="lblLauncherLocation" Content="AC Launcher File Location:" HorizontalAlignment="Left" Margin="15,19,0,0" VerticalAlignment="Top" Foreground="#FFFFB619" BorderBrush="Black"/>
