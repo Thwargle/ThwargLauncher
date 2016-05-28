@@ -142,5 +142,17 @@ namespace ThwargLauncher.Properties {
                 this["AccountEditorWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LogViewerWindowPlacement {
+            get {
+                return ((string)(this["LogViewerWindowPlacement"]));
+            }
+            set {
+                this["LogViewerWindowPlacement"] = value;
+            }
+        }
     }
 }
