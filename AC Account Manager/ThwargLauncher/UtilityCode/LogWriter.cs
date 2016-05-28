@@ -4,17 +4,43 @@ using System.Text;
 
 namespace ThwargLauncher
 {
-    public static class LogWriter
+    /// <summary>
+    /// A method that subscribes to the central Logger instance, and records log messages to a file
+    /// </summary>
+    public class LogWriter
     {
-        private static object _locker = new object();
-        public static void WriteHeader()
+        private object _locker = new object();
+        private readonly string _filepath;
+        public LogWriter(string filepath)
+        {
+            this._filepath = filepath;
+        }
+        public void Initialize()
+        {
+            Logger.Instance.MessageEvent += Logger_MessageEvent;
+        }
+
+        private void Logger_MessageEvent(Logger.LogLevel level, string msg)
+        {
+            switch (level)
+            {
+                case Logger.LogLevel.Begin:
+                    WriteHeader();
+                    break;
+                case Logger.LogLevel.Error:
+                    WriteError(msg);
+                    break;
+                case Logger.LogLevel.Info:
+                    WriteInfo(msg);
+                    break;
+            }
+        }
+        public void WriteHeader()
         {
             // Write the string to a file.
-            string filepath = GetLauncherLogPath();
-
             lock (_locker)
             {
-                using (StreamWriter file = new StreamWriter(filepath, append: true))
+                using (StreamWriter file = new StreamWriter(_filepath, append: true))
                 {
                     file.WriteLine("Time (UTC): {0}", DateTime.UtcNow);
                     var osInfo = new OsUtil.OperatingSystemInfo();
@@ -24,33 +50,24 @@ namespace ThwargLauncher
                 }
             }
         }
-        public static void WriteError(string text)
+        public void WriteError(string text)
         {
             WriteLineImpl("* " + text);
         }
-        public static void WriteInfo(string text)
+        public void WriteInfo(string text)
         {
             WriteLineImpl("  " + text);
         }
-        private static void WriteLineImpl(string logText)
+        private void WriteLineImpl(string logText)
         {
             // Write the string to a file.
-            string filepath = GetLauncherLogPath();
-
             lock (_locker)
             {
-                using (StreamWriter file = new StreamWriter(filepath, append: true))
+                using (StreamWriter file = new StreamWriter(_filepath, append: true))
                 {
                     file.WriteLine("{0:yyyy-MM-dd HH:mm:ss}: {1}", DateTime.UtcNow, logText);
                 }
             }
-        }
-        internal static string GetLauncherLogPath()
-        {
-            string filepath = MagFilter.FileLocations.AppLogsFolder + @"\ThwargLauncher-%PID%_log.txt";
-            filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
-            MagFilter.FileLocations.CreateAnyNeededFolders(filepath);
-            return filepath;
         }
     }
 }

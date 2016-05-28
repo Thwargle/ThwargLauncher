@@ -34,6 +34,7 @@ namespace ThwargLauncher
         private Configurator _configurator;
         private GameMonitor _gameMonitor;
         private UiGameMonitorBridge _uiGameMonitorBridge = null;
+        private LogWriter _logWriter = null;
 
         private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
             new System.Collections.Concurrent.ConcurrentQueue<LaunchItem>();
@@ -63,7 +64,6 @@ namespace ThwargLauncher
         }
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            //TODO: Implement Web Service Stuff
             BeginMonitoringGame();
             this.Show();
             if (Properties.Settings.Default.ShowHelpAtStart)
@@ -88,15 +88,25 @@ namespace ThwargLauncher
                 }
             }
         }
+        internal string GetLauncherLogPath()
+        {
+            string filepath = MagFilter.FileLocations.AppLogsFolder + @"\ThwargLauncher-%PID%_log.txt";
+            filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
+            MagFilter.FileLocations.CreateAnyNeededFolders(filepath);
+            return filepath;
+        }
         private void BeginMonitoringGame()
         {
+            string logfilepath = GetLauncherLogPath();
+            _logWriter = new LogWriter(logfilepath);
+            _logWriter.Initialize();
             _configurator = new Configurator();
             RecordGameDll();
             _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
-            Logger.BeginLogging();
+            Logger.BeginLogging("Begin");
         }
         private void RecordGameDll()
         {
