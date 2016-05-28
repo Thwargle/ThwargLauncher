@@ -14,6 +14,9 @@ namespace ThwargLauncher
 
         public UiGameMonitorBridge(GameMonitor gameMonitor, MainWindowViewModel viewModel)
         {
+            if (gameMonitor == null) { throw new Exception("Null GameMonitor in UiGameMonitorBridge()"); }
+            if (viewModel == null) { throw new Exception("Null MainWindowViewModel in UiGameMonitorBridge()"); }
+
             _gameMonitor = gameMonitor;
             _viewModel = viewModel;
             _uicontext = SynchronizationContext.Current;

@@ -27,26 +27,29 @@ namespace ThwargLauncher
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
 
-        public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
         private MainWindowViewModel _viewModel;
-        private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
         private GameSessionMap _gameSessionMap;
-        private Configurator _configurator;
         private GameMonitor _gameMonitor;
-        private UiGameMonitorBridge _uiGameMonitorBridge = null;
-        private LogWriter _logWriter = null;
+
+        public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
 
         private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
             new System.Collections.Concurrent.ConcurrentQueue<LaunchItem>();
 
-        public MainWindow()
+        internal MainWindow(MainWindowViewModel mainWindowViewModel, GameSessionMap gameSessionMap, GameMonitor gameMonitor)
         {
+            if (mainWindowViewModel == null) { throw new Exception("Null MainWindowViewModel in MainWindow()"); }
+            if (gameSessionMap == null) { throw new Exception("Null GameSessionMap in MainWindow()"); }
+            if (gameMonitor == null) { throw new Exception("Null GameMonitor in MainWindow()"); }
+
+            _viewModel = mainWindowViewModel;
+            _gameSessionMap = gameSessionMap;
+            _gameMonitor = gameMonitor;
+
             CheckForProgramUpdate();
             InitializeComponent();
-            _gameSessionMap = new GameSessionMap();
-            _viewModel = new MainWindowViewModel(_gameSessionMap);
             DataContext = _viewModel;
-            _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
 
             MigrateSettingsIfNeeded();
             EnsureDataFoldersExist();
@@ -64,8 +67,6 @@ namespace ThwargLauncher
         }
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            BeginMonitoringGame();
-            this.Show();
             if (Properties.Settings.Default.ShowHelpAtStart)
             {
                 DisplayHelpWindow();
@@ -88,53 +89,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        internal string GetLauncherLogPath()
-        {
-            string filepath = MagFilter.FileLocations.AppLogsFolder + @"\ThwargLauncher-%PID%_log.txt";
-            filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
-            MagFilter.FileLocations.CreateAnyNeededFolders(filepath);
-            return filepath;
-        }
-        private void BeginMonitoringGame()
-        {
-            // Logger is a static object, so it already exists
-            string logfilepath = GetLauncherLogPath();
-            _logWriter = new LogWriter(logfilepath);
-            _configurator = new Configurator();
-            RecordGameDll();
-            _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
-            _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
-            _uiGameMonitorBridge.Start();
-            _gameMonitor.Start();
-        }
-        private void RecordGameDll()
-        {
-            var info = MagFilter.LaunchControl.GetMagFilterInfo();
-            _configurator.AddGameConfig(
-                new Configurator.GameConfig()
-                    {
-                        MagFilterPath = info.MagFilterPath,
-                        MagFilterVersion = info.MagFilterVersion
-                    }
-                );
-        }
-        private void EndMonitoringGame()
-        {
-            _uiGameMonitorBridge.Stop();
-            _gameMonitor.Stop();
-            /*
-            try
-            {
-                _webManager.StopListening();
-            }
-            catch (Exception exc)
-            {
-                Log.WriteError("Exception stopping web service: " + exc.Message);
-            }
-             * */
-        }
-
-        void _viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void MainWindowViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // TODO - this is a workaround
             if (e.PropertyName == "KnownUserAccounts")
@@ -567,7 +522,6 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            EndMonitoringGame();
             SaveWindowSettings();
             SaveCurrentProfile();
 
@@ -649,8 +603,7 @@ namespace ThwargLauncher
         private void DisplayHelpWindow()
         {
             MainWindowDisable();
-            var dlg = new HelpWindow(new HelpWindowViewModel(_configurator));
-            dlg.ShowDialog();
+            _viewModel.DisplayHelpWindow();
             MainWindowEnable();
         }
 

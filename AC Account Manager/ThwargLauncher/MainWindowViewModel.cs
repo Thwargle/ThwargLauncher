@@ -12,14 +12,20 @@ namespace ThwargLauncher
     class MainWindowViewModel : INotifyPropertyChanged
     {
         private GameSessionMap _gameSessionMap;
+        private Configurator _configurator;
+
         public void Reset()
         {
             KnownUserAccounts = new ObservableCollection<UserAccount>();
             SelectedUserAccountName = "";
         }
-        public MainWindowViewModel(GameSessionMap gameSessionMap)
+        public MainWindowViewModel(GameSessionMap gameSessionMap, Configurator configurator)
         {
+            if (gameSessionMap == null) { throw new Exception("Null GameSessionMap in MainWindowViewModel()"); }
+            if (configurator == null) { throw new Exception("Null Configurator in MainWindowViewModel()"); }
+
             _gameSessionMap = gameSessionMap;
+            _configurator = configurator;
             NewProfileCommand = new DelegateCommand(
                     CreateNewProfile
                 );
@@ -296,6 +302,11 @@ namespace ThwargLauncher
                 default:
                     return "✖";
             }
+        }
+        public void DisplayHelpWindow()
+        {
+            var dlg = new HelpWindow(new HelpWindowViewModel(_configurator));
+            dlg.ShowDialog();
         }
     }
 }

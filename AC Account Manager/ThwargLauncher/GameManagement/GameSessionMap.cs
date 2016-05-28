@@ -19,6 +19,7 @@ namespace ThwargLauncher
             {
                 if (_sessionByProcessId.ContainsKey(gameSession.ProcessId))
                 {
+                    // Note: This can happen at startup
                     Logger.WriteError(string.Format("Duplicate process id in AddGameSession: {0}", gameSession.ProcessId));
                 }
                 else

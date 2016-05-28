@@ -30,6 +30,9 @@ namespace ThwargLauncher
 
         public GameMonitor(GameSessionMap map, Configurator configurator)
         {
+            if (map == null) { throw new Exception("Null GameSessionMap in GameMonitor()"); }
+            if (configurator == null) { throw new Exception("Null Configurator in GameMonitor()"); }
+
             _map = map;
             _configurator = configurator;
         }

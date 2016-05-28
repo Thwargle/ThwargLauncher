@@ -16,6 +16,7 @@ namespace ThwargLauncher
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += (sender, eargs)
                 => HandleExcObject(eargs.ExceptionObject);
+            AppCoordinator appcoord = new AppCoordinator();
         }
         void HandleExcObject(object excObj)
         {

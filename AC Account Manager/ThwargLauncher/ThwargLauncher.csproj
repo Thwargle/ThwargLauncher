@@ -90,6 +90,7 @@
     <Compile Include="AccountManagement\AccountEditorViewModel.cs" />
     <Compile Include="AccountManagement\AccountParser.cs" />
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
+    <Compile Include="AppCoordinator.cs" />
     <Compile Include="CharacterSetting.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="DiagnosticWindow.xaml.cs">
