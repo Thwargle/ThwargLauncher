@@ -37,11 +37,14 @@ namespace ThwargLauncher
             maxword = words.Count - 1;
 
             DataContext = _viewModel.LogEntries;
+            /*
+             * Populate with random data for demo
             Enumerable.Range(0, 20000)
                       .ToList()
                       .ForEach(x => _viewModel.LogEntries.Add(GetRandomEntry()));
 
 //            Timer = new System.Threading.Timer(x => AddRandomEntry(), null, 1000, 10);
+             * */
         }
 
         private System.Threading.Timer Timer;

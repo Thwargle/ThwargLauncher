@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ThwargLauncher
 {
@@ -14,6 +10,18 @@ namespace ThwargLauncher
         public LogViewerViewModel()
         {
             LogEntries = new ObservableCollection<LogEntry>();
+            Logger.Instance.MessageEvent += Logger_MessageEvent;
         }
+
+        void Logger_MessageEvent(Logger.LogLevel level, string msg)
+        {
+            LogEntry logmsg = new LogEntry(msg);
+            System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)(() => LogEntries.Add(logmsg)));
+        }
+        public void LogViewer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Logger.Instance.MessageEvent -= Logger_MessageEvent;
+        }
+
     }
 }

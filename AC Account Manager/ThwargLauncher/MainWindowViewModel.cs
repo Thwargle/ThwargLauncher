@@ -13,6 +13,8 @@ namespace ThwargLauncher
     {
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
+        LogViewerViewModel _logViewerViewmodel = new LogViewerViewModel();
+        LogViewerWindow _logViewer = null;
 
         public void Reset()
         {
@@ -310,9 +312,18 @@ namespace ThwargLauncher
         }
         public void DisplayLogWindow()
         {
-            LogViewerViewModel viewmodel = new LogViewerViewModel();
-            LogViewerWindow w = new LogViewerWindow(viewmodel);
-            w.Show();
+            if (_logViewer == null)
+            {
+                _logViewer = new LogViewerWindow(_logViewerViewmodel);
+                _logViewer.Closing += _logViewer_Closing;
+                _logViewer.Show();
+            }
+            _logViewer.Show();
+        }
+
+        void _logViewer_Closing(object sender, CancelEventArgs e)
+        {
+            _logViewer = null;
         }
     }
 }

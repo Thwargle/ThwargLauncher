@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ThwargLauncher
 {
     public class LogEntry : PropertyChangedBase
     {
+        public LogEntry(string msg) { this.DateTime = DateTime.Now; this.Message = msg; }
+        public LogEntry() { this.Message = ""; }
+
         public DateTime DateTime { get; set; }
 
         public int Index { get; set; }
