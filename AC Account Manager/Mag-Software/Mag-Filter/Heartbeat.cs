@@ -11,7 +11,7 @@ namespace MagFilter
         private static object _locker = new object();
         private static Heartbeat theHeartbeat = new Heartbeat();
         private Channels.Channel _myChannel = Channels.Channel.MakeGameChannel();
-        private MagFilterCommandExecutor _executor = null;
+        private MagFilterCommandParser _cmdParser = null;
 
         private HeartbeatGameStatus _status = new HeartbeatGameStatus();
 
@@ -33,7 +33,7 @@ namespace MagFilter
                 new Channels.Command(DateTime.UtcNow, commandString)
                 );
         }
-        public static void SetExecutor(MagFilterCommandExecutor executor) { theHeartbeat._executor = executor; }
+        public static void SetCommandParser(MagFilterCommandParser parser) { theHeartbeat._cmdParser = parser; }
         public static void LaunchHeartbeat()
         {
             theHeartbeat.StartBeating();
@@ -152,7 +152,7 @@ namespace MagFilter
         {
             // Note: "Mag.Shared.PostMessageTools.SendMsg" does not work
             // DecalProxy.DispatchChatToBoxWithPluginIntercept(commandString) works
-            _executor.ExecuteCommand(commandString); // cross-thread
+            _cmdParser.ExecuteCommandFromLauncher(commandString); // cross-thread
         }
         private static string EncodeString(string text)
         {

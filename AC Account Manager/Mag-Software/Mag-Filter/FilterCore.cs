@@ -25,7 +25,7 @@ namespace MagFilter
 		DefaultFirstCharacterManager defaultFirstCharacterManager;
 	    private LauncherChooseCharacterManager chooseCharacterManager;
         private MagFilterCommandExecutor magFilterCommandExecutor;
-        private MagFilterCommandParser magFilterCommandManager;
+        private MagFilterCommandParser magFilterCommandParser;
 		LoginNextCharacterManager loginNextCharacterManager;
 
         private string PluginName { get { return FileLocations.PluginName; } }
@@ -40,9 +40,9 @@ namespace MagFilter
 			defaultFirstCharacterManager = new DefaultFirstCharacterManager(loginCharacterTools);
             chooseCharacterManager = new LauncherChooseCharacterManager(loginCharacterTools);
             magFilterCommandExecutor = new MagFilterCommandExecutor();
-            Heartbeat.SetExecutor(magFilterCommandExecutor);
-            magFilterCommandManager = new MagFilterCommandParser(magFilterCommandExecutor);
-			loginNextCharacterManager = new LoginNextCharacterManager(loginCharacterTools);
+            magFilterCommandParser = new MagFilterCommandParser(magFilterCommandExecutor);
+            Heartbeat.SetCommandParser(magFilterCommandParser);
+            loginNextCharacterManager = new LoginNextCharacterManager(loginCharacterTools);
 
 			ClientDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ClientDispatch);
 			ServerDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ServerDispatch);
@@ -123,7 +123,7 @@ namespace MagFilter
 				defaultFirstCharacterManager.FilterCore_CommandLineText(sender, e);
                 chooseCharacterManager.FilterCore_CommandLineText(sender, e);
 				loginNextCharacterManager.FilterCore_CommandLineText(sender, e);
-                magFilterCommandManager.FilterCore_CommandLineText(sender, e);
+                magFilterCommandParser.FilterCore_CommandLineText(sender, e);
             }
 			catch (Exception ex) { Debug.LogException(ex); }
 		}

@@ -16,8 +16,10 @@ namespace MagFilter
             public readonly ExecuteCommand CommandHandler;
             public CommandEntry(string cmd, ExecuteCommand cmdHandler) { this.Command = cmd; this.CommandHandler = cmdHandler; }
         }
+        // Member variables
         private List<CommandEntry> commandHandlers = new List<CommandEntry>();
         private MagFilterCommandExecutor executor;
+        private Dictionary<string, int> myTeams = new Dictionary<string, int>();
         // MagFilter commands. All are prefixed with "/mf "
         private const string CMD_Version = "version";
         private const string CMD_Help = "help";
@@ -25,6 +27,9 @@ namespace MagFilter
         private const string CMD_Help3 = "/?";
         private const string CMD_Broadcast = "broadcast ";
         private const string CMD_CreateTeam = "createteam ";
+        private const string CMD_ListTeams = "listteams";
+        private const string CMD_JoinTeam = "jointeam ";
+        private const string CMD_LeaveTeam = "leaveteam ";
         private const string CMD_Test = "test ";
         // TODO - add team commands
         public MagFilterCommandParser(MagFilterCommandExecutor cmdExecutor)
@@ -35,15 +40,34 @@ namespace MagFilter
             commandHandlers.Add(new CommandEntry(CMD_Help2, HelpCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_Broadcast, BroadcastCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_CreateTeam, CreateTeamCommandHandler));
+            commandHandlers.Add(new CommandEntry(CMD_ListTeams, ListTeamsCommandHandler));
+            commandHandlers.Add(new CommandEntry(CMD_JoinTeam, JoinTeamCommandHandler));
+            commandHandlers.Add(new CommandEntry(CMD_LeaveTeam, LeaveTeamCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_Test, TestCommandHandler));
+        }
+        public void ExecuteCommandFromLauncher(string command)
+        {
+            string commandString = "";
+            if (IsCommandPrefix(command, CMD_JoinTeam, out commandString))
+            {
+                JoinTeamCommandHandler(commandString);
+            }
+            else if (IsCommandPrefix(command, CMD_LeaveTeam, out commandString))
+            {
+                LeaveTeamCommandHandler(commandString);
+            }
+            else
+            {
+                executor.ExecuteCommand(command);
+            }
         }
         public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
         {
-            string commandString = "";
+            string commandString;
             foreach (CommandEntry cmdEntry in commandHandlers)
             {
                 string prefix = "/mf " + cmdEntry.Command;
-                if (IsCommandPrefix(e.Text, prefix, ref commandString))
+                if (IsCommandPrefix(e.Text, prefix, out commandString))
                 {
                     cmdEntry.CommandHandler(commandString);
                     e.Eat = true;
@@ -88,6 +112,37 @@ namespace MagFilter
                 Heartbeat.SendAndReceiveImmediately();
             }
         }
+        private void ListTeamsCommandHandler(string command)
+        {
+            string[] teams = new string[myTeams.Count];
+            myTeams.Keys.CopyTo(teams, 0);
+            Debug.WriteToChat("Teams: " + string.Join(",", teams));
+        }
+        private void JoinTeamCommandHandler(string command)
+        {
+            foreach (string team in command.Split(new char[0], StringSplitOptions.RemoveEmptyEntries))
+            {
+                JoinTeam(team);
+            }
+        }
+        private void JoinTeam(string team)
+        {
+            if (!myTeams.ContainsKey(team))
+            {
+                myTeams.Add(team, 1);
+            }
+        }
+        private void LeaveTeamCommandHandler(string command)
+        {
+            foreach (string team in command.Split(new char[0], StringSplitOptions.RemoveEmptyEntries))
+            {
+                LeaveTeam(team);
+            }
+        }
+        private void LeaveTeam(string team)
+        {
+            myTeams.Remove(team);
+        }
         private void TestCommandHandler(string command)
         {
             if (!string.IsNullOrEmpty(command))
@@ -95,7 +150,7 @@ namespace MagFilter
                 executor.ExecuteCommand(command);
             }
         }
-        private bool IsCommandPrefix(string line, string prefix, ref string command)
+        private bool IsCommandPrefix(string line, string prefix, out string command)
         {
             if (line.StartsWith(prefix))
             {
@@ -111,6 +166,7 @@ namespace MagFilter
             }
             else
             {
+                command = "";
                 return false;
             }
         }
