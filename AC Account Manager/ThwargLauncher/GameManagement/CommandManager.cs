@@ -36,19 +36,43 @@ namespace ThwargLauncher
             Logger.WriteInfo(string.Format(
                 "Command received from server='{0}', account='{1}': {2}",
                 inboundGameSession.ServerName, inboundGameSession.AccountName, command));
-            // TODO
-            // For now, just broadcast the command back out to all active games
-            foreach (var gameSession in _gameSessionMap.GetAllGameSessions())
+            string commandString = "";
+            if (IsCommandPrefix(command, "broadcast ", ref commandString))
             {
-                if (gameSession.GameChannel != null)
+                if (!string.IsNullOrWhiteSpace(commandString))
                 {
-                    Logger.WriteInfo(string.Format(
-                        "Sending command '{0}' to server '{1}' and account '{2}'",
-                        command, gameSession.ServerName, gameSession.AccountName
-                        ));
-                    var magCmd = new MagFilter.Channels.Command(DateTime.UtcNow, command);
-                    gameSession.GameChannel.EnqueueOutbound(magCmd);
+                    foreach (var gameSession in _gameSessionMap.GetAllGameSessions())
+                    {
+                        if (gameSession.GameChannel != null)
+                        {
+                            Logger.WriteInfo(string.Format(
+                                "Sending command '{0}' to server '{1}' and account '{2}'",
+                                commandString, gameSession.ServerName, gameSession.AccountName
+                                ));
+                            var magCmd = new MagFilter.Channels.Command(DateTime.UtcNow, commandString);
+                            gameSession.GameChannel.EnqueueOutbound(magCmd);
+                        }
+                    }
                 }
+            }
+        }
+        private bool IsCommandPrefix(string line, string prefix, ref string command)
+        {
+            if (line.StartsWith(prefix))
+            {
+                if (line.Length > prefix.Length)
+                {
+                    command = line.Substring(prefix.Length, line.Length - prefix.Length);
+                }
+                else
+                {
+                    command = "";
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

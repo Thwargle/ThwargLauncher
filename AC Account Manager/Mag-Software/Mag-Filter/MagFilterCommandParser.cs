@@ -7,7 +7,7 @@ using Mag.Shared;
 
 namespace MagFilter
 {
-    class MagFilterCommandManager
+    class MagFilterCommandParser
     {
         private delegate void ExecuteCommand(string command);
         private class CommandEntry
@@ -17,20 +17,24 @@ namespace MagFilter
             public CommandEntry(string cmd, ExecuteCommand cmdHandler) { this.Command = cmd; this.CommandHandler = cmdHandler; }
         }
         private List<CommandEntry> commandHandlers = new List<CommandEntry>();
+        private MagFilterCommandExecutor executor;
         // MagFilter commands. All are prefixed with "/mf "
         private const string CMD_Version = "version";
         private const string CMD_Help = "help";
         private const string CMD_Help2 = "?";
         private const string CMD_Help3 = "/?";
         private const string CMD_Broadcast = "broadcast ";
+        private const string CMD_CreateTeam = "createteam ";
         private const string CMD_Test = "test ";
         // TODO - add team commands
-        public MagFilterCommandManager()
+        public MagFilterCommandParser(MagFilterCommandExecutor cmdExecutor)
         {
+            executor = cmdExecutor;
             commandHandlers.Add(new CommandEntry(CMD_Version, VersionCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_Help, HelpCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_Help2, HelpCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_Broadcast, BroadcastCommandHandler));
+            commandHandlers.Add(new CommandEntry(CMD_CreateTeam, CreateTeamCommandHandler));
             commandHandlers.Add(new CommandEntry(CMD_Test, TestCommandHandler));
         }
         public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
@@ -39,7 +43,7 @@ namespace MagFilter
             foreach (CommandEntry cmdEntry in commandHandlers)
             {
                 string prefix = "/mf " + cmdEntry.Command;
-                if (CheckCommandPrefix(e.Text, prefix, ref commandString))
+                if (IsCommandPrefix(e.Text, prefix, ref commandString))
                 {
                     cmdEntry.CommandHandler(commandString);
                     e.Eat = true;
@@ -72,7 +76,15 @@ namespace MagFilter
         {
             if (!string.IsNullOrEmpty(command))
             {
-                Heartbeat.SendCommand(command);
+                Heartbeat.SendCommand(CMD_Broadcast + command);
+                Heartbeat.SendAndReceiveImmediately();
+            }
+        }
+        private void CreateTeamCommandHandler(string command)
+        {
+            if (!string.IsNullOrEmpty(command))
+            {
+                Heartbeat.SendCommand(CMD_CreateTeam + command);
                 Heartbeat.SendAndReceiveImmediately();
             }
         }
@@ -80,10 +92,10 @@ namespace MagFilter
         {
             if (!string.IsNullOrEmpty(command))
             {
-                DecalProxy.DispatchChatToBoxWithPluginIntercept(command);
+                executor.ExecuteCommand(command);
             }
         }
-        private bool CheckCommandPrefix(string line, string prefix, ref string command)
+        private bool IsCommandPrefix(string line, string prefix, ref string command)
         {
             if (line.StartsWith(prefix))
             {

@@ -103,7 +103,8 @@
     <Compile Include="LoginCompleteMessageQueueManager.cs" />
     <Compile Include="LoginNextCharacterManager.cs" />
     <Compile Include="AfterLoginCompleteMessageQueueManager.cs" />
-    <Compile Include="MagFilterCommandManager.cs" />
+    <Compile Include="MagFilterCommandExecutor.cs" />
+    <Compile Include="MagFilterCommandParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyDomain.cs" />
     <Compile Include="ServerCharacterListByAccount.cs" />

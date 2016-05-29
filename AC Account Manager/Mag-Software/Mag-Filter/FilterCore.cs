@@ -24,7 +24,8 @@ namespace MagFilter
 
 		DefaultFirstCharacterManager defaultFirstCharacterManager;
 	    private LauncherChooseCharacterManager chooseCharacterManager;
-        private MagFilterCommandManager magFilterCommandManager;
+        private MagFilterCommandExecutor magFilterCommandExecutor;
+        private MagFilterCommandParser magFilterCommandManager;
 		LoginNextCharacterManager loginNextCharacterManager;
 
         private string PluginName { get { return FileLocations.PluginName; } }
@@ -38,7 +39,9 @@ namespace MagFilter
 
 			defaultFirstCharacterManager = new DefaultFirstCharacterManager(loginCharacterTools);
             chooseCharacterManager = new LauncherChooseCharacterManager(loginCharacterTools);
-            magFilterCommandManager = new MagFilterCommandManager();
+            magFilterCommandExecutor = new MagFilterCommandExecutor();
+            Heartbeat.SetExecutor(magFilterCommandExecutor);
+            magFilterCommandManager = new MagFilterCommandParser(magFilterCommandExecutor);
 			loginNextCharacterManager = new LoginNextCharacterManager(loginCharacterTools);
 
 			ClientDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ClientDispatch);
