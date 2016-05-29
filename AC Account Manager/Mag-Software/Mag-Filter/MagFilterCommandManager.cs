@@ -20,7 +20,8 @@ namespace MagFilter
         // MagFilter commands. All are prefixed with "/mf "
         private const string CMD_Version = "version";
         private const string CMD_Help = "help";
-        private const string CMD_Help2 = "/?";
+        private const string CMD_Help2 = "?";
+        private const string CMD_Help3 = "/?";
         private const string CMD_Broadcast = "broadcast ";
         private const string CMD_Test = "test ";
         // TODO - add team commands
