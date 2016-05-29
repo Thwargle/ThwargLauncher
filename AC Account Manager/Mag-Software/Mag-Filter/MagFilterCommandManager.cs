@@ -23,6 +23,7 @@ namespace MagFilter
         private const string CMD_Help2 = "/?";
         private const string CMD_Broadcast = "broadcast ";
         private const string CMD_Test = "test ";
+        // TODO - add team commands
         public MagFilterCommandManager()
         {
             commandHandlers.Add(new CommandEntry(CMD_Version, VersionCommandHandler));
