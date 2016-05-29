@@ -4,7 +4,7 @@ namespace MagFilter
 {
     public class HeartbeatGameStatus
     {
-        public const string MASTER_FILE_VERSION = "1.3";
+        public const string MASTER_FILE_VERSION = "1.4";
         public const string MASTER_FILE_VERSION_COMPAT = "1";
 
         public string FileVersion;
@@ -13,6 +13,7 @@ namespace MagFilter
         public string CharacterName;
         public int UptimeSeconds;
         public int ProcessId;
+        public string TeamList; // separated by commas and no spaces
         public string MagFilterVersion;
         public string MagFilterFilePath;
     }

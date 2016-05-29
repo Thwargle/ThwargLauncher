@@ -184,6 +184,7 @@ namespace MagFilter
                 file.WriteLine("CharacterName:{0}", status.CharacterName);
                 file.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
                 file.WriteLine("ProcessId:{0}", System.Diagnostics.Process.GetCurrentProcess().Id);
+                file.WriteLine("TeamList:{0}", status.TeamList);
                 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 file.WriteLine("MagFilterVersion:{0}", assembly.GetName().Version);
                 file.WriteLine("MagFilterFilePath:{0}", assembly.Location);
@@ -216,6 +217,7 @@ namespace MagFilter
                 info.Status.CharacterName = SettingHelpers.GetSingleStringValue(settings, "CharacterName");
                 info.LogFilepath = SettingHelpers.GetSingleStringValue(settings, "LogFilepath");
                 info.Status.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
+                info.Status.TeamList = SettingHelpers.GetSingleStringValue(settings, "TeamList");
                 info.Status.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
                 info.Status.MagFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "MagFilterFilePath");
 

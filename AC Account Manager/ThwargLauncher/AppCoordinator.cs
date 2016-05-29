@@ -11,6 +11,7 @@ namespace ThwargLauncher
     /// </summary>
     class AppCoordinator
     {
+        private static AppCoordinator theAppCoordinator = null;
         private MainWindowViewModel _viewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
         private GameSessionMap _gameSessionMap;
@@ -22,6 +23,8 @@ namespace ThwargLauncher
 
         public AppCoordinator()
         {
+            theAppCoordinator = this;
+
             BeginMonitoringGame();
 
             ShowMainWindow();
@@ -74,6 +77,11 @@ namespace ThwargLauncher
         {
             _uiGameMonitorBridge.Stop();
             _gameMonitor.Stop();
+        }
+        public static GameSession GetTheGameSessionByServerAccount(string serverName, string accountName)
+        {
+            // architectural problem getting to the game session map
+            return theAppCoordinator._gameSessionMap.GetGameSessionByServerAccount(serverName: serverName, accountName: accountName);
         }
     }
 }

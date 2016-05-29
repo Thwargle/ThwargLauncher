@@ -31,7 +31,14 @@ namespace MagFilter
         private const string CMD_JoinTeam = "jointeam ";
         private const string CMD_LeaveTeam = "leaveteam ";
         private const string CMD_Test = "test ";
-        // TODO - add team commands
+
+        public string GetTeamList() { return GetTeamStringList(); }
+        private string GetTeamStringList()
+        {
+            string[] teams = new string[myTeams.Count];
+            myTeams.Keys.CopyTo(teams, 0);
+            return string.Join(",", teams);
+        }
         public MagFilterCommandParser(MagFilterCommandExecutor cmdExecutor)
         {
             executor = cmdExecutor;
@@ -114,9 +121,7 @@ namespace MagFilter
         }
         private void ListTeamsCommandHandler(string command)
         {
-            string[] teams = new string[myTeams.Count];
-            myTeams.Keys.CopyTo(teams, 0);
-            Debug.WriteToChat("Teams: " + string.Join(",", teams));
+            Debug.WriteToChat("Teams: " + GetTeamStringList());
         }
         private void JoinTeamCommandHandler(string command)
         {

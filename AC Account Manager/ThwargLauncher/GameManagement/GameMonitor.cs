@@ -260,6 +260,7 @@ namespace ThwargLauncher
                 gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(response.Status.ProcessId);
             }
             gameSession.UptimeSeconds = response.Status.UptimeSeconds;
+            gameSession.TeamList = response.Status.TeamList;
         }
         private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)
         {

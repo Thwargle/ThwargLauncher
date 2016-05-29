@@ -97,7 +97,7 @@ namespace ThwargLauncher
             }
         }
 
-        private string _name = "Unspecified";
+        //private string _name = "Unspecified";
         private readonly List<Server> _servers = new List<Server>();
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
 
@@ -122,6 +122,12 @@ namespace ThwargLauncher
                         if (ServerHasChosenCharacter(server))
                         {
                             string entry = string.Format("{0}{1}->{2}", server.ServerStatusSymbol, server.ServerName, server.ChosenCharacter);
+                            // architectural problem getting to game session here
+                            GameSession session = AppCoordinator.GetTheGameSessionByServerAccount(serverName: server.ServerName, accountName: this.Name);
+                            if (session != null && !string.IsNullOrEmpty(session.TeamList))
+                            {
+                                entry += " Teams: " + session.TeamList;
+                            }
                             serverInfos.Add(entry);
                         }
                         else

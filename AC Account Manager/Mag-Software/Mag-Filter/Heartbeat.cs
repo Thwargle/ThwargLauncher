@@ -105,6 +105,7 @@ namespace MagFilter
         {
             try
             {
+                _status.TeamList = _cmdParser.GetTeamList();
                 LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
             catch (Exception exc)
