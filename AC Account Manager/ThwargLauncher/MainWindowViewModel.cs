@@ -13,6 +13,7 @@ namespace ThwargLauncher
     {
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
+        HelpWindow _helpWindow = null;
         LogViewerViewModel _logViewerViewmodel = new LogViewerViewModel();
         LogViewerWindow _logViewer = null;
 
@@ -307,8 +308,16 @@ namespace ThwargLauncher
         }
         public void DisplayHelpWindow()
         {
-            var dlg = new HelpWindow(new HelpWindowViewModel(_configurator));
-            dlg.ShowDialog();
+            if (_helpWindow == null)
+            {
+                _helpWindow = new HelpWindow(new HelpWindowViewModel(_configurator));
+                _helpWindow.Closing += _helpWindow_Closing;
+            }
+            _helpWindow.Show();
+        }
+        void _helpWindow_Closing(object sender, CancelEventArgs e)
+        {
+            _helpWindow = null;
         }
         public void DisplayLogWindow()
         {
@@ -316,7 +325,6 @@ namespace ThwargLauncher
             {
                 _logViewer = new LogViewerWindow(_logViewerViewmodel);
                 _logViewer.Closing += _logViewer_Closing;
-                _logViewer.Show();
             }
             _logViewer.Show();
         }
@@ -324,6 +332,19 @@ namespace ThwargLauncher
         void _logViewer_Closing(object sender, CancelEventArgs e)
         {
             _logViewer = null;
+        }
+        public void ShutSubsidiaryWindows()
+        {
+            if (_logViewer != null)
+            {
+                _logViewer.Close();
+                _logViewer = null;
+            }
+            if (_helpWindow != null)
+            {
+                _helpWindow.Close();
+                _helpWindow = null;
+            }
         }
     }
 }

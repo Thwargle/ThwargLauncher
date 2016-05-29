@@ -595,9 +595,7 @@ namespace ThwargLauncher
         }
         private void DisplayHelpWindow()
         {
-            MainWindowDisable();
             _viewModel.DisplayHelpWindow();
-            MainWindowEnable();
         }
 
         private void txtProfileName_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)

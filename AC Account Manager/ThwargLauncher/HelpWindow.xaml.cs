@@ -16,6 +16,8 @@ namespace ThwargLauncher
     public partial class HelpWindow : Window
     {
         private HelpWindowViewModel _viewModel;
+        private DiagnosticsWindow _diagnosticsWindow;
+
         public HelpWindow(HelpWindowViewModel viewModel)
         {
             InitializeComponent();
@@ -60,11 +62,25 @@ namespace ThwargLauncher
         }
         private void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new DiagnosticsWindow(_viewModel.GetDiagnosticWindowViewModel());
-            dlg.Show();
+            if (_diagnosticsWindow == null)
+            {
+                _diagnosticsWindow = new DiagnosticsWindow(_viewModel.GetDiagnosticWindowViewModel());
+                _diagnosticsWindow.Closing += _diagnosticsWindow_Closing;
+            }
+            _diagnosticsWindow.Show();
+        }
+
+        void _diagnosticsWindow_Closing(object sender, CancelEventArgs e)
+        {
+            _diagnosticsWindow = null;
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (_diagnosticsWindow != null)
+            {
+                _diagnosticsWindow.Close();
+                _diagnosticsWindow = null;
+            }
             Properties.Settings.Default.ShowHelpAtStart = chkShowStartup.IsChecked.Value;
             Properties.Settings.Default.Save();
             SaveWindowSettings();

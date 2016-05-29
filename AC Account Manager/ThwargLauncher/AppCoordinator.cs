@@ -26,12 +26,6 @@ namespace ThwargLauncher
 
             ShowMainWindow();
         }
-        private void ShowMainWindow()
-        {
-            var mainWindow = new MainWindow(_viewModel, _gameSessionMap, _gameMonitor);
-            mainWindow.Closing += mainWindow_Closing;
-            mainWindow.Show();
-        }
         private void BeginMonitoringGame()
         {
             // Logger is a static object, so it already exists
@@ -46,6 +40,12 @@ namespace ThwargLauncher
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
+        }
+        private void ShowMainWindow()
+        {
+            var mainWindow = new MainWindow(_viewModel, _gameSessionMap, _gameMonitor);
+            mainWindow.Closing += mainWindow_Closing;
+            mainWindow.Show();
         }
         internal string GetLauncherLogPath()
         {
@@ -67,6 +67,7 @@ namespace ThwargLauncher
         }
         void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            _viewModel.ShutSubsidiaryWindows();
             EndMonitoringGame();
         }
         private void EndMonitoringGame()
