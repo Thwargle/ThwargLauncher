@@ -32,6 +32,7 @@ namespace GenericSettingsFile
             var settings = new SettingsCollection();
             if (string.IsNullOrEmpty(filepath)) { throw new Exception("ReadSettingsFile received empty filename"); }
             if (!File.Exists(filepath)) { throw new Exception("Missing file: " + filepath); }
+            // TODO - if file is locked by writer, then fail somehow
             using (var file = new StreamReader(filepath))
             {
                 string contents = file.ReadToEnd();

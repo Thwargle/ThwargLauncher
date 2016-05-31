@@ -36,7 +36,11 @@ namespace MagFilter.Channels
                         channel.EnqueueInbound(cmd);
                     }
                 }
-                channel.LastInboundProcessedUtc = latestUtc;
+                if (channel.LastInboundProcessedUtc < latestUtc)
+                {
+                    channel.LastInboundProcessedUtc = latestUtc;
+                    channel.NeedsToWrite = true;
+                }
             }
         }
         private string GetChannelOutboundFilepath(Channel channel)

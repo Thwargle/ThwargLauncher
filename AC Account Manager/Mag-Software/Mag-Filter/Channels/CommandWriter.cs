@@ -17,8 +17,8 @@ namespace MagFilter.Channels
             using (var file = new StreamWriter(filepath, append: false))
             {
                 file.WriteLine("FileVersion:{0}", MASTER_FILE_VERSION);
-                file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc);
-                file.WriteLine("AcknowledgementUtc:{0}", cmdset.Acknowledgement);
+                file.WriteLine("Timestamp=TimeUtc:'{0:o}'", timestampUtc);
+                file.WriteLine("AcknowledgementUtc:{0:o}", cmdset.Acknowledgement);
                 file.WriteLine("CommandCount:{0}", cmdset.Commands.Count);
                 for (int i=0; i<cmdset.Commands.Count; ++i)
                 {
@@ -45,7 +45,7 @@ namespace MagFilter.Channels
                         fileVersion));
                     return null;
                 }
-                DateTime timestamp = settings.GetValue("Timestamp").GetDateParam("TimeUtc");
+                DateTime timestamp = settings.GetValue("Timestamp").GetUtcDateParam("TimeUtc");
                 if (DateTime.UtcNow - timestamp > TimeSpan.FromHours(1))
                 {
                     log.WriteLogMsg(string.Format(
