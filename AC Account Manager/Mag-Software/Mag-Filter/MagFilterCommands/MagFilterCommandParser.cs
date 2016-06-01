@@ -14,10 +14,23 @@ namespace MagFilter
         {
             public readonly string Command;
             public readonly ExecuteCommand CommandHandler;
-            public CommandEntry(string cmd, ExecuteCommand cmdHandler) { this.Command = cmd; this.CommandHandler = cmdHandler; }
+            public readonly string Help;
+            public CommandEntry(string cmd, ExecuteCommand cmdHandler, string help)
+            {
+                this.Command = cmd;
+                this.CommandHandler = cmdHandler;
+                this.Help = help;
+            }
+        }
+        private class CommandEntryList : List<CommandEntry>
+        {
+            public void Add(string cmdString, ExecuteCommand cmdHandler, string help)
+            {
+                this.Add(new CommandEntry(cmd: cmdString, cmdHandler: cmdHandler, help: help));
+            }
         }
         // Member variables
-        private List<CommandEntry> commandHandlers = new List<CommandEntry>();
+        private CommandEntryList cmdHandlers = new CommandEntryList();
         private MagFilterCommandExecutor executor;
         private Dictionary<string, int> myTeams = new Dictionary<string, int>();
         // MagFilter commands. All are prefixed with "/mf "
@@ -27,9 +40,13 @@ namespace MagFilter
         private const string CMD_Help3 = "/?";
         private const string CMD_Broadcast = "broadcast ";
         private const string CMD_CreateTeam = "createteam ";
-        private const string CMD_ListTeams = "listteams";
+        private const string CMD_CreateTeam2 = "ct ";
+        private const string CMD_ShowTeams = "showteams";
+        private const string CMD_ShowTeams2 = "st";
         private const string CMD_JoinTeam = "jointeam ";
+        private const string CMD_JoinTeam2 = "jt ";
         private const string CMD_LeaveTeam = "leaveteam ";
+        private const string CMD_LeaveTeam2 = "lt ";
         private const string CMD_Test = "test ";
 
         public string GetTeamList() { return GetTeamStringList(); }
@@ -42,24 +59,31 @@ namespace MagFilter
         public MagFilterCommandParser(MagFilterCommandExecutor cmdExecutor)
         {
             executor = cmdExecutor;
-            commandHandlers.Add(new CommandEntry(CMD_Version, VersionCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_Help, HelpCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_Help2, HelpCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_Broadcast, BroadcastCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_CreateTeam, CreateTeamCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_ListTeams, ListTeamsCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_JoinTeam, JoinTeamCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_LeaveTeam, LeaveTeamCommandHandler));
-            commandHandlers.Add(new CommandEntry(CMD_Test, TestCommandHandler));
+            cmdHandlers.Add(CMD_Version, VersionCommandHandler, "Display assembly version info");
+            cmdHandlers.Add(CMD_Help, HelpCommandHandler, "List all mf commands");
+            cmdHandlers.Add(CMD_Help2, HelpCommandHandler, null);
+            cmdHandlers.Add(CMD_Help3, HelpCommandHandler, null);
+            cmdHandlers.Add(CMD_Broadcast, BroadcastCommandHandler, "Broadcast command to all games");
+            cmdHandlers.Add(CMD_CreateTeam, CreateTeamCommandHandler, "Create team of specified characters ('/mf ct Tom Bob')");
+            cmdHandlers.Add(CMD_CreateTeam2, CreateTeamCommandHandler, null);
+            cmdHandlers.Add(CMD_ShowTeams, ListTeamsCommandHandler, "Show all my teams ('/mf st')");
+            cmdHandlers.Add(CMD_ShowTeams2, ListTeamsCommandHandler, null);
+            cmdHandlers.Add(CMD_JoinTeam, JoinTeamCommandHandler, "Join a team ('/mf jt red')");
+            cmdHandlers.Add(CMD_JoinTeam2, JoinTeamCommandHandler, null);
+            cmdHandlers.Add(CMD_LeaveTeam, LeaveTeamCommandHandler, "Leave a team ('/mf lt red')");
+            cmdHandlers.Add(CMD_LeaveTeam2, LeaveTeamCommandHandler, null);
+            cmdHandlers.Add(CMD_Test, TestCommandHandler, "Test submitting a command directly to game ('/mf test somecommandstring')");
         }
         public void ExecuteCommandFromLauncher(string command)
         {
             string commandString = "";
-            if (IsCommandPrefix(command, CMD_JoinTeam, out commandString))
+            if (IsCommandPrefix(command, CMD_JoinTeam, out commandString)
+                || IsCommandPrefix(command, CMD_JoinTeam2, out commandString))
             {
                 JoinTeamCommandHandler(commandString);
             }
-            else if (IsCommandPrefix(command, CMD_LeaveTeam, out commandString))
+            else if (IsCommandPrefix(command, CMD_LeaveTeam, out commandString)
+                || IsCommandPrefix(command, CMD_LeaveTeam2, out commandString))
             {
                 LeaveTeamCommandHandler(commandString);
             }
@@ -70,10 +94,10 @@ namespace MagFilter
         }
         public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
         {
-            string commandString;
-            foreach (CommandEntry cmdEntry in commandHandlers)
+            foreach (CommandEntry cmdEntry in cmdHandlers)
             {
                 string prefix = "/mf " + cmdEntry.Command;
+                string commandString;
                 if (IsCommandPrefix(e.Text, prefix, out commandString))
                 {
                     cmdEntry.CommandHandler(commandString);
@@ -97,11 +121,15 @@ namespace MagFilter
         private void HelpCommandHandler(string command)
         {
             List<string> cmds = new List<string>();
-            foreach (CommandEntry cmdEntry in commandHandlers)
+            foreach (CommandEntry cmdEntry in cmdHandlers)
             {
-                cmds.Add(cmdEntry.Command);
+                if (cmdEntry.Help != null)
+                {
+                    string cmdString = cmdEntry.Command.Trim();
+                    cmds.Add(string.Format("{0}: {1}", cmdString, cmdEntry.Help));
+                }
             }
-            Debug.WriteToChat("Commands: " + string.Join(",", cmds.ToArray()));
+            Debug.WriteToChat("Commands: " + string.Join("\n", cmds.ToArray()));
         }
         private void BroadcastCommandHandler(string command)
         {
