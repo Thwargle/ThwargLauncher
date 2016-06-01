@@ -59,6 +59,10 @@ namespace MagFilter
         public MagFilterCommandParser(MagFilterCommandExecutor cmdExecutor)
         {
             executor = cmdExecutor;
+            cmdHandlers.Add("alcmq", null, "After Login Complete Message Queue (add, clear, wait set, wait clear)");
+            cmdHandlers.Add("dlc", null, "Default Login Character (set, clear)");
+            cmdHandlers.Add("lcmq", null, "Login Complete Message Queue (add, clear)");
+            cmdHandlers.Add("lnq", null, "Login Next Queue (set, clear)");
             cmdHandlers.Add(CMD_Version, VersionCommandHandler, "Display assembly version info");
             cmdHandlers.Add(CMD_Help, HelpCommandHandler, "List all mf commands");
             cmdHandlers.Add(CMD_Help2, HelpCommandHandler, null);
@@ -96,13 +100,17 @@ namespace MagFilter
         {
             foreach (CommandEntry cmdEntry in cmdHandlers)
             {
-                string prefix = "/mf " + cmdEntry.Command;
-                string commandString;
-                if (IsCommandPrefix(e.Text, prefix, out commandString))
+                // Only look at commands with handlers (others are just for help display)
+                if (cmdEntry.CommandHandler != null)
                 {
-                    cmdEntry.CommandHandler(commandString);
-                    e.Eat = true;
-                    break;
+                    string prefix = "/mf " + cmdEntry.Command;
+                    string commandString;
+                    if (IsCommandPrefix(e.Text, prefix, out commandString))
+                    {
+                        cmdEntry.CommandHandler(commandString);
+                        e.Eat = true;
+                        break;
+                    }
                 }
             }
         }
