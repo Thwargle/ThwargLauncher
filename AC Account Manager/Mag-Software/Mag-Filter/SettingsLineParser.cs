@@ -33,7 +33,8 @@ namespace GenericSettingsFile
         public DateTime GetDateParam(string key)
         {
             if (!this.Parameters.ContainsKey(key)) { throw new Exception(string.Format("Missing date param: '{0}'", key)); }
-            return DateTime.Parse(this.Parameters[key], null, System.Globalization.DateTimeStyles.RoundtripKind);
+            var styles = System.Globalization.DateTimeStyles.RoundtripKind;
+            return DateTime.Parse(this.Parameters[key], null, styles);
         }
         public DateTime GetUtcDateParam(string key)
         {
