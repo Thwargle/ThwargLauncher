@@ -40,9 +40,26 @@ namespace ThwargLauncher
             _viewModel = new MainWindowViewModel(_gameSessionMap, _configurator);
             _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _commandManager = new CommandManager(_gameMonitor, _gameSessionMap);
+            TestParse();
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
+        }
+        private void TestParse()
+        {
+            IList<string> result = null;
+            result = TestParseLine("a b c");
+            result = TestParseLine("a bde c");
+            result = TestParseLine("a 'b c'");
+            result = TestParseLine("a b 'c' \"alpha\"");
+            
+        }
+        private IList<string> TestParseLine(string text)
+        {
+            IList<string> list = _commandManager.ParseTokens(text);
+            string result = string.Join("], [", list.ToArray());
+            return list;
+
         }
         private void ShowMainWindow()
         {

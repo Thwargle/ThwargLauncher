@@ -37,6 +37,7 @@ namespace ThwargLauncher
                 "Command received from server='{0}', account='{1}': {2}",
                 inboundGameSession.ServerName, inboundGameSession.AccountName, command));
             string commandString = "";
+            // TODO - implement & handle team filtered commands
             if (IsCommandPrefix(command, "broadcast ", ref commandString))
             {
                 if (!string.IsNullOrWhiteSpace(commandString))
@@ -48,14 +49,68 @@ namespace ThwargLauncher
                             Logger.WriteInfo(string.Format(
                                 "Sending command '{0}' to server '{1}' and account '{2}'",
                                 commandString, gameSession.ServerName, gameSession.AccountName
-                                ));
+                                                 ));
                             var magCmd = new MagFilter.Channels.Command(DateTime.UtcNow, commandString);
                             gameSession.GameChannel.EnqueueOutbound(magCmd);
                         }
                     }
                 }
             }
+            else if (IsCommandPrefix(command, "createteam ", ref commandString))
+            {
+                var members = ParseTokens(commandString);
+                foreach (string member in members)
+                {
+                    // TODO check for character with this name
+                }
+                Logger.WriteInfo("Received createteam command; not yet implemented - TODO");
+            }
         }
+        public IList<string> ParseTokens(string text)
+        {
+            var oldPos = 0;
+            int pos = -1;
+            var items = new List<string>();
+            while (true)
+            {
+                oldPos = pos + 1;
+                if (oldPos >= text.Length)
+                {
+                    break;//last item and without value
+                }
+                if (text[oldPos] == '"')
+                {
+                    // jump to before quote
+                    oldPos += 1;
+                    pos = text.IndexOf('"', oldPos);
+                    items.Add(text.Substring(oldPos, pos - oldPos));
+                }
+                else if (text[oldPos] == '\'')
+                {
+                    // jump to before quote
+                    oldPos += 1;
+                    pos = text.IndexOf('\'', oldPos);
+                    items.Add(text.Substring(oldPos, pos - oldPos));
+                }
+                else if (text[oldPos] == ' ')
+                {
+                    ++pos; // ignore whitespace between tokens
+                }
+                else
+                {
+                    pos = text.IndexOf(' ', oldPos);
+                    if (pos == -1)
+                    {
+                        items.Add(text.Substring(oldPos));
+                        break;//no more items
+                    }
+
+                    items.Add(text.Substring(oldPos, pos - oldPos));
+                }
+            }
+            return items;
+        }
+
         private bool IsCommandPrefix(string line, string prefix, ref string command)
         {
             if (line.StartsWith(prefix))
