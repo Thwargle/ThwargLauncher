@@ -134,6 +134,7 @@
     <Compile Include="GameManagement\ServerAccountStatus.cs" />
     <Compile Include="GameManagement\UiGameMonitorBridge.cs" />
     <Compile Include="UtilityCode\PropertyChangedBase.cs" />
+    <Compile Include="UtilityCode\PropertyDependencyManager.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />
     <Compile Include="WebService\IThwargListener.cs" />
