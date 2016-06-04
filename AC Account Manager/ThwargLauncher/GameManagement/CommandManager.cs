@@ -47,13 +47,21 @@ namespace ThwargLauncher
                 HandleCreateTeamCommand(inboundGameSession, commandString);
             }
         }
+        private class TeamParsedCommand
+        {
+            private List<string> TeamNames = new List<string>();
+
+        }
         private void HandleBroadcastCommand(GameSession inboundGameSession, string commandString)
         {
             if (string.IsNullOrWhiteSpace(commandString)) { return; }
 
+            List<string> teamNames = FindTeamsSpecified(ref commandString);
+            if (string.IsNullOrEmpty(commandString)) { return; }
             foreach (var gameSession in _gameSessionMap.GetAllGameSessions())
             {
-                if (gameSession.GameChannel != null)
+                if (gameSession.GameChannel == null) { continue; }
+                if (teamNames == null || DoesGameHaveTeam(gameSession.TeamSet, teamNames))
                 {
                     Logger.WriteInfo(string.Format(
                         "Sending command '{0}' to server '{1}' and account '{2}'",
@@ -62,6 +70,37 @@ namespace ThwargLauncher
                     SendGameCommand(gameSession, commandString);
                 }
             }
+        }
+        private bool DoesGameHaveTeam(HashSet<string> gameTeams, List<string> cmdTeams)
+        {
+            foreach (var cmdTeam in cmdTeams)
+            {
+                if (gameTeams.Contains(cmdTeam))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private List<string> FindTeamsSpecified(ref string commandString)
+        {
+            List<string> teamNames = null;
+            const string PREFIX = "/team:";
+            if (commandString.StartsWith(PREFIX))
+            {
+                int pos = commandString.IndexOf(" ");
+                if (pos == -1 || pos == commandString.Length - 1)
+                {
+                    commandString = null;
+                    return null;
+                }
+                commandString = commandString.Substring(pos + 1);
+                if (string.IsNullOrWhiteSpace(commandString)) { commandString = null; return null; }
+                string teamtok = commandString.Substring(PREFIX.Length, pos + 1 - PREFIX.Length);
+                teamNames = teamtok.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                return teamNames;
+            }
+            return null;
         }
         private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
         {
