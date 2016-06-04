@@ -10,11 +10,13 @@ namespace ThwargLauncher
         // Member data
         private Dictionary<int, GameSession> _sessionByProcessId = new Dictionary<int, GameSession>();
         private Dictionary<string, GameSession> _sessionByServerAccount = new Dictionary<string, GameSession>();
+        private Dictionary<string, List<GameSession>> _sessionsByCharacterName = new Dictionary<string,List<GameSession>>();
 
         public void AddGameSession(GameSession gameSession)
         {
             lock (_locker)
             {
+                // #1 By ProcessId
                 if (_sessionByProcessId.ContainsKey(gameSession.ProcessId))
                 {
                     // Note: This can happen at startup
@@ -24,6 +26,7 @@ namespace ThwargLauncher
                 {
                     _sessionByProcessId.Add(gameSession.ProcessId, gameSession);
                 }
+                // #2 By Server/Account
                 string key = GetServerAccountKey(gameSession);
                 if (_sessionByServerAccount.ContainsKey(key))
                 {
@@ -33,6 +36,18 @@ namespace ThwargLauncher
                 {
                     _sessionByServerAccount.Add(key, gameSession);
                 }
+                // #3 By character
+                List<GameSession> sessionList = null;
+                if (_sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
+                {
+                    sessionList = _sessionsByCharacterName[gameSession.CharacterName];
+                }
+                else
+                {
+                    sessionList = new List<GameSession>();
+                }
+                sessionList.Add(gameSession);
+                _sessionsByCharacterName[gameSession.CharacterName] = sessionList;
             }
         }
         public void SetGameSessionProcessId(GameSession gameSession, int processId)
@@ -102,15 +117,23 @@ namespace ThwargLauncher
                 return null;
             }
         }
+        public List<GameSession> GetGameSessionsByCharacterName(string characterName)
+        {
+            if (_sessionsByCharacterName.ContainsKey(characterName))
+            {
+                return _sessionsByCharacterName[characterName];
+            }
+            else
+            {
+                return new List<GameSession>();
+            }
+        }
         public List<GameSession> GetAllGameSessions()
         {
             var allStatuses = new List<GameSession>();
             lock (_locker)
             {
-                foreach (var gameSession in _sessionByProcessId.Values)
-                {
-                    allStatuses.Add(gameSession);
-                }
+                allStatuses.AddRange(_sessionByProcessId.Values);
             }
             return allStatuses;
         }
@@ -121,8 +144,15 @@ namespace ThwargLauncher
                 if (_sessionByProcessId.ContainsKey(processId))
                 {
                     GameSession gameSession = _sessionByProcessId[processId];
+                    // #1 By ProcessId
                     _sessionByProcessId.Remove(processId);
+                    // #2 By Server/Account
                     _sessionByServerAccount.Remove(GetServerAccountKey(gameSession));
+                    // #3 By Character Name
+                    if (_sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
+                    {
+                        _sessionsByCharacterName[gameSession.CharacterName].Remove(gameSession);
+                    }
                 }
             }
         }

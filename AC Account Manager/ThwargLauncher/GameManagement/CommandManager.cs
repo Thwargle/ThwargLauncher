@@ -23,15 +23,15 @@ namespace ThwargLauncher
         }
         private void StartHandling()
         {
-            _gameMonitor.GameCommandEvent += _gameMonitor_GameCommandEvent;
+            _gameMonitor.GameCommandEvent += HandleGameCommandEvent;
             // TODO - should shut this down
         }
         public void StopHandling()
         {
             // TODO - ApplicationCoordinator should set up something to call this
-            _gameMonitor.GameCommandEvent -= _gameMonitor_GameCommandEvent;
+            _gameMonitor.GameCommandEvent -= HandleGameCommandEvent;
         }
-        void _gameMonitor_GameCommandEvent(GameSession inboundGameSession, string command)
+        void HandleGameCommandEvent(GameSession inboundGameSession, string command)
         {
             Logger.WriteInfo(string.Format(
                 "Command received from server='{0}', account='{1}': {2}",
@@ -40,31 +40,81 @@ namespace ThwargLauncher
             // TODO - implement & handle team filtered commands
             if (IsCommandPrefix(command, "broadcast ", ref commandString))
             {
-                if (!string.IsNullOrWhiteSpace(commandString))
-                {
-                    foreach (var gameSession in _gameSessionMap.GetAllGameSessions())
-                    {
-                        if (gameSession.GameChannel != null)
-                        {
-                            Logger.WriteInfo(string.Format(
-                                "Sending command '{0}' to server '{1}' and account '{2}'",
-                                commandString, gameSession.ServerName, gameSession.AccountName
-                                                 ));
-                            var magCmd = new MagFilter.Channels.Command(DateTime.UtcNow, commandString);
-                            gameSession.GameChannel.EnqueueOutbound(magCmd);
-                        }
-                    }
-                }
+                HandleBroadcastCommand(inboundGameSession, commandString);
             }
             else if (IsCommandPrefix(command, "createteam ", ref commandString))
             {
-                var members = ParseTokens(commandString);
-                foreach (string member in members)
-                {
-                    // TODO check for character with this name
-                }
-                Logger.WriteInfo("Received createteam command; not yet implemented - TODO");
+                HandleCreateTeamCommand(inboundGameSession, commandString);
             }
+        }
+        private void HandleBroadcastCommand(GameSession inboundGameSession, string commandString)
+        {
+            if (string.IsNullOrWhiteSpace(commandString)) { return; }
+
+            foreach (var gameSession in _gameSessionMap.GetAllGameSessions())
+            {
+                if (gameSession.GameChannel != null)
+                {
+                    Logger.WriteInfo(string.Format(
+                        "Sending command '{0}' to server '{1}' and account '{2}'",
+                        commandString, gameSession.ServerName, gameSession.AccountName
+                                            ));
+                    SendGameCommand(gameSession, commandString);
+                }
+            }
+        }
+        private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
+        {
+            var args = ParseTokens(commandString).Distinct().ToList();
+            if (args.Count == 0)
+            {
+                Logger.WriteError("Ignoring createteam command with no arguments");
+                return;
+            }
+            if (args.Count == 1)
+            {
+                Logger.WriteError("Ignoring createteam command with one argument: " + args[0]);
+                return;
+            }
+            string teamName = null;
+            var sessions = new List<GameSession>();
+            foreach (string argstr in args)
+            {
+                if (teamName == null)
+                {
+                    teamName = argstr;
+                }
+                else
+                {
+                    string charName = argstr;
+                    sessions.AddRange(_gameSessionMap.GetGameSessionsByCharacterName(charName));
+                }
+            }
+            foreach (var gameSession in sessions)
+            {
+                string joincmdstr = string.Format("/mf jointeam {0}", teamName);
+                SendGameCommand(gameSession, joincmdstr);
+            }
+            Logger.WriteInfo(string.Format(
+                "Implemented createteam by sending {0} jointeam commands",
+                sessions.Count));
+        }
+        private string quote(string text)
+        {
+            if (string.IsNullOrEmpty(text)) { return "''"; }
+            if (text[0] == '\'' || text[0] == '"')
+            {
+                return text;
+            }
+            else
+            {
+                return '\'' + text + '\'';
+            }
+        }
+        private void SendGameCommand(GameSession gameSession, string cmdtext)
+        {
+            var magCmd = new MagFilter.Channels.Command(DateTime.UtcNow, cmdtext);
+            gameSession.GameChannel.EnqueueOutbound(magCmd);
         }
         public IList<string> ParseTokens(string text)
         {
