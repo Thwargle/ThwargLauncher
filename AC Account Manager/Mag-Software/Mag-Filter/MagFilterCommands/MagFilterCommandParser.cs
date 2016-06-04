@@ -39,6 +39,7 @@ namespace MagFilter
         private const string CMD_Help2 = "?";
         private const string CMD_Help3 = "/?";
         private const string CMD_Broadcast = "broadcast ";
+        private const string CMD_Broadcast2 = "bc ";
         private const string CMD_CreateTeam = "createteam ";
         private const string CMD_CreateTeam2 = "ct ";
         private const string CMD_ShowTeams = "showteams";
@@ -67,7 +68,8 @@ namespace MagFilter
             cmdHandlers.Add(CMD_Help, HelpCommandHandler, "List all mf commands");
             cmdHandlers.Add(CMD_Help2, HelpCommandHandler, null);
             cmdHandlers.Add(CMD_Help3, HelpCommandHandler, null);
-            cmdHandlers.Add(CMD_Broadcast, BroadcastCommandHandler, "Broadcast command to all games");
+            cmdHandlers.Add(CMD_Broadcast, BroadcastCommandHandler, "Broadcast command to other games ('/mf bc /t:red *bow*)");
+            cmdHandlers.Add(CMD_Broadcast2, BroadcastCommandHandler, "Broadcast command to other games ('/mf bc /t:red *bow*)");
             cmdHandlers.Add(CMD_CreateTeam, CreateTeamCommandHandler, "Create team of specified characters ('/mf ct Tom Bob')");
             cmdHandlers.Add(CMD_CreateTeam2, CreateTeamCommandHandler, null);
             cmdHandlers.Add(CMD_ShowTeams, ListTeamsCommandHandler, "Show all my teams ('/mf st')");
