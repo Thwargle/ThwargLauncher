@@ -37,7 +37,6 @@ namespace ThwargLauncher
                 "Command received from server='{0}', account='{1}': {2}",
                 inboundGameSession.ServerName, inboundGameSession.AccountName, command));
             string commandString = "";
-            // TODO - implement & handle team filtered commands
             if (IsCommandPrefix(command, "broadcast ", ref commandString))
             {
                 HandleBroadcastCommand(inboundGameSession, commandString);
