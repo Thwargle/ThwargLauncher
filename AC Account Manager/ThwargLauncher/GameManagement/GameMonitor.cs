@@ -19,10 +19,11 @@ namespace ThwargLauncher
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 5 minutes
+        private DateTime _lastUpdateUi = DateTime.MinValue;
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
 
-        public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus };
+        public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeNone };
         public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
         public event GameChangeHandler GameChangeEvent;
         public delegate void GameCommandHandler(GameSession gameSession, string command);
@@ -76,6 +77,7 @@ namespace ThwargLauncher
             CheckLiveProcessFiles();
             SendAndReceiveCommands();
             ProcessAnyPendingCommnds();
+            UpdateUiIfNeeded();
             _isWorking = false;
         }
         private bool ShouldWeCleanup()
@@ -182,6 +184,22 @@ namespace ThwargLauncher
                     }
                 }
             }
+        }
+        private void UpdateUiIfNeeded()
+        {
+            if (_lastUpdateUi != DateTime.MinValue && DateTime.UtcNow - _lastUpdateUi < TimeSpan.FromSeconds(20))
+            {
+                return;
+            }
+            // periodic update to UI to get account summaries changing
+            foreach (var session in _map.GetAllGameSessions())
+            {
+                if (session.GameChannel != null)
+                {
+                    NotifyGameChange(session, GameChangeType.ChangeNone);
+                }
+            }
+            _lastUpdateUi = DateTime.UtcNow;
         }
         /// <summary>
         /// Read all process files
