@@ -73,22 +73,36 @@ namespace ThwargLauncher
         private List<string> FindTeamsSpecified(ref string commandString)
         {
             List<string> teamNames = null;
-            const string PREFIX = "/team:";
-            if (commandString.StartsWith(PREFIX))
+            string teamtok = null;
+            if (TryProcessArg(ref commandString, "/t:", out teamtok))
             {
-                int pos = commandString.IndexOf(" ");
-                if (pos == -1 || pos == commandString.Length - 1)
-                {
-                    commandString = null;
-                    return null;
-                }
-                commandString = commandString.Substring(pos + 1);
-                if (string.IsNullOrWhiteSpace(commandString)) { commandString = null; return null; }
-                string teamtok = commandString.Substring(PREFIX.Length, pos + 1 - PREFIX.Length);
-                teamNames = teamtok.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                return teamNames;
+                return ParseTeamList(teamtok);
+            }
+            if (TryProcessArg(ref commandString, "/team:", out teamtok))
+            {
+                return ParseTeamList(teamtok);
             }
             return null;
+        }
+        private List<string> ParseTeamList(string teamtok)
+        {
+            List<string> teamNames = teamtok.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return teamNames;
+        }
+        private bool TryProcessArg(ref string commandString, string prefix, out string argstr)
+        {
+            argstr = null;
+            if (!commandString.StartsWith(prefix)) { return false; }
+            int pos = commandString.IndexOf(" ");
+            if (pos == -1 || pos == commandString.Length - 1)
+            {
+                commandString = null;
+                return true;
+            }
+            argstr = commandString.Substring(prefix.Length, pos - prefix.Length);
+            commandString = commandString.Substring(pos + 1);
+            if (string.IsNullOrWhiteSpace(commandString)) { argstr = null;  commandString = null; return true; }
+            return true;
         }
         private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
         {
