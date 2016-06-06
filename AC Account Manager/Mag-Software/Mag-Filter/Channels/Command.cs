@@ -20,9 +20,9 @@ namespace MagFilter.Channels
         public static DateTime RoundTrippableTime(DateTime time)
         {
             string text = time.ToString("o");
-            const DateTimeStyles styles = DateTimeStyles.AdjustToUniversal |
-                                          DateTimeStyles.RoundtripKind;
+            const DateTimeStyles styles = DateTimeStyles.RoundtripKind;
             DateTime result = DateTime.Parse(text, null, styles);
+            result = result.ToUniversalTime();
             return result;
         }
         public override string ToString()
