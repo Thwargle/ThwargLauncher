@@ -39,10 +39,13 @@ namespace ThwargLauncher
         private static HashSet<string> ParseTeamSetFromString(string teamstring)
         {
             var teamset = new HashSet<string>();
-            string[] teamNames = teamstring.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string teamName in teamNames)
+            if (!string.IsNullOrEmpty(teamstring))
             {
-                teamset.Add(teamName);
+                string[] teamNames = teamstring.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string teamName in teamNames)
+                {
+                    teamset.Add(teamName);
+                }
             }
             return teamset;
         }
