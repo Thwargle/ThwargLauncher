@@ -260,17 +260,7 @@ namespace ThwargLauncher
                 gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(response.Status.ProcessId);
             }
             gameSession.UptimeSeconds = response.Status.UptimeSeconds;
-            gameSession.TeamSet = ParseTeamSetFromString(response.Status.TeamList);
-        }
-        private HashSet<string> ParseTeamSetFromString(string teamstring)
-        {
-            var teamset = new HashSet<string>();
-            string[] teamNames = teamstring.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string teamName in teamNames)
-            {
-                teamset.Add(teamName);
-            }
-            return teamset;
+            gameSession.AssignTeamSetFromString(response.Status.TeamList);
         }
         private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)
         {

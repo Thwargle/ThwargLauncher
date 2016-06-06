@@ -60,7 +60,7 @@ namespace ThwargLauncher
             foreach (var gameSession in _gameSessionMap.GetAllGameSessions())
             {
                 if (gameSession.GameChannel == null) { continue; }
-                if (teamNames == null || DoesGameHaveTeam(gameSession.TeamSet, teamNames))
+                if (teamNames == null || gameSession.HasAnyTeam(teamNames))
                 {
                     Logger.WriteInfo(string.Format(
                         "Sending command '{0}' to server '{1}' and account '{2}'",
@@ -69,17 +69,6 @@ namespace ThwargLauncher
                     SendGameCommand(gameSession, commandString);
                 }
             }
-        }
-        private bool DoesGameHaveTeam(HashSet<string> gameTeams, List<string> cmdTeams)
-        {
-            foreach (var cmdTeam in cmdTeams)
-            {
-                if (gameTeams.Contains(cmdTeam))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
         private List<string> FindTeamsSpecified(ref string commandString)
         {

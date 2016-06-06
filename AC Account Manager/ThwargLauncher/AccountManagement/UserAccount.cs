@@ -124,9 +124,9 @@ namespace ThwargLauncher
                             string entry = string.Format("{0}{1}->{2}", server.ServerStatusSymbol, server.ServerName, server.ChosenCharacter);
                             // architectural problem getting to game session here
                             GameSession session = AppCoordinator.GetTheGameSessionByServerAccount(serverName: server.ServerName, accountName: this.Name);
-                            if (session != null && session.TeamSet.Count > 0)
+                            if (session != null && session.TeamCount > 0)
                             {
-                                entry += " Teams: " + string.Join(",", session.TeamSet.ToArray());
+                                entry += " Teams: " + session.TeamList;
                             }
                             serverInfos.Add(entry);
                         }

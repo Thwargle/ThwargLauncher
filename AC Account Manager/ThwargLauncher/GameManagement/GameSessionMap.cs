@@ -37,17 +37,20 @@ namespace ThwargLauncher
                     _sessionByServerAccount.Add(key, gameSession);
                 }
                 // #3 By character
-                List<GameSession> sessionList = null;
-                if (_sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
+                if (gameSession.CharacterName != null)
                 {
-                    sessionList = _sessionsByCharacterName[gameSession.CharacterName];
+                    List<GameSession> sessionList = null;
+                    if (_sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
+                    {
+                        sessionList = _sessionsByCharacterName[gameSession.CharacterName];
+                    }
+                    else
+                    {
+                        sessionList = new List<GameSession>();
+                    }
+                    sessionList.Add(gameSession);
+                    _sessionsByCharacterName[gameSession.CharacterName] = sessionList;
                 }
-                else
-                {
-                    sessionList = new List<GameSession>();
-                }
-                sessionList.Add(gameSession);
-                _sessionsByCharacterName[gameSession.CharacterName] = sessionList;
             }
         }
         public void SetGameSessionProcessId(GameSession gameSession, int processId)
