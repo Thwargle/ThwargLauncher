@@ -98,7 +98,7 @@ namespace MagFilter
                 }
 
                 info.LaunchTime = settings.GetValue("Timestamp").GetDateParam("TimeUtc");
-                TimeSpan maxLatency = new TimeSpan(0, 0, 0, 30); // 30 seconds max latency from exe call to game launch
+                TimeSpan maxLatency = new TimeSpan(0, 0, 0, 45); // 30 seconds max latency from exe call to game launch
                 if (DateTime.UtcNow - info.LaunchTime >= maxLatency)
                 {
                     log.WriteLogMsg(string.Format("DateTime.UtcNow-'{0}', info.LaunchTime='{1}', maxLatency='{2}'", DateTime.UtcNow, info.LaunchTime, maxLatency));
