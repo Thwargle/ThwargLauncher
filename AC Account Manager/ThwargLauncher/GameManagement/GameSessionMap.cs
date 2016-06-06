@@ -206,6 +206,30 @@ namespace ThwargLauncher
                 }
             }
         }
+        /// <summary>
+        /// Return latest launch times for all accounts
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, DateTime> GetLaunchAccountTimes()
+        {
+            var accountLaunchTimes = new Dictionary<string, DateTime>();
+            lock (_locker)
+            {
+                foreach (var gameSession in _sessionByProcessId.Values)
+                {
+                    if (gameSession.UptimeSeconds == -1) { continue; }
+                    DateTime launch = DateTime.UtcNow - TimeSpan.FromSeconds(gameSession.UptimeSeconds);
+                    if (!accountLaunchTimes.ContainsKey(gameSession.AccountName)
+                        || launch > accountLaunchTimes[gameSession.AccountName])
+                    {
+                        accountLaunchTimes[gameSession.AccountName] = launch;
+                    }
+                }
+
+            }
+            return accountLaunchTimes;
+        }
+
         private string GetServerAccountKey(GameSession gameSession)
         {
             return GetServerAccountKey(gameSession.ServerName, gameSession.AccountName);

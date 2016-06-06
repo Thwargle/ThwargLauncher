@@ -420,9 +420,10 @@ namespace ThwargLauncher
             int serverIndex = 0;
             System.Collections.Concurrent.ConcurrentQueue<LaunchItem> globalQueue = args.ConcurrentLaunchQueue;
             int serverTotal = globalQueue.Count;
+            if (serverTotal == 0) { return; }
 
             LaunchItem launchItem = null;
-            var accountLaunchTimes = new Dictionary<string, DateTime>();
+            var accountLaunchTimes = _gameSessionMap.GetLaunchAccountTimes();
 
             while (globalQueue.TryDequeue(out launchItem))
             {    

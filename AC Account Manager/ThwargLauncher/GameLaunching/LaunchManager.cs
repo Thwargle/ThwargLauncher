@@ -45,10 +45,10 @@ namespace ThwargLauncher
             {
                 return result;
             }
-            DateTime lastLaunch = (_accountLaunchTimes.ContainsKey(_launchItem.AccountName)
+            DateTime lastLaunchUtc = (_accountLaunchTimes.ContainsKey(_launchItem.AccountName)
                                        ? _accountLaunchTimes[_launchItem.AccountName]
                                        : DateTime.MinValue);
-            TimeSpan delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
+            TimeSpan delay = new TimeSpan(0, 5, 0) - (DateTime.UtcNow - lastLaunchUtc);
             GameLaunchResult gameLaunchResult = null;
             while (delay.TotalMilliseconds > 0)
             {
@@ -60,11 +60,11 @@ namespace ThwargLauncher
                 ReportStatus(context, _launchItem);
 
                 System.Threading.Thread.Sleep(1000);
-                delay = new TimeSpan(0, 5, 0) - (DateTime.Now - lastLaunch);
+                delay = new TimeSpan(0, 5, 0) - (DateTime.UtcNow - lastLaunchUtc);
             }
 
             ReportStatus("Launching", _launchItem);
-            _accountLaunchTimes[_launchItem.AccountName] = DateTime.Now;
+            _accountLaunchTimes[_launchItem.AccountName] = DateTime.UtcNow;
 
             var launcher = new GameLauncher();
             launcher.ReportGameStatusEvent += (o) => { ReportStatus(o, _launchItem); };
