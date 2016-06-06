@@ -124,9 +124,16 @@ namespace ThwargLauncher
                             string entry = string.Format("{0}{1}->{2}", server.ServerStatusSymbol, server.ServerName, server.ChosenCharacter);
                             // architectural problem getting to game session here
                             GameSession session = AppCoordinator.GetTheGameSessionByServerAccount(serverName: server.ServerName, accountName: this.Name);
-                            if (session != null && session.TeamCount > 0)
+                            if (session != null)
                             {
-                                entry += " Teams: " + session.TeamList;
+                                if (session.UptimeSeconds > 0)
+                                {
+                                    entry += " [" + SummarizeUptime(session) + "]";
+                                }
+                                if (session.TeamCount > 0)
+                                {
+                                    entry += " (" + session.TeamList + ")";
+                                }
                             }
                             serverInfos.Add(entry);
                         }
@@ -144,6 +151,23 @@ namespace ThwargLauncher
                 }
                 return text;
             }
+        }
+        private string SummarizeUptime(GameSession session)
+        {
+            if (session.UptimeSeconds < 60)
+            {
+                return string.Format("{0}s", session.UptimeSeconds);
+            }
+            if (session.UptimeSeconds < 60 * 60)
+            {
+                return string.Format("{0}m", session.UptimeSeconds / 60);
+            }
+            if (session.UptimeSeconds < 60 * 60 * 24)
+            {
+                return string.Format("{0}h", session.UptimeSeconds / (60 * 60));
+            }
+            return string.Format("{0}d", session.UptimeSeconds / (60 * 60 * 24));
+
         }
         private bool ServerHasChosenCharacter(Server server)
         {
