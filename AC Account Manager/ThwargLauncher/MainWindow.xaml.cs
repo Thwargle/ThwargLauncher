@@ -444,6 +444,7 @@ namespace ThwargLauncher
                 if (launchResult.Success)
                 {
                     ++serverIndex;
+                    LoadUserAccounts(); // Pick up any characters
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                 }
                 else
