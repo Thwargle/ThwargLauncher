@@ -23,7 +23,7 @@ namespace ThwargLauncher
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
 
-        public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeNone };
+        public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeTeam, ChangeNone };
         public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
         public event GameChangeHandler GameChangeEvent;
         public delegate void GameCommandHandler(GameSession gameSession, string command);
@@ -278,7 +278,11 @@ namespace ThwargLauncher
                 gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(response.Status.ProcessId);
             }
             gameSession.UptimeSeconds = response.Status.UptimeSeconds;
-            gameSession.AssignTeamSetFromString(response.Status.TeamList);
+            if (gameSession.TeamList != response.Status.TeamList)
+            {
+                gameSession.AssignTeamSetFromString(response.Status.TeamList);
+                NotifyGameChange(gameSession, GameChangeType.ChangeTeam);
+            }
         }
         private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)
         {
