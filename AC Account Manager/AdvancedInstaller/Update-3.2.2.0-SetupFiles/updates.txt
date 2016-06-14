@@ -1,0 +1,17 @@
+;aiu;
+
+[ThwargLauncher-3.2.2.0]
+Name = ThwargLauncher
+ProductVersion = 3.2.2.0
+URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
+Size = 8138869
+ReleaseDate = 13/06/2016
+MD5 = 14fed2ec30239d8c2bd79d8569ae2c6f
+ServerFileName = ThwargLauncherInstaller.exe
+Flags = Critical
+RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
+Version = 3.2.2.0
+UpdatedApplications = ThwargLauncher[1.0-3.2.2)
+Description = Fixed a bug
+BugFix = Stopped the app from creating Deleted Profiles
+AutoCloseApplication = [APPDIR]YourApplication.exe
