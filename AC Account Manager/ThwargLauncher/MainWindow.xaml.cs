@@ -28,9 +28,9 @@ namespace ThwargLauncher
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _launcherLocation;
 
-        private MainWindowViewModel _viewModel;
-        private GameSessionMap _gameSessionMap;
-        private GameMonitor _gameMonitor;
+        private readonly MainWindowViewModel _viewModel;
+        private readonly GameSessionMap _gameSessionMap;
+        private readonly GameMonitor _gameMonitor;
         readonly SynchronizationContext _uicontext;
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");

@@ -12,7 +12,7 @@ namespace ThwargLauncher
 
         private System.Timers.Timer _timer = new System.Timers.Timer();
         private readonly GameSessionMap _map;
-        private Configurator _configurator;
+        private readonly Configurator _configurator;
         private TimeSpan _liveInterval; // must be written this recently to be alive
         private TimeSpan _warningInterval; // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
@@ -260,6 +260,7 @@ namespace ThwargLauncher
                     NotifyGameChange(gameSession, GameChangeType.ChangeStatus);
                 }
             }
+            _lastReadProcesFilesUtc = DateTime.UtcNow;
         }
         private void UpdateGameSessionFromHeartbeatStatus(GameSession gameSession, 
             string filepath, MagFilter.LaunchControl.HeartbeatResponse response)
