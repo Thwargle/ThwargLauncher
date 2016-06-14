@@ -31,6 +31,7 @@ namespace ThwargLauncher
         private MainWindowViewModel _viewModel;
         private GameSessionMap _gameSessionMap;
         private GameMonitor _gameMonitor;
+        readonly SynchronizationContext _uicontext;
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
 
@@ -46,6 +47,7 @@ namespace ThwargLauncher
             _viewModel = mainWindowViewModel;
             _gameSessionMap = gameSessionMap;
             _gameMonitor = gameMonitor;
+            _uicontext = SynchronizationContext.Current;
 
             CheckForProgramUpdate();
             InitializeComponent();
@@ -168,9 +170,8 @@ namespace ThwargLauncher
         /// </summary>
         private void CallUiLoadUserAccounts()
         {
-            SynchronizationContext uicontext = SynchronizationContext.Current;
             object state = null;
-            uicontext.Post(new SendOrPostCallback(
+            _uicontext.Post(new SendOrPostCallback(
                 (obj) => LoadUserAccounts()), state);
         }
         private void LoadUserAccounts(bool initialLoad = false)
