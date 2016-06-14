@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -162,6 +163,16 @@ namespace ThwargLauncher
             mgr.EnsureProfileFolderExists();
         }
 
+        /// <summary>
+        /// Forward call to our LoadUserAccounts method on ui thread
+        /// </summary>
+        private void CallUiLoadUserAccounts()
+        {
+            SynchronizationContext uicontext = SynchronizationContext.Current;
+            object state = null;
+            uicontext.Post(new SendOrPostCallback(
+                (obj) => LoadUserAccounts()), state);
+        }
         private void LoadUserAccounts(bool initialLoad = false)
         {
             _viewModel.CreateProfileIfDoesNotExist();
@@ -444,7 +455,7 @@ namespace ThwargLauncher
                 if (launchResult.Success)
                 {
                     ++serverIndex;
-                    LoadUserAccounts(); // Pick up any characters
+                    CallUiLoadUserAccounts(); // Pick up any characters
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                 }
                 else
