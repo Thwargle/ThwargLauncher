@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="12.6.1" Modules="update" RootPath="." Language="en" Id="{9BC36E5A-D9A6-4161-A3B8-A2599124C515}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="ProductVersion" Value="3.2.0.0"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="URL" Value="http://www.thargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="ReleaseDate" Value="18637"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Version" Value="3.2.0.0"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-3.2]"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Description" Value="Fixed Launch account queueing.&#13;&#10;Added team commands to communicate cross-account from the AC UI.&#13;&#10;Various timing upgrades."/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Feature" Value="All your wildest dreams will come true."/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="Enhancement" Value="When you use this launcher, things seem.....better?"/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="BugFix" Value="Installer should actually work."/>
+    <ROW Section="ThwargLauncher-3.2.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>

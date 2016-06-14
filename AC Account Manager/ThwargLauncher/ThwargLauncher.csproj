@@ -55,9 +55,8 @@
     <ApplicationIcon>Images\Logo_circleonly.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MagFilter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Mag-Software\Mag-Filter\bin\Debug\MagFilter.dll</HintPath>
+    <Reference Include="MagFilter">
+      <HintPath>..\Mag-Software\Mag-Filter\bin\Release\MagFilter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
