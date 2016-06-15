@@ -81,8 +81,7 @@ namespace MagFilter
 
 		void defaultFirstCharTimer_Tick(object sender, EventArgs e)
 		{
-            log.WriteLogMsg("Q60: This is not used");
-            try
+			try
 			{
 				loginNextCharTimer.Stop();
 

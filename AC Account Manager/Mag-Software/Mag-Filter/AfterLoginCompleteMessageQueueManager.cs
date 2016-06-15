@@ -40,13 +40,10 @@ namespace MagFilter
 
 		void Current_RenderFrame(object sender, EventArgs e)
 		{
-            log.WriteLogMsg("Q80: This is not used");
 			try
 			{
 				if (DateTime.Now.Subtract(TimeSpan.FromMilliseconds(millisecondsToWaitAfterLoginComplete)) < loginCompleteTime)
-                {
 					return;
-                }
 
 				if (loginCompleteMessageQueue.Count == 0 && sendingLastEnter == false)
 				{
@@ -56,7 +53,7 @@ namespace MagFilter
 
 				if (sendingLastEnter)
 				{
-                    PostMessageTools.SendEnter();
+					PostMessageTools.SendEnter();
 					sendingLastEnter = false;
 				}
 				else
