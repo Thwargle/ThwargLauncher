@@ -64,8 +64,9 @@ namespace MagFilter
             {
                 file.WriteLine("FileVersion:{0}", LaunchInfo.MASTER_FILE_VERSION);
                 file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc);
-                file.WriteLine("GameInstance=ServerName:'{0}' AccountName:'{1}' CharacterName:'{2}'",
-                    serverName, accountName, characterName);
+                file.WriteLine("ServerName:{0}", serverName);
+                file.WriteLine("AccountName:{0}", accountName);
+                file.WriteLine("CharacterName:{0}", characterName);
             }
         }
         public static LaunchInfo DebugGetLaunchInfo()
@@ -106,10 +107,9 @@ namespace MagFilter
                     return info;
                 }
 
-                var gameInstance = settings.GetValue("GameInstance");
-                info.ServerName = gameInstance.GetStringParam("ServerName");
-                info.AccountName = gameInstance.GetStringParam("AccountName");
-                info.CharacterName = gameInstance.GetStringParam("CharacterName");
+                info.ServerName = SettingHelpers.GetSingleStringValue(settings, "ServerName");
+                info.AccountName = SettingHelpers.GetSingleStringValue(settings, "AccountName");
+                info.CharacterName = SettingHelpers.GetSingleStringValue(settings, "CharacterName");
 
                 info.IsValid = true;
             }
