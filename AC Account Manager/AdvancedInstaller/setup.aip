@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{CCB10288-EBE7-4E9D-B06B-A78B2E255181} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{C0C17149-00E7-4821-8661-90D0AE7B58B7} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="3.2.2.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="3.2.4.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -67,8 +67,8 @@
     <ROW File="Logo_circleonly.png" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.PNG|Logo_circleonly.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.png" SelfReg="false" NextFile="UserPreferences.png"/>
     <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\Mag-Software\Mag-Filter\bin\Release\MagFilter.dll" SelfReg="false" NextFile="updater.exe"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
-    <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~1.EXE|Thwarg-Launcher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe" SelfReg="false" NextFile="MagFilter.dll" DigSign="true"/>
-    <ROW File="ThwargLauncher.exe.config" Component_="VirindiViewService.xml" FileName="THWARG~1.CON|Thwarg-Launcher.exe.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Thwarg-Launcher.exe.config" SelfReg="false"/>
+    <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~2.EXE|ThwargLauncher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\ThwargLauncher.exe" SelfReg="false" NextFile="MagFilter.dll" DigSign="true"/>
+    <ROW File="ThwargLauncher.exe.config" Component_="VirindiViewService.xml" FileName="THWARG~2.CON|ThwargLauncher.exe.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\ThwargLauncher.exe.config" SelfReg="false"/>
     <ROW File="UserPreferences.png" Component_="ACCoverArt.jpg" FileName="USERPR~1.PNG|UserPreferences.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\UserPreferences.png" SelfReg="false" NextFile="Decal.Adapter.dll"/>
     <ROW File="VCS5.dll" Component_="VCS5.dll" FileName="VCS5.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VCS5.dll" SelfReg="false" NextFile="VirindiViewService.dll"/>
     <ROW File="VirindiViewService.dll" Component_="VirindiViewService.dll" FileName="VIRIND~1.DLL|VirindiViewService.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.dll" SelfReg="false" NextFile="WebControlWrapper.dll"/>
@@ -238,8 +238,8 @@
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="ThwargLauncher.exe" Directory_="SHORTCUTDIR" Name="THWARG~1.EXE|Thwarg-Launcher.exe" Component_="ThwargLauncher.exe" Target="[#ThwargLauncher.exe]" Description="Thwarg-Launcher.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
-    <ROW Shortcut="ThwargLauncher.exe_1" Directory_="DesktopFolder" Name="THWARG~1.EXE|Thwarg-Launcher.exe" Component_="ThwargLauncher.exe" Target="[#ThwargLauncher.exe]" Description="Thwarg-Launcher.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="ThwargLauncher.exe" Directory_="SHORTCUTDIR" Name="THWARG~1|ThwargLauncher" Component_="ThwargLauncher.exe" Target="[#ThwargLauncher.exe]" Description="Thwarg-Launcher.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="ThwargLauncher.exe_1" Directory_="DesktopFolder" Name="THWARG~1|ThwargLauncher" Component_="ThwargLauncher.exe" Target="[#ThwargLauncher.exe]" Description="Thwarg-Launcher.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="graphite"/>

@@ -97,7 +97,7 @@ namespace MagFilter
         {
             get
             {
-                string folderpath = System.IO.Path.Combine(AppBaseFolder, "ACAccountManager");
+                string folderpath = System.IO.Path.Combine(AppBaseFolder, "ThwargLauncher");
                 return folderpath;
             }
         }
