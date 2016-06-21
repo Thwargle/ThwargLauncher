@@ -89,6 +89,7 @@
     <Compile Include="Character.cs" />
     <Compile Include="CharacterManager.cs" />
     <Compile Include="Channels\CommandSet.cs" />
+    <Compile Include="EnumWindows.cs" />
     <Compile Include="Heartbeat.cs" />
     <Compile Include="HeartbeatGameStatus.cs" />
     <Compile Include="LauncherChooseCharacterManager.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="LoginCompleteMessageQueueManager.cs" />
     <Compile Include="LoginNextCharacterManager.cs" />
     <Compile Include="AfterLoginCompleteMessageQueueManager.cs" />
+    <Compile Include="MagFilterCommands\GameRepo.cs" />
     <Compile Include="MagFilterCommands\MagFilterCommandExecutor.cs" />
     <Compile Include="MagFilterCommands\MagFilterCommandParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

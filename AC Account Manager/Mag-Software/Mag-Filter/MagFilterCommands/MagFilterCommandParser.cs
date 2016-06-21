@@ -49,6 +49,7 @@ namespace MagFilter
         private const string CMD_LeaveTeam = "leaveteam ";
         private const string CMD_LeaveTeam2 = "lt ";
         private const string CMD_Test = "test ";
+        private const string CMD_SetWindowTitle = "swt ";
 
         public string GetTeamList() { return GetTeamStringList(); }
         private string GetTeamStringList()
@@ -79,6 +80,7 @@ namespace MagFilter
             cmdHandlers.Add(CMD_LeaveTeam, LeaveTeamCommandHandler, "Leave a team ('/mf lt red')");
             cmdHandlers.Add(CMD_LeaveTeam2, LeaveTeamCommandHandler, null);
             cmdHandlers.Add(CMD_Test, TestCommandHandler, "Test submitting a command directly to game ('/mf test somecommandstring')");
+            cmdHandlers.Add(CMD_SetWindowTitle, SetWindowTitleCommandHandler, "Set window title ('/mf swt MyGame')");
         }
         public void ExecuteCommandFromLauncher(string command)
         {
@@ -192,6 +194,18 @@ namespace MagFilter
             {
                 executor.ExecuteCommand(command);
             }
+        }
+
+        private void SetWindowTitleCommandHandler(string command)
+        {
+            int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
+            var process = System.Diagnostics.Process.GetProcessById(pid);
+            var hwnd = process.MainWindowHandle;
+            string pattern = command;
+            pattern = pattern.Replace("%ACCOUNT%", GameRepo.Game.Account);
+            pattern = pattern.Replace("%SERVER%", GameRepo.Game.Server);
+            pattern = pattern.Replace("%CHARACTER%", GameRepo.Game.Character);
+            WinUtil.WinEnum.SetWindowText(hwnd, pattern);
         }
         private bool IsCommandPrefix(string line, string prefix, out string command)
         {
