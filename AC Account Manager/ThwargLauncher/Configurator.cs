@@ -20,7 +20,7 @@ namespace ThwargLauncher
         }
 
         private Dictionary<string, GameConfig> _map = new Dictionary<string, GameConfig>();
-        public bool ContainsMagFilterPath(string path) { return _map.ContainsKey(path); }
+        public bool ContainsMagFilterPath(string path) { return _map.ContainsKey(GetPathConfigKey(path)); }
         public void AddGameConfig(GameConfig config)
         {
             string key = GetConfigKey(config);
@@ -39,7 +39,11 @@ namespace ThwargLauncher
         }
         private string GetConfigKey(GameConfig config)
         {
-            return config.MagFilterPath.ToUpperInvariant();
+            return GetPathConfigKey(config.MagFilterPath);
+        }
+        private string GetPathConfigKey(string path)
+        {
+            return path.ToUpperInvariant();
         }
     }
 }

@@ -277,6 +277,7 @@ namespace ThwargLauncher
             gameSession.CharacterName = response.Status.CharacterName;
             if (gameSession.ProcessId != response.Status.ProcessId)
             {
+                int oldpid = gameSession.ProcessId;
                 _map.SetGameSessionProcessId(gameSession, response.Status.ProcessId);
             }
             if (gameSession.GameChannel == null)

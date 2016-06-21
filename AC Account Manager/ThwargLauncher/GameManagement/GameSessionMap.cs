@@ -24,8 +24,7 @@ namespace ThwargLauncher
                 string pidkey = gameSession.ProcessIdKey;
                 if (_sessionByProcessId.ContainsKey(pidkey))
                 {
-                    // Note: This can happen at startup
-                    Logger.WriteError(string.Format("Duplicate process id in AddGameSession: {0}", pidkey));
+                    // If called from TryToAddGameFromHeartbeatFile, then process id was just added by UpdateGameSessionFromHeartbeatStatus
                 }
                 else
                 {
@@ -72,8 +71,16 @@ namespace ThwargLauncher
                     // finds its heartbeat file the first time
                 }
                 string pidkey = gameSession.ProcessIdKey;
-                _sessionByProcessId.Remove(pidkey);
+                if (pidkey == null)
+                {
+                    // this is a new gameSession just created to recieve this discovered game, and not yet in map
+                }
+                else
+                {
+                    _sessionByProcessId.Remove(pidkey);
+                }
                 gameSession.ProcessId = processId;
+                pidkey = GetProcessIdKey(processId);
                 gameSession.ProcessIdKey = pidkey;
                 _sessionByProcessId.Add(pidkey, gameSession);
             }
