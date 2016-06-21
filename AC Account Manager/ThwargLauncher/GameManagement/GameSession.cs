@@ -9,9 +9,11 @@ namespace ThwargLauncher
         public string AccountName;
         public string CharacterName;
         public int ProcessId;
+        public string ProcessIdKey;
         public string ProcessStatusFilepath;
         public int UptimeSeconds = -1;
         public ServerAccountStatus Status = ServerAccountStatus.None;
+        public DateTime LastGoodStatusUtc = DateTime.MinValue;
         public MagFilter.Channels.Channel GameChannel;
         public void AssignTeamSetFromString(string teamlist)
         {

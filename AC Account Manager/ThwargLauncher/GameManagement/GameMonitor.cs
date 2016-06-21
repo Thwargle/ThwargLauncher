@@ -139,6 +139,11 @@ namespace ThwargLauncher
                 }
                 else
                 {
+                    // Handle orphan games that never got a heartbeat
+                    if (status == ServerAccountStatus.Warning && gameSession.LastGoodStatusUtc == DateTime.MinValue)
+                    {
+                        status = ServerAccountStatus.None;
+                    }
                     if (gameSession.Status != status)
                     {
                         gameSession.Status = status;
@@ -149,7 +154,7 @@ namespace ThwargLauncher
             foreach (var deadGame in deadGames)
             {
                 deadGame.Status = ServerAccountStatus.None;
-                RemoveObsoleteHeartbeatFile(deadGame.ProcessId);
+                RemoveObsoleteHeartbeatFileByPidKey(deadGame.ProcessIdKey);
             }
         }
         private void SendAndReceiveCommands()
@@ -301,6 +306,10 @@ namespace ThwargLauncher
             }
             string heartbeatFile = gameSession.ProcessStatusFilepath;   
             DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
+            if (writtenUtc > gameSession.LastGoodStatusUtc)
+            {
+                gameSession.LastGoodStatusUtc = writtenUtc;
+            }
             TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
             if (elapsed < _warningInterval)
             {
@@ -343,7 +352,7 @@ namespace ThwargLauncher
                     }
                     else
                     {
-                        RemoveObsoleteHeartbeatFile(processId);
+                        RemoveObsoleteHeartbeatFileByPid(processId);
                         processId = 0;
                     }
                 }
@@ -396,13 +405,18 @@ namespace ThwargLauncher
                 NotifyGameChange(gameSession, GameChangeType.StartGame);
             }
         }
-        private void RemoveObsoleteHeartbeatFile(int processId)
+        private void RemoveObsoleteHeartbeatFileByPid(int processId)
+        {
+            string pidkey = GameSessionMap.GetProcessIdKey(processId);
+            RemoveObsoleteHeartbeatFileByPidKey(pidkey);
+        }
+        private void RemoveObsoleteHeartbeatFileByPidKey(string pidkey)
         {
             // obsolete heartbeat file
-            var gameSession = _map.GetGameSessionByProcessId(processId);
+            var gameSession = _map.GetGameSessionByProcessIdKey(pidkey);
             if (gameSession != null)
             {
-                _map.RemoveGameSessionByProcessId(processId);
+                _map.RemoveGameSessionByProcessIdKey(pidkey);
                 gameSession.Status = ServerAccountStatus.None;
                 NotifyGameChange(gameSession, GameChangeType.EndGame);
             }

@@ -8,23 +8,28 @@ namespace ThwargLauncher
     {
         private static object _locker = new object();
         // Member data
-        private Dictionary<int, GameSession> _sessionByProcessId = new Dictionary<int, GameSession>();
+        private Dictionary<string, GameSession> _sessionByProcessId = new Dictionary<string, GameSession>();
         private Dictionary<string, GameSession> _sessionByServerAccount = new Dictionary<string, GameSession>();
         private Dictionary<string, List<GameSession>> _sessionsByCharacterName = new Dictionary<string,List<GameSession>>();
 
+        public static string GetProcessIdKey(int pid)
+        {
+            return string.Format("{0}", pid);
+        }
         public void AddGameSession(GameSession gameSession)
         {
             lock (_locker)
             {
                 // #1 By ProcessId
-                if (_sessionByProcessId.ContainsKey(gameSession.ProcessId))
+                string pidkey = gameSession.ProcessIdKey;
+                if (_sessionByProcessId.ContainsKey(pidkey))
                 {
                     // Note: This can happen at startup
-                    Logger.WriteError(string.Format("Duplicate process id in AddGameSession: {0}", gameSession.ProcessId));
+                    Logger.WriteError(string.Format("Duplicate process id in AddGameSession: {0}", pidkey));
                 }
                 else
                 {
-                    _sessionByProcessId.Add(gameSession.ProcessId, gameSession);
+                    _sessionByProcessId.Add(pidkey, gameSession);
                 }
                 // #2 By Server/Account
                 string key = GetServerAccountKey(gameSession);
@@ -66,22 +71,33 @@ namespace ThwargLauncher
                     // ProcessId should only change when a starting game session with process id 0 (unknown)
                     // finds its heartbeat file the first time
                 }
-                _sessionByProcessId.Remove(gameSession.ProcessId);
+                string pidkey = gameSession.ProcessIdKey;
+                _sessionByProcessId.Remove(pidkey);
                 gameSession.ProcessId = processId;
-                _sessionByProcessId.Add(gameSession.ProcessId, gameSession);
+                gameSession.ProcessIdKey = pidkey;
+                _sessionByProcessId.Add(pidkey, gameSession);
             }
         }
         public bool HasGameSessionByProcessId(int processId)
         {
             return GetGameSessionByProcessId(processId) != null;
         }
+        public GameSession GetGameSessionByProcessIdKey(string pidkey)
+        {
+            return GetGameSessionByProcessIdImpl(pidkey);
+        }
         public GameSession GetGameSessionByProcessId(int processId)
+        {
+            string pidkey = GetProcessIdKey(processId);
+            return GetGameSessionByProcessIdImpl(pidkey);
+        }
+        private GameSession GetGameSessionByProcessIdImpl(string pidkey)
         {
             lock (_locker)
             {
-                if (_sessionByProcessId.ContainsKey(processId))
+                if (_sessionByProcessId.ContainsKey(pidkey))
                 {
-                    return _sessionByProcessId[processId];
+                    return _sessionByProcessId[pidkey];
                 }
                 else
                 {
@@ -142,17 +158,22 @@ namespace ThwargLauncher
         }
         public void RemoveGameSessionByProcessId(int processId)
         {
+            string pidkey = GetProcessIdKey(processId);
+            RemoveGameSessionByProcessIdKey(pidkey);
+        }
+        public void RemoveGameSessionByProcessIdKey(string pidkey)
+        {
             lock (_locker)
             {
-                if (_sessionByProcessId.ContainsKey(processId))
+                if (_sessionByProcessId.ContainsKey(pidkey))
                 {
-                    GameSession gameSession = _sessionByProcessId[processId];
+                    GameSession gameSession = _sessionByProcessId[pidkey];
                     // #1 By ProcessId
-                    _sessionByProcessId.Remove(processId);
+                    _sessionByProcessId.Remove(pidkey);
                     // #2 By Server/Account
                     _sessionByServerAccount.Remove(GetServerAccountKey(gameSession));
                     // #3 By Character Name
-                    if (_sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
+                    if (!string.IsNullOrEmpty(gameSession.CharacterName) && _sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
                     {
                         _sessionsByCharacterName[gameSession.CharacterName].Remove(gameSession);
                     }
@@ -171,6 +192,8 @@ namespace ThwargLauncher
                 else
                 {
                     gameSession = new GameSession();
+                    gameSession.ProcessId = 0;
+                    gameSession.ProcessIdKey = Guid.NewGuid().ToString();
                     gameSession.ServerName = serverName;
                     gameSession.AccountName = accountName;
                     gameSession.Status = ServerAccountStatus.Starting;
