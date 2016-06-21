@@ -367,6 +367,22 @@ namespace ThwargLauncher
                     // We found it & added it up above in TryToAddGameFromHeartbeatFile
                 }
             }
+            foreach (var fileInfo in dir.EnumerateFiles("incmds_*.txt"))
+            {
+                TimeSpan elapsed = (DateTime.UtcNow - fileInfo.LastWriteTimeUtc);
+                if (elapsed > _liveInterval)
+                {
+                    filepathsToDelete.Add(fileInfo.FullName);
+                }
+            }
+            foreach (var fileInfo in dir.EnumerateFiles("outcmds_*.txt"))
+            {
+                TimeSpan elapsed = (DateTime.UtcNow - fileInfo.LastWriteTimeUtc);
+                if (elapsed > _liveInterval)
+                {
+                    filepathsToDelete.Add(fileInfo.FullName);
+                }
+            }
             foreach (string filepath in filepathsToDelete)
             {
                 File.Delete(filepath);
