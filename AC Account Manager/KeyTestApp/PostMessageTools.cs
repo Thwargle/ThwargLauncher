@@ -229,7 +229,16 @@ namespace KeyUtil
                     (prevKeyState << 30) | (transitionState << 31);
             }
         };
-        // Not ready - does not handle shift state
+        public static void SendChar(IntPtr wnd, Char ch)
+        {
+            ushort temp = (ushort)User32.VkKeyScan(ch);
+            byte vkCode = (byte) (0xFF & temp);
+            byte comboState = (byte)(temp >> 8);
+            extraKeyInfo lParam = new extraKeyInfo();
+            lParam.scanCode = (char)User32.MapVirtualKey(vkCode, User32.MAPVK_VK_TO_VSC);
+            lParam.repeatCount = 1;
+            User32.PostMessage(wnd, User32.WM_CHAR, (IntPtr) ch, (UIntPtr) lParam.getint());
+        }
         public static void SendK(IntPtr wnd, Char ch, Int32 delayMs)
         {
             ushort temp = (ushort)User32.VkKeyScan(ch);
@@ -274,6 +283,13 @@ namespace KeyUtil
             foreach (char ch in msg)
             {
                 SendK(wnd, ch, 0);
+            }
+        }
+        public static void SendCharString(IntPtr wnd, string msg)
+        {
+            foreach (char ch in msg)
+            {
+                SendChar(wnd, ch);
             }
         }
 		public static void ClickOK(IntPtr wnd)
