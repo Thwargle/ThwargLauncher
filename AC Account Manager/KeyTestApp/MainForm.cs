@@ -27,7 +27,7 @@ namespace KeyTestApp
             string input = InputBox.Text;
             foreach (Char ch in input)
             {
-                KeyUtil.PostMessageTools.SendChar(wnd, ch);
+                KeyUtil.PostMsgs.SendChar(wnd, ch);
             }
         }
 

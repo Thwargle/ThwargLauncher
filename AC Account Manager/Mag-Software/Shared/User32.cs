@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Mag.Shared
+namespace Util
 {
 	public static class User32
 	{
@@ -31,6 +31,13 @@ namespace Mag.Shared
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern short VkKeyScan(char ch);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetKeyboardState(byte [] lpKeyState);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetKeyboardState(byte[] lpKeyState);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]

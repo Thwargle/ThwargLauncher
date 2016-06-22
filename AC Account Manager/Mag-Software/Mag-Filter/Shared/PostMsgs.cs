@@ -4,7 +4,7 @@ using Util;
 
 namespace KeyUtil
 {
-	public static class PostMessageTools
+	public static class PostMsgs
 	{
 		// http://msdn.microsoft.com/en-us/library/dd375731%28v=vs.85%29.aspx
 
@@ -282,7 +282,7 @@ namespace KeyUtil
         {
             foreach (char ch in msg)
             {
-                SendK(wnd, ch, 0);
+                SendChar(wnd, ch);
             }
         }
         public static void SendCharString(IntPtr wnd, string msg)
@@ -292,43 +292,6 @@ namespace KeyUtil
                 SendChar(wnd, ch);
             }
         }
-		public static void ClickOK(IntPtr wnd)
-		{
-			User32.RECT rect = new User32.RECT();
-
-			User32.GetWindowRect(wnd, ref rect);
-
-			// The reason why we click at both of these positions is some clients will be running windowed, and some windowless. This will hit both locations
-			SendMouseClick(wnd, rect.Width / 2, rect.Height / 2 + 18);
-            SendMouseClick(wnd, rect.Width / 2, rect.Height / 2 + 25);
-            SendMouseClick(wnd, rect.Width / 2, rect.Height / 2 + 31);
-		}
-
-		public static void ClickYes(IntPtr wnd)
-		{
-			User32.RECT rect = new User32.RECT();
-
-			User32.GetWindowRect(wnd, ref rect);
-
-			// 800x600 +32 works, +33 does not work on single/double/tripple line boxes
-			// 1600x1200 +31 works, +32 does not work on single/double/tripple line boxes
-			// The reason why we click at both of these positions is some clients will be running windowed, and some windowless. This will hit both locations
-            SendMouseClick(wnd, rect.Width / 2 - 80, rect.Height / 2 + 18);
-            SendMouseClick(wnd, rect.Width / 2 - 80, rect.Height / 2 + 25);
-            SendMouseClick(wnd, rect.Width / 2 - 80, rect.Height / 2 + 31);
-		}
-
-		public static void ClickNo(IntPtr wnd)
-		{
-			User32.RECT rect = new User32.RECT();
-
-			User32.GetWindowRect(wnd, ref rect);
-
-			// The reason why we click at both of these positions is some clients will be running windowed, and some windowless. This will hit both locations
-            SendMouseClick(wnd, rect.Width / 2 + 80, rect.Height / 2 + 18);
-            SendMouseClick(wnd, rect.Width / 2 + 80, rect.Height / 2 + 25);
-            SendMouseClick(wnd, rect.Width / 2 + 80, rect.Height / 2 + 31);
-		}
 
 		public static void SendMouseClick(IntPtr wnd, int x, int y)
 		{
