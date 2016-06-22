@@ -104,9 +104,9 @@ namespace Mag.Shared
 			SendMouseClick(rect.Width / 2 + 80, rect.Height / 2 + 31);
 		}
 
-		public static void SendMouseClick(int x, int y)
+        public static void SendMouseClick(int x, int y)
 		{
-		    PostMsgs.SendMouseClick(CoreManager.Current.Decal.Hwnd, x, y);
+		    PostMsgs.SendMouseClick(CoreManager.Current.Decal.Hwnd, (short)x, (short)y);
 		}
 	}
 }

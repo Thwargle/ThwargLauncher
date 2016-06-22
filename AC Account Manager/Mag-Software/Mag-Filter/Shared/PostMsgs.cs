@@ -293,9 +293,9 @@ namespace KeyUtil
             }
         }
 
-		public static void SendMouseClick(IntPtr wnd, int x, int y)
+		public static void SendMouseClick(IntPtr wnd, short x, short y)
 		{
-			int loc = (y * 0x10000) + x;
+		    int loc = (y << 16) | (x & 0xffff);
 
 			User32.PostMessage(wnd, User32.WM_MOUSEMOVE,		(IntPtr)0x00000000, (UIntPtr)loc);
 			User32.PostMessage(wnd, User32.WM_LBUTTONDOWN,	(IntPtr)0x00000001, (UIntPtr)loc);
