@@ -11,7 +11,7 @@ namespace MagFilter
 	    private string zonename;
 		int characterSlots;
 	    private bool written;
-        private DateTime lastCharacterRecordedUtc = DateTime.MinValue;
+        private string characterName = null;
 
 	    public List<Character> characters = null;
 
@@ -60,10 +60,10 @@ namespace MagFilter
                     written = true;
 			    }
             }
-            if ((DateTime.UtcNow - lastCharacterRecordedUtc).TotalSeconds > 20)
+            if (CoreManager.Current.CharacterFilter.Name != characterName)
             {
-                lastCharacterRecordedUtc = DateTime.UtcNow;
                 GameRepo.Game.SetCharacter(CoreManager.Current.CharacterFilter.Name);
+                characterName = CoreManager.Current.CharacterFilter.Name;
             }
 		}
 

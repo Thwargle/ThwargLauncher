@@ -58,7 +58,6 @@ namespace Mag.Shared
 		    PostMsgs.SendMsg(CoreManager.Current.Decal.Hwnd, msg);
 		}
 
-        // Not ready - does not handle shift state
         public static void SendK(Char ch, Int32 delayMs)
         {
             PostMsgs.SendK(CoreManager.Current.Decal.Hwnd, ch, delayMs);
