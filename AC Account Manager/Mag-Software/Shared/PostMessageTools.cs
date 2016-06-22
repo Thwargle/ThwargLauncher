@@ -201,6 +201,45 @@ namespace Mag.Shared
 			}
 		}
 
+        class extraKeyInfo
+        {
+            public ushort repeatCount;
+            public ushort scanCode;
+            public ushort extendedKey;
+            public uint prevKeyState;
+            public uint transitionState;
+
+            public long getint()
+            {
+                return repeatCount | (scanCode << 16) | (extendedKey << 24) |
+                    (prevKeyState << 30) | (transitionState << 31);
+            }
+        };
+        // Not ready - does not handle shift state
+        public static void SendK(IntPtr wnd, Char ch, Int32 delayMs)
+        {
+            uint vkCode = (uint)(User32.VkKeyScan(ch));
+            extraKeyInfo lParam = new extraKeyInfo();
+            lParam.scanCode = (char)User32.MapVirtualKey(vkCode, User32.MAPVK_VK_TO_VSC);
+            User32.PostMessage(wnd, User32.WM_KEYDOWN, (IntPtr)vkCode, (UIntPtr)lParam.getint());
+            lParam.repeatCount = 1;
+            lParam.prevKeyState = 1;
+            lParam.transitionState = 1;
+            if (delayMs > 0)
+            {
+                System.Threading.Thread.Sleep(delayMs);
+            }
+            User32.PostMessage(wnd, User32.WM_KEYUP, (IntPtr)vkCode, (UIntPtr)lParam.getint());
+
+        }
+        public static void SendRichMsg(string msg)
+        {
+            IntPtr wnd = CoreManager.Current.Decal.Hwnd;
+            foreach (char ch in msg)
+            {
+                SendK(wnd, ch, 0);
+            }
+        }
 		public static void ClickOK()
 		{
 			User32.RECT rect = new User32.RECT();
