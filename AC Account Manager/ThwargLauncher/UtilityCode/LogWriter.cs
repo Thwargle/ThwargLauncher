@@ -23,15 +23,7 @@ namespace ThwargLauncher
         }
         private void Logger_MessageEvent(Logger.LogLevel level, string msg)
         {
-            switch (level)
-            {
-                case Logger.LogLevel.Error:
-                    WriteError(msg);
-                    break;
-                case Logger.LogLevel.Info:
-                    WriteInfo(msg);
-                    break;
-            }
+            WriteLineImpl(level, msg);
         }
         private void WriteHeader()
         {
@@ -48,16 +40,16 @@ namespace ThwargLauncher
                 }
             }
         }
-        public void WriteError(string text)
+        private void WriteLineImpl(Logger.LogLevel level, string logText)
         {
-            WriteLineImpl("* " + text);
-        }
-        public void WriteInfo(string text)
-        {
-            WriteLineImpl("  " + text);
-        }
-        private void WriteLineImpl(string logText)
-        {
+            if (level == Logger.LogLevel.Error)
+            {
+                logText = "* " + logText;
+            }
+            else
+            {
+                logText = "  " + logText;
+            }
             // Write the string to a file.
             lock (_locker)
             {
