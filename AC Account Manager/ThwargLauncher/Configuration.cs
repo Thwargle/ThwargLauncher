@@ -12,6 +12,13 @@ namespace ThwargLauncher
                 return MagFilter.FileLocations.AppFolder;
             }
         }
+        public static string OldAppFolder
+        {
+            get
+            {
+                return MagFilter.FileLocations.OldAppFolder;
+            }
+        }
         public static string UserPreferencesFile
         {
             get

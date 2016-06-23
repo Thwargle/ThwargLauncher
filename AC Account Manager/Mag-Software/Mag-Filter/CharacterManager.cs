@@ -107,6 +107,10 @@ namespace MagFilter
         private static CharacterManager ReadCharactersImpl()
         {
             string path = FileLocations.GetCharacterFilePath();
+            if (!File.Exists(path))
+            {
+                path = FileLocations.GetOldCharacterFilePath();
+            }
 
             if (!File.Exists(path)) { return new CharacterManager(); }
             using (var file = new StreamReader(path))

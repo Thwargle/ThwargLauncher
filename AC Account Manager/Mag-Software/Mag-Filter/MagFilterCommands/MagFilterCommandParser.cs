@@ -202,9 +202,9 @@ namespace MagFilter
             var process = System.Diagnostics.Process.GetProcessById(pid);
             var hwnd = process.MainWindowHandle;
             string pattern = command;
-            pattern = pattern.Replace("aaccountt", GameRepo.Game.Account);
-            pattern = pattern.Replace("sserverr", GameRepo.Game.Server);
-            pattern = pattern.Replace("ccharacterr", GameRepo.Game.Character);
+            pattern = pattern.Replace("%ACCOUNT%", GameRepo.Game.Account);
+            pattern = pattern.Replace("%SERVER%", GameRepo.Game.Server);
+            pattern = pattern.Replace("%CHARACTER%", GameRepo.Game.Character);
             WinUtil.WinEnum.SetWindowText(hwnd, pattern);
         }
         private bool IsCommandPrefix(string line, string prefix, out string command)

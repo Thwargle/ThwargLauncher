@@ -8,6 +8,7 @@ namespace ThwargLauncher
     class AccountParser
     {
         public static string AccountFilePath = Path.Combine(Configuration.AppFolder, "Accounts.txt");
+        public static string OldAccountFilePath = Path.Combine(Configuration.OldAppFolder, "Accounts.txt");
         private const string HeaderComment = @"# Name=xxx,Password=xxx,LaunchPath=c:\xxx,PreferencePath=c:\xxx,Alias=xxx";
 
         public List<UserAccount> ReadOrMigrateAccounts(string oldUsersFilePath)
@@ -16,7 +17,12 @@ namespace ThwargLauncher
             var acctList = new List<UserAccount>();
             if (File.Exists(AccountFilePath))
             {
-                acctList = ReadAccounts(characterMgr);
+                acctList = ReadAccounts(characterMgr, AccountFilePath);
+            }
+            else if (File.Exists(OldAccountFilePath))
+            {
+                acctList = ReadAccounts(characterMgr, OldAccountFilePath);
+                WriteAccounts(acctList);
             }
             else if (File.Exists(oldUsersFilePath))
             {
@@ -31,11 +37,11 @@ namespace ThwargLauncher
             return acctList;
         }
 
-        private List<UserAccount> ReadAccounts(MagFilter.CharacterManager characterMgr)
+        private List<UserAccount> ReadAccounts(MagFilter.CharacterManager characterMgr, string accountFilepath)
         {
             var acctList = new List<UserAccount>();
             string fileVersion = null;
-            using (var reader = new StreamReader(AccountFilePath))
+            using (var reader = new StreamReader(accountFilepath))
             {
                 while (!reader.EndOfStream)
                 {

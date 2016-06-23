@@ -35,6 +35,11 @@ namespace MagFilter
             string path = Path.Combine(AppFolder, "characters.txt");
             return path;
         }
+        public static string GetOldCharacterFilePath()
+        {
+            string path = Path.Combine(OldAppFolder, "characters.txt");
+            return path;
+        }
 
         /// <summary>
         /// Returns path to the folder where we store profiles
@@ -98,6 +103,14 @@ namespace MagFilter
             get
             {
                 string folderpath = System.IO.Path.Combine(AppBaseFolder, "ThwargLauncher");
+                return folderpath;
+            }
+        }
+        public static string OldAppFolder
+        {
+            get
+            {
+                string folderpath = System.IO.Path.Combine(AppBaseFolder, "ACAccountManager");
                 return folderpath;
             }
         }
