@@ -62,9 +62,9 @@ namespace Mag.Shared
         {
             PostMsgs.SendK(CoreManager.Current.Decal.Hwnd, ch, delayMs);
         }
-        public static void SendRichMsg(string msg)
+        public static void SendCharString(string msg)
         {
-            PostMsgs.SendRichMsg(CoreManager.Current.Decal.Hwnd, msg);
+            PostMsgs.SendCharString(CoreManager.Current.Decal.Hwnd, msg);
         }
 		public static void ClickOK()
 		{

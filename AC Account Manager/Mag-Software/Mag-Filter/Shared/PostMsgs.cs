@@ -204,14 +204,18 @@ namespace KeyUtil
 			User32.PostMessage(wnd, User32.WM_KEYUP,		(IntPtr)0x0000007B, (UIntPtr)0xC0580001);
 		}
 
+        private static void SendMsgK(IntPtr wnd, char ch)
+        {
+			byte code = CharCode(ch);
+			uint lparam = (uint)((ScanCode(ch) << 0x10) | 1);
+			User32.PostMessage(wnd, User32.WM_KEYDOWN,	(IntPtr)code, (UIntPtr)(lparam));
+			User32.PostMessage(wnd, User32.WM_KEYUP,		(IntPtr)code, (UIntPtr)(0xC0000000 | lparam));
+        }
 		public static void SendMsg(IntPtr wnd, string msg)
 		{
 			foreach (char ch in msg)
 			{
-				byte code = CharCode(ch);
-				uint lparam = (uint)((ScanCode(ch) << 0x10) | 1);
-				User32.PostMessage(wnd, User32.WM_KEYDOWN,	(IntPtr)code, (UIntPtr)(lparam));
-				User32.PostMessage(wnd, User32.WM_KEYUP,		(IntPtr)code, (UIntPtr)(0xC0000000 | lparam));
+                SendMsgK(wnd, ch);
 			}
 		}
 
@@ -278,17 +282,18 @@ namespace KeyUtil
         {
             return ((comboState & 0x04) != 0);
         }
-        public static void SendRichMsg(IntPtr wnd, string msg)
-        {
-            foreach (char ch in msg)
-            {
-                SendChar(wnd, ch);
-            }
-        }
         public static void SendCharString(IntPtr wnd, string msg)
         {
             foreach (char ch in msg)
             {
+                /*
+                 * For '/', ScanCode=0x35 and CharCode=0xBF
+                 * But SendChar(...,'/') doesn't work; do not know why not
+                 * */
+                if (ch == '/')
+                {
+                    SendMsgK(wnd, ch);
+                }
                 SendChar(wnd, ch);
             }
         }

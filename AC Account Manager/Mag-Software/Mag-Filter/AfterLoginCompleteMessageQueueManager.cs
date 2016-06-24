@@ -60,7 +60,7 @@ namespace MagFilter
 				{
 					PostMessageTools.SendEnter();
 					string cmd = loginCompleteMessageQueue.Dequeue();
-                    PostMessageTools.SendMsg(cmd);
+                    PostMessageTools.SendCharString(cmd);
                     sendingLastEnter = true;
 				}
 			}
