@@ -25,10 +25,13 @@ namespace KeyTestApp
         {
             IntPtr wnd = OutputBox.Handle;
             string input = InputBox.Text;
+            KeyUtil.PostMsgs.SendCharString(wnd, input);
+            /*
             foreach (Char ch in input)
             {
                 KeyUtil.PostMsgs.SendChar(wnd, ch);
             }
+             * */
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
