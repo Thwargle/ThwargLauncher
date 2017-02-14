@@ -10,6 +10,7 @@ namespace ThwargLauncher
         public string AccountName;
         public string Priority;
         public string Password;
+        public string ipAddress;
         public string ServerName;
         public string CharacterSelected;
         public string CustomLaunchPath;

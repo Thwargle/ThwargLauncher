@@ -80,6 +80,7 @@ namespace ThwargLauncher
                     _launchItem.ServerName,
                     accountName: _launchItem.AccountName,
                     password: _launchItem.Password,
+                    ipAddress: _launchItem.ipAddress,
                     desiredCharacter: _launchItem.CharacterSelected
                     );
                 if (!gameLaunchResult.Success)

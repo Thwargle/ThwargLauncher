@@ -43,7 +43,7 @@ namespace ThwargLauncher
             }
         }
 
-        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string desiredCharacter)
+        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string desiredCharacter)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -53,8 +53,11 @@ namespace ThwargLauncher
             string arg1 = accountName;
             string arg2 = password;
             string arg3 = serverName;
+            string arg4 = ipAddress;
 
             string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
+            //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
+            string genArgsLocalServer = "-a " + accountName + " -h " + arg4 + " -glsticketdirect " + arg2;
             string pathToFile = exelocation;
             if (arg2 == "")
             {
@@ -67,7 +70,7 @@ namespace ThwargLauncher
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = pathToFile;
-                startInfo.Arguments = genArgs;
+                startInfo.Arguments = genArgsLocalServer;
                 startInfo.CreateNoWindow = true;
 
                 RecordLaunchInfo(serverName, accountName, desiredCharacter, DateTime.UtcNow);
@@ -78,7 +81,11 @@ namespace ThwargLauncher
                 DateTime startWait = DateTime.UtcNow;
                 DateTime characterFileWrittenTime = DateTime.MaxValue;
                 DateTime loginTime = DateTime.MaxValue;
+
+                startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
                 launcherProc = Process.Start(startInfo);
+                UtilityCode.BasicInject.InjectDecal();
+
                 if (!gameReady)
                 {
                     WaitForLauncher(launcherProc);

@@ -387,6 +387,7 @@ namespace ThwargLauncher
                                     Priority = account.Priority,
                                     Password = account.Password,
                                     ServerName = server.ServerName,
+                                    ipAddress = server.ServerIP,
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,
                                     CustomPreferencePath = account.CustomPreferencePath

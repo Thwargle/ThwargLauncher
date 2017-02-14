@@ -112,6 +112,7 @@
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
+    <Compile Include="UtilityCode\BasicInject.cs" />
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />

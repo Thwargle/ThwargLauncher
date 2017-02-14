@@ -29,6 +29,12 @@ namespace ThwargLauncher.AccountManagement
             get { return GetStringProperty("Priority"); }
             set { SetStringProperty("Priority", value); }
         }
+
+        public bool LocalEnabled
+        {
+            get { return IsServerEnabled("Local"); }
+            set { SetServerEnabled("Local", value); }
+        }
         public bool FrostfellEnabled
         {
             get { return IsServerEnabled("Frostfell"); }

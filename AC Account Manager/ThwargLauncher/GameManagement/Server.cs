@@ -11,9 +11,11 @@ namespace ThwargLauncher
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
             ServerName = serverName;
+            ServerIP = "127.0.0.1:9000";
         }
 
         public string ServerStatusSymbol { get; set; }
+        public string ServerIP { get; set; }
         public string ServerName { get; set; }
         private bool _serverSelected;
         public bool ServerSelected
@@ -62,6 +64,7 @@ namespace ThwargLauncher
     {
         public static List<string> ServerList = new List<string>()
             {
+                "Local",
                 "Frostfell",
                 "Thistledown",
                 "Harvestgain",
