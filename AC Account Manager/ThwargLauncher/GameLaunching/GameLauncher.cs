@@ -75,17 +75,31 @@ namespace ThwargLauncher
             if (string.IsNullOrWhiteSpace(accountName)) { throw new Exception("Empty accountName"); }
             string arg1 = accountName;
             string arg2 = password;
-            string arg3 = serverName;
-            string arg4 = ipAddress;
 
-            string genArgs = "-username " + arg1 + " -password " + arg2 + " -w " + arg3 + " -2 -3";
-            //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
-            string genArgsLocalServer = "-a " + accountName + " -h " + arg4 + " -glsticketdirect " + arg2;
-            string pathToFile = exelocation;
-            if (arg2 == "")
+            string genArgs = "TODO-below";
+
+            bool isPhat = true;
+            if (isPhat)
             {
-                genArgs = "-username " + arg1 + " -w " + arg3 + " -3 ";
+                //PHATAC
+                //-h [server ip] -p [server port] -a username:password -rodat off
+                int tok = ipAddress.IndexOf(':');
+                string ip = ipAddress.Substring(0, tok);
+                string port = ipAddress.Substring(tok + 1);
+                string genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat off";
+                genArgs = genArgsPhatServer;
+
             }
+            else
+            {
+                //ACE
+                //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
+                string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + arg2;
+                genArgs = genArgsACEServer;
+
+            }
+
+            string pathToFile = exelocation;
             bool gameReady = false;
             Process launcherProc = null;
             LaunchControl.LaunchResponse launchResponse = null;
@@ -93,7 +107,7 @@ namespace ThwargLauncher
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = pathToFile;
-                startInfo.Arguments = genArgsLocalServer;
+                startInfo.Arguments = genArgs;
                 startInfo.CreateNoWindow = true;
 
                 RecordLaunchInfo(serverName, accountName, desiredCharacter, DateTime.UtcNow);
@@ -107,9 +121,9 @@ namespace ThwargLauncher
 
                 startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
                 launcherProc = Process.Start(startInfo);
-                SuspendProcess(launcherProc.Id);
-                UtilityCode.BasicInject.InjectDecal();
-                ResumeProcess(launcherProc.Id);
+                //SuspendProcess(launcherProc.Id);
+                //UtilityCode.BasicInject.InjectDecal(launcherProc);
+                //ResumeProcess(launcherProc.Id);
                 if (!gameReady)
                 {
                     WaitForLauncher(launcherProc);

@@ -57,6 +57,8 @@ namespace ThwargLauncher
             MigrateSettingsIfNeeded();
             EnsureDataFoldersExist();
 
+            PopulateServerList();
+
             LoadUserAccounts(initialLoad: true);
             LoadImages();
             ChangeBackgroundImageRandomly();
@@ -68,6 +70,16 @@ namespace ThwargLauncher
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
             }
         }
+
+        private void PopulateServerList()
+        {
+            var phatServers = (new GameManagement.PhatACServerLister()).loadServers();
+            foreach(var serverItem in phatServers)
+            {
+                ServerManager.ServerList.Add(serverItem.ServerIP);
+            }
+        }
+
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             if (Properties.Settings.Default.ShowHelpAtStart)

@@ -6,12 +6,12 @@ namespace ThwargLauncher
 {
     public class Server : INotifyPropertyChanged
     {
-        public Server(string serverName)
+        public Server(string serverName, string serverIP)
         {
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
             ServerName = serverName;
-            ServerIP = "127.0.0.1:9000";
+            ServerIP = serverIP;
         }
 
         public string ServerStatusSymbol { get; set; }
@@ -60,21 +60,11 @@ namespace ThwargLauncher
         }
     }
 
-    static class ServerManager
+    public static class ServerManager
     {
-        public static List<string> ServerList = new List<string>()
-            {
-                "Local",
-                "Frostfell",
-                "Thistledown",
-                "Harvestgain",
-                "Verdantine",
-                "Leafcull",
-                "WintersEbb",
-                "Morningthaw",
-                "Darktide",
-                "Solclaim"
-            };
+        public static List<string> ServerList = new List<string>();
     }
+
+
 
 }

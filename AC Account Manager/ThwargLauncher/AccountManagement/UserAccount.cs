@@ -35,16 +35,17 @@ namespace ThwargLauncher
             MagFilter.CharacterManager characterMgr = _characterMgr;
             foreach (var serverName in ServerManager.ServerList)
             {
-                if (!IsServerEnabled(serverName)) { continue; }
+                //TODO: Actual Server Selection
+                //if (!IsServerEnabled(serverName)) { continue; }
                 // Get characters from dll
                 MagFilter.ServerCharacterListByAccount charlist = null;
                 if (characterMgr != null)
                 {
-                    charlist = characterMgr.GetCharacters(serverName: serverName, accountName: this.Name);
-                    
+                    charlist = characterMgr.GetCharacters(serverName: serverName, accountName: this.Name);   
                 }
                 // Construct server & character data
-                var server = new Server(serverName);
+                //var server = new Server(serverName, "127.0.0.1:9050");
+                var server = new Server(serverName, serverName);
                 //create and add a default character of none.
                 var defaultChar = new AccountCharacter()
                 {

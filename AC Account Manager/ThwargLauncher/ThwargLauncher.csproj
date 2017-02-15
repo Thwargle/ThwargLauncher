@@ -101,6 +101,7 @@
     <Compile Include="GameManagement\GameMonitor.cs" />
     <Compile Include="GameManagement\GameSession.cs" />
     <Compile Include="GameManagement\GameSessionMap.cs" />
+    <Compile Include="GameManagement\PhatACServerLister.cs" />
     <Compile Include="HelpWindowViewModel.cs" />
     <Compile Include="GameLaunching\LaunchItem.cs" />
     <Compile Include="GameLaunching\LaunchManager.cs" />

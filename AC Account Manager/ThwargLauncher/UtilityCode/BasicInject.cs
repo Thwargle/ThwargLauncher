@@ -110,11 +110,11 @@ namespace ThwargLauncher.UtilityCode
         const uint MEM_RESERVE = 0x00002000;
         const uint PAGE_READWRITE = 4;
 
-        public static void InjectDecal()
+        public static void InjectDecal(Process launcherProc)
         {
             // the target process - I'm using a dummy process for this
             // if you don't have one, open Task Manager and choose wisely
-            Process targetProcess = Process.GetProcessesByName("acclient")[0];
+            Process targetProcess = launcherProc;
 
             // geting the handle of the process - with required privileges
             IntPtr procHandle = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, false, targetProcess.Id);
@@ -123,7 +123,7 @@ namespace ThwargLauncher.UtilityCode
             IntPtr loadLibraryAddr = GetProcAddress(GetModuleHandle("Inject"), "DecalStartup");
 
             // name of the dll we want to inject
-            string dllName = "Inject.dll";
+            string dllName = "c:\\Games\\Decal 3.0\\Inject.dll";
 
             // alocating some memory on the target process - enough to store the name of the dll
             // and storing its address in a pointer
