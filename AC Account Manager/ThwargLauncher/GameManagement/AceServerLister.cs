@@ -1,41 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace ThwargLauncher.GameManagement
 {
-    class PhatACServerLister
+    class AceServerLister
     {
         public class ServerItem
         {
             public string ServerName { get; set; }
             public string ServerIP { get; set; }
             public string EMU { get; set; }
+
         }
 
-        public List<ServerItem> loadPhatServers()
+        public List<ServerItem> loadACEServers()
         {
-            return loadServers("PhatAC");
+            return loadServers("ACE");
         }
-
         public List<ServerItem> loadServers(string EMU)
         {
-            var m_strFilePath = "https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml";
-            string xmlStr;
-            using (var wc = new WebClient())
-            {
-                xmlStr = wc.DownloadString(m_strFilePath);
-            }
+
+            XmlTextReader reader = new XmlTextReader("ACEServerList.xml");
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xmlStr);
+            xmlDoc.Load(reader);
 
             List<ServerItem> serverItemList = new List<ServerItem>();
-
-            foreach(XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
+            foreach (XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
             {
                 ServerItem si = new ServerItem();
 

@@ -6,17 +6,19 @@ namespace ThwargLauncher
 {
     public class Server : INotifyPropertyChanged
     {
-        public Server(string serverName, string serverIP)
+        public Server(string serverName, string serverIP, string emu)
         {
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
             ServerName = serverName;
             ServerIP = serverIP;
+            EMU = emu;
         }
 
         public string ServerStatusSymbol { get; set; }
         public string ServerIP { get; set; }
         public string ServerName { get; set; }
+        public string EMU { get; set; }
         private bool _serverSelected;
         public bool ServerSelected
         {
@@ -64,7 +66,5 @@ namespace ThwargLauncher
     {
         public static List<string> ServerList = new List<string>();
     }
-
-
 
 }

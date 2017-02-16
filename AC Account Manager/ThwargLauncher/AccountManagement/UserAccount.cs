@@ -45,7 +45,7 @@ namespace ThwargLauncher
                 }
                 // Construct server & character data
                 //var server = new Server(serverName, "127.0.0.1:9050");
-                var server = new Server(serverName, serverName);
+                var server = new Server(serverName, serverName, "PhatAC");
                 //create and add a default character of none.
                 var defaultChar = new AccountCharacter()
                 {

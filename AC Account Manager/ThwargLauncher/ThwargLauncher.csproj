@@ -97,6 +97,7 @@
       <DependentUpon>DiagnosticWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DiagnosticWindowViewModel.cs" />
+    <Compile Include="GameManagement\AceServerLister.cs" />
     <Compile Include="GameManagement\CommandManager.cs" />
     <Compile Include="GameManagement\GameMonitor.cs" />
     <Compile Include="GameManagement\GameSession.cs" />
@@ -114,7 +115,7 @@
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
-    <Compile Include="UtilityCode\BasicInject.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />
@@ -203,6 +204,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="injector.dll" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -221,6 +223,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ACEServerList.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Images\ACCoverArt.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -274,7 +279,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UtilityCode\DecalInjection\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

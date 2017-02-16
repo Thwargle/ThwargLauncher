@@ -81,6 +81,7 @@ namespace ThwargLauncher
                     accountName: _launchItem.AccountName,
                     password: _launchItem.Password,
                     ipAddress: _launchItem.ipAddress,
+                    emu: _launchItem.EMU,
                     desiredCharacter: _launchItem.CharacterSelected
                     );
                 if (!gameLaunchResult.Success)

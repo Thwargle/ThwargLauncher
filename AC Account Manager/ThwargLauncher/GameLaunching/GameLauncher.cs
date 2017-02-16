@@ -5,22 +5,10 @@ using System.IO;
 using System.Text;
 using MagFilter;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace ThwargLauncher
 {
-    [Flags]
-    public enum ThreadAccess : int
-    {
-        TERMINATE = (0x0001),
-        SUSPEND_RESUME = (0x0002),
-        GET_CONTEXT = (0x0008),
-        SET_CONTEXT = (0x0010),
-        SET_INFORMATION = (0x0020),
-        QUERY_INFORMATION = (0x0040),
-        SET_THREAD_TOKEN = (0x0080),
-        IMPERSONATE = (0x0100),
-        DIRECT_IMPERSONATION = (0x0200)
-    }
     public class GameLaunchResult
     {
         public bool Success;
@@ -33,14 +21,8 @@ namespace ThwargLauncher
     /// </summary>
     class GameLauncher
     {
-        [DllImport("kernel32.dll")]
-        static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
-        [DllImport("kernel32.dll")]
-        static extern uint SuspendThread(IntPtr hThread);
-        [DllImport("kernel32.dll")]
-        static extern int ResumeThread(IntPtr hThread);
-        [DllImport("kernel32", CharSet = CharSet.Auto, SetLastError = true)]
-        static extern bool CloseHandle(IntPtr handle);
+        [DllImport("injector.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int LaunchInjected(string command_line, string working_directory, string inject_dll_path, [MarshalAs(UnmanagedType.LPStr)] string initialize_function);
 
         public event ShouldStopLaunching StopLaunchEvent;
 
@@ -66,7 +48,7 @@ namespace ThwargLauncher
             }
         }
 
-        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string desiredCharacter)
+        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string emu, string desiredCharacter)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -78,7 +60,12 @@ namespace ThwargLauncher
 
             string genArgs = "TODO-below";
 
-            bool isPhat = true;
+            bool isPhat = false;
+            if(emu == "PhatAC")
+            { isPhat = true; }
+            else if(emu == "ACE")
+            { isPhat = false; }
+            
             if (isPhat)
             {
                 //PHATAC
@@ -97,6 +84,7 @@ namespace ThwargLauncher
                 string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + arg2;
                 genArgs = genArgsACEServer;
 
+
             }
 
             string pathToFile = exelocation;
@@ -112,7 +100,6 @@ namespace ThwargLauncher
 
                 RecordLaunchInfo(serverName, accountName, desiredCharacter, DateTime.UtcNow);
 
-                // This is analogous to Process.Start or CreateProcess
                 string charFilepath = MagFilter.FileLocations.GetCharacterFilePath();
                 string launchResponseFilepath = MagFilter.FileLocations.GetCurrentLaunchResponseFilePath();
                 DateTime startWait = DateTime.UtcNow;
@@ -120,10 +107,22 @@ namespace ThwargLauncher
                 DateTime loginTime = DateTime.MaxValue;
 
                 startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
-                launcherProc = Process.Start(startInfo);
-                //SuspendProcess(launcherProc.Id);
-                //UtilityCode.BasicInject.InjectDecal(launcherProc);
-                //ResumeProcess(launcherProc.Id);
+                string commandLineLaunch = startInfo.FileName + " " + startInfo.Arguments;
+                string asheronFolder = startInfo.WorkingDirectory;
+                string decalInjectPath = DecalLocation();
+                string command = "DecalStartup";
+
+                if (DecalInstalled())
+                {
+                    //Start Process with Decal Injection
+                    launcherProc = Process.GetProcessById(Convert.ToInt32(LaunchInjected(commandLineLaunch, asheronFolder, decalInjectPath, command)));
+                }
+                else
+                {
+                    //Start Process without Decal
+                    Process.Start(startInfo);
+                }
+
                 if (!gameReady)
                 {
                     WaitForLauncher(launcherProc);
@@ -196,6 +195,51 @@ namespace ThwargLauncher
             }
             return result;
         }
+
+        private string DecalLocation()
+        {
+            string subKey = "SOFTWARE\\Decal\\Agent";
+            try
+            {
+                RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
+                string decalInjectionFile = (string)sk1.GetValue("AgentPath", "");
+                decalInjectionFile += "Inject.dll";
+
+                if (decalInjectionFile.Length > 5 && File.Exists(decalInjectionFile))
+                {
+                    return decalInjectionFile;
+                }
+            }
+            catch(Exception exc)
+            {
+                throw new Exception("No Decal in registry: " + exc.Message);
+                return "NoDecal";
+            }
+            return "NoDecal";
+        }
+
+        private bool DecalInstalled()
+        {
+            string subKey = "SOFTWARE\\Decal\\Agent";
+            try
+            {
+                RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
+                string decalInjectionFile = (string)sk1.GetValue("AgentPath", "");
+                decalInjectionFile += "Inject.dll";
+
+                if (decalInjectionFile.Length > 5 && File.Exists(decalInjectionFile))
+                {
+                    return true;
+                }
+            }
+            catch (Exception exc)
+            {
+                throw new Exception("No Decal in registry: " + exc.Message);
+                return false;
+            }
+            return false;
+        }
+
         private bool IsValidCharacterName(string characterName)
         {
             if (string.IsNullOrEmpty(characterName)) { return false; }
@@ -236,53 +280,6 @@ namespace ThwargLauncher
             // TODO
             var x = LaunchControl.DebugGetLaunchInfo();
             // verify x
-        }
-        private static void SuspendProcess(int pid)
-        {
-            var process = Process.GetProcessById(pid);
-
-            if (process.ProcessName == string.Empty)
-                return;
-
-            foreach (ProcessThread pT in process.Threads)
-            {
-                IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
-
-                if (pOpenThread == IntPtr.Zero)
-                {
-                    continue;
-                }
-
-                SuspendThread(pOpenThread);
-
-                CloseHandle(pOpenThread);
-            }
-        }
-
-        public static void ResumeProcess(int pid)
-        {
-            var process = Process.GetProcessById(pid);
-
-            if (process.ProcessName == string.Empty)
-                return;
-
-            foreach (ProcessThread pT in process.Threads)
-            {
-                IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
-
-                if (pOpenThread == IntPtr.Zero)
-                {
-                    continue;
-                }
-
-                var suspendCount = 0;
-                do
-                {
-                    suspendCount = ResumeThread(pOpenThread);
-                } while (suspendCount > 0);
-
-                CloseHandle(pOpenThread);
-            }
         }
     }
 }

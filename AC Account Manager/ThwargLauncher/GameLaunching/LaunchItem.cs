@@ -12,6 +12,7 @@ namespace ThwargLauncher
         public string Password;
         public string ipAddress;
         public string ServerName;
+        public string EMU;
         public string CharacterSelected;
         public string CustomLaunchPath;
         public string CustomPreferencePath;

@@ -55,9 +55,9 @@ namespace ThwargLauncher
                             {
                                 throw new Exception("Bad account file, first line not Version");
                             }
-                            if (!line.StartsWith("Version=1"))
+                            if (!line.StartsWith("Version=2"))
                             {
-                                throw new Exception("Bad account file, Version not 1");
+                                throw new Exception("Bad account file, Version not 2");
                             }
                             fileVersion = line.Substring("Version=".Length);
                         }
@@ -140,7 +140,7 @@ namespace ThwargLauncher
             using (StreamWriter writer = new StreamWriter(AccountFilePath))
             {
                 writer.WriteLine(HeaderComment);
-                writer.WriteLine("Version=1");
+                writer.WriteLine("Version=2");
                 foreach (var acct in acctList)
                 {
                     StringBuilder line = new StringBuilder();

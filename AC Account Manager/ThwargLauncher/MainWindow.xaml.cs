@@ -73,8 +73,13 @@ namespace ThwargLauncher
 
         private void PopulateServerList()
         {
-            var phatServers = (new GameManagement.PhatACServerLister()).loadServers();
+            var phatServers = (new GameManagement.PhatACServerLister()).loadPhatServers();
+            var aceServers = (new GameManagement.AceServerLister()).loadACEServers();
             foreach(var serverItem in phatServers)
+            {
+                ServerManager.ServerList.Add(serverItem.ServerIP);
+            }
+            foreach(var serverItem in aceServers)
             {
                 ServerManager.ServerList.Add(serverItem.ServerIP);
             }
@@ -400,6 +405,7 @@ namespace ThwargLauncher
                                     Password = account.Password,
                                     ServerName = server.ServerName,
                                     ipAddress = server.ServerIP,
+                                    EMU = server.EMU,
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,
                                     CustomPreferencePath = account.CustomPreferencePath
