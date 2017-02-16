@@ -15,6 +15,13 @@ namespace ThwargLauncher
             EMU = emu;
         }
 
+        public class ServerItem
+        {
+            public string ServerName { get; set; }
+            public string ServerIP { get; set; }
+            public string EMU { get; set; }
+        }
+
         public string ServerStatusSymbol { get; set; }
         public string ServerIP { get; set; }
         public string ServerName { get; set; }
@@ -64,7 +71,7 @@ namespace ThwargLauncher
 
     public static class ServerManager
     {
-        public static List<string> ServerList = new List<string>();
+        public static List<Server.ServerItem> ServerList = new List<Server.ServerItem>();
     }
 
 }

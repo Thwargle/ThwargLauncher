@@ -10,19 +10,14 @@ namespace ThwargLauncher.GameManagement
 {
     class PhatACServerLister
     {
-        public class ServerItem
-        {
-            public string ServerName { get; set; }
-            public string ServerIP { get; set; }
-            public string EMU { get; set; }
-        }
+        
 
-        public List<ServerItem> loadPhatServers()
+        public List<Server.ServerItem> loadPhatServers()
         {
             return loadServers("PhatAC");
         }
 
-        public List<ServerItem> loadServers(string EMU)
+        public List<Server.ServerItem> loadServers(string EMU)
         {
             var m_strFilePath = "https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml";
             string xmlStr;
@@ -33,17 +28,31 @@ namespace ThwargLauncher.GameManagement
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlStr);
 
-            List<ServerItem> serverItemList = new List<ServerItem>();
+            List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
 
             foreach(XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
             {
-                ServerItem si = new ServerItem();
+                Server.ServerItem si = new Server.ServerItem();
 
                 si.ServerName = GetSubvalue(node, "name");
                 si.ServerIP = GetSubvalue(node, "connect_string");
                 si.EMU = EMU;
                 serverItemList.Add(si);
             }
+
+            XmlTextReader reader = new XmlTextReader("PhatACServerList.xml");
+            var xmlDoc2 = new XmlDocument();
+            xmlDoc.Load(reader);
+            foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+            {
+                Server.ServerItem si2 = new Server.ServerItem();
+
+                si2.ServerName = GetSubvalue(node, "name");
+                si2.ServerIP = GetSubvalue(node, "connect_string");
+                si2.EMU = EMU;
+                serverItemList.Add(si2);
+            }
+
 
             return serverItemList;
 

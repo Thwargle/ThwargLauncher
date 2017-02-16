@@ -223,6 +223,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="PhatACServerList.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ACEServerList.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

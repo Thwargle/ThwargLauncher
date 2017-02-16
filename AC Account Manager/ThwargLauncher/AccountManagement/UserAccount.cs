@@ -33,7 +33,7 @@ namespace ThwargLauncher
         private void InitializeMe()
         {
             MagFilter.CharacterManager characterMgr = _characterMgr;
-            foreach (var serverName in ServerManager.ServerList)
+            foreach (var serverItem in ServerManager.ServerList)
             {
                 //TODO: Actual Server Selection
                 //if (!IsServerEnabled(serverName)) { continue; }
@@ -41,11 +41,11 @@ namespace ThwargLauncher
                 MagFilter.ServerCharacterListByAccount charlist = null;
                 if (characterMgr != null)
                 {
-                    charlist = characterMgr.GetCharacters(serverName: serverName, accountName: this.Name);   
+                    charlist = characterMgr.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);   
                 }
                 // Construct server & character data
-                //var server = new Server(serverName, "127.0.0.1:9050");
-                var server = new Server(serverName, serverName, "PhatAC");
+                var server = new Server(serverItem.ServerName, serverItem.ServerIP, serverItem.EMU);
+
                 //create and add a default character of none.
                 var defaultChar = new AccountCharacter()
                 {

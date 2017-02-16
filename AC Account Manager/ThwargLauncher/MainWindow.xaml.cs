@@ -77,11 +77,11 @@ namespace ThwargLauncher
             var aceServers = (new GameManagement.AceServerLister()).loadACEServers();
             foreach(var serverItem in phatServers)
             {
-                ServerManager.ServerList.Add(serverItem.ServerIP);
+                ServerManager.ServerList.Add(serverItem);
             }
             foreach(var serverItem in aceServers)
             {
-                ServerManager.ServerList.Add(serverItem.ServerIP);
+                ServerManager.ServerList.Add(serverItem);
             }
         }
 
