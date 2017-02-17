@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="13.5" version="13.5" Modules="update" RootPath="." Language="en" Id="{05D1066A-68BE-4B78-B222-426009C7B463}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="Update4.0.0.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="Update4.0.0.0" Key="ProductVersion" Value="4.0.0.0"/>
+    <ROW Section="Update4.0.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="Update4.0.0.0" Key="Size" Value="..\ThwargLauncher\bin\Release\ThwargLauncher.exe"/>
+    <ROW Section="Update4.0.0.0" Key="MD5" Value="..\ThwargLauncher\bin\Release\ThwargLauncher.exe"/>
+    <ROW Section="Update4.0.0.0" Key="ServerFileName" Value="ThwargLauncher.exe"/>
+    <ROW Section="Update4.0.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="Update4.0.0.0" Key="Version" Value="4.0.0.0"/>
+    <ROW Section="Update4.0.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-4.0)"/>
+    <ROW Section="Update4.0.0.0" Key="Description" Value="Implementing major changes to support EMU Servers."/>
+    <ROW Section="Update4.0.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>
