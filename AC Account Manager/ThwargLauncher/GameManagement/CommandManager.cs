@@ -72,7 +72,6 @@ namespace ThwargLauncher
         }
         private List<string> FindTeamsSpecified(ref string commandString)
         {
-            List<string> teamNames = null;
             string teamtok = null;
             if (TryProcessArg(ref commandString, "/t:", out teamtok))
             {

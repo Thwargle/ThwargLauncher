@@ -213,7 +213,6 @@ namespace ThwargLauncher
             catch(Exception exc)
             {
                 throw new Exception("No Decal in registry: " + exc.Message);
-                return "NoDecal";
             }
             return "NoDecal";
         }
@@ -235,7 +234,6 @@ namespace ThwargLauncher
             catch (Exception exc)
             {
                 throw new Exception("No Decal in registry: " + exc.Message);
-                return false;
             }
             return false;
         }
