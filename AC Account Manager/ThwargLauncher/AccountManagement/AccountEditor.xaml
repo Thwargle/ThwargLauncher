@@ -20,7 +20,7 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Alias" Binding="{Binding Alias,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Priority" Binding="{Binding Priority,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
-                <DataGridCheckBoxColumn Header="LO" Binding="{Binding LocalEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <!--<DataGridCheckBoxColumn Header="LO" Binding="{Binding LocalEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="FF" Binding="{Binding FrostfellEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="TD" Binding="{Binding ThistledownEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="HG" Binding="{Binding HarvestgainEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
@@ -29,7 +29,7 @@
                 <DataGridCheckBoxColumn Header="WE" Binding="{Binding WintersEbbEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="MT" Binding="{Binding MorningthawEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="DT" Binding="{Binding DarktideEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn Header="SC" Binding="{Binding SolclaimEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="SC" Binding="{Binding SolclaimEnabled,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridCheckBoxColumn>-->
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="ApplyBtn"  Content="Apply" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Click="ApplyBtn_Click" Margin="0,0,10,10" />

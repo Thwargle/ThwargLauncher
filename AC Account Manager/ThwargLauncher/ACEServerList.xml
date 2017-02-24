@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfServerItem xmlns:PhatAC="http://www.phatac.com/serverlist/v2">
+<ArrayOfServerItem>
   <ServerItem>
     <name>Local Server</name>
     <description>A Server running as localhost</description>
