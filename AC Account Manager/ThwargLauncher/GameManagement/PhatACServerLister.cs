@@ -42,7 +42,7 @@ namespace ThwargLauncher.GameManagement
 
             XmlTextReader reader = new XmlTextReader("PhatACServerList.xml");
             var xmlDoc2 = new XmlDocument();
-            xmlDoc.Load(reader);
+            xmlDoc2.Load(reader);
             foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
             {
                 Server.ServerItem si2 = new Server.ServerItem();

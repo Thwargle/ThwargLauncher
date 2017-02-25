@@ -20,6 +20,7 @@ namespace MagFilter
         }
         public IEnumerable<string> GetKeys()
         {
+            log.WriteLogMsg("GetKeys function: " + _data.Keys);
             return _data.Keys;
         }
         public ServerCharacterListByAccount GetCharacters(string serverName, string accountName)
@@ -27,6 +28,7 @@ namespace MagFilter
             string key = GetKey(server: serverName, accountName: accountName);
             if (this._data.ContainsKey(key))
             {
+                log.WriteLogMsg("GetChars sN aN Function: " + this._data[key]);
                 return this._data[key];
             }
             else
@@ -36,10 +38,12 @@ namespace MagFilter
         }
         internal ServerCharacterListByAccount GetCharacters(string key)
         {
+            log.WriteLogMsg("GetChars key Function: " + this._data[key]);
             return this._data[key];
         }
         private static string GetKey(string server, string accountName)
         {
+            log.WriteLogMsg("GetKey function: " + string.Format("{0}-{1}", server, accountName));
             return string.Format("{0}-{1}", server, accountName);
         }
 
@@ -95,6 +99,7 @@ namespace MagFilter
         {
             try
             {
+                log.WriteLogMsg("ReadCharacterImpl: " + ReadCharactersImpl());
                 return ReadCharactersImpl();
             }
             catch (Exception exc)
