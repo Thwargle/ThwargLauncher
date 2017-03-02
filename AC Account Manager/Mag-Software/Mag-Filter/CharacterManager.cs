@@ -79,6 +79,7 @@ namespace MagFilter
                     ZoneId = zonename,
                     CharacterList = characters
                 };
+            log.WriteLogMsg("Writing characters: " + clist.ToString());
             this._data[key] = clist;
             string contents = JsonConvert.SerializeObject(_data, Formatting.Indented);
             string path = FileLocations.GetCharacterFilePath();

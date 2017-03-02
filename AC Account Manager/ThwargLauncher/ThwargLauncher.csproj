@@ -92,6 +92,9 @@
     </Compile>
     <Compile Include="AccountManagement\AccountEditorViewModel.cs" />
     <Compile Include="AccountManagement\AccountParser.cs" />
+    <Compile Include="AccountManagement\AddServer.xaml.cs">
+      <DependentUpon>AddServer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="AppCoordinator.cs" />
     <Compile Include="CharacterSetting.cs" />
@@ -150,6 +153,10 @@
     <Compile Include="UtilityCode\WindowPlacer.cs" />
     <Compile Include="UtilityCode\WpfWindowPlacer.cs" />
     <Page Include="AccountManagement\AccountEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountManagement\AddServer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
