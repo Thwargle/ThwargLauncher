@@ -24,6 +24,7 @@ namespace ThwargLauncher.AccountManagement
         string serverDesc;
         string serverIP;
         string serverPort;
+        string connectionString;
         public AddServer()
         {
             InitializeComponent();
@@ -31,13 +32,29 @@ namespace ThwargLauncher.AccountManagement
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
+            {
+                XDocument doc = XDocument.Load("ACEServerList.xml");
+                createElement(doc);
+                doc.Save("ACEServerList.xml");
+            }
+            else if(rdPhatACServer.IsChecked.HasValue && rdPhatACServer.IsChecked.Value)
+            {
+                XDocument doc = XDocument.Load("PhatACServerList.xml");
+                createElement(doc);
+                doc.Save("PhatACServerList.xml");
+            }
+            this.Close();
+        }
+
+        private void createElement(XDocument doc)
+        {
             serverName = txtServerName.Text;
             serverDesc = txtServeDesc.Text;
             serverIP = txtServerIP.Text;
             serverPort = txtServerPort.Text;
-            string connectionString = serverIP + ":" + serverPort;
+            connectionString = serverIP + ":" + serverPort;
 
-            XDocument doc = XDocument.Load("ACEServerList.xml");
             XElement serverItemArray = doc.Element("ArrayOfServerItem");
             serverItemArray.Add(new XElement("ServerItem",
                             new XElement("name", serverName),
@@ -50,8 +67,6 @@ namespace ThwargLauncher.AccountManagement
                             new XElement("default_password", "password"),
                             new XElement("allow_dual_log", "true"))
                     );
-            doc.Save("ACEServerList.xml");
-            this.Close();
         }
     }
 }

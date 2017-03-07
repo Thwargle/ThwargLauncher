@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -16,6 +17,22 @@ using WindowPlacementUtil;
 
 namespace ThwargLauncher
 {
+
+    public static class LinqExtension
+    {
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            HashSet<TKey> seenKeys = new HashSet<TKey>();
+            foreach (TSource element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
+        }
+
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -73,13 +90,14 @@ namespace ThwargLauncher
 
         private void PopulateServerList()
         {
+            ServerManager.ServerList.Clear();
             var phatServers = (new GameManagement.PhatACServerLister()).loadPhatServers();
             var aceServers = (new GameManagement.AceServerLister()).loadACEServers();
-            foreach(var serverItem in phatServers)
+            foreach(var serverItem in phatServers.DistinctBy(p => p.ServerName))
             {
                 ServerManager.ServerList.Add(serverItem);
             }
-            foreach(var serverItem in aceServers)
+            foreach(var serverItem in aceServers.DistinctBy(p => p.ServerName))
             {
                 ServerManager.ServerList.Add(serverItem);
             }
@@ -641,7 +659,8 @@ namespace ThwargLauncher
             MainWindowDisable();
             var dlg = new AddServer();
             dlg.ShowDialog();
-            LoadUserAccounts();
+            PopulateServerList();
+            ReloadKnownAccountsAndCharacters();
             MainWindowEnable();
         }
     }

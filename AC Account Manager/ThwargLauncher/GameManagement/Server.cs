@@ -26,6 +26,7 @@ namespace ThwargLauncher
         public string ServerIP { get; set; }
         public string ServerName { get; set; }
         public string EMU { get; set; }
+        public string ServerDisplayName { get { return string.Format("{0} - {1}", EMU, ServerName); } }
         private bool _serverSelected;
         public bool ServerSelected
         {
