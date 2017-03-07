@@ -234,10 +234,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PhatACServerList.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ACEServerList.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Images\ACCoverArt.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

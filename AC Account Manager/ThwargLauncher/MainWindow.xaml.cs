@@ -635,5 +635,14 @@ namespace ThwargLauncher
         {
             btnChooseProfile_Click(sender, e);
         }
+
+        private void btnAddServers_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowDisable();
+            var dlg = new AddServer();
+            dlg.ShowDialog();
+            LoadUserAccounts();
+            MainWindowEnable();
+        }
     }
 }
