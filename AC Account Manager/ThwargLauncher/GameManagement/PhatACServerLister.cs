@@ -19,43 +19,53 @@ namespace ThwargLauncher.GameManagement
 
         public List<Server.ServerItem> loadServers(string EMU)
         {
-            var m_strFilePath = "https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml";
-            string xmlStr;
-            using (var wc = new WebClient())
-            {
-                xmlStr = wc.DownloadString(m_strFilePath);
-            }
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xmlStr);
-
             List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
-
-            foreach(XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
+            try
             {
-                Server.ServerItem si = new Server.ServerItem();
+                var m_strFilePath = "https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml";
+                string xmlStr;
+                using (var wc = new WebClient())
+                {
+                    xmlStr = wc.DownloadString(m_strFilePath);
+                }
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlStr);
 
-                si.ServerName = GetSubvalue(node, "name");
-                si.ServerIP = GetSubvalue(node, "connect_string");
-                si.EMU = EMU;
-                serverItemList.Add(si);
+
+                foreach (XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
+                {
+                    Server.ServerItem si = new Server.ServerItem();
+
+                    si.ServerName = GetSubvalue(node, "name");
+                    si.ServerIP = GetSubvalue(node, "connect_string");
+                    si.EMU = EMU;
+                    serverItemList.Add(si);
+                }
             }
-
-            XmlTextReader reader = new XmlTextReader("PhatACServerList.xml");
-            var xmlDoc2 = new XmlDocument();
-            xmlDoc2.Load(reader);
-            foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+            catch (Exception exc)
             {
-                Server.ServerItem si2 = new Server.ServerItem();
-
-                si2.ServerName = GetSubvalue(node, "name");
-                si2.ServerIP = GetSubvalue(node, "connect_string");
-                si2.EMU = EMU;
-                serverItemList.Add(si2);
+                Logger.WriteInfo("Unable to find phat Server List: " + exc.ToString());
             }
+            try
+            {
+                XmlTextReader reader = new XmlTextReader("PhatACServerList.xml");
+                var xmlDoc2 = new XmlDocument();
+                xmlDoc2.Load(reader);
+                foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                {
+                    Server.ServerItem si2 = new Server.ServerItem();
 
-
+                    si2.ServerName = GetSubvalue(node, "name");
+                    si2.ServerIP = GetSubvalue(node, "connect_string");
+                    si2.EMU = EMU;
+                    serverItemList.Add(si2);
+                }
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteInfo("Unable to find phat Server xml: " + exc.ToString());
+            }
             return serverItemList;
-
         }
         private string GetSubvalue(XmlNode node, string key)
         {

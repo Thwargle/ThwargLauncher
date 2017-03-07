@@ -15,20 +15,26 @@ namespace ThwargLauncher.GameManagement
         }
         public List<Server.ServerItem> loadServers(string EMU)
         {
-
-            XmlTextReader reader = new XmlTextReader("ACEServerList.xml");
-            var xmlDoc = new XmlDocument();
-            xmlDoc.Load(reader);
-
             List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
-            foreach (XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
+            try
             {
-                Server.ServerItem si = new Server.ServerItem();
+                XmlTextReader reader = new XmlTextReader("ACEServerList.xml");
+                var xmlDoc = new XmlDocument();
+                xmlDoc.Load(reader);
 
-                si.ServerName = GetSubvalue(node, "name");
-                si.ServerIP = GetSubvalue(node, "connect_string");
-                si.EMU = EMU;
-                serverItemList.Add(si);
+                foreach (XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
+                {
+                    Server.ServerItem si = new Server.ServerItem();
+
+                    si.ServerName = GetSubvalue(node, "name");
+                    si.ServerIP = GetSubvalue(node, "connect_string");
+                    si.EMU = EMU;
+                    serverItemList.Add(si);
+                }
+            }
+            catch(Exception exc)
+            {
+                Logger.WriteInfo("Unable to read ACE Server list xml: " + exc.ToString());
             }
 
             return serverItemList;
