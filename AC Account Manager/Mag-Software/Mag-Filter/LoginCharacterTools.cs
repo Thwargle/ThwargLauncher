@@ -7,7 +7,6 @@ namespace MagFilter
 {
 	class LoginCharacterTools
 	{
-	    private string server;
 	    private string zonename;
 		int characterSlots;
 	    private bool written;
@@ -25,7 +24,8 @@ namespace MagFilter
 
             if (e.Message.Type == 0xF7E1) // Server Name
             {
-                server = Convert.ToString(e.Message["server"]);
+                //Server Name retrieved from the server message, not used (unreliable in EMU)
+                var server = Convert.ToString(e.Message["server"]);
                 log.WriteLogMsg(string.Format("server: '{0}'", server));
             }
 
@@ -52,10 +52,10 @@ namespace MagFilter
 			}
             if (!written)
             {
-                if (server != null && zonename != null && characters != null)
+                if (zonename != null && characters != null)
                 {
                     CharacterManager mgr = CharacterManager.ReadCharacters();
-			        mgr.WriteCharacters(server: server, zonename: zonename, characters: characters);
+			        mgr.WriteCharacters(zonename: zonename, characters: characters);
                     log.WriteLogMsg("Wrote our characters to file");
                     written = true;
 			    }

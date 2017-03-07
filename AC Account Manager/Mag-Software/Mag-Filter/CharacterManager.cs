@@ -47,7 +47,7 @@ namespace MagFilter
             return string.Format("{0}-{1}", server, accountName);
         }
 
-        public void WriteCharacters(string server, string zonename, List<Character> characters)
+        public void WriteCharacters(string zonename, List<Character> characters)
         {
             var launchInfo = LaunchControl.GetLaunchInfo();
             if (!launchInfo.IsValid)
@@ -73,7 +73,7 @@ namespace MagFilter
             Heartbeat.RecordAccount(launchInfo.AccountName);
             GameRepo.Game.SetServerAccount(server: launchInfo.ServerName, account: launchInfo.AccountName);
 
-            string key = GetKey(server: server, accountName: launchInfo.AccountName);
+            string key = GetKey(server: launchInfo.ServerName, accountName: launchInfo.AccountName);
             var clist = new ServerCharacterListByAccount()
                 {
                     ZoneId = zonename,

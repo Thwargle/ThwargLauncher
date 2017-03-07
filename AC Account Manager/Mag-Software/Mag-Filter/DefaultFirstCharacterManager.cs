@@ -36,7 +36,14 @@ namespace MagFilter
             }
 
 			if (e.Message.Type == 0xF7E1) // Server Name (we get this when we log out a character as well)
-				server = Convert.ToString(e.Message["server"]);
+            {
+                //getting the Server from the message, but then ignore it and set to the one we know works from the files
+                server = Convert.ToString(e.Message["server"]);
+                var launchInfo = LaunchControl.GetLaunchInfo();
+                server = launchInfo.ServerName;
+                log.WriteLogMsg("Server as retrieved from launchInfo: " + server);
+            }
+				
 
 			// F7E5 - Unknown? (we only get this the first time we connect), E5 F7 00 00 01 00 00 00 01 00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 
 
