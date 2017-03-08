@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThwargLauncher.AccountManagement"
         mc:Ignorable="d"
-        Title="Add a Server" Height="300" Width="300">
+        Title="Add a Server" Height="300" Width="300" Closing="Window_Closing">
     <Grid>
         <Label x:Name="lblServerName" Content="Server Name:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="85"/>
         <TextBox x:Name="txtServerName" HorizontalAlignment="Left" Height="23" Margin="100,69,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182"/>
