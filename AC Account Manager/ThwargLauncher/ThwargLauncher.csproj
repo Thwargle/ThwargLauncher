@@ -132,6 +132,7 @@
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameLaunching\LaunchSorter.cs" />
+    <Compile Include="UtilityCode\ListDistinctExtension.cs" />
     <Compile Include="UtilityCode\Logger.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="UtilityCode\LogWriter.cs" />

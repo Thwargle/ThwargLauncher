@@ -8,6 +8,7 @@ Starting with most recent:
 
 VERSION ?
 - Persist location of AddServer window
+- Block creation of duplicate server name
 VERSION 4.2.0.0   (2017-03-06)
 - Added an Add Server UI to add either PhatAC or ACE servers to the server list
 - Implemented a fix for Logging characters all the way in to the game

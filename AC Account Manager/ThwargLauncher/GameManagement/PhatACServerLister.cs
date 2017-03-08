@@ -10,14 +10,14 @@ namespace ThwargLauncher.GameManagement
 {
     class PhatACServerLister
     {
-        
+        private const string EMU = "PhatAC";
 
         public List<Server.ServerItem> loadPhatServers()
         {
-            return loadServers("PhatAC");
+            return loadServers();
         }
 
-        public List<Server.ServerItem> loadServers(string EMU)
+        public List<Server.ServerItem> loadServers()
         {
             List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
             try
@@ -30,7 +30,6 @@ namespace ThwargLauncher.GameManagement
                 }
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xmlStr);
-
 
                 foreach (XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
                 {
@@ -48,7 +47,21 @@ namespace ThwargLauncher.GameManagement
             }
             try
             {
-                XmlTextReader reader = new XmlTextReader("PhatACServerList.xml");
+                var phatServerItems = ReadPhatServerList("PhatACServerList.xml");
+                serverItemList.AddRange(phatServerItems);
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteInfo("Unable to find phat Server xml: " + exc.ToString());
+            }
+            return serverItemList;
+        }
+        public static IList<Server.ServerItem> ReadPhatServerList(string filename)
+        {
+            var list = new List<Server.ServerItem>();
+            using (XmlTextReader reader = new XmlTextReader("PhatACServerList.xml"))
+            {
+               
                 var xmlDoc2 = new XmlDocument();
                 xmlDoc2.Load(reader);
                 foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
@@ -58,16 +71,12 @@ namespace ThwargLauncher.GameManagement
                     si2.ServerName = GetSubvalue(node, "name");
                     si2.ServerIP = GetSubvalue(node, "connect_string");
                     si2.EMU = EMU;
-                    serverItemList.Add(si2);
+                    list.Add(si2);
                 }
             }
-            catch (Exception exc)
-            {
-                Logger.WriteInfo("Unable to find phat Server xml: " + exc.ToString());
-            }
-            return serverItemList;
+            return list;
         }
-        private string GetSubvalue(XmlNode node, string key)
+        private static string GetSubvalue(XmlNode node, string key)
         {
             var childNodes = node.SelectNodes(key);
             if (childNodes.Count == 0) { throw new Exception("Server lacked name"); }

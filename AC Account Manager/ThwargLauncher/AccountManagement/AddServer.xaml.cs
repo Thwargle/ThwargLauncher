@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml.Linq;
 using WindowPlacementUtil;
+using ThwargLauncher.UtilityCode;
 
 namespace ThwargLauncher.AccountManagement
 {
@@ -38,15 +39,36 @@ namespace ThwargLauncher.AccountManagement
         {
             if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
             {
-                XDocument doc = XDocument.Load("ACEServerList.xml");
+                const string aceServerFilepath = "ACEServerList.xml";
+                GameManagement.AceServerLister lister = new GameManagement.AceServerLister();
+                var servers = lister.loadACEServers();
+                var distinctServers = servers.DistinctBy(s => s.ServerName.ToUpper());
+                var serverNames = distinctServers.ToDictionary(s => s.ServerName.ToUpper());
+                if (serverNames.ContainsKey(txtServerName.Text.ToUpper()))
+                {
+                    MessageBox.Show("There is already an ACE server with this name");
+                    txtServerName.Focus();
+                    return;
+                }
+                XDocument doc = XDocument.Load(aceServerFilepath);
                 createElement(doc);
-                doc.Save("ACEServerList.xml");
+                doc.Save(aceServerFilepath);
             }
             else if(rdPhatACServer.IsChecked.HasValue && rdPhatACServer.IsChecked.Value)
             {
-                XDocument doc = XDocument.Load("PhatACServerList.xml");
+                const string pathServerFilepath = "PhatACServerList.xml";
+                var servers = GameManagement.PhatACServerLister.ReadPhatServerList(pathServerFilepath);
+                var distinctServers = servers.DistinctBy(s => s.ServerName.ToUpper());
+                var serverNames = distinctServers.ToDictionary(s => s.ServerName.ToUpper());
+                if (serverNames.ContainsKey(txtServerName.Text.ToUpper()))
+                {
+                    MessageBox.Show("There is already a Phat server with this name");
+                    txtServerName.Focus();
+                    return;
+                }
+                XDocument doc = XDocument.Load(pathServerFilepath);
                 createElement(doc);
-                doc.Save("PhatACServerList.xml");
+                doc.Save(pathServerFilepath);
             }
             this.Close();
         }
