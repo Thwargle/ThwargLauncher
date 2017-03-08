@@ -15,11 +15,6 @@ namespace ThwargLauncher.AccountManagement
     /// </summary>
     public partial class AddServer : Window
     {
-        string serverName;
-        string serverDesc;
-        string serverIP;
-        string serverPort;
-        string connectionString;
         public AddServer()
         {
             InitializeComponent();
@@ -58,11 +53,11 @@ namespace ThwargLauncher.AccountManagement
 
         private void createElement(XDocument doc)
         {
-            serverName = txtServerName.Text;
-            serverDesc = txtServeDesc.Text;
-            serverIP = txtServerIP.Text;
-            serverPort = txtServerPort.Text;
-            connectionString = serverIP + ":" + serverPort;
+            string serverName = txtServerName.Text;
+            string serverDesc = txtServeDesc.Text;
+            string serverIP = txtServerIP.Text;
+            string serverPort = txtServerPort.Text;
+            string connectionString = serverIP + ":" + serverPort;
 
             XElement serverItemArray = doc.Element("ArrayOfServerItem");
             serverItemArray.Add(new XElement("ServerItem",
