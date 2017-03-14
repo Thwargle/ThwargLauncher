@@ -9,11 +9,13 @@ namespace ThwargLauncher.GameManagement
 {
     class AceServerLister
     {
+        private const string EMU = "ACE";
+
         public List<Server.ServerItem> loadACEServers()
         {
-            return loadServers("ACE");
+            return loadServers();
         }
-        public List<Server.ServerItem> loadServers(string EMU)
+        public List<Server.ServerItem> loadServers()
         {
             List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
             try
