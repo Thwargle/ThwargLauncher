@@ -6,13 +6,14 @@ namespace ThwargLauncher
 {
     public class Server : INotifyPropertyChanged
     {
-        public Server(string serverName, string serverIP, string emu)
+        public Server(string serverName, string serverIP, string emu, string rodatSetting)
         {
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
             ServerName = serverName;
             ServerIP = serverIP;
             EMU = emu;
+            RodatSetting = rodatSetting;
         }
 
         public class ServerItem
@@ -20,12 +21,14 @@ namespace ThwargLauncher
             public string ServerName { get; set; }
             public string ServerIP { get; set; }
             public string EMU { get; set; }
+            public string RodatSetting { get; set; }
         }
 
         public string ServerStatusSymbol { get; set; }
         public string ServerIP { get; set; }
         public string ServerName { get; set; }
         public string EMU { get; set; }
+        public string RodatSetting { get; set; }
         public string ServerDisplayName { get { return string.Format("{0} - {1}", EMU, ServerName); } }
         private bool _serverSelected;
         public bool ServerSelected

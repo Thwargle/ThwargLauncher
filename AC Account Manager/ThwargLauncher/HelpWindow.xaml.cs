@@ -85,5 +85,11 @@ namespace ThwargLauncher
             Properties.Settings.Default.Save();
             SaveWindowSettings();
         }
+
+        private void btnSimpleLaunch_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.DisplaySimpleLauchWindow();
+            this.Close();
+        }
     }
 }

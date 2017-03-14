@@ -83,7 +83,8 @@ namespace ThwargLauncher
                     password: _launchItem.Password,
                     ipAddress: _launchItem.ipAddress,
                     emu: _launchItem.EMU,
-                    desiredCharacter: _launchItem.CharacterSelected
+                    desiredCharacter: _launchItem.CharacterSelected,
+                    rodatSetting: _launchItem.RodatSetting
                     );
                 if (!gameLaunchResult.Success)
                 {

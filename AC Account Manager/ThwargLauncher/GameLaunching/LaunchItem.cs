@@ -14,6 +14,7 @@ namespace ThwargLauncher
         public string ServerName;
         public string EMU;
         public string CharacterSelected;
+        public string RodatSetting;
         public string CustomLaunchPath;
         public string CustomPreferencePath;
     }

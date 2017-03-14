@@ -426,7 +426,8 @@ namespace ThwargLauncher
                                     EMU = server.EMU,
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,
-                                    CustomPreferencePath = account.CustomPreferencePath
+                                    CustomPreferencePath = account.CustomPreferencePath,
+                                    RodatSetting = server.RodatSetting
                                 };
                             launchList.Add(launchItem);
                         }

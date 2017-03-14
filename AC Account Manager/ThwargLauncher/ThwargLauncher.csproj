@@ -123,6 +123,10 @@
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SimpleLaunch.xaml.cs">
+      <DependentUpon>SimpleLaunch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleLaunchWindowViewModel.cs" />
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />
@@ -196,6 +200,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SimpleLaunch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

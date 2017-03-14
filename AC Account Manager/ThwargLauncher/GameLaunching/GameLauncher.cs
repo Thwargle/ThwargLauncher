@@ -48,7 +48,7 @@ namespace ThwargLauncher
             }
         }
 
-        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string emu, string desiredCharacter)
+        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string emu, string desiredCharacter, string rodatSetting)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -73,7 +73,16 @@ namespace ThwargLauncher
                 int tok = ipAddress.IndexOf(':');
                 string ip = ipAddress.Substring(0, tok);
                 string port = ipAddress.Substring(tok + 1);
-                string genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat off";
+                string genArgsPhatServer;
+                if(rodatSetting == "true")
+                {
+                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat on";
+                }
+                else
+                {
+                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat off";
+                }
+                
                 genArgs = genArgsPhatServer;
 
             }

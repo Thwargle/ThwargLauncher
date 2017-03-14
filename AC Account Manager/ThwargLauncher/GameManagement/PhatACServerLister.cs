@@ -39,6 +39,7 @@ namespace ThwargLauncher.GameManagement
                     si.ServerName = GetSubvalue(node, "name");
                     si.ServerIP = GetSubvalue(node, "connect_string");
                     si.EMU = EMU;
+                    si.RodatSetting = GetSubvalue(node, "default_rodat");
                     serverItemList.Add(si);
                 }
             }
