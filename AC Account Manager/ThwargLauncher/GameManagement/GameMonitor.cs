@@ -452,5 +452,10 @@ namespace ThwargLauncher
                 GameCommandEvent(gameSession, command);
             }
         }
+
+        public void RemoveGameByPid(int processId)
+        {
+            RemoveObsoleteHeartbeatFileByPid(processId);
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace ThwargLauncher
         public bool Success;
         public int ProcessId;
     }
+    
     public delegate bool ShouldStopLaunching(object sender, EventArgs e);
     /// <summary>
     /// Called by Launch Manager to actually fire off a process for one game
@@ -129,8 +130,10 @@ namespace ThwargLauncher
                 else
                 {
                     //Start Process without Decal
-                    Process.Start(startInfo);
+                    launcherProc = Process.Start(startInfo);
                 }
+                launcherProc.EnableRaisingEvents = true;
+                launcherProc.Exited += LauncherProc_Exited;
 
                 if (!gameReady)
                 {
@@ -203,6 +206,13 @@ namespace ThwargLauncher
                 result.ProcessId = launchResponse.ProcessId;
             }
             return result;
+        }
+
+        private void LauncherProc_Exited(object sender, EventArgs e)
+        {
+            //Logger.WriteInfo("The process ended successfully. sender: " + sender.ToString());
+            Process p = (Process)sender;
+            AppCoordinator.RemoveObsoleteProcess(p.Id);
         }
 
         private string DecalLocation()

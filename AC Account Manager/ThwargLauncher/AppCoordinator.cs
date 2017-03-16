@@ -29,6 +29,10 @@ namespace ThwargLauncher
 
             ShowMainWindow();
         }
+        public static void RemoveObsoleteProcess(int processId)
+        {
+            theAppCoordinator._gameMonitor.RemoveGameByPid(processId);
+        }
         private void BeginMonitoringGame()
         {
             // Logger is a static object, so it already exists
