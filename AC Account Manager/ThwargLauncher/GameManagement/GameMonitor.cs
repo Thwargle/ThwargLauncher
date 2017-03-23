@@ -18,7 +18,7 @@ namespace ThwargLauncher
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
-        private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 5 minutes
+        private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
         private DateTime _lastUpdateUi = DateTime.MinValue;
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard

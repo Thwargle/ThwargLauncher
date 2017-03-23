@@ -20,6 +20,7 @@ namespace ThwargLauncher
     public partial class SimpleLaunch : Window
     {
         private SimpleLaunchWindowViewModel _viewModel;
+        private List<Server.ServerItem> sl = new List<Server.ServerItem>();
         public SimpleLaunch(SimpleLaunchWindowViewModel viewModel)
         {
             InitializeComponent();
@@ -31,6 +32,7 @@ namespace ThwargLauncher
         {
             foreach (Server.ServerItem si in ServerManager.ServerList)
             {
+                sl.Add(si);
                 var serverComboItem = new KeyValuePair<string, string>(si.ServerName, si.ServerIP);
                 cmbServerList.Items.Add(serverComboItem);
             }
@@ -41,6 +43,14 @@ namespace ThwargLauncher
             if (cmbServerList.SelectedItem == null)
             {
                 MessageBox.Show("Please select a server.", "No server selected.");
+            }
+            else
+            {
+                var launcher = new GameLauncher();
+                //TODO: Get actual info to pass into launch command
+                string ipAddress = ;
+                string server = cmbServerList.SelectedValue.ToString();
+                GameLaunchResult glr = launcher.LaunchGameClient("c:\\Turbine\\Asheron's Call\\acclient.exe", ipAddress, txtUserName.Text, txtUserPassword.Text, ipAddress, "PhatAC", null, "False");
             }
         }
     }

@@ -85,7 +85,6 @@ namespace ThwargLauncher
                 }
                 
                 genArgs = genArgsPhatServer;
-
             }
             else
             {
@@ -93,8 +92,6 @@ namespace ThwargLauncher
                 //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
                 string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + arg2;
                 genArgs = genArgsACEServer;
-
-
             }
 
             string pathToFile = exelocation;
@@ -122,7 +119,7 @@ namespace ThwargLauncher
                 string decalInjectPath = DecalLocation();
                 string command = "DecalStartup";
 
-                if (DecalInstalled())
+                if (DecalInstalled() && Properties.Settings.Default.InjectDecal)
                 {
                     //Start Process with Decal Injection
                     launcherProc = Process.GetProcessById(Convert.ToInt32(LaunchInjected(commandLineLaunch, asheronFolder, decalInjectPath, command)));

@@ -166,5 +166,29 @@ namespace ThwargLauncher.Properties {
                 this["AddServerWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool InjectDecal {
+            get {
+                return ((bool)(this["InjectDecal"]));
+            }
+            set {
+                this["InjectDecal"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string ShowSimpleLaunch {
+            get {
+                return ((string)(this["ShowSimpleLaunch"]));
+            }
+            set {
+                this["ShowSimpleLaunch"] = value;
+            }
+        }
     }
 }
