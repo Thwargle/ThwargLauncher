@@ -72,6 +72,7 @@ namespace ThwargLauncher
                 //PHATAC
                 //-h [server ip] -p [server port] -a username:password -rodat off
                 int tok = ipAddress.IndexOf(':');
+                if (tok < 0) { throw new Exception("Phat address missing colon in username:password specification"); }
                 string ip = ipAddress.Substring(0, tok);
                 string port = ipAddress.Substring(tok + 1);
                 string genArgsPhatServer;

@@ -43,15 +43,21 @@ namespace ThwargLauncher
             if (cmbServerList.SelectedItem == null)
             {
                 MessageBox.Show("Please select a server.", "No server selected.");
+                cmbServerList.Focus();
+                return;
             }
-            else
+            if (string.IsNullOrEmpty(txtUserName.Text))
             {
-                var launcher = new GameLauncher();
-                //TODO: Get actual info to pass into launch command
-                string ipAddress = ;
-                string server = cmbServerList.SelectedValue.ToString();
-                GameLaunchResult glr = launcher.LaunchGameClient("c:\\Turbine\\Asheron's Call\\acclient.exe", ipAddress, txtUserName.Text, txtUserPassword.Text, ipAddress, "PhatAC", null, "False");
+                MessageBox.Show("Please enter an acount name.", "No account selected.");
+                txtUserName.Focus();
+                return;
             }
+
+            var launcher = new GameLauncher();
+            //TODO: Get actual info to pass into launch command
+            string ipAddress = "127.0.0.1";
+            string server = cmbServerList.SelectedValue.ToString();
+            GameLaunchResult glr = launcher.LaunchGameClient("c:\\Turbine\\Asheron's Call\\acclient.exe", ipAddress, txtUserName.Text, txtUserPassword.Text, ipAddress, "PhatAC", null, "False");
         }
     }
 }
