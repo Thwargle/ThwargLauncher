@@ -32,8 +32,11 @@
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Green" BorderThickness="1" Padding="5">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Path=ServerName,StringFormat='Name:{0}'}" />
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=ServerName,StringFormat='Name:{0} '}" />
+                                    <TextBlock Text="{Binding Path=EMU}" Foreground="Red" />
+                                </StackPanel>
                                 <TextBlock Text="{Binding Path=ServerIP}" FontStyle="Italic" />
                             </StackPanel>
                         </Border>
