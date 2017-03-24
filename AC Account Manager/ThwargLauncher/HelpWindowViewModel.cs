@@ -20,7 +20,8 @@ namespace ThwargLauncher
         {
             if (_simpleLaunchWindow == null)
             {
-                _simpleLaunchWindow = new SimpleLaunch(new SimpleLaunchWindowViewModel(_configurator));
+                var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
+                _simpleLaunchWindow = new SimpleLaunch(vmodel);
                 _simpleLaunchWindow.Closing += _simpleLaunchWindow_Closing;
             }
             _simpleLaunchWindow.Show();

@@ -25,9 +25,27 @@
                 <RowDefinition Height="*" ></RowDefinition>
                 <RowDefinition Height="*" ></RowDefinition>
             </Grid.RowDefinitions>
-            <ComboBox x:Name="cmbServerList" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 5"/>
-            <TextBox x:Name="txtUserName" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 0" />
-            <TextBox x:Name="txtUserPassword" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 35 5 0" />
+            <ComboBox x:Name="cmbServerList"
+                      ItemsSource="{Binding Path=Servers}"
+                      SelectedItem="{Binding Path=SelectedServer}"
+                      Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 5">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Green" BorderThickness="1" Padding="5">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Path=ServerName,StringFormat='Name:{0}'}" />
+                                <TextBlock Text="{Binding Path=ServerIP}" FontStyle="Italic" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox x:Name="txtUserName"
+                     Text="{Binding Path=AccountName, Mode=TwoWay}"
+                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 0" />
+            <TextBox x:Name="txtUserPassword"
+                     Text="{Binding Path=Password, Mode=TwoWay}"
+                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 35 5 0" />
             <Button x:Name="btnLaunch" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 30 5 0" Content="Launch" Click="btnLaunch_Click" />
         </Grid>
     </Grid>
