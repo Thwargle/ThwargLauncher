@@ -54,6 +54,7 @@ namespace ThwargLauncher
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
             if (string.IsNullOrWhiteSpace(exelocation)) { throw new Exception("Empty exelocation"); }
+            if (!File.Exists(exelocation)) { throw new Exception("Missing exe: " + exelocation); }
             if (string.IsNullOrWhiteSpace(serverName)) { throw new Exception("Empty serverName"); }
             if (string.IsNullOrWhiteSpace(accountName)) { throw new Exception("Empty accountName"); }
             string arg1 = accountName;
@@ -115,14 +116,14 @@ namespace ThwargLauncher
                 DateTime loginTime = DateTime.MaxValue;
 
                 startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
-                string commandLineLaunch = startInfo.FileName + " " + startInfo.Arguments;
-                string asheronFolder = startInfo.WorkingDirectory;
-                string decalInjectPath = DecalLocation();
-                string command = "DecalStartup";
 
-                if (DecalInstalled() && Properties.Settings.Default.InjectDecal)
+                if (IsDecalInstalled() && Properties.Settings.Default.InjectDecal)
                 {
                     //Start Process with Decal Injection
+                    string commandLineLaunch = startInfo.FileName + " " + startInfo.Arguments;
+                    string decalInjectPath = GetDecalLocation();
+                    string command = "DecalStartup";
+                    string asheronFolder = startInfo.WorkingDirectory;
                     launcherProc = Process.GetProcessById(Convert.ToInt32(LaunchInjected(commandLineLaunch, asheronFolder, decalInjectPath, command)));
                 }
                 else
@@ -213,13 +214,17 @@ namespace ThwargLauncher
             AppCoordinator.RemoveObsoleteProcess(p.Id);
         }
 
-        private string DecalLocation()
+        private string GetDecalLocation()
         {
             string subKey = "SOFTWARE\\Decal\\Agent";
             try
             {
                 RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
+                if (sk1 == null) { throw new Exception("Decal registry key not found: " + subKey); }
+
                 string decalInjectionFile = (string)sk1.GetValue("AgentPath", "");
+                if (string.IsNullOrEmpty(decalInjectionFile)) { throw new Exception("Decal AgentPath"); }
+
                 decalInjectionFile += "Inject.dll";
 
                 if (decalInjectionFile.Length > 5 && File.Exists(decalInjectionFile))
@@ -234,25 +239,25 @@ namespace ThwargLauncher
             return "NoDecal";
         }
 
-        private bool DecalInstalled()
+        private bool IsDecalInstalled()
         {
             string subKey = "SOFTWARE\\Decal\\Agent";
             try
             {
                 RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
+                if (sk1 == null) { return false; }
                 string decalInjectionFile = (string)sk1.GetValue("AgentPath", "");
+                if (string.IsNullOrEmpty(decalInjectionFile)) { return false; }
                 decalInjectionFile += "Inject.dll";
 
-                if (decalInjectionFile.Length > 5 && File.Exists(decalInjectionFile))
-                {
-                    return true;
-                }
+                if (!File.Exists(decalInjectionFile)) { return false; }
+
+                return true;
             }
             catch (Exception exc)
             {
                 throw new Exception("No Decal in registry: " + exc.Message);
             }
-            return false;
         }
 
         private bool IsValidCharacterName(string characterName)
