@@ -22,7 +22,7 @@ namespace ThwargLauncher.GameManagement
             List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
             try
             {
-                var m_strFilePath = "https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml";
+                var m_strFilePath = Properties.Settings.Default.PhatServerListUrl;
                 string xmlStr;
                 using (var wc = new WebClient())
                 {

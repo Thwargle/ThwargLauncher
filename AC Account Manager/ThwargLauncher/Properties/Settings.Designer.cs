@@ -202,5 +202,15 @@ namespace ThwargLauncher.Properties {
                 this["SimpleLaunchWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xm" +
+            "l")]
+        public string PhatServerListUrl {
+            get {
+                return ((string)(this["PhatServerListUrl"]));
+            }
+        }
     }
 }
