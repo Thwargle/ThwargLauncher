@@ -36,10 +36,12 @@ namespace ThwargLauncher
         private void LoadWindowSettings()
         {
             this.SetPlacement(Properties.Settings.Default.SimpleLaunchWindowPlacement);
+            this.chkUserDecal.IsChecked = Properties.Settings.Default.InjectDecal;
         }
         private void SaveWindowSettings()
         {
             Properties.Settings.Default.SimpleLaunchWindowPlacement = this.GetPlacement();
+            Properties.Settings.Default.InjectDecal = this.chkUserDecal.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
 

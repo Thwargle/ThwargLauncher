@@ -104,6 +104,7 @@
       <DependentUpon>DiagnosticWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DiagnosticWindowViewModel.cs" />
+    <Compile Include="GameLaunching\DecalInjection.cs" />
     <Compile Include="GameManagement\AceServerLister.cs" />
     <Compile Include="GameManagement\CommandManager.cs" />
     <Compile Include="GameManagement\GameMonitor.cs" />

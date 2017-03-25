@@ -50,6 +50,10 @@
                      Text="{Binding Path=Password, Mode=TwoWay}"
                      Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 35 5 0" />
             <Button x:Name="btnLaunch" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 30 5 0" Content="Launch" Click="btnLaunch_Click" />
+            <CheckBox x:Name="chkUserDecal"
+                      IsChecked="{Binding Path=UseDecal}"
+                      IsEnabled="{Binding Path=UseDecalEnabled}"
+                      Content="CheckBox" Grid.Row="3" HorizontalAlignment="Left" Margin="36,30.4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.197,-0.553"/>
         </Grid>
     </Grid>
 </Window>

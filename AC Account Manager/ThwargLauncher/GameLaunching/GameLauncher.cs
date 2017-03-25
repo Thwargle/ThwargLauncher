@@ -117,11 +117,11 @@ namespace ThwargLauncher
 
                 startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
 
-                if (IsDecalInstalled() && Properties.Settings.Default.InjectDecal)
+                if (DecalInjection.IsDecalInstalled() && Properties.Settings.Default.InjectDecal)
                 {
                     //Start Process with Decal Injection
                     string commandLineLaunch = startInfo.FileName + " " + startInfo.Arguments;
-                    string decalInjectPath = GetDecalLocation();
+                    string decalInjectPath = DecalInjection.GetDecalLocation();
                     string command = "DecalStartup";
                     string asheronFolder = startInfo.WorkingDirectory;
                     launcherProc = Process.GetProcessById(Convert.ToInt32(LaunchInjected(commandLineLaunch, asheronFolder, decalInjectPath, command)));
@@ -212,52 +212,6 @@ namespace ThwargLauncher
             //Logger.WriteInfo("The process ended successfully. sender: " + sender.ToString());
             Process p = (Process)sender;
             AppCoordinator.RemoveObsoleteProcess(p.Id);
-        }
-
-        private string GetDecalLocation()
-        {
-            string subKey = "SOFTWARE\\Decal\\Agent";
-            try
-            {
-                RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
-                if (sk1 == null) { throw new Exception("Decal registry key not found: " + subKey); }
-
-                string decalInjectionFile = (string)sk1.GetValue("AgentPath", "");
-                if (string.IsNullOrEmpty(decalInjectionFile)) { throw new Exception("Decal AgentPath"); }
-
-                decalInjectionFile += "Inject.dll";
-
-                if (decalInjectionFile.Length > 5 && File.Exists(decalInjectionFile))
-                {
-                    return decalInjectionFile;
-                }
-            }
-            catch(Exception exc)
-            {
-                throw new Exception("No Decal in registry: " + exc.Message);
-            }
-            return "NoDecal";
-        }
-
-        private bool IsDecalInstalled()
-        {
-            string subKey = "SOFTWARE\\Decal\\Agent";
-            try
-            {
-                RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
-                if (sk1 == null) { return false; }
-                string decalInjectionFile = (string)sk1.GetValue("AgentPath", "");
-                if (string.IsNullOrEmpty(decalInjectionFile)) { return false; }
-                decalInjectionFile += "Inject.dll";
-
-                if (!File.Exists(decalInjectionFile)) { return false; }
-
-                return true;
-            }
-            catch (Exception exc)
-            {
-                throw new Exception("No Decal in registry: " + exc.Message);
-            }
         }
 
         private bool IsValidCharacterName(string characterName)

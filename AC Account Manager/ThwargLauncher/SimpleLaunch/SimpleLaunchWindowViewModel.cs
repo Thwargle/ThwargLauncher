@@ -27,6 +27,8 @@ namespace ThwargLauncher
         public Server.ServerItem SelectedServer { get; set; }
         public string AccountName { get; set; }
         public string Password { get; set; }
+        public bool UseDecal { get; set; }
+        public bool UseDecalEnabled { get { return DecalInjection.IsDecalInstalled(); } }
 
         private void OnPropertyChanged(string propertyName)
         {
