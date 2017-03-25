@@ -9,8 +9,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WindowPlacementUtil;
 
 namespace ThwargLauncher
 {
@@ -26,6 +26,21 @@ namespace ThwargLauncher
             InitializeComponent();
             _viewModel = viewModel;
             this.DataContext = _viewModel;
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            LoadWindowSettings();
+        }
+        private void LoadWindowSettings()
+        {
+            this.SetPlacement(Properties.Settings.Default.SimpleLaunchWindowPlacement);
+        }
+        private void SaveWindowSettings()
+        {
+            Properties.Settings.Default.SimpleLaunchWindowPlacement = this.GetPlacement();
+            Properties.Settings.Default.Save();
         }
 
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
@@ -52,6 +67,11 @@ namespace ThwargLauncher
             var launcher = new GameLauncher();
             GameLaunchResult glr = launcher.LaunchGameClient(path, server.ServerName, account, pwd, server.ServerIP, server.EMU, null, server.RodatSetting);
             return glr;
+        }
+
+        private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveWindowSettings();
         }
     }
 }
