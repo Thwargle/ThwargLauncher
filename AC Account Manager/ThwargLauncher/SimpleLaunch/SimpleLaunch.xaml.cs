@@ -60,8 +60,7 @@ namespace ThwargLauncher
                 return;
             }
 
-            //TODO: Get actual info to pass into launch command
-            string path = "c:\\Turbine\\Asheron's Call\\acclient.exe";
+            string path = Properties.Settings.Default.ACLocation; // "c:\\Turbine\\Asheron's Call\\acclient.exe";
             GameLaunchResult glr = LaunchSimpleGame(path, _viewModel.SelectedServer, _viewModel.AccountName, _viewModel.Password);
         }
         private GameLaunchResult LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
