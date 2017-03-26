@@ -85,18 +85,6 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ChooseProfileWindowPlacement {
-            get {
-                return ((string)(this["ChooseProfileWindowPlacement"]));
-            }
-            set {
-                this["ChooseProfileWindowPlacement"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowHelpAtStart {
             get {
