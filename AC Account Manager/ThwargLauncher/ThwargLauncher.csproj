@@ -98,6 +98,8 @@
     </Compile>
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="AppCoordinator.cs" />
+    <Compile Include="AppSettings\JSON.cs" />
+    <Compile Include="AppSettings\WpfWindowPlacementSetting.cs" />
     <Compile Include="CharacterSetting.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="DiagnosticWindow.xaml.cs">
@@ -124,6 +126,7 @@
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="SimpleLaunch\SimpleLaunch.xaml.cs">
       <DependentUpon>SimpleLaunch.xaml</DependentUpon>
     </Compile>

@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.IO;
 using ThwargLauncher.AccountManagement;
-using WindowPlacementUtil;
 using ThwargLauncher.UtilityCode;
 
 namespace ThwargLauncher
@@ -71,6 +70,7 @@ namespace ThwargLauncher
             {
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
             }
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
         private void PopulateServerList()
@@ -129,20 +129,6 @@ namespace ThwargLauncher
                 Properties.Settings.Default.NeedsUpgrade = false;
                 Properties.Settings.Default.Save();
             }
-        }
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            LoadWindowSettings();
-        }
-        private void LoadWindowSettings()
-        {
-            this.SetPlacement(Properties.Settings.Default.MainWindowPlacement);
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.MainWindowPlacement = this.GetPlacement();
-            Properties.Settings.Default.Save();
         }
         private void LoadImages()
         {
@@ -553,7 +539,6 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveWindowSettings();
             SaveCurrentProfile();
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
