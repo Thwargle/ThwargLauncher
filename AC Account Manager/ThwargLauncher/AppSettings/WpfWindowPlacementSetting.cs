@@ -23,12 +23,22 @@ namespace ThwargLauncher.AppSettings
         }
         static void LoadPlacement(PersistenceHelper.ISettings settings, Window window, string key)
         {
-            window.SetPlacement(settings.GetString(key, null));
+            if (!IsShiftDown())
+            {
+                window.SetPlacement(settings.GetString(key, null));
+            }
+        }
+        private static bool IsShiftDown()
+        {
+            return (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Shift) == System.Windows.Input.ModifierKeys.Shift;
         }
         static void SavePlacement(PersistenceHelper.ISettings settings, Window window, string key)
         {
-            settings.SetString(key, window.GetPlacement());
-            settings.Save();
+            if (!IsShiftDown())
+            {
+                settings.SetString(key, window.GetPlacement());
+                settings.Save();
+            }
         }
     }
 }

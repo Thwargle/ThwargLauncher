@@ -51,13 +51,18 @@ namespace PersistenceHelper
 
         public string GetString(string key, string defval = "")
         {
-            if (_values == null) { Load(); }
+            InitializeIfNeeded();
             if (!_values.ContainsKey(key)) { return defval; }
             return ObjToString(_values[key]);
         }
         public void SetString(string key, string value)
         {
+            InitializeIfNeeded();
             _values[key] = value;
+        }
+        private void InitializeIfNeeded()
+        {
+            if (_values == null) { Load(); }
         }
         private string ObjToString(object obj)
         {
