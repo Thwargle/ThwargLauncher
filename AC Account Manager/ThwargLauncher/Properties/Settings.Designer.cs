@@ -97,18 +97,6 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string HelpWindowPlacement {
-            get {
-                return ((string)(this["HelpWindowPlacement"]));
-            }
-            set {
-                this["HelpWindowPlacement"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowHelpAtStart {
             get {

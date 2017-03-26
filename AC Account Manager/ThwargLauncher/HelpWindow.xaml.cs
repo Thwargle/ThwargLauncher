@@ -26,20 +26,7 @@ namespace ThwargLauncher
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var assemblyTitle = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             this.Title = string.Format("Help - {0} {1}", assemblyTitle, version);
-        }
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            LoadWindowSettings();
-        }
-        private void LoadWindowSettings()
-        {
-            this.SetPlacement(Properties.Settings.Default.HelpWindowPlacement);
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.HelpWindowPlacement = this.GetPlacement();
-            Properties.Settings.Default.Save();
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
         private void btnDefaultPreferences_Click(object sender, RoutedEventArgs e)
@@ -83,7 +70,6 @@ namespace ThwargLauncher
             }
             Properties.Settings.Default.ShowHelpAtStart = chkShowStartup.IsChecked.Value;
             Properties.Settings.Default.Save();
-            SaveWindowSettings();
         }
 
         private void btnSimpleLaunch_Click(object sender, RoutedEventArgs e)
