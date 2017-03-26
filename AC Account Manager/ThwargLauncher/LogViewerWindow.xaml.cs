@@ -30,22 +30,8 @@ namespace ThwargLauncher
             words = TestData.Split(' ').ToList();
             maxword = words.Count - 1;
 
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
             DataContext = _viewModel.LogEntries;
-        }
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            LoadWindowSettings();
-        }
-        private void LoadWindowSettings()
-        {
-            this.SetPlacement(Properties.Settings.Default.LogViewerWindowPlacement);
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.LogViewerWindowPlacement = this.GetPlacement();
-            Properties.Settings.Default.Save();
         }
 
         private System.Random random;
@@ -72,11 +58,6 @@ namespace ThwargLauncher
                                      .Select(i => GetRandomEntry())
                                      .ToList()
             };
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveWindowSettings();
         }
     }
 }

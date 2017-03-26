@@ -24,20 +24,7 @@ namespace ThwargLauncher
             _userAccounts = userAccounts.ToList();
             InitializeComponent();
             txtUser1.Focus();
-        }
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            LoadWindowSettings();
-        }
-        private void LoadWindowSettings()
-        {
-            this.SetPlacement(Properties.Settings.Default.AddUsersWindowPlacement);
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.AddUsersWindowPlacement = this.GetPlacement();
-            Properties.Settings.Default.Save();
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -110,11 +97,6 @@ namespace ThwargLauncher
             {
                 return acct.Name.GetHashCode();
             }
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveWindowSettings();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

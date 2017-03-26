@@ -29,7 +29,7 @@ namespace ThwargLauncher.AccountManagement
         public AddServer()
         {
             InitializeComponent();
-            LoadWindowSettings();
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -46,7 +46,6 @@ namespace ThwargLauncher.AccountManagement
                 createElement(doc);
                 doc.Save("PhatACServerList.xml");
             }
-            SaveWindowSettings();
             this.Close();
         }
 
@@ -70,20 +69,6 @@ namespace ThwargLauncher.AccountManagement
                             new XElement("default_password", "password"),
                             new XElement("allow_dual_log", "true"))
                     );
-        }
-
-        private void LoadWindowSettings()
-        {
-            this.SetPlacement(Properties.Settings.Default.AddServerWindowPlacement);
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.AddUsersWindowPlacement = this.GetPlacement();
-            Properties.Settings.Default.Save();
-        }
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveWindowSettings();
         }
     }
 }

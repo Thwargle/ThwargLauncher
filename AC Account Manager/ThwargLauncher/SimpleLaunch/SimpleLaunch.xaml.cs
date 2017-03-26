@@ -26,21 +26,15 @@ namespace ThwargLauncher
             InitializeComponent();
             _viewModel = viewModel;
             this.DataContext = _viewModel;
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            LoadWindowSettings();
-        }
         private void LoadWindowSettings()
         {
-            this.SetPlacement(Properties.Settings.Default.SimpleLaunchWindowPlacement);
             this.chkUserDecal.IsChecked = Properties.Settings.Default.InjectDecal;
         }
         private void SaveWindowSettings()
         {
-            Properties.Settings.Default.SimpleLaunchWindowPlacement = this.GetPlacement();
             Properties.Settings.Default.InjectDecal = this.chkUserDecal.IsChecked.Value;
             Properties.Settings.Default.Save();
         }

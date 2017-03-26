@@ -8,9 +8,6 @@
     <Setting Name="ACLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AddUsersWindowPlacement" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="LastProfileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Default</Value>
     </Setting>
@@ -20,23 +17,11 @@
     <Setting Name="ShowHelpAtStart" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="AccountEditorWindowPlacement" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LogViewerWindowPlacement" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="AddServerWindowPlacement" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="InjectDecal" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ShowSimpleLaunch" Type="System.String" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SimpleLaunchWindowPlacement" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="PhatServerListUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml</Value>

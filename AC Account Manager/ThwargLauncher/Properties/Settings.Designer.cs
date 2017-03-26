@@ -49,18 +49,6 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AddUsersWindowPlacement {
-            get {
-                return ((string)(this["AddUsersWindowPlacement"]));
-            }
-            set {
-                this["AddUsersWindowPlacement"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Default")]
         public string LastProfileName {
             get {
@@ -97,42 +85,6 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AccountEditorWindowPlacement {
-            get {
-                return ((string)(this["AccountEditorWindowPlacement"]));
-            }
-            set {
-                this["AccountEditorWindowPlacement"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LogViewerWindowPlacement {
-            get {
-                return ((string)(this["LogViewerWindowPlacement"]));
-            }
-            set {
-                this["LogViewerWindowPlacement"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AddServerWindowPlacement {
-            get {
-                return ((string)(this["AddServerWindowPlacement"]));
-            }
-            set {
-                this["AddServerWindowPlacement"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool InjectDecal {
             get {
@@ -152,18 +104,6 @@ namespace ThwargLauncher.Properties {
             }
             set {
                 this["ShowSimpleLaunch"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SimpleLaunchWindowPlacement {
-            get {
-                return ((string)(this["SimpleLaunchWindowPlacement"]));
-            }
-            set {
-                this["SimpleLaunchWindowPlacement"] = value;
             }
         }
         

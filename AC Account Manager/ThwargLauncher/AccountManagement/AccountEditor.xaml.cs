@@ -23,24 +23,7 @@ namespace ThwargLauncher.AccountManagement
         public AccountEditor()
         {
             InitializeComponent();
-        }
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            LoadWindowSettings();
-        }
-        private void LoadWindowSettings()
-        {
-            this.SetPlacement(Properties.Settings.Default.AccountEditorWindowPlacement);
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.AccountEditorWindowPlacement = this.GetPlacement();
-            Properties.Settings.Default.Save();
-        }
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SaveWindowSettings();
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
         private void WriteAccountSettings()
         {
