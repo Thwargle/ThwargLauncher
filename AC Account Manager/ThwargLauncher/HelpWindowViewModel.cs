@@ -16,13 +16,15 @@ namespace ThwargLauncher
         {
             return new DiagnosticWindowViewModel(_configurator);
         }
-        public void DisplaySimpleLauchWindow()
+        public void DisplaySimpleLaunchWindow()
         {
             if (_simpleLaunchWindow == null)
             {
                 var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
                 _simpleLaunchWindow = new SimpleLaunch(vmodel);
                 _simpleLaunchWindow.Closing += _simpleLaunchWindow_Closing;
+                if (SimpleLauncher != null)
+                    SimpleLauncher();
             }
             _simpleLaunchWindow.Show();
         }
@@ -30,5 +32,7 @@ namespace ThwargLauncher
         {
             _simpleLaunchWindow = null;
         }
+
+        public event HandleEvent SimpleLauncher;
     }
 }

@@ -50,6 +50,7 @@ namespace ThwargLauncher
             _gameMonitor = gameMonitor;
             _uicontext = SynchronizationContext.Current;
 
+            _viewModel.LaunchingSimpleLauncher += () => this.Close();
             CheckForProgramUpdate();
             InitializeComponent();
             DataContext = _viewModel;

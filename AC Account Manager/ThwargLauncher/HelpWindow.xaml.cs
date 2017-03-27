@@ -80,7 +80,7 @@ namespace ThwargLauncher
                 MessageBox.Show("Client exe not found: " + exepath, "Launcher configuration error");
                 return;
             }
-            _viewModel.DisplaySimpleLauchWindow();
+            _viewModel.DisplaySimpleLaunchWindow();
             this.Close();
         }
     }

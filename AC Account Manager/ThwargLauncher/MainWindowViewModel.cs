@@ -9,8 +9,11 @@ using CommonControls;
 
 namespace ThwargLauncher
 {
+    public delegate void HandleEvent();
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        public event HandleEvent LaunchingSimpleLauncher;
+
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
         HelpWindow _helpWindow = null;
@@ -310,11 +313,20 @@ namespace ThwargLauncher
         {
             if (_helpWindow == null)
             {
-                _helpWindow = new HelpWindow(new HelpWindowViewModel(_configurator));
+                var vm = new HelpWindowViewModel(_configurator);
+                _helpWindow = new HelpWindow(vm);
                 _helpWindow.Closing += _helpWindow_Closing;
+                vm.SimpleLauncher += OnSimpleLauncher;
             }
             _helpWindow.Show();
         }
+
+        private void OnSimpleLauncher()
+        {
+            if(LaunchingSimpleLauncher != null)
+                LaunchingSimpleLauncher();
+        }
+
         void _helpWindow_Closing(object sender, CancelEventArgs e)
         {
             _helpWindow = null;
