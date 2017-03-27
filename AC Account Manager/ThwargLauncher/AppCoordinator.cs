@@ -12,6 +12,7 @@ namespace ThwargLauncher
     class AppCoordinator
     {
         private static AppCoordinator theAppCoordinator = null;
+        private MainWindow _mainWindow;
         private MainWindowViewModel _viewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
         private GameSessionMap _gameSessionMap;
@@ -67,9 +68,9 @@ namespace ThwargLauncher
         }
         private void ShowMainWindow()
         {
-            var mainWindow = new MainWindow(_viewModel, _gameSessionMap, _gameMonitor);
-            mainWindow.Closing += mainWindow_Closing;
-            mainWindow.Show();
+            _mainWindow = new MainWindow(_viewModel, _gameSessionMap, _gameMonitor);
+            _mainWindow.Closing += mainWindow_Closing;
+            _mainWindow.Show();
         }
         internal string GetLauncherLogPath()
         {

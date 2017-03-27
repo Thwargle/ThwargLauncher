@@ -17,5 +17,6 @@ namespace ThwargLauncher
         public string RodatSetting;
         public string CustomLaunchPath;
         public string CustomPreferencePath;
+        public bool IsSimpleLaunch;
     }
 }

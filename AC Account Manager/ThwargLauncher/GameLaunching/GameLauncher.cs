@@ -49,7 +49,7 @@ namespace ThwargLauncher
             }
         }
 
-        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string emu, string desiredCharacter, string rodatSetting)
+        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string emu, string desiredCharacter, string rodatSetting, bool simpleLaunch)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -97,7 +97,10 @@ namespace ThwargLauncher
             }
 
             string pathToFile = exelocation;
+            //check if we're doing a simple launch. If we are, ignore the fancy management stuff
             bool gameReady = false;
+            if (simpleLaunch)
+                gameReady = true;
             Process launcherProc = null;
             LaunchControl.LaunchResponse launchResponse = null;
             try
@@ -204,6 +207,8 @@ namespace ThwargLauncher
                 result.Success = gameReady;
                 result.ProcessId = launchResponse.ProcessId;
             }
+            if (simpleLaunch)
+                result.Success = true;
             return result;
         }
 

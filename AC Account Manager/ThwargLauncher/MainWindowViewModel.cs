@@ -10,9 +10,11 @@ using CommonControls;
 namespace ThwargLauncher
 {
     public delegate void HandleEvent();
+    public delegate void LaunchGameDelegateMethod(LaunchItem launchItem);
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        public event HandleEvent LaunchingSimpleLauncher;
+        public event HandleEvent OpeningSimpleLauncherEvent;
+        public event LaunchGameDelegateMethod LaunchingSimpleGameEvent;
 
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
@@ -313,18 +315,25 @@ namespace ThwargLauncher
         {
             if (_helpWindow == null)
             {
-                var vm = new HelpWindowViewModel(_configurator);
-                _helpWindow = new HelpWindow(vm);
+                var hwvm = new HelpWindowViewModel(_configurator);
+                hwvm.OpeningSimpleLauncherEvent += OnSimpleLauncher;
+                hwvm.LaunchingSimpleGameEvent += Hwvm_LaunchingEvent;
+                _helpWindow = new HelpWindow(hwvm);
                 _helpWindow.Closing += _helpWindow_Closing;
-                vm.SimpleLauncher += OnSimpleLauncher;
             }
             _helpWindow.Show();
         }
 
+        private void Hwvm_LaunchingEvent(LaunchItem launchItem)
+        {
+            if (LaunchingSimpleGameEvent == null) { throw new Exception("MainWindowViewModel lacks LaunchingEvent"); }
+            LaunchingSimpleGameEvent(launchItem);
+        }
+
         private void OnSimpleLauncher()
         {
-            if(LaunchingSimpleLauncher != null)
-                LaunchingSimpleLauncher();
+            if(OpeningSimpleLauncherEvent != null)
+                OpeningSimpleLauncherEvent();
         }
 
         void _helpWindow_Closing(object sender, CancelEventArgs e)

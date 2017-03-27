@@ -50,7 +50,9 @@ namespace ThwargLauncher
             _gameMonitor = gameMonitor;
             _uicontext = SynchronizationContext.Current;
 
-            _viewModel.LaunchingSimpleLauncher += () => this.Close();
+            _viewModel.OpeningSimpleLauncherEvent += () => this.Hide();
+            _viewModel.LaunchingSimpleGameEvent += (li) => this.LaunchSimpleClient(li);
+
             CheckForProgramUpdate();
             InitializeComponent();
             DataContext = _viewModel;
@@ -331,6 +333,26 @@ namespace ThwargLauncher
         private class WorkerArgs
         {
             public System.Collections.Concurrent.ConcurrentQueue<LaunchItem> ConcurrentLaunchQueue;
+        }
+        private void LaunchSimpleClient(LaunchItem launchItem)
+        {
+            if (_worker.IsBusy)
+            {
+                lblWorkerProgress.Content = "Launcher In Use";
+            }
+            else
+            {
+                _launchConcurrentQueue.Enqueue(launchItem);
+                EnableInterface(false);
+                btnCancel.IsEnabled = true;
+                UpdateConcurrentQueue();
+                _viewModel.RecordProfileLaunch();
+                WorkerArgs args = new WorkerArgs()
+                {
+                    ConcurrentLaunchQueue = _launchConcurrentQueue
+                };
+                _worker.RunWorkerAsync(args);
+            }
         }
         private void LaunchAllClientsOnAllServersOnThread()
         {

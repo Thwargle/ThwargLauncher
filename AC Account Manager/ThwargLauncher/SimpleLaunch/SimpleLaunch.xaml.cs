@@ -19,6 +19,7 @@ namespace ThwargLauncher
     /// </summary>
     public partial class SimpleLaunch : Window
     {
+        public event LaunchGameDelegateMethod LaunchingEvent;
         private SimpleLaunchWindowViewModel _viewModel;
         //private List<Server.ServerItem> sl = new List<Server.ServerItem>();
         public SimpleLaunch(SimpleLaunchWindowViewModel viewModel)
@@ -28,9 +29,13 @@ namespace ThwargLauncher
             this.DataContext = _viewModel;
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
-
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            LoadWindowSettings();
+        }
         private void LoadWindowSettings()
         {
+            var x = this.Owner;
             this.chkUserDecal.IsChecked = Properties.Settings.Default.InjectDecal;
         }
         private void SaveWindowSettings()
@@ -55,18 +60,38 @@ namespace ThwargLauncher
             }
 
             string path = Properties.Settings.Default.ACLocation; // "c:\\Turbine\\Asheron's Call\\acclient.exe";
-            GameLaunchResult glr = LaunchSimpleGame(path, _viewModel.SelectedServer, _viewModel.AccountName, _viewModel.Password);
+           LaunchSimpleGame(path, _viewModel.SelectedServer, _viewModel.AccountName, _viewModel.Password);
         }
-        private GameLaunchResult LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
+
+        private void LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
         {
-            var launcher = new GameLauncher();
-            GameLaunchResult glr = launcher.LaunchGameClient(path, server.ServerName, account, pwd, server.ServerIP, server.EMU, null, server.RodatSetting);
-            return glr;
+            SaveWindowSettings();
+            var launchItem = new LaunchItem();
+            launchItem.CustomLaunchPath = path;
+            launchItem.ServerName = server.ServerName;
+            launchItem.AccountName = account;
+            launchItem.Password = pwd;
+            launchItem.ipAddress = server.ServerIP;
+            launchItem.EMU = server.EMU;
+            launchItem.CharacterSelected = null; // no character choices for SimpleLaunch, b/c that requires MagFilter
+            launchItem.RodatSetting = server.RodatSetting;
+            launchItem.IsSimpleLaunch = true;
+
+            LaunchingEvent(launchItem);
+
+            ////var launcher = new GameLauncher();
+            ////GameLaunchResult glr = launcher.LaunchGameClient(path, server.ServerName, account, pwd, server.ServerIP, server.EMU, null, server.RodatSetting);
+            ////return glr;
         }
 
         private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveWindowSettings();
+            foreach (Window w in App.Current.Windows)
+            {
+                if(w != this)
+                    w.Show();
+            }
         }
     }
 }

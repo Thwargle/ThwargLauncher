@@ -81,7 +81,7 @@ namespace ThwargLauncher
                 return;
             }
             _viewModel.DisplaySimpleLaunchWindow();
-            this.Close();
+            this.Hide();
         }
     }
 }
