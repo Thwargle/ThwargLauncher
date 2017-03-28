@@ -50,5 +50,10 @@ namespace ThwargLauncher
         {
             _viewModel.SaveToSettings();
         }
+
+        private void btnMain_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

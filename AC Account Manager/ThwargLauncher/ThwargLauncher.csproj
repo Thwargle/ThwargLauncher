@@ -244,9 +244,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\acwallpaperwideaerbax.jpg">
+    <Content Include="Images\acwallpaperwideaerbax.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="PhatACServerList.xml">
