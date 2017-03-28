@@ -21,6 +21,7 @@ namespace ThwargLauncher
         HelpWindow _helpWindow = null;
         LogViewerViewModel _logViewerViewmodel = new LogViewerViewModel();
         LogViewerWindow _logViewer = null;
+        SimpleLaunchWindow _simpleLaunchWindow = null;
 
         public void Reset()
         {
@@ -317,29 +318,33 @@ namespace ThwargLauncher
             {
                 var hwvm = new HelpWindowViewModel(_configurator);
                 hwvm.OpeningSimpleLauncherEvent += OnSimpleLauncher;
-                hwvm.LaunchingSimpleGameEvent += Hwvm_LaunchingEvent;
                 _helpWindow = new HelpWindow(hwvm);
-                _helpWindow.Closing += _helpWindow_Closing;
+                _helpWindow.Closing += (s,e) => _helpWindow = null;
             }
             _helpWindow.Show();
         }
 
-        private void Hwvm_LaunchingEvent(LaunchItem launchItem)
-        {
-            if (LaunchingSimpleGameEvent == null) { throw new Exception("MainWindowViewModel lacks LaunchingEvent"); }
-            LaunchingSimpleGameEvent(launchItem);
-        }
-
         private void OnSimpleLauncher()
         {
+            if (_simpleLaunchWindow == null)
+            {
+                var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
+                vmodel.LaunchingEvent += OnRequestExecuteSimpleLaunch;
+                _simpleLaunchWindow = new SimpleLaunchWindow(vmodel);
+                _simpleLaunchWindow.Closing += (s, e) => _simpleLaunchWindow = null;
+            }
+            _simpleLaunchWindow.Show();
+
             if(OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();
         }
 
-        void _helpWindow_Closing(object sender, CancelEventArgs e)
+        void OnRequestExecuteSimpleLaunch(LaunchItem launchItem)
         {
-            _helpWindow = null;
+            if (LaunchingSimpleGameEvent == null) { throw new Exception("MainWindowViewModel null LaunchingSimpleGameEvent"); }
+            LaunchingSimpleGameEvent(launchItem);
         }
+
         public void DisplayLogWindow()
         {
             if (_logViewer == null)

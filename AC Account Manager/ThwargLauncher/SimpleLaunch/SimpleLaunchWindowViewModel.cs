@@ -69,6 +69,7 @@ namespace ThwargLauncher
             launchItem.RodatSetting = server.RodatSetting;
             launchItem.IsSimpleLaunch = true;
 
+            if (LaunchingEvent == null) { throw new Exception("SimpleLaunchWindowViewModel.LaunchingEvent null"); }
             LaunchingEvent(launchItem);
 
             ////var launcher = new GameLauncher();

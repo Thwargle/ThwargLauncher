@@ -50,7 +50,7 @@ namespace ThwargLauncher
             _gameMonitor = gameMonitor;
             _uicontext = SynchronizationContext.Current;
 
-            _viewModel.OpeningSimpleLauncherEvent += OnOpeningSimpleLauncherEvent;
+            _viewModel.OpeningSimpleLauncherEvent += () => this.Hide();
             _viewModel.LaunchingSimpleGameEvent += (li) => this.LaunchSimpleClient(li);
 
             CheckForProgramUpdate();
@@ -74,11 +74,6 @@ namespace ThwargLauncher
                 txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
             }
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
-        }
-
-        void OnOpeningSimpleLauncherEvent()
-        {
-            this.Hide();
         }
 
         private void PopulateServerList()
