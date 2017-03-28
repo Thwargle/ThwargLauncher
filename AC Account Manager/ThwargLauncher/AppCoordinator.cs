@@ -13,7 +13,7 @@ namespace ThwargLauncher
     {
         private static AppCoordinator theAppCoordinator = null;
         private MainWindow _mainWindow;
-        private MainWindowViewModel _viewModel;
+        private MainWindowViewModel _mainViewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
@@ -42,11 +42,12 @@ namespace ThwargLauncher
             _configurator = new Configurator();
             RecordGameDll();
             _gameSessionMap = new GameSessionMap();
-            _viewModel = new MainWindowViewModel(_gameSessionMap, _configurator);
+            _mainViewModel = new MainWindowViewModel(_gameSessionMap, _configurator);
+            _mainViewModel.RequestShowMainWindowEvent += () => _mainWindow.Show();
             _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _commandManager = new CommandManager(_gameMonitor, _gameSessionMap);
             TestParse();
-            _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _viewModel);
+            _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _mainViewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
         }
@@ -68,7 +69,7 @@ namespace ThwargLauncher
         }
         private void ShowMainWindow()
         {
-            _mainWindow = new MainWindow(_viewModel, _gameSessionMap, _gameMonitor);
+            _mainWindow = new MainWindow(_mainViewModel, _gameSessionMap, _gameMonitor);
             _mainWindow.Closing += mainWindow_Closing;
             _mainWindow.Show();
         }
@@ -92,7 +93,7 @@ namespace ThwargLauncher
         }
         void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _viewModel.ShutSubsidiaryWindows();
+            _mainViewModel.ShutSubsidiaryWindows();
             EndMonitoringGame();
         }
         private void EndMonitoringGame()

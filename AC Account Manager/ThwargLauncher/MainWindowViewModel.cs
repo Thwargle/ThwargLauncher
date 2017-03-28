@@ -15,6 +15,7 @@ namespace ThwargLauncher
     {
         public event HandleEvent OpeningSimpleLauncherEvent;
         public event LaunchGameDelegateMethod LaunchingSimpleGameEvent;
+        public event HandleEvent RequestShowMainWindowEvent;
 
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
@@ -331,12 +332,20 @@ namespace ThwargLauncher
                 var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
                 vmodel.LaunchingEvent += OnRequestExecuteSimpleLaunch;
                 _simpleLaunchWindow = new SimpleLaunchWindow(vmodel);
-                _simpleLaunchWindow.Closing += (s, e) => _simpleLaunchWindow = null;
+                _simpleLaunchWindow.Closing += OnSimpleLaunchWindowClosing;
             }
             _simpleLaunchWindow.Show();
 
             if(OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();
+        }
+
+        void OnSimpleLaunchWindowClosing(object sender, CancelEventArgs e)
+        {
+            if (RequestShowMainWindowEvent != null)
+            {
+                RequestShowMainWindowEvent();
+            }
         }
 
         void OnRequestExecuteSimpleLaunch(LaunchItem launchItem)

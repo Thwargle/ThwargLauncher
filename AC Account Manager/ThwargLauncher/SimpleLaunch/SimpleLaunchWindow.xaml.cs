@@ -49,11 +49,6 @@ namespace ThwargLauncher
         private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _viewModel.SaveToSettings();
-            foreach (Window w in App.Current.Windows)
-            {
-                if(w != this)
-                    w.Show();
-            }
         }
     }
 }

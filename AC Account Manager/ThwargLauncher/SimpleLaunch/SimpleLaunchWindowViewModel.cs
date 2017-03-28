@@ -71,10 +71,6 @@ namespace ThwargLauncher
 
             if (LaunchingEvent == null) { throw new Exception("SimpleLaunchWindowViewModel.LaunchingEvent null"); }
             LaunchingEvent(launchItem);
-
-            ////var launcher = new GameLauncher();
-            ////GameLaunchResult glr = launcher.LaunchGameClient(path, server.ServerName, account, pwd, server.ServerIP, server.EMU, null, server.RodatSetting);
-            ////return glr;
         }
     }
 }
