@@ -152,5 +152,17 @@ namespace ThwargLauncher.Properties {
                 this["SimpleLaunch_ServerName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LastUsedSimpleLaunch {
+            get {
+                return ((bool)(this["LastUsedSimpleLaunch"]));
+            }
+            set {
+                this["LastUsedSimpleLaunch"] = value;
+            }
+        }
     }
 }

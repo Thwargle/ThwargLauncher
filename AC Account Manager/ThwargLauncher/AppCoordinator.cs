@@ -72,6 +72,10 @@ namespace ThwargLauncher
             _mainWindow = new MainWindow(_mainViewModel, _gameSessionMap, _gameMonitor);
             _mainWindow.Closing += mainWindow_Closing;
             _mainWindow.Show();
+            if (Properties.Settings.Default.LastUsedSimpleLaunch)
+            {
+                _mainViewModel.DisplaySimpleLauncher();
+            }
         }
         internal string GetLauncherLogPath()
         {

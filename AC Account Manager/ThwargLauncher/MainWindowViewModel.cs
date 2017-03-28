@@ -324,8 +324,7 @@ namespace ThwargLauncher
             }
             _helpWindow.Show();
         }
-
-        private void OnSimpleLauncher()
+        public void DisplaySimpleLauncher()
         {
             if (_simpleLaunchWindow == null)
             {
@@ -335,9 +334,12 @@ namespace ThwargLauncher
                 _simpleLaunchWindow.Closing += OnSimpleLaunchWindowClosing;
             }
             _simpleLaunchWindow.Show();
-
-            if(OpeningSimpleLauncherEvent != null)
+            if (OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();
+        }
+        private void OnSimpleLauncher()
+        {
+            DisplaySimpleLauncher();
         }
 
         void OnSimpleLaunchWindowClosing(object sender, CancelEventArgs e)
