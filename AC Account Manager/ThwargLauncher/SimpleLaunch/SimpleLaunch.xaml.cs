@@ -19,7 +19,6 @@ namespace ThwargLauncher
     /// </summary>
     public partial class SimpleLaunch : Window
     {
-        public event LaunchGameDelegateMethod LaunchingEvent;
         private SimpleLaunchWindowViewModel _viewModel;
         //private List<Server.ServerItem> sl = new List<Server.ServerItem>();
         public SimpleLaunch(SimpleLaunchWindowViewModel viewModel)
@@ -44,30 +43,7 @@ namespace ThwargLauncher
                 txtUserName.Focus();
                 return;
             }
-
-            string path = Properties.Settings.Default.ACLocation; // "c:\\Turbine\\Asheron's Call\\acclient.exe";
-            LaunchSimpleGame(path, _viewModel.SelectedServer, _viewModel.AccountName, _viewModel.Password);
-        }
-
-        private void LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
-        {
-            _viewModel.SaveToSettings();
-            var launchItem = new LaunchItem();
-            launchItem.CustomLaunchPath = path;
-            launchItem.ServerName = server.ServerName;
-            launchItem.AccountName = account;
-            launchItem.Password = pwd;
-            launchItem.ipAddress = server.ServerIP;
-            launchItem.EMU = server.EMU;
-            launchItem.CharacterSelected = null; // no character choices for SimpleLaunch, b/c that requires MagFilter
-            launchItem.RodatSetting = server.RodatSetting;
-            launchItem.IsSimpleLaunch = true;
-
-            LaunchingEvent(launchItem);
-
-            ////var launcher = new GameLauncher();
-            ////GameLaunchResult glr = launcher.LaunchGameClient(path, server.ServerName, account, pwd, server.ServerIP, server.EMU, null, server.RodatSetting);
-            ////return glr;
+            _viewModel.PerformSimpleLaunch();
         }
 
         private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

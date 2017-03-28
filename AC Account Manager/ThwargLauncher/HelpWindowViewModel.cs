@@ -25,8 +25,7 @@ namespace ThwargLauncher
                 var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
                 _simpleLaunchWindow = new SimpleLaunch(vmodel);
                 _simpleLaunchWindow.Closing += _simpleLaunchWindow_Closing;
-                _simpleLaunchWindow.LaunchingEvent += _simpleLaunchWindow_LaunchingEvent;
-                //_simpleLaunchWindow.LaunchingEvent
+                vmodel.LaunchingEvent += _simpleLaunchWindow_LaunchingEvent;
                 if (OpeningSimpleLauncherEvent != null)
                 {
                     OpeningSimpleLauncherEvent();
