@@ -17,11 +17,11 @@ namespace ThwargLauncher
     /// <summary>
     /// Interaction logic for SimpleLaunch.xaml
     /// </summary>
-    public partial class SimpleLaunch : Window
+    public partial class SimpleLaunchWindow : Window
     {
         private SimpleLaunchWindowViewModel _viewModel;
         //private List<Server.ServerItem> sl = new List<Server.ServerItem>();
-        public SimpleLaunch(SimpleLaunchWindowViewModel viewModel)
+        public SimpleLaunchWindow(SimpleLaunchWindowViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;

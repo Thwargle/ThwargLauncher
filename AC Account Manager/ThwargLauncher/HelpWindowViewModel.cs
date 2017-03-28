@@ -8,7 +8,7 @@ namespace ThwargLauncher
         public event HandleEvent OpeningSimpleLauncherEvent;
         public event LaunchGameDelegateMethod LaunchingSimpleGameEvent;
         private Configurator _configurator;
-        SimpleLaunch _simpleLaunchWindow = null;
+        SimpleLaunchWindow _simpleLaunchWindow = null;
 
         public HelpWindowViewModel(Configurator configurator)
         {
@@ -23,7 +23,7 @@ namespace ThwargLauncher
             if (_simpleLaunchWindow == null)
             {
                 var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
-                _simpleLaunchWindow = new SimpleLaunch(vmodel);
+                _simpleLaunchWindow = new SimpleLaunchWindow(vmodel);
                 _simpleLaunchWindow.Closing += _simpleLaunchWindow_Closing;
                 vmodel.LaunchingEvent += _simpleLaunchWindow_LaunchingEvent;
                 if (OpeningSimpleLauncherEvent != null)

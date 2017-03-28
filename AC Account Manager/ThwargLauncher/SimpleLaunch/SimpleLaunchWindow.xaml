@@ -1,4 +1,4 @@
-﻿<Window x:Name="ThwargLauncherSimpleLaunchWindow" x:Class="ThwargLauncher.SimpleLaunch"
+﻿<Window x:Name="ThwargLauncherSimpleLaunchWindow" x:Class="ThwargLauncher.SimpleLaunchWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
