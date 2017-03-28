@@ -29,20 +29,6 @@ namespace ThwargLauncher
             this.DataContext = _viewModel;
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            LoadWindowSettings();
-        }
-        private void LoadWindowSettings()
-        {
-            var x = this.Owner;
-            this.chkUserDecal.IsChecked = Properties.Settings.Default.InjectDecal;
-        }
-        private void SaveWindowSettings()
-        {
-            Properties.Settings.Default.InjectDecal = this.chkUserDecal.IsChecked.Value;
-            Properties.Settings.Default.Save();
-        }
 
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
@@ -60,12 +46,12 @@ namespace ThwargLauncher
             }
 
             string path = Properties.Settings.Default.ACLocation; // "c:\\Turbine\\Asheron's Call\\acclient.exe";
-           LaunchSimpleGame(path, _viewModel.SelectedServer, _viewModel.AccountName, _viewModel.Password);
+            LaunchSimpleGame(path, _viewModel.SelectedServer, _viewModel.AccountName, _viewModel.Password);
         }
 
         private void LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
         {
-            SaveWindowSettings();
+            _viewModel.SaveToSettings();
             var launchItem = new LaunchItem();
             launchItem.CustomLaunchPath = path;
             launchItem.ServerName = server.ServerName;
@@ -86,7 +72,7 @@ namespace ThwargLauncher
 
         private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveWindowSettings();
+            _viewModel.SaveToSettings();
             foreach (Window w in App.Current.Windows)
             {
                 if(w != this)

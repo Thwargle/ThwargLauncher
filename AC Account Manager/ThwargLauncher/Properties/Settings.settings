@@ -26,5 +26,14 @@
     <Setting Name="PhatServerListUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xml</Value>
     </Setting>
+    <Setting Name="SimpleLaunch_Username" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SimpleLaunch_Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SimpleLaunch_ServerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

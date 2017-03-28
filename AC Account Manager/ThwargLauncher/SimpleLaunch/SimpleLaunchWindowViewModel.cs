@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
@@ -17,10 +18,23 @@ namespace ThwargLauncher
         private SimpleLaunchWindowViewModel()
         {
             _servers = new CollectionView(ServerManager.ServerList);
-            if (_servers.Count > 10) // Should be 0, but testing the UI validation
-            {
-                SelectedServer = (Server.ServerItem)_servers.GetItemAt(0);
-            }
+            LoadFromSettings();
+        }
+        public void LoadFromSettings()
+        {
+            UseDecal = Properties.Settings.Default.InjectDecal;
+            AccountName = Properties.Settings.Default.SimpleLaunch_Username;
+            Password = Properties.Settings.Default.SimpleLaunch_Password;
+            var initialServer = _servers.SourceCollection.OfType<Server.ServerItem>().FirstOrDefault(x => x.ServerName == Properties.Settings.Default.SimpleLaunch_ServerName);
+            SelectedServer = initialServer;
+        }
+        public void SaveToSettings()
+        {
+            Properties.Settings.Default.InjectDecal = UseDecal;
+            Properties.Settings.Default.SimpleLaunch_Username = AccountName;
+            Properties.Settings.Default.SimpleLaunch_Password = Password;
+            Properties.Settings.Default.SimpleLaunch_ServerName = (SelectedServer != null ? SelectedServer.ServerName : "");
+            Properties.Settings.Default.Save();
         }
         private readonly CollectionView _servers;
         public CollectionView Servers { get { return _servers; } }

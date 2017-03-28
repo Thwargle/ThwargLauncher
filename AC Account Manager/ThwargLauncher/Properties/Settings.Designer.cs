@@ -116,5 +116,41 @@ namespace ThwargLauncher.Properties {
                 return ((string)(this["PhatServerListUrl"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SimpleLaunch_Username {
+            get {
+                return ((string)(this["SimpleLaunch_Username"]));
+            }
+            set {
+                this["SimpleLaunch_Username"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SimpleLaunch_Password {
+            get {
+                return ((string)(this["SimpleLaunch_Password"]));
+            }
+            set {
+                this["SimpleLaunch_Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SimpleLaunch_ServerName {
+            get {
+                return ((string)(this["SimpleLaunch_ServerName"]));
+            }
+            set {
+                this["SimpleLaunch_ServerName"] = value;
+            }
+        }
     }
 }
