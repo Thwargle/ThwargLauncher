@@ -16,6 +16,7 @@ namespace ThwargLauncher
         public event HandleEvent OpeningSimpleLauncherEvent;
         public event LaunchGameDelegateMethod LaunchingSimpleGameEvent;
         public event HandleEvent RequestShowMainWindowEvent;
+        public Action CloseAction { get; set; }
 
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
@@ -23,6 +24,8 @@ namespace ThwargLauncher
         LogViewerViewModel _logViewerViewmodel = new LogViewerViewModel();
         LogViewerWindow _logViewer = null;
         SimpleLaunchWindow _simpleLaunchWindow = null;
+        SimpleLaunchWindowViewModel _simpleLaunchViewModel = null;
+        private bool _switchingToMainWindow = false;
 
         public void Reset()
         {
@@ -328,14 +331,23 @@ namespace ThwargLauncher
         {
             if (_simpleLaunchWindow == null)
             {
-                var vmodel = SimpleLaunchWindowViewModel.CreateViewModel();
-                vmodel.LaunchingEvent += OnRequestExecuteSimpleLaunch;
-                _simpleLaunchWindow = new SimpleLaunchWindow(vmodel);
+                if (_simpleLaunchViewModel == null)
+                {
+                    _simpleLaunchViewModel = SimpleLaunchWindowViewModel.CreateViewModel();
+                    _simpleLaunchViewModel.LaunchingEvent += OnRequestExecuteSimpleLaunch;
+                    _simpleLaunchViewModel.RequestingMainViewEvent += OnSimpleLaunchRequestMainView;
+                }
+                _simpleLaunchWindow = new SimpleLaunchWindow(_simpleLaunchViewModel);
                 _simpleLaunchWindow.Closing += OnSimpleLaunchWindowClosing;
             }
             _simpleLaunchWindow.Show();
             if (OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();
+        }
+
+        void OnSimpleLaunchRequestMainView(object sender, EventArgs e)
+        {
+            RequestShowMainWindow();
         }
         private void OnSimpleLauncher()
         {
@@ -345,10 +357,24 @@ namespace ThwargLauncher
         void OnSimpleLaunchWindowClosing(object sender, CancelEventArgs e)
         {
             _simpleLaunchWindow = null;
+            if (!_switchingToMainWindow)
+            {
+                if (CloseAction == null) { throw new Exception("Null CloseAction in OnSimpleLaunchWindowClosing"); }
+                CloseAction();
+            }
+        }
+        private void RequestShowMainWindow()
+        {
+            _switchingToMainWindow = true;
+            if (_simpleLaunchViewModel != null)
+            {
+                _simpleLaunchViewModel.CloseAction();
+            }
             if (RequestShowMainWindowEvent != null)
             {
                 RequestShowMainWindowEvent();
             }
+            _switchingToMainWindow = false;
         }
 
         void OnRequestExecuteSimpleLaunch(LaunchItem launchItem)

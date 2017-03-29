@@ -26,6 +26,7 @@ namespace ThwargLauncher
             InitializeComponent();
             _viewModel = viewModel;
             this.DataContext = _viewModel;
+            _viewModel.CloseAction = new Action(() => this.Close());
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
@@ -49,11 +50,6 @@ namespace ThwargLauncher
         private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _viewModel.SaveToSettings();
-        }
-
-        private void btnMain_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -22,7 +22,7 @@
             <Label x:Name="lblServers" Grid.Column="0" Grid.Row="0" Content="Servers:" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 0 5 5" Foreground="#FFFFB619" BorderBrush="Black"/>
             <Label x:Name="lblUserName" Grid.Row="1" Content="Account Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 5 5" Foreground="#FFFFB619" BorderBrush="Black" />
             <Label x:Name="lblUserPassword" Grid.Row="1" Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 0" Foreground="#FFFFB619" BorderBrush="Black" />
-            <Button x:Name="btnMain" Grid.Row="2" Content="Advanced View" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 5" Click="btnMain_Click" Background="#FFF6D18F" FontWeight="Bold" />
+            <Button x:Name="btnMain" Command="{Binding GotoMainViewCommand}"  Grid.Row="2" Content="Advanced View" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 5" Background="#FFF6D18F" FontWeight="Bold" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

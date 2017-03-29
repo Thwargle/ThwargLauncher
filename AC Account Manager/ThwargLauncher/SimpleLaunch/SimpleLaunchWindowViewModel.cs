@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using System.Windows.Data;
+using CommonControls;
 
 namespace ThwargLauncher
 {
     public class SimpleLaunchWindowViewModel : INotifyPropertyChanged
     {
+        public event System.EventHandler RequestingMainViewEvent;
         public event LaunchGameDelegateMethod LaunchingEvent;
+        public ICommand GotoMainViewCommand { get; private set; }
+        public Action CloseAction { get; set; }
+
         public static SimpleLaunchWindowViewModel CreateViewModel()
         {
             var vmodel = new SimpleLaunchWindowViewModel();
@@ -18,6 +24,10 @@ namespace ThwargLauncher
         private SimpleLaunchWindowViewModel()
         {
             _servers = new CollectionView(ServerManager.ServerList);
+            GotoMainViewCommand = new DelegateCommand(
+                    PerformGotoMainView
+                );
+
             LoadFromSettings();
         }
         public void LoadFromSettings()
@@ -71,6 +81,13 @@ namespace ThwargLauncher
 
             if (LaunchingEvent == null) { throw new Exception("SimpleLaunchWindowViewModel.LaunchingEvent null"); }
             LaunchingEvent(launchItem);
+        }
+        private void PerformGotoMainView()
+        {
+            if (RequestingMainViewEvent != null)
+            {
+                RequestingMainViewEvent(this, new EventArgs());
+            }
         }
     }
 }

@@ -46,6 +46,8 @@ namespace ThwargLauncher
             if (gameMonitor == null) { throw new Exception("Null GameMonitor in MainWindow()"); }
 
             _viewModel = mainWindowViewModel;
+            _viewModel.CloseAction = new Action(() => this.Close());
+
             _gameSessionMap = gameSessionMap;
             _gameMonitor = gameMonitor;
             _uicontext = SynchronizationContext.Current;
