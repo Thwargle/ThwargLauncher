@@ -1,0 +1,14 @@
+;aiu;
+
+[Update4.0.0.0]
+Name = ThwargLauncher
+ProductVersion = 4.0.0.0
+URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
+Size = 2542592
+MD5 = a8a63dfe9ef2d9dd5c88ac615844a37f
+ServerFileName = ThwargLauncher.exe
+RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
+Version = 4.0.0.0
+UpdatedApplications = ThwargLauncher[1.0-4.0)
+Description = Implementing major changes to support EMU Servers.
+AutoCloseApplication = [APPDIR]YourApplication.exe

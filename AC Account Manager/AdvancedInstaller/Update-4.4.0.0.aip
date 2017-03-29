@@ -9,7 +9,7 @@
     <ROW Section="ThwargLauncher-4.4.0.0" Key="ProductVersion" Value="4.4.0.0"/>
     <ROW Section="ThwargLauncher-4.4.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
     <ROW Section="ThwargLauncher-4.4.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-4.4.0.0" Key="ReleaseDate" Value="18644"/>
+    <ROW Section="ThwargLauncher-4.4.0.0" Key="ReleaseDate" Value="19068"/>
     <ROW Section="ThwargLauncher-4.4.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
     <ROW Section="ThwargLauncher-4.4.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
     <ROW Section="ThwargLauncher-4.4.0.0" Key="Flags" Value="Critical"/>

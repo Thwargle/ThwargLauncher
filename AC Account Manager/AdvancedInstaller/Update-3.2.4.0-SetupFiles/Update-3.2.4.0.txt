@@ -1,0 +1,23 @@
+;aiu;
+
+[ThwargLauncher-4.4.0.0]
+Name = ThwargLauncher
+ProductVersion = 4.4.0.0
+URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
+Size = 7934108
+ReleaseDate = 20/06/2016
+MD5 = 8b9db34834c49ea9ec4cad512d394151
+ServerFileName = ThwargLauncherInstaller.exe
+Flags = Critical
+RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
+Version = 4.4.0.0
+UpdatedApplications = ThwargLauncher[1.0-4.4]
+Description = VERSION 4.4.0.0 (2017-03-28)
+Description1 = - New SimpleLauncher
+Description2 = - Persist location of AddServer window
+Description3 = - Block creation of duplicate server name
+Feature = Simple Launch Mode
+Enhancement = Genereal Bug Fixes
+BugFix = Too Numerous to List
+BugFix1 = Too Senile to Remember
+AutoCloseApplication = [APPDIR]YourApplication.exe

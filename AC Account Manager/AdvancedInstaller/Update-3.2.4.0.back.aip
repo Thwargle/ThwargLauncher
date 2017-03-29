@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="12.6.1" Modules="update" RootPath="." Language="en" Id="{21BF6976-15B7-406D-8F21-74EAF1CE2C5B}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="ProductVersion" Value="3.2.4.0"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="ReleaseDate" Value="18644"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="Version" Value="3.2.4.0"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-3.2.4]"/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="Description" Value="Changed references from AC Account Manager to ThwargLauncher.&#13;&#10;&#13;&#10; NOTE: To preserve your settings, when you launch the client for the first time; close the client, browse to the appdata folder, and copy the contents from ACAccountManager into the ThwargLauncher folder."/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="BugFix" Value="Fixed issue with logging in chars that had an apostrophe.&#13;&#10;Fixed issue with Login Queueing."/>
+    <ROW Section="ThwargLauncher-3.2.4.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>
