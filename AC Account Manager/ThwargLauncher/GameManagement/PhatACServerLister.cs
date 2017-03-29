@@ -36,6 +36,8 @@ namespace ThwargLauncher.GameManagement
                     Server.ServerItem si = new Server.ServerItem();
 
                     si.ServerName = GetSubvalue(node, "name");
+                    si.ServerDescription = GetSubvalue(node, "description");
+                    si.ServerLoginEnabled = StringToBool(GetSubvalue(node, "enable_login"));
                     si.ServerIP = GetSubvalue(node, "connect_string");
                     si.EMU = EMU;
                     si.RodatSetting = GetSubvalue(node, "default_rodat");
@@ -56,6 +58,20 @@ namespace ThwargLauncher.GameManagement
                 Logger.WriteInfo("Unable to find phat Server xml: " + exc.ToString());
             }
             return serverItemList;
+        }
+        private static bool StringToBool(string text, bool defval=false)
+        {
+            if (string.Compare(text, "true", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return true;
+            }
+            if (string.Compare(text, "false", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return false;
+            }
+            if (text == "1") { return true; }
+            if (text == "0") { return false; }
+            return defval;
         }
         public static IList<Server.ServerItem> ReadPhatServerList(string filename)
         {

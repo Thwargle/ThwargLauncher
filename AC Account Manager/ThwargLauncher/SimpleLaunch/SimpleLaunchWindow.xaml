@@ -45,6 +45,7 @@
                                     <TextBlock Text="{Binding Path=EMU}" Foreground="Orange" />
                                 </StackPanel>
                                 <TextBlock Text="{Binding Path=ServerIP}" FontStyle="Italic" />
+                                <TextBlock Text="{Binding Path=ServerDescription}" FontStyle="Italic" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

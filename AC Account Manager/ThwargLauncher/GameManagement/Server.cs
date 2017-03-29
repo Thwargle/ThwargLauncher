@@ -19,6 +19,8 @@ namespace ThwargLauncher
         public class ServerItem
         {
             public string ServerName { get; set; }
+            public string ServerDescription { get; set; }
+            public bool ServerLoginEnabled { get; set; }
             public string ServerIP { get; set; }
             public string EMU { get; set; }
             public string RodatSetting { get; set; }
