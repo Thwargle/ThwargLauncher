@@ -344,6 +344,7 @@ namespace ThwargLauncher
 
         void OnSimpleLaunchWindowClosing(object sender, CancelEventArgs e)
         {
+            _simpleLaunchWindow = null;
             if (RequestShowMainWindowEvent != null)
             {
                 RequestShowMainWindowEvent();
