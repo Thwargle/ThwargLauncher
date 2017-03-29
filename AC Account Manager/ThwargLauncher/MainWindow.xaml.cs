@@ -344,7 +344,6 @@ namespace ThwargLauncher
             }
             else
             {
-                Properties.Settings.Default.LastUsedSimpleLaunch = true;
                 Properties.Settings.Default.Save();
                 _launchConcurrentQueue.Enqueue(launchItem);
                 EnableInterface(false);
@@ -366,7 +365,6 @@ namespace ThwargLauncher
             }
             else
             {
-                Properties.Settings.Default.LastUsedSimpleLaunch = false;
                 Properties.Settings.Default.Save();
                 EnableInterface(false);
                 btnCancel.IsEnabled = true;

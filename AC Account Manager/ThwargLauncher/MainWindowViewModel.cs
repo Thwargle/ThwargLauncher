@@ -340,6 +340,7 @@ namespace ThwargLauncher
                 _simpleLaunchWindow = new SimpleLaunchWindow(_simpleLaunchViewModel);
                 _simpleLaunchWindow.Closing += OnSimpleLaunchWindowClosing;
             }
+            Properties.Settings.Default.LastUsedSimpleLaunch = true;
             _simpleLaunchWindow.Show();
             if (OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();
@@ -365,6 +366,7 @@ namespace ThwargLauncher
         }
         private void RequestShowMainWindow()
         {
+            Properties.Settings.Default.LastUsedSimpleLaunch = false;
             _switchingToMainWindow = true;
             if (_simpleLaunchViewModel != null)
             {
