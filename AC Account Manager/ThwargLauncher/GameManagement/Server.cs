@@ -6,12 +6,11 @@ namespace ThwargLauncher
 {
     public class Server : INotifyPropertyChanged
     {
-        public Server(ServerItem serverItem, string serverName, string serverIP)
+        public Server(ServerItem serverItem)
         {
             _myServerItem = serverItem;
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
-            ServerName = serverName;
         }
 
         public class ServerItem
@@ -25,7 +24,7 @@ namespace ThwargLauncher
         }
         public string ServerStatusSymbol { get; set; }
         public string ServerIP { get { return _myServerItem.ServerIP; } }
-        public string ServerName { get; set; }
+        public string ServerName { get { return _myServerItem.ServerName; } }
         public string EMU { get {  return _myServerItem.EMU; } }
         public string RodatSetting { get { return _myServerItem.RodatSetting; } }
         public string ServerDisplayName
@@ -48,7 +47,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        private ServerItem _myServerItem;
+        readonly private ServerItem _myServerItem;
         private bool _serverSelected;
         public bool ServerSelected
         {

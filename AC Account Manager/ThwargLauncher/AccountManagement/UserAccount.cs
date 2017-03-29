@@ -44,7 +44,7 @@ namespace ThwargLauncher
                     charlist = characterMgr.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);   
                 }
                 // Construct server & character data
-                var server = new Server(serverItem, serverItem.ServerName, serverItem.ServerIP);
+                var server = new Server(serverItem);
 
                 //create and add a default character of none.
                 var defaultChar = new AccountCharacter()
