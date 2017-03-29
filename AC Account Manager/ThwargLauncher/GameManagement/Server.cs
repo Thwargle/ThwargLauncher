@@ -6,14 +6,12 @@ namespace ThwargLauncher
 {
     public class Server : INotifyPropertyChanged
     {
-        public Server(string serverName, string serverIP, string emu, string rodatSetting)
+        public Server(ServerItem serverItem, string serverName, string serverIP)
         {
+            _myServerItem = serverItem;
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
             ServerName = serverName;
-            ServerIP = serverIP;
-            EMU = emu;
-            RodatSetting = rodatSetting;
         }
 
         public class ServerItem
@@ -25,13 +23,32 @@ namespace ThwargLauncher
             public string EMU { get; set; }
             public string RodatSetting { get; set; }
         }
-
         public string ServerStatusSymbol { get; set; }
-        public string ServerIP { get; set; }
+        public string ServerIP { get { return _myServerItem.ServerIP; } }
         public string ServerName { get; set; }
-        public string EMU { get; set; }
-        public string RodatSetting { get; set; }
-        public string ServerDisplayName { get { return string.Format("{0} - {1}", EMU, ServerName); } }
+        public string EMU { get {  return _myServerItem.EMU; } }
+        public string RodatSetting { get { return _myServerItem.RodatSetting; } }
+        public string ServerDisplayName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_myServerItem.ServerDescription))
+                {
+                    return string.Format("{0} - {1}", EMU, ServerName);
+                }
+                else
+                {
+                    string desc = _myServerItem.ServerDescription;
+                    const int MAXLEN = 64;
+                    if (desc.Length > MAXLEN)
+                    {
+                        desc = desc.Substring(0, MAXLEN - 3) + "...";
+                    }
+                    return string.Format("{0} - {1} - {2}", EMU, ServerName, desc);
+                }
+            }
+        }
+        private ServerItem _myServerItem;
         private bool _serverSelected;
         public bool ServerSelected
         {
