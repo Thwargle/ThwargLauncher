@@ -33,7 +33,7 @@ namespace ThwargLauncher
             {
                 if (string.IsNullOrEmpty(_myServerItem.ServerDescription))
                 {
-                    return string.Format("{0} - {1}", EMU, ServerName);
+                    return string.Format("{0}", ServerName);
                 }
                 else
                 {
@@ -43,7 +43,7 @@ namespace ThwargLauncher
                     {
                         desc = desc.Substring(0, MAXLEN - 3) + "...";
                     }
-                    return string.Format("{0} - {1} - {2}", EMU, ServerName, desc);
+                    return string.Format("{0} - {1}", ServerName, desc);
                 }
             }
         }

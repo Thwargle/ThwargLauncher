@@ -131,7 +131,10 @@
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
                                                     <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
-                                                    <Label Grid.Column="1" Foreground="#FFBB8000" Content="{Binding Path=ServerDisplayName}" HorizontalAlignment="Left"></Label>
+                                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
+                                                        <Label Foreground="Purple" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
+                                                        <Label Foreground="#FFBB8000" Content="{Binding Path=ServerDisplayName}" HorizontalAlignment="Left"></Label>
+                                                    </StackPanel>
                                                     <ComboBox Grid.Column="2" HorizontalAlignment="Right"
                                                         ItemsSource="{Binding Path=AvailableCharacters,Mode=OneWay}"
                                                         DisplayMemberPath="Name"
