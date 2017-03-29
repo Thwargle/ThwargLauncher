@@ -38,7 +38,7 @@
                       Background="#A5000000" Foreground="#FFDC9700">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Padding="5">
+                        <Border BorderBrush="Black" BorderThickness="0" Padding="5">
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Path=ServerName,StringFormat='Name:{0} '}" />
@@ -61,8 +61,8 @@
                       Foreground="#FFFFB619" BorderBrush="Black"
                       IsChecked="{Binding Path=UseDecal}"
                       IsEnabled="{Binding Path=UseDecalEnabled}"
-                      Content="Decal Injection" Grid.Row="3" HorizontalAlignment="Left" Margin="5,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.197,-0.553"/>
-            <Button x:Name="btnLaunch" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 30 5 0" Content="Launch" Click="btnLaunch_Click" Background="#FFF6D18F" FontWeight="Bold" />
+                      Content="Decal Injection" Grid.Row="3" HorizontalAlignment="Right" Margin="0,32,70,0" VerticalAlignment="Top" RenderTransformOrigin="0.197,-0.553"/>
+            <Button x:Name="btnLaunch" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 30 15 0" Content="Launch" Click="btnLaunch_Click" Background="#FFF6D18F" FontWeight="Bold" />
         </Grid>
     </Grid>
 </Window>
