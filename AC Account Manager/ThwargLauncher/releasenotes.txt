@@ -6,7 +6,7 @@ For use with the Asheron's Call game client to streamline multiple account/serve
 Starting with most recent:
 
 
-VERSION ?
+VERSION 4.4.0.0 (2017-03-28)
 - New SimpleLauncher
 - Persist location of AddServer window
 - Block creation of duplicate server name
