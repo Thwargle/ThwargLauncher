@@ -65,7 +65,7 @@ namespace ThwargLauncher
                 udpClient.Client.ReceiveTimeout = 3000;
                 udpClient.Connect(address, port);
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                Byte[] sendBytes = Encoding.ASCII.GetBytes("?");
+                Byte[] sendBytes = ConstructPacket();
                 udpClient.Send(sendBytes, sendBytes.Length);
                 Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
                 return true;
@@ -81,6 +81,14 @@ namespace ThwargLauncher
                     return false;
                 }
             }
+        }
+        private byte[] ConstructPacket()
+        {
+            var data = new Packet.PacketHeader(Packet.PacketHeaderFlags.EchoRequest);
+            uint checksum;
+            data.CalculateHash32(out checksum);
+            data.Checksum = checksum;
+            return data.GetRaw();
         }
         private static string GetStatusString(bool up)
         {

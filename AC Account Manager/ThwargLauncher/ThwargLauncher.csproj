@@ -125,6 +125,8 @@
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
+    <Compile Include="ServerMonitor\Hash32.cs" />
+    <Compile Include="ServerMonitor\Packet.cs" />
     <Compile Include="ServerMonitor\ServerMonitor.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="AppSettings\AppSettings.cs" />
