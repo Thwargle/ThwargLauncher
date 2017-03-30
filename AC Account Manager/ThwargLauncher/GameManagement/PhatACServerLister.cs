@@ -38,7 +38,7 @@ namespace ThwargLauncher.GameManagement
                     si.ServerName = GetSubvalue(node, "name");
                     si.ServerDescription = GetSubvalue(node, "description");
                     si.ServerLoginEnabled = StringToBool(GetSubvalue(node, "enable_login"));
-                    si.ServerIP = GetSubvalue(node, "connect_string");
+                    si.ServerIpAndPort = GetSubvalue(node, "connect_string");
                     si.EMU = EMU;
                     si.RodatSetting = GetSubvalue(node, "default_rodat");
                     serverItemList.Add(si);
@@ -86,7 +86,7 @@ namespace ThwargLauncher.GameManagement
                     Server.ServerItem si2 = new Server.ServerItem();
 
                     si2.ServerName = GetSubvalue(node, "name");
-                    si2.ServerIP = GetSubvalue(node, "connect_string");
+                    si2.ServerIpAndPort = GetSubvalue(node, "connect_string");
                     si2.EMU = EMU;
                     list.Add(si2);
                 }

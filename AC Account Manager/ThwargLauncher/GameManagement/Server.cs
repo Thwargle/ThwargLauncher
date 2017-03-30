@@ -9,8 +9,14 @@ namespace ThwargLauncher
         public Server(ServerItem serverItem)
         {
             _myServerItem = serverItem;
+            _myServerItem.PropertyChanged += ServerItemPropertyChanged;
             AvailableCharacters = new List<AccountCharacter>();
             ServerStatusSymbol = "";
+        }
+
+        void ServerItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(e.PropertyName);
         }
 
         public class ServerItem : INotifyPropertyChanged
@@ -25,7 +31,7 @@ namespace ThwargLauncher
             public string ServerName { get; set; }
             public string ServerDescription { get; set; }
             public bool ServerLoginEnabled { get; set; }
-            public string ServerIP { get; set; }
+            public string ServerIpAndPort { get; set; }
             public string EMU { get; set; }
             public string RodatSetting { get; set; }
             private string _connectionStatus;
@@ -43,10 +49,11 @@ namespace ThwargLauncher
             }
         }
         public string ServerStatusSymbol { get; set; }
-        public string ServerIP { get { return _myServerItem.ServerIP; } }
+        public string ServerIpAndPort { get { return _myServerItem.ServerIpAndPort; } }
         public string ServerName { get { return _myServerItem.ServerName; } }
         public string EMU { get {  return _myServerItem.EMU; } }
         public string RodatSetting { get { return _myServerItem.RodatSetting; } }
+        public string ConnectionStatus { get { return _myServerItem.ConnectionStatus; } }
         public string ServerDisplayName
         {
             get
@@ -111,6 +118,32 @@ namespace ThwargLauncher
         }
     }
 
+    public static class AddressParser
+    {
+        public class Address
+        {
+            public string Ip { get; set; }
+            public int Port { get; set; }
+        }
+        public static Address Parse(string text)
+        {
+            var address = new Address();
+            int index = text.IndexOf(':');
+            if (index > 0)
+            {
+                address.Ip = text.Substring(0, index);
+                if (index < text.Length - 1)
+                {
+                    int val = 0;
+                    if (int.TryParse(text.Substring(index + 1), out val))
+                    {
+                        address.Port = val;
+                    }
+                }
+            }
+            return address;
+        }
+    }
     public static class ServerManager
     {
         public static List<Server.ServerItem> ServerList = new List<Server.ServerItem>();

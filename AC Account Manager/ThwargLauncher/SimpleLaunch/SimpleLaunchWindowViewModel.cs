@@ -76,7 +76,7 @@ namespace ThwargLauncher
             launchItem.ServerName = server.ServerName;
             launchItem.AccountName = account;
             launchItem.Password = pwd;
-            launchItem.ipAddress = server.ServerIP;
+            launchItem.IpAndPort = server.ServerIpAndPort;
             launchItem.EMU = server.EMU;
             launchItem.CharacterSelected = null; // no character choices for SimpleLaunch, b/c that requires MagFilter
             launchItem.RodatSetting = server.RodatSetting;

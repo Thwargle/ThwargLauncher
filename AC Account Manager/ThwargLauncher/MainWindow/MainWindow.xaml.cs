@@ -420,7 +420,7 @@ namespace ThwargLauncher
                                     Priority = account.Priority,
                                     Password = account.Password,
                                     ServerName = server.ServerName,
-                                    ipAddress = server.ServerIP,
+                                    IpAndPort = server.ServerIpAndPort,
                                     EMU = server.EMU,
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,

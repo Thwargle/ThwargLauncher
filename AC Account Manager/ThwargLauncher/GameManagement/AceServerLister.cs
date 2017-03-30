@@ -29,7 +29,7 @@ namespace ThwargLauncher.GameManagement
                     Server.ServerItem si = new Server.ServerItem();
 
                     si.ServerName = GetSubvalue(node, "name");
-                    si.ServerIP = GetSubvalue(node, "connect_string");
+                    si.ServerIpAndPort = GetSubvalue(node, "connect_string");
                     si.EMU = EMU;
                     serverItemList.Add(si);
                 }

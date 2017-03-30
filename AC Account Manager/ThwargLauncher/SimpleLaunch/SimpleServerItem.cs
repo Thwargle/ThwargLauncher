@@ -30,7 +30,7 @@ namespace ThwargLauncher
         }
         public string ServerName { get { return _item.ServerName; } }
         public string EMU { get { return _item.EMU; } }
-        public string ServerIP { get { return _item.ServerIP; } }
+        public string ServerIpAndPort { get { return _item.ServerIpAndPort; } }
         public string ServerDescription { get { return _item.ServerDescription; } }
         public Server.ServerItem ServerItem { get { return _item; }}
         public string ConnectionStatus { get { return _item.ConnectionStatus; } set { _item.ConnectionStatus = value; } }
@@ -39,11 +39,11 @@ namespace ThwargLauncher
         {
             SimpleServerItem item2 = obj as SimpleServerItem;
             if (item2 == null) { return false; }
-            return ServerName == item2.ServerName && ServerIP == item2.ServerIP;
+            return ServerName == item2.ServerName && ServerIpAndPort == item2.ServerIpAndPort;
         }
         public override int GetHashCode()
         {
-            return ServerName.GetHashCode() & ServerIP.GetHashCode();
+            return ServerName.GetHashCode() & ServerIpAndPort.GetHashCode();
         }
     }
 }

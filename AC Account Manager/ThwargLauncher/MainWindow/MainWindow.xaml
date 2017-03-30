@@ -134,6 +134,7 @@
                                                     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
                                                         <Label Foreground="Purple" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
                                                         <Label Foreground="#FFBB8000" Content="{Binding Path=ServerDisplayName}" HorizontalAlignment="Left"></Label>
+                                                        <Label Foreground="AntiqueWhite" Content="{Binding Path=ConnectionStatus}" HorizontalAlignment="Left"/>
                                                     </StackPanel>
                                                     <ComboBox Grid.Column="2" HorizontalAlignment="Right"
                                                         ItemsSource="{Binding Path=AvailableCharacters,Mode=OneWay}"
