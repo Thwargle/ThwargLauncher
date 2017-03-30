@@ -21,12 +21,15 @@ namespace ThwargLauncher
         private UiGameMonitorBridge _uiGameMonitorBridge = null;
         private LogWriter _logWriter = null;
         private CommandManager _commandManager = null;
+        private ServerMonitor _monitor = null;
 
         public AppCoordinator()
         {
             theAppCoordinator = this;
 
             BeginMonitoringGame();
+
+            BeginMonitoringServers();
 
             ShowMainWindow();
         }
@@ -50,6 +53,11 @@ namespace ThwargLauncher
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _mainViewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
+        }
+        private void BeginMonitoringServers()
+        {
+            _monitor = new ServerMonitor();
+            _monitor.StartMonitor(ServerManager.ServerList);
         }
         private void TestParse()
         {
@@ -99,6 +107,7 @@ namespace ThwargLauncher
         {
             _mainViewModel.ShutSubsidiaryWindows();
             EndMonitoringGame();
+            _monitor.StopMonitor();
         }
         private void EndMonitoringGame()
         {

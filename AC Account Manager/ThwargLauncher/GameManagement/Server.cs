@@ -13,14 +13,34 @@ namespace ThwargLauncher
             ServerStatusSymbol = "";
         }
 
-        public class ServerItem
+        public class ServerItem : INotifyPropertyChanged
         {
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChangedEventHandler handler = PropertyChanged;
+                if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+
             public string ServerName { get; set; }
             public string ServerDescription { get; set; }
             public bool ServerLoginEnabled { get; set; }
             public string ServerIP { get; set; }
             public string EMU { get; set; }
             public string RodatSetting { get; set; }
+            private string _connectionStatus;
+            public string ConnectionStatus
+            {
+                get { return _connectionStatus; }
+                set
+                {
+                    if (_connectionStatus != value)
+                    {
+                        _connectionStatus = value;
+                        OnPropertyChanged("ConnectionStatus");
+                    }
+                }
+            }
         }
         public string ServerStatusSymbol { get; set; }
         public string ServerIP { get { return _myServerItem.ServerIP; } }

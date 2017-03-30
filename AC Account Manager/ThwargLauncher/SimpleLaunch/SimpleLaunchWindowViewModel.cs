@@ -24,8 +24,8 @@ namespace ThwargLauncher
         private SimpleLaunchWindowViewModel()
         {
             IEnumerable<SimpleServerItem> items = ServerManager.ServerList.Select(p => new SimpleServerItem(p));
+            //IEnumerable<Server.ServerItem> items = ServerManager.ServerList;
             _servers = new CollectionView(items);
-            //_servers = new CollectionView(ServerManager.ServerList);
             GotoMainViewCommand = new DelegateCommand(
                     PerformGotoMainView
                 );

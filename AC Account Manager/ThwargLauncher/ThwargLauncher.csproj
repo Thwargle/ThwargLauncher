@@ -125,6 +125,7 @@
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfileViewModel.cs" />
+    <Compile Include="ServerMonitor\ServerMonitor.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="SimpleLaunch\SimpleLaunchWindow.xaml.cs">
