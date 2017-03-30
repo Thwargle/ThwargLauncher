@@ -78,7 +78,7 @@ namespace ThwargLauncher
             if (!System.IO.File.Exists(exepath))
             {
                 MessageBox.Show("Client exe not found: " + exepath, "Launcher configuration error");
-                return;
+                //return;
             }
             _viewModel.DisplaySimpleLaunchWindow();
             this.Hide();

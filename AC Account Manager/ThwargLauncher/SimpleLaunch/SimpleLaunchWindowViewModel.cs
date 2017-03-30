@@ -23,7 +23,9 @@ namespace ThwargLauncher
         }
         private SimpleLaunchWindowViewModel()
         {
-            _servers = new CollectionView(ServerManager.ServerList);
+            IEnumerable<SimpleServerItem> items = ServerManager.ServerList.Select(p => new SimpleServerItem(p));
+            _servers = new CollectionView(items);
+            //_servers = new CollectionView(ServerManager.ServerList);
             GotoMainViewCommand = new DelegateCommand(
                     PerformGotoMainView
                 );
@@ -35,7 +37,8 @@ namespace ThwargLauncher
             UseDecal = Properties.Settings.Default.InjectDecal;
             AccountName = Properties.Settings.Default.SimpleLaunch_Username;
             Password = Properties.Settings.Default.SimpleLaunch_Password;
-            var initialServer = _servers.SourceCollection.OfType<Server.ServerItem>().FirstOrDefault(x => x.ServerName == Properties.Settings.Default.SimpleLaunch_ServerName);
+            var initialServer = _servers.SourceCollection.OfType<SimpleServerItem>().FirstOrDefault(
+                x => x.GetHashCode() == Properties.Settings.Default.SimpleLaunch_ServerHashCode);
             SelectedServer = initialServer;
         }
         public void SaveToSettings()
@@ -43,12 +46,12 @@ namespace ThwargLauncher
             Properties.Settings.Default.InjectDecal = UseDecal;
             Properties.Settings.Default.SimpleLaunch_Username = AccountName;
             Properties.Settings.Default.SimpleLaunch_Password = Password;
-            Properties.Settings.Default.SimpleLaunch_ServerName = (SelectedServer != null ? SelectedServer.ServerName : "");
+            Properties.Settings.Default.SimpleLaunch_ServerHashCode = (SelectedServer != null ? SelectedServer.GetHashCode() : 0);
             Properties.Settings.Default.Save();
         }
         private readonly CollectionView _servers;
         public CollectionView Servers { get { return _servers; } }
-        public Server.ServerItem SelectedServer { get; set; }
+        public SimpleServerItem SelectedServer { get; set; }
         public string AccountName { get; set; }
         public string Password { get; set; }
         public bool UseDecal { get; set; }
@@ -63,7 +66,7 @@ namespace ThwargLauncher
         public void PerformSimpleLaunch()
         {
             string path = Properties.Settings.Default.ACLocation; // "c:\\Turbine\\Asheron's Call\\acclient.exe";
-            LaunchSimpleGame(path, SelectedServer, AccountName, Password);
+            LaunchSimpleGame(path, SelectedServer.ServerItem, AccountName, Password);
         }
         private void LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
         {

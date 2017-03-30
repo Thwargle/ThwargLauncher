@@ -34,6 +34,7 @@
             <ListBox x:Name="cmbServerList"
                       ItemsSource="{Binding Path=Servers}"
                       SelectedItem="{Binding Path=SelectedServer}"
+                     IsSynchronizedWithCurrentItem="True"
                       Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,5,5,0" Height="Auto"
                       Background="#A5000000" Foreground="#FFDC9700">
                 <ListBox.ItemTemplate>

@@ -131,6 +131,7 @@
       <DependentUpon>SimpleLaunchWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SimpleLaunch\SimpleLaunchWindowViewModel.cs" />
+    <Compile Include="SimpleLaunch\SimpleServerItem.cs" />
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />

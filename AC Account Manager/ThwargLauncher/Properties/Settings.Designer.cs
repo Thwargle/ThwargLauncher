@@ -143,13 +143,13 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SimpleLaunch_ServerName {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SimpleLaunch_ServerHashCode {
             get {
-                return ((string)(this["SimpleLaunch_ServerName"]));
+                return ((int)(this["SimpleLaunch_ServerHashCode"]));
             }
             set {
-                this["SimpleLaunch_ServerName"] = value;
+                this["SimpleLaunch_ServerHashCode"] = value;
             }
         }
         

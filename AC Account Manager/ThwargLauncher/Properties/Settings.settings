@@ -32,8 +32,8 @@
     <Setting Name="SimpleLaunch_Password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SimpleLaunch_ServerName" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="SimpleLaunch_ServerHashCode" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="LastUsedSimpleLaunch" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
