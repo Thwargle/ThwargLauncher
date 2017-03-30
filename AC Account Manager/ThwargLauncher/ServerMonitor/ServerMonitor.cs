@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Threading;
@@ -30,33 +32,61 @@ namespace ThwargLauncher
             Random random = new Random();
             while (true)
             {
-                Thread.Sleep(_millisecondsDelay);
                 ++index;
                 if (index >= _items.Count)
                 {
                     index = 0;
                     _millisecondsDelay = 5000;
                 }
-                var server = _items[index];
-                CheckServer(server);
+                if (_items.Count > 0)
+                {
+                    var server = _items[index];
+                    CheckServer(server);
+                }
+                Thread.Sleep(_millisecondsDelay);
             }
         }
         private void CheckServer(Server.ServerItem server)
         {
             var address = AddressParser.Parse(server.ServerIpAndPort);
             if (string.IsNullOrEmpty(address.Ip) || address.Port <= 0) { return; }
-            bool up = IsServerUp(address.Ip, address.Port);
+            bool up = IsUdpServerUp(address.Ip, address.Port);
             string status = GetStatusString(up);
             if (server.ConnectionStatus != status)
             {
                 CallToUpdate(server, status);
             }
         }
+        private bool IsUdpServerUp(string address, int port)
+        {
+            try
+            {
+                UdpClient udpClient = new UdpClient(port);
+                udpClient.Client.ReceiveTimeout = 3000;
+                udpClient.Connect(address, port);
+                IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                Byte[] sendBytes = Encoding.ASCII.GetBytes("?");
+                udpClient.Send(sendBytes, sendBytes.Length);
+                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+                return true;
+            }
+            catch (SocketException e)
+            {
+                if (e.ErrorCode == 10054)
+                {
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         private static string GetStatusString(bool up)
         {
             return (up ? "Online" : "Offline");
         }
-        private bool IsServerUp(string address, int port)
+        private bool IsTcpServerUp(string address, int port)
         {
             var tcpClient = new System.Net.Sockets.TcpClient();
             try
