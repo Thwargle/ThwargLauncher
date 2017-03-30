@@ -102,10 +102,10 @@
     <Compile Include="AppSettings\WpfWindowPlacementSetting.cs" />
     <Compile Include="CharacterSetting.cs" />
     <Compile Include="Configurator.cs" />
-    <Compile Include="DiagnosticWindow.xaml.cs">
+    <Compile Include="DiagnosticWindow\DiagnosticWindow.xaml.cs">
       <DependentUpon>DiagnosticWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DiagnosticWindowViewModel.cs" />
+    <Compile Include="DiagnosticWindow\DiagnosticWindowViewModel.cs" />
     <Compile Include="GameLaunching\DecalInjection.cs" />
     <Compile Include="GameManagement\AceServerLister.cs" />
     <Compile Include="GameManagement\CommandManager.cs" />
@@ -113,12 +113,12 @@
     <Compile Include="GameManagement\GameSession.cs" />
     <Compile Include="GameManagement\GameSessionMap.cs" />
     <Compile Include="GameManagement\PhatACServerLister.cs" />
-    <Compile Include="HelpWindowViewModel.cs" />
+    <Compile Include="HelpWindow\HelpWindowViewModel.cs" />
     <Compile Include="GameLaunching\LaunchItem.cs" />
     <Compile Include="GameLaunching\LaunchManager.cs" />
-    <Compile Include="LogEntry.cs" />
-    <Compile Include="LogViewerViewModel.cs" />
-    <Compile Include="LogViewerWindow.xaml.cs">
+    <Compile Include="LogViewer\LogEntry.cs" />
+    <Compile Include="LogViewer\LogViewerViewModel.cs" />
+    <Compile Include="LogViewer\LogViewerWindow.xaml.cs">
       <DependentUpon>LogViewerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
@@ -137,13 +137,13 @@
     <Compile Include="UtilityCode\DelegateCommand.cs" />
     <Compile Include="GameLaunching\GameLauncher.cs" />
     <Compile Include="UtilityCode\getOS.cs" />
-    <Compile Include="HelpWindow.xaml.cs">
+    <Compile Include="HelpWindow\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameLaunching\LaunchSorter.cs" />
     <Compile Include="UtilityCode\ListDistinctExtension.cs" />
     <Compile Include="UtilityCode\Logger.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="UtilityCode\LogWriter.cs" />
     <Compile Include="UtilityCode\MaskedTextBox.cs" />
     <Compile Include="ProfileManagement\Profile.cs" />
@@ -175,11 +175,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DiagnosticWindow.xaml">
+    <Page Include="DiagnosticWindow\DiagnosticWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogViewerWindow.xaml">
+    <Page Include="LogViewer\LogViewerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,11 +187,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HelpWindow.xaml">
+    <Page Include="HelpWindow\HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="MainWindow\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -202,7 +202,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -229,7 +229,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="injector.dll">
+    <None Include="GameLaunching\injector.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
