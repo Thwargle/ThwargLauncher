@@ -48,9 +48,9 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Path=ServerIP}" FontStyle="Italic" />
                                     <TextBlock Text=" " />
-                                    <TextBlock Text="{Binding Path=ServerDescription}" FontStyle="Italic" />
+                                    <TextBlock Text="{Binding Path=ConnectionStatus,Mode=TwoWay}" FontStyle="Oblique"  Foreground="AntiqueWhite"/>
                                 </StackPanel>
-                                <TextBlock Text="{Binding Path=ConnectionStatus,Mode=TwoWay}" FontStyle="Oblique"  Foreground="AntiqueWhite"/>
+                                <TextBlock Text="{Binding Path=ServerDescription}" FontStyle="Italic" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
