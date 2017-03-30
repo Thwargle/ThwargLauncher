@@ -10,7 +10,6 @@ namespace ThwargLauncher
     class ServerMonitor
     {
         public delegate void ReportSomethingDelegateMethod(string msg);
-        public event ReportSomethingDelegateMethod ReportingEvent;
 
         private Thread _thread = null;
         private IList<Server.ServerItem> _items;
@@ -19,7 +18,6 @@ namespace ThwargLauncher
         {
             _thread = new Thread(new ThreadStart(MonitorLoop));
             _items = items;
-            //_thread = new Thread(() => MonitorForever());
             _thread.Start();
         }
         public void StopMonitor()
@@ -29,7 +27,6 @@ namespace ThwargLauncher
         private void MonitorLoop()
         {
             Random random = new Random();
-            int i = 0;
             while (true)
             {
                 Thread.Sleep(5000);
