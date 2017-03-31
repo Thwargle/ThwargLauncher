@@ -80,17 +80,9 @@ namespace ThwargLauncher
 
         private void PopulateServerList()
         {
-            ServerManager.ServerList.Clear();
-            var phatServers = (new GameManagement.PhatACServerLister()).loadPhatServers();
-            var aceServers = (new GameManagement.AceServerLister()).loadACEServers();
-            foreach(var serverItem in phatServers.DistinctBy(p => p.ServerName))
-            {
-                ServerManager.ServerList.Add(serverItem);
-            }
-            foreach(var serverItem in aceServers.DistinctBy(p => p.ServerName))
-            {
-                ServerManager.ServerList.Add(serverItem);
-            }
+            var serverMgr = new ServerManager();
+            serverMgr.LoadServerLists();
+
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
