@@ -4,6 +4,10 @@ using System.Text;
 
 namespace ThwargLauncher
 {
+    /// <summary>
+    /// The GameSessionMap contains a list of running games 
+    /// Which can be searched by process id or by server+account or by character name
+    /// </summary>
     class GameSessionMap
     {
         private static object _locker = new object();

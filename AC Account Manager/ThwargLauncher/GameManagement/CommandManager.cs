@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace ThwargLauncher
 {
+    /// <summary>
+    /// The command manager listens for commands from running games and handles them
+    /// Which means it also talks to running games, e.g., to broadcast commands
+    /// It relies on the gameMonitor to communicate with games
+    /// </summary>
     class CommandManager
     {
         private GameMonitor _gameMonitor;

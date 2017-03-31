@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ThwargLauncher
 {
+    /// <summary>
+    /// The GameMonitor runs its own thread to read & write data to the running games
+    /// It fires events to report commands & game status changes
+    /// </summary>
     class GameMonitor
     {
         private static object _locker = new object();
