@@ -19,13 +19,18 @@ namespace ThwargLauncher
         private int index;
         public void StartMonitor(IList<Server.ServerItem> items)
         {
+            StopMonitor();
             _thread = new Thread(new ThreadStart(MonitorLoop));
             _items = items;
             _thread.Start();
         }
         public void StopMonitor()
         {
-            _thread.Abort();
+            if (_thread != null)
+            {
+                _thread.Abort();
+                _thread = null;
+            }
         }
         private void MonitorLoop()
         {
@@ -62,7 +67,7 @@ namespace ThwargLauncher
             try
             {
                 UdpClient udpClient = new UdpClient(port);
-                udpClient.Client.ReceiveTimeout = 3000;
+                udpClient.Client.ReceiveTimeout = 13000;
                 udpClient.Connect(address, port);
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 Byte[] sendBytes = ConstructPacket();

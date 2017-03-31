@@ -56,8 +56,11 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringServers()
         {
-            _monitor = new ServerMonitor();
-            _monitor.StartMonitor(ServerManager.ServerList);
+            if (Properties.Settings.Default.ServerMonitorEnabled)
+            {
+                _monitor = new ServerMonitor();
+                _monitor.StartMonitor(ServerManager.ServerList);
+            }
         }
         private void TestParse()
         {
@@ -107,7 +110,10 @@ namespace ThwargLauncher
         {
             _mainViewModel.ShutSubsidiaryWindows();
             EndMonitoringGame();
-            _monitor.StopMonitor();
+            if (_monitor != null)
+            {
+                _monitor.StopMonitor();
+            }
         }
         private void EndMonitoringGame()
         {

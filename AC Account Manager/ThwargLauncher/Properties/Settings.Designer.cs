@@ -164,5 +164,17 @@ namespace ThwargLauncher.Properties {
                 this["LastUsedSimpleLaunch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ServerMonitorEnabled {
+            get {
+                return ((bool)(this["ServerMonitorEnabled"]));
+            }
+            set {
+                this["ServerMonitorEnabled"] = value;
+            }
+        }
     }
 }
