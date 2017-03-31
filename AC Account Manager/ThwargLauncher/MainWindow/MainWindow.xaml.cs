@@ -340,7 +340,6 @@ namespace ThwargLauncher
                 _launchConcurrentQueue.Enqueue(launchItem);
                 EnableInterface(false);
                 btnCancel.IsEnabled = true;
-                UpdateConcurrentQueue();
                 _viewModel.RecordProfileLaunch();
                 WorkerArgs args = new WorkerArgs()
                 {
@@ -466,7 +465,7 @@ namespace ThwargLauncher
             var accountLaunchTimes = _gameSessionMap.GetLaunchAccountTimes();
 
             while (globalQueue.TryDequeue(out launchItem))
-            {    
+            {
                 LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem, accountLaunchTimes);
                 mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
                 LaunchManager.LaunchManagerResult launchResult;
@@ -498,7 +497,6 @@ namespace ThwargLauncher
                     e.Cancel = true;
                     return;
                 }
-
             }
         }
         private void UpdateAccountStatus(ServerAccountStatus status, LaunchItem launchItem)
