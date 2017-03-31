@@ -49,7 +49,11 @@ namespace ThwargLauncher
             _mainViewModel.RequestShowMainWindowEvent += () => _mainWindow.Show();
             _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
             _commandManager = new CommandManager(_gameMonitor, _gameSessionMap);
-            TestParse();
+            bool testCommandTokenParser = true;
+            if (testCommandTokenParser)
+            {
+                _commandManager.TestParse();
+            }
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _mainViewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
@@ -61,22 +65,6 @@ namespace ThwargLauncher
                 _monitor = new ServerMonitor();
                 _monitor.StartMonitor(ServerManager.ServerList);
             }
-        }
-        private void TestParse()
-        {
-            IList<string> result = null;
-            result = TestParseLine("a b c");
-            result = TestParseLine("a bde c");
-            result = TestParseLine("a 'b c'");
-            result = TestParseLine("a b 'c' \"alpha\"");
-            
-        }
-        private IList<string> TestParseLine(string text)
-        {
-            IList<string> list = _commandManager.ParseTokens(text);
-            string result = string.Join("], [", list.ToArray());
-            return list;
-
         }
         private void ShowMainWindow()
         {

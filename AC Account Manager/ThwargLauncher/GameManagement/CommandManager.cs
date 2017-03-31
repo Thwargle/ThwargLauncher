@@ -200,6 +200,24 @@ namespace ThwargLauncher
             }
             return items;
         }
+        public void TestParse()
+        {
+            TestParseLine("a b c", "[a], [b], [c]");
+            TestParseLine("a bde c", "[a], [bde], [c]");
+            TestParseLine("a 'b c'", "[a], [b c]");
+            TestParseLine("a b 'c' \"alpha\"", "[a], [b], [c], [alpha]");
+
+        }
+        private void TestParseLine(string text, string expected)
+        {
+            var list = ParseTokens(text);
+            string result = "[" + string.Join("], [", list.ToArray()) + "]";
+            if (result != expected)
+            {
+                string msg = string.Format("TestParseLine({0}) != {1}", text, expected);
+                throw new Exception(msg);
+            }
+        }
 
         private bool IsCommandPrefix(string line, string prefix, ref string command)
         {
