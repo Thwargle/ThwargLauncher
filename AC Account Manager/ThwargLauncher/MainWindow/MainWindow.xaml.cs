@@ -340,7 +340,6 @@ namespace ThwargLauncher
                 _launchConcurrentQueue.Enqueue(launchItem);
                 EnableInterface(false);
                 btnCancel.IsEnabled = true;
-                _viewModel.RecordProfileLaunch();
                 WorkerArgs args = new WorkerArgs()
                 {
                     ConcurrentLaunchQueue = _launchConcurrentQueue
