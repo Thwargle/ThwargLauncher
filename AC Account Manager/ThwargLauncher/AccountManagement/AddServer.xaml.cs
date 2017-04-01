@@ -37,19 +37,19 @@ namespace ThwargLauncher.AccountManagement
             if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
             {
                 XDocument doc = XDocument.Load("ACEServerList.xml");
-                createElement(doc);
+                AddNewServerToXmlDoc(doc);
                 doc.Save("ACEServerList.xml");
             }
             else if(rdPhatACServer.IsChecked.HasValue && rdPhatACServer.IsChecked.Value)
             {
                 XDocument doc = XDocument.Load("PhatACServerList.xml");
-                createElement(doc);
+                AddNewServerToXmlDoc(doc);
                 doc.Save("PhatACServerList.xml");
             }
             this.Close();
         }
 
-        private void createElement(XDocument doc)
+        private void AddNewServerToXmlDoc(XDocument doc)
         {
             serverName = txtServerName.Text;
             serverDesc = txtServeDesc.Text;
