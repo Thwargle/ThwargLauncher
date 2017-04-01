@@ -106,6 +106,7 @@ namespace ThwargLauncher
         private void EndMonitoringGame()
         {
             _uiGameMonitorBridge.Stop();
+            _gameMonitor.RemoveAllSessions();
             _gameMonitor.Stop();
         }
         public static GameSession GetTheGameSessionByServerAccount(string serverName, string accountName)

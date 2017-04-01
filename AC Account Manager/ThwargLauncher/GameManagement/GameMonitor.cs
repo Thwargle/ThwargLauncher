@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace ThwargLauncher
         private DateTime _lastUpdateUi = DateTime.MinValue;
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
+        private DateTime _lastWork;
 
         public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeTeam, ChangeNone };
         public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
@@ -47,10 +49,15 @@ namespace ThwargLauncher
             _warningInterval = TimeSpan.FromSeconds(ConfigSettings.GetConfigInt("HeartbeatWarningTimeoutSeconds", 15));
 
             int intervalMilliseconds = 3000;
-            //intervalMilliseconds = 20000; // TODO
             _timer.Interval = intervalMilliseconds;
             _timer.Elapsed += _timer_Elapsed;
             _timer.Start();
+            _map.CommandsReceivedEvent += MapCommandsReceivedEvent;
+        }
+
+        void MapCommandsReceivedEvent(GameSession session)
+        {
+            PerformWork();
         }
         public void Stop() // main thread
         {
@@ -68,21 +75,35 @@ namespace ThwargLauncher
         }
         void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            // Avoid doing work again if we did it recently (presumably from map event)
+            if ((DateTime.UtcNow - _lastWork).TotalMilliseconds < this._timer.Interval / 2) { return; }
+            PerformWork();
+        }
+        private void PerformWork()
+        {
+            // Avoid reentrancy
             if (_isWorking) { return; }
-            _isWorking = true;
-            if (ShouldWeCleanup())
+            try
             {
-                CleanupOldProcessFiles();
+                _isWorking = true;
+                if (ShouldWeCleanup())
+                {
+                    CleanupOldProcessFiles();
+                }
+                if (ShouldWeReadProcessFiles())
+                {
+                    ReadProcessFiles();
+                }
+                CheckLiveProcessFiles();
+                SendAndReceiveCommands();
+                ProcessAnyPendingCommnds();
+                UpdateUiIfNeeded();
+                _lastWork = DateTime.UtcNow;
             }
-            if (ShouldWeReadProcessFiles())
+            finally
             {
-                ReadProcessFiles();
+                _isWorking = false;
             }
-            CheckLiveProcessFiles();
-            SendAndReceiveCommands();
-            ProcessAnyPendingCommnds();
-            UpdateUiIfNeeded();
-            _isWorking = false;
         }
         private bool ShouldWeCleanup()
         {
@@ -158,7 +179,7 @@ namespace ThwargLauncher
             foreach (var deadGame in deadGames)
             {
                 deadGame.Status = ServerAccountStatus.None;
-                RemoveObsoleteHeartbeatFileByPidKey(deadGame.ProcessIdKey);
+                RemoveSessionByPidKey(deadGame.ProcessIdKey);
             }
         }
         private void SendAndReceiveCommands()
@@ -357,7 +378,7 @@ namespace ThwargLauncher
                     }
                     else
                     {
-                        RemoveObsoleteHeartbeatFileByPid(processId);
+                        RemoveDeadSessionByPid(processId);
                         processId = 0;
                     }
                 }
@@ -426,20 +447,31 @@ namespace ThwargLauncher
                 NotifyGameChange(gameSession, GameChangeType.StartGame);
             }
         }
-        private void RemoveObsoleteHeartbeatFileByPid(int processId)
+        private void RemoveDeadSessionByPid(int processId)
         {
             string pidkey = GameSessionMap.GetProcessIdKey(processId);
-            RemoveObsoleteHeartbeatFileByPidKey(pidkey);
+            RemoveSessionByPidKey(pidkey);
         }
-        private void RemoveObsoleteHeartbeatFileByPidKey(string pidkey)
+        private void RemoveSessionByPidKey(string pidkey)
         {
-            // obsolete heartbeat file
-            var gameSession = _map.GetGameSessionByProcessIdKey(pidkey);
+            var gameSession = _map.RemoveGameSessionByProcessIdKey(pidkey);
             if (gameSession != null)
             {
-                _map.RemoveGameSessionByProcessIdKey(pidkey);
+                gameSession.StopWatcher();
                 gameSession.Status = ServerAccountStatus.None;
                 NotifyGameChange(gameSession, GameChangeType.EndGame);
+            }
+        }
+        /// <summary>
+        /// Remove all game sessions
+        /// This is used to stop all the file watches
+        /// </summary>
+        public void RemoveAllSessions()
+        {
+            var keys = _map.GetAllProcessIdKeys().ToList();
+            foreach (var key in keys)
+            {
+                RemoveSessionByPidKey(key);
             }
         }
         private void NotifyGameChange(GameSession gameSession, GameChangeType changeType)
@@ -459,7 +491,7 @@ namespace ThwargLauncher
 
         public void RemoveGameByPid(int processId)
         {
-            RemoveObsoleteHeartbeatFileByPid(processId);
+            RemoveDeadSessionByPid(processId);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace ThwargLauncher
     /// </summary>
     class GameSessionMap
     {
+        public delegate void CommandsReceivedHandler(GameSession session);
+        public event CommandsReceivedHandler CommandsReceivedEvent;
+
         private static object _locker = new object();
         // Member data
         private Dictionary<string, GameSession> _sessionByProcessId = new Dictionary<string, GameSession>();
@@ -59,7 +62,32 @@ namespace ThwargLauncher
                     sessionList.Add(gameSession);
                     _sessionsByCharacterName[gameSession.CharacterName] = sessionList;
                 }
+                StartWatcher(gameSession);
             }
+        }
+        private void StartWatcher(GameSession gameSession)
+        {
+            // TODO - get from channel!
+            string incmdsFilepath = "C:\\Users\\acdev\\AppData\\Roaming\\ThwargLauncher\\Running";
+            incmdsFilepath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ThwargLauncher\\Running");
+            gameSession.FileWatcher.Path = incmdsFilepath;
+            gameSession.FileWatcher.Filter = string.Format("incmds_{0}.txt", gameSession.ProcessId);
+            gameSession.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
+            gameSession.FileWatcher.Changed += (sender, e) => OnFileModified(gameSession, sender, e);
+            gameSession.FileWatcher.EnableRaisingEvents = true;
+        }
+
+        void OnFileModified(GameSession session, object sender, System.IO.FileSystemEventArgs e)
+        {
+            if (CommandsReceivedEvent != null)
+            {
+                CommandsReceivedEvent(session);
+            }
+        }
+        public IEnumerable<string> GetAllProcessIdKeys()
+        {
+            var keys = this._sessionByProcessId.Keys;
+            return keys;
         }
         public void SetGameSessionProcessId(GameSession gameSession, int processId)
         {
@@ -172,23 +200,25 @@ namespace ThwargLauncher
             string pidkey = GetProcessIdKey(processId);
             RemoveGameSessionByProcessIdKey(pidkey);
         }
-        public void RemoveGameSessionByProcessIdKey(string pidkey)
+        public GameSession RemoveGameSessionByProcessIdKey(string pidkey)
         {
             lock (_locker)
             {
-                if (_sessionByProcessId.ContainsKey(pidkey))
+                if (!_sessionByProcessId.ContainsKey(pidkey))
                 {
-                    GameSession gameSession = _sessionByProcessId[pidkey];
-                    // #1 By ProcessId
-                    _sessionByProcessId.Remove(pidkey);
-                    // #2 By Server/Account
-                    _sessionByServerAccount.Remove(GetServerAccountKey(gameSession));
-                    // #3 By Character Name
-                    if (!string.IsNullOrEmpty(gameSession.CharacterName) && _sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
-                    {
-                        _sessionsByCharacterName[gameSession.CharacterName].Remove(gameSession);
-                    }
+                    return null;
                 }
+                GameSession gameSession = _sessionByProcessId[pidkey];
+                // #1 By ProcessId
+                _sessionByProcessId.Remove(pidkey);
+                // #2 By Server/Account
+                _sessionByServerAccount.Remove(GetServerAccountKey(gameSession));
+                // #3 By Character Name
+                if (!string.IsNullOrEmpty(gameSession.CharacterName) && _sessionsByCharacterName.ContainsKey(gameSession.CharacterName))
+                {
+                    _sessionsByCharacterName[gameSession.CharacterName].Remove(gameSession);
+                }
+                return gameSession;
             }
         }
         public void StartLaunchingSession(string serverName, string accountName)
