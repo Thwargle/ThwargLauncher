@@ -307,13 +307,21 @@ namespace ThwargLauncher
             }
             if (gameSession.GameChannel == null)
             {
-                gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(response.Status.ProcessId);
+                CreateGameChannel(response.Status.ProcessId, gameSession);
             }
             gameSession.UptimeSeconds = response.Status.UptimeSeconds;
             if (gameSession.TeamList != response.Status.TeamList)
             {
                 gameSession.AssignTeamSetFromString(response.Status.TeamList);
                 NotifyGameChange(gameSession, GameChangeType.ChangeTeam);
+            }
+        }
+        private void CreateGameChannel(int processId, GameSession gameSession)
+        {
+            gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(processId);
+            if (!gameSession.FileWatcher.EnableRaisingEvents)
+            {
+                _map.StartWatcher(gameSession);
             }
         }
         private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)

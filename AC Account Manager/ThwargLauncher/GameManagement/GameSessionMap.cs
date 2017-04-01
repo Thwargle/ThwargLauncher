@@ -65,16 +65,19 @@ namespace ThwargLauncher
                 StartWatcher(gameSession);
             }
         }
-        private void StartWatcher(GameSession gameSession)
+        public void StartWatcher(GameSession gameSession)
         {
-            var writer = new MagFilter.Channels.ChannelWriter();
-            var cmdfilepath = writer.GetChannelInboundFilepath(gameSession.GameChannel);
+            if (gameSession.GameChannel != null && !gameSession.FileWatcher.EnableRaisingEvents)
+            {
+                var writer = new MagFilter.Channels.ChannelWriter();
+                var cmdfilepath = writer.GetChannelInboundFilepath(gameSession.GameChannel);
 
-            gameSession.FileWatcher.Path = System.IO.Path.GetDirectoryName(cmdfilepath);
-            gameSession.FileWatcher.Filter = System.IO.Path.GetFileName(cmdfilepath);
-            gameSession.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
-            gameSession.FileWatcher.Changed += (sender, e) => OnFileModified(gameSession, sender, e);
-            gameSession.FileWatcher.EnableRaisingEvents = true;
+                gameSession.FileWatcher.Path = System.IO.Path.GetDirectoryName(cmdfilepath);
+                gameSession.FileWatcher.Filter = System.IO.Path.GetFileName(cmdfilepath);
+                gameSession.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
+                gameSession.FileWatcher.Changed += (sender, e) => OnFileModified(gameSession, sender, e);
+                gameSession.FileWatcher.EnableRaisingEvents = true;
+            }
         }
 
         void OnFileModified(GameSession session, object sender, System.IO.FileSystemEventArgs e)
