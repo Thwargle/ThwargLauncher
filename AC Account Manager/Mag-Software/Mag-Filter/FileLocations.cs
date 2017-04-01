@@ -149,9 +149,15 @@ namespace MagFilter
             return filepath;
         }
 
-        public static void CreateAnyNeededFolders(string filepath)
+        public static void CreateAnyNeededFoldersOfFile(string filepath)
         {
             string folder = new FileInfo(filepath).Directory.FullName;
+            Directory.CreateDirectory(folder);
+        }
+
+        public static void CreateAnyNeededFoldersOfFolder(string folderpath)
+        {
+            string folder = new DirectoryInfo(folderpath).FullName;
             Directory.CreateDirectory(folder);
         }
     }

@@ -78,9 +78,9 @@ namespace ThwargLauncher
         }
         internal string GetLauncherLogPath()
         {
-            string filepath = MagFilter.FileLocations.AppLogsFolder + @"\ThwargLauncher-%PID%_log.txt";
+            string filepath = System.IO.Path.Combine(MagFilter.FileLocations.AppLogsFolder,  "ThwargLauncher-%PID%_log.txt");
             filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
-            MagFilter.FileLocations.CreateAnyNeededFolders(filepath);
+            MagFilter.FileLocations.CreateAnyNeededFoldersOfFile(filepath);
             return filepath;
         }
         private void RecordGameDll()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -11,18 +12,22 @@ namespace ThwargLauncher.GameManagement
     class PhatACServerLister
     {
         private const string EMU = "PhatAC";
+        private string _folder;
 
-        public List<Server.ServerItem> loadPhatServers()
+        public PhatACServerLister(string folder)
         {
-            return loadServers();
+            _folder = folder;
         }
-
-        public List<Server.ServerItem> loadServers()
+        public List<Server.ServerItem> LoadPhatServers()
+        {
+            return LoadServers();
+        }
+        private List<Server.ServerItem> LoadServers()
         {
             List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
             DownloadPublishedPhatServers();
-            AddPhatServersFromFile(serverItemList, "PublishedPhatACServerList.xml", "Published Phat Server List");
-            AddPhatServersFromFile(serverItemList, "PhatACServerList.xml", "User's Phat Server List");
+            AddPhatServersFromFile(serverItemList, ServerManager.PublishedPhatServerList, "Published Phat Server List");
+            AddPhatServersFromFile(serverItemList, ServerManager.PhatServerList, "User's Phat Server List");
             return serverItemList;
         }
         private void DownloadPublishedPhatServers()
@@ -37,7 +42,8 @@ namespace ThwargLauncher.GameManagement
                 }
                 var xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(xmlStr);
-                xmlDoc.Save("PublishedPhatACServerList.xml");
+                string filepath = GetFilePath(ServerManager.PublishedPhatServerList);
+                xmlDoc.Save(filepath);
             }
             catch (Exception exc)
             {
@@ -48,7 +54,20 @@ namespace ThwargLauncher.GameManagement
         {
             try
             {
-                var phatServerItems = ReadPhatServerList(filename);
+                string filepath = GetFilePath(filename);
+                // One-time migration from executable directory
+                if (!File.Exists(filepath))
+                {
+                    if (File.Exists(filename))
+                    {
+                        File.Copy(filename, filepath);
+                    }
+                }
+                if (!File.Exists(filepath))
+                {
+                    return;
+                }
+                var phatServerItems = ReadPhatServerList(filepath);
                 serverItemList.AddRange(phatServerItems);
             }
             catch (Exception exc)
@@ -96,10 +115,15 @@ namespace ThwargLauncher.GameManagement
         private static string GetSubvalue(XmlNode node, string key)
         {
             var childNodes = node.SelectNodes(key);
-            if (childNodes.Count == 0) { throw new Exception("Server lacked name"); }
+            if (childNodes.Count == 0) { throw new Exception("Server lacked key: " + key); }
             var childNode = childNodes[0];
             string value = childNode.InnerText;
             return value;
+        }
+        private string GetFilePath(string filename)
+        {
+            string filepath = Path.Combine(_folder, filename);
+            return filepath;
         }
     }
 }

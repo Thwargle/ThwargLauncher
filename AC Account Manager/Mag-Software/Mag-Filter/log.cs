@@ -29,7 +29,7 @@ namespace MagFilter
                     }
                     _logFilepath = FileLocations.ExpandFilepath(filepath);
                     // Create any needed folders
-                    FileLocations.CreateAnyNeededFolders(_logFilepath);
+                    FileLocations.CreateAnyNeededFoldersOfFile(_logFilepath);
                 }
 
                 using (StreamWriter file = new StreamWriter(_logFilepath, append: true))
