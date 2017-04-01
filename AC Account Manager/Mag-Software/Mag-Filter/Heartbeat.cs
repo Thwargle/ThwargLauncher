@@ -114,7 +114,7 @@ namespace MagFilter
             }
             try
             {
-                if (_myChannel.HasOutboundCommands())
+                if (_myChannel.HasOutboundCommands() && _myChannel.NeedsToWrite)
                 {
                     var writer = new Channels.ChannelWriter();
                     writer.WriteCommandsToFile(_myChannel);
