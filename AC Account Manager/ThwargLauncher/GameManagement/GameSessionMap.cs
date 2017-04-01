@@ -68,8 +68,7 @@ namespace ThwargLauncher
         private void StartWatcher(GameSession gameSession)
         {
             // TODO - get from channel!
-            string incmdsFilepath = "C:\\Users\\acdev\\AppData\\Roaming\\ThwargLauncher\\Running";
-            incmdsFilepath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ThwargLauncher\\Running");
+            string incmdsFilepath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ThwargLauncher\\Running");
             gameSession.FileWatcher.Path = incmdsFilepath;
             gameSession.FileWatcher.Filter = string.Format("incmds_{0}.txt", gameSession.ProcessId);
             gameSession.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
