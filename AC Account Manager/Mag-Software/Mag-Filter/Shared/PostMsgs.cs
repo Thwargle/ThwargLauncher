@@ -138,7 +138,7 @@ namespace KeyUtil
 					_spaceReleaseTimer.Interval = 1;
 				}
 
-				_spaceSendTime = DateTime.Now;
+				_spaceSendTime = DateTime.UtcNow;
 				_spaceHoldTimeMilliseconds = msToHoldDown;
 				_spaceAddShift = addShift;
 				_spaceAddW = addW;
@@ -161,7 +161,7 @@ namespace KeyUtil
 		{
 		    WndTimer timer = (sender as WndTimer);
             IntPtr wnd = timer.Wnd;
-			if (_spaceSendTime.AddMilliseconds(_spaceHoldTimeMilliseconds) <= DateTime.Now)
+			if (_spaceSendTime.AddMilliseconds(_spaceHoldTimeMilliseconds) <= DateTime.UtcNow)
 			{
 				_spaceReleaseTimer.Stop();
 			    if (_spaceAddShift) PressShift(wnd);
