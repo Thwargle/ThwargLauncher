@@ -67,10 +67,11 @@ namespace ThwargLauncher
         }
         private void StartWatcher(GameSession gameSession)
         {
-            // TODO - get from channel!
-            string incmdsFilepath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ThwargLauncher\\Running");
-            gameSession.FileWatcher.Path = incmdsFilepath;
-            gameSession.FileWatcher.Filter = string.Format("incmds_{0}.txt", gameSession.ProcessId);
+            var writer = new MagFilter.Channels.ChannelWriter();
+            var cmdfilepath = writer.GetChannelInboundFilepath(gameSession.GameChannel);
+
+            gameSession.FileWatcher.Path = System.IO.Path.GetDirectoryName(cmdfilepath);
+            gameSession.FileWatcher.Filter = System.IO.Path.GetFileName(cmdfilepath);
             gameSession.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
             gameSession.FileWatcher.Changed += (sender, e) => OnFileModified(gameSession, sender, e);
             gameSession.FileWatcher.EnableRaisingEvents = true;
