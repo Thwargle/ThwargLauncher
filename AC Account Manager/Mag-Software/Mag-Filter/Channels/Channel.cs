@@ -59,7 +59,6 @@ namespace MagFilter.Channels
                 {
                     var cmd = InboundCommands[0];
                     InboundCommands.RemoveAt(0);
-                    NeedsToWrite = true;
                     return cmd;
                 }
             }

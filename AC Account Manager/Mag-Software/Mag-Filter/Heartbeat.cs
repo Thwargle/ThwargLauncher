@@ -114,7 +114,7 @@ namespace MagFilter
             }
             try
             {
-                if (_myChannel.HasOutboundCommands() && _myChannel.NeedsToWrite)
+                if (_myChannel.NeedsToWrite)
                 {
                     var writer = new Channels.ChannelWriter();
                     writer.WriteCommandsToFile(_myChannel);
@@ -137,17 +137,16 @@ namespace MagFilter
         {
             var writer = new Channels.ChannelWriter();
             writer.ReadCommandsFromFile(_myChannel);
-            DateTime myack = _myChannel.LastInboundProcessedUtc;
             while (_myChannel.HasInboundCommandCount())
             {
                 var cmd = _myChannel.DequeueInbound();
-                if (cmd.TimeStampUtc > myack)
-                {
-                    myack = cmd.TimeStampUtc;
-                }
                 ExecuteGameCommandString(cmd.CommandString);
+                if (cmd.TimeStampUtc > _myChannel.LastInboundProcessedUtc)
+                {
+                    _myChannel.LastInboundProcessedUtc = cmd.TimeStampUtc;
+                    _myChannel.NeedsToWrite = true;
+                }
             }
-            _myChannel.LastInboundProcessedUtc = myack;
         }
         private void ExecuteGameCommandString(string commandString)
         {
