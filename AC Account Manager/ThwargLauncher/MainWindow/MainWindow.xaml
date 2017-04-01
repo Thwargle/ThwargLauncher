@@ -132,7 +132,8 @@
                                                     </Grid.ColumnDefinitions>
                                                     <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
                                                     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
-                                                        <Label Foreground="Purple" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
+                                                        <Label Foreground="#FFBB8000" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
+                                                        <Label Foreground="Purple" Content="{Binding Path=ServerStatusSymbol}" HorizontalAlignment="Left"></Label>
                                                         <Label Foreground="#FFBB8000" Content="{Binding Path=ServerDisplayName}" HorizontalAlignment="Left"></Label>
                                                         <Label Foreground="AntiqueWhite" Content="{Binding Path=ConnectionStatus}" HorizontalAlignment="Left"/>
                                                     </StackPanel>

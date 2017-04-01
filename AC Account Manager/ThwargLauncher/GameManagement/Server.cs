@@ -50,7 +50,22 @@ namespace ThwargLauncher
                 }
             }
         }
-        public string ServerStatusSymbol { get; set; }
+        private string _serverStatusSymbol;
+        public string ServerStatusSymbol
+        {
+            get
+            {
+                return _serverStatusSymbol;
+            }
+            set
+            {
+                if (_serverStatusSymbol != value)
+                {
+                    _serverStatusSymbol = value;
+                    OnPropertyChanged("ServerStatusSymbol");
+                }
+            }
+        }
         public string ServerIpAndPort { get { return _myServerItem.ServerIpAndPort; } }
         public string ServerName { get { return _myServerItem.ServerName; } }
         public string EMU { get {  return _myServerItem.EMU; } }
