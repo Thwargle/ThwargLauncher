@@ -4,6 +4,12 @@ using System.Text;
 
 namespace MagFilter.Channels
 {
+    /// <summary>
+    /// Read & write commands to & from disk
+    /// For commands passed between ThwargLauncher application and the MagFilter dll inside the game
+    /// This code is called both from MagFilter inside the game
+    /// And from the ThwargLauncher application (which loads its own copy of MagFilter inside itself)
+    /// </summary>
     public class ChannelWriter
     {
         public void WriteCommandsToFile(Channel channel)
