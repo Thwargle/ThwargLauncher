@@ -63,5 +63,22 @@ namespace MagFilter.Channels
             string filepath = System.IO.Path.Combine(FileLocations.GetRunningFolder(), filename);
             return filepath;
         }
+        public void StartWatcher(Channel channel)
+        {
+            var cmdfilepath = GetChannelInboundFilepath(channel);
+
+            channel.FileWatcher.Path = System.IO.Path.GetDirectoryName(cmdfilepath);
+            channel.FileWatcher.Filter = System.IO.Path.GetFileName(cmdfilepath);
+            channel.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
+            channel.FileWatcher.EnableRaisingEvents = true;
+        }
+        public void StopWatcher(Channel channel)
+        {
+            channel.FileWatcher.EnableRaisingEvents = false;
+        }
+        public bool IsWatcherEnabled(Channel channel)
+        {
+            return channel.FileWatcher.EnableRaisingEvents;
+        }
     }
 }

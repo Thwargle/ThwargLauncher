@@ -319,10 +319,7 @@ namespace ThwargLauncher
         private void CreateGameChannel(int processId, GameSession gameSession)
         {
             gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(processId);
-            if (!gameSession.FileWatcher.EnableRaisingEvents)
-            {
-                _map.StartWatcher(gameSession);
-            }
+            _map.StartSessionWatcher(gameSession);
         }
         private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)
         {
@@ -465,7 +462,7 @@ namespace ThwargLauncher
             var gameSession = _map.RemoveGameSessionByProcessIdKey(pidkey);
             if (gameSession != null)
             {
-                gameSession.StopWatcher();
+                gameSession.StopSessionWatcher();
                 gameSession.Status = ServerAccountStatus.None;
                 NotifyGameChange(gameSession, GameChangeType.EndGame);
             }

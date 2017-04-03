@@ -4,6 +4,12 @@ using System.Text;
 
 namespace MagFilter.Channels
 {
+    /// <summary>
+    /// A channel handles communication between a game and ThwargLauncher
+    /// The channel maintains state about pending commands & acknowledgments
+    /// in both directions
+    /// The channel determines which direction is which via its member InGameDLL
+    /// </summary>
     public class Channel
     {
         private static object _locker = new object();
@@ -27,6 +33,7 @@ namespace MagFilter.Channels
         private List<Command> InboundCommands = new List<Command>();
         public DateTime LastInboundProcessedUtc = DateTime.MinValue;
         public bool NeedsToWrite = false;
+        public System.IO.FileSystemWatcher FileWatcher = new System.IO.FileSystemWatcher();
 
         public bool HasOutboundCommands() { return OutboundCommands.Count > 0; }
         public IList<Command> GetOutboundCommands() { return OutboundCommands; }

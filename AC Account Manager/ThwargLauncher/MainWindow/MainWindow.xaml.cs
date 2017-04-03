@@ -468,9 +468,10 @@ namespace ThwargLauncher
                 LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem, accountLaunchTimes);
                 mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
                 LaunchManager.LaunchManagerResult launchResult;
+                GameSession session = null;
                 try
                 {
-                    _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
+                    session = _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
                     UpdateAccountStatus(ServerAccountStatus.Starting, launchItem);
                     launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
                 }
@@ -483,6 +484,7 @@ namespace ThwargLauncher
                 {
                     ++serverIndex;
                     CallUiLoadUserAccounts(); // Pick up any characters
+                    _gameSessionMap.StartSessionWatcher(session);
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                 }
                 else

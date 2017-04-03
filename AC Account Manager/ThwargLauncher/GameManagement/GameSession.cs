@@ -11,7 +11,6 @@ namespace ThwargLauncher
         public int ProcessId;
         public string ProcessIdKey;
         public string ProcessStatusFilepath;
-        public System.IO.FileSystemWatcher FileWatcher = new System.IO.FileSystemWatcher();
         public int UptimeSeconds = -1;
         public ServerAccountStatus Status = ServerAccountStatus.None;
         public DateTime LastGoodStatusUtc = DateTime.MinValue;
@@ -35,9 +34,10 @@ namespace ThwargLauncher
             }
             return false;
         }
-        public void StopWatcher()
+        public void StopSessionWatcher()
         {
-            FileWatcher.EnableRaisingEvents = false;
+            var writer = new MagFilter.Channels.ChannelWriter();
+            writer.StopWatcher(this.GameChannel);
         }
         
         // Implementation

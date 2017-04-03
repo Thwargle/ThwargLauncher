@@ -62,25 +62,23 @@ namespace ThwargLauncher
                     sessionList.Add(gameSession);
                     _sessionsByCharacterName[gameSession.CharacterName] = sessionList;
                 }
-                StartWatcher(gameSession);
+                StartSessionWatcher(gameSession);
             }
         }
-        public void StartWatcher(GameSession gameSession)
+        public void StartSessionWatcher(GameSession gameSession)
         {
-            if (gameSession.GameChannel != null && !gameSession.FileWatcher.EnableRaisingEvents)
+            if (gameSession.GameChannel != null)
             {
                 var writer = new MagFilter.Channels.ChannelWriter();
-                var cmdfilepath = writer.GetChannelInboundFilepath(gameSession.GameChannel);
-
-                gameSession.FileWatcher.Path = System.IO.Path.GetDirectoryName(cmdfilepath);
-                gameSession.FileWatcher.Filter = System.IO.Path.GetFileName(cmdfilepath);
-                gameSession.FileWatcher.NotifyFilter = System.IO.NotifyFilters.LastWrite;
-                gameSession.FileWatcher.Changed += (sender, e) => OnFileModified(gameSession, sender, e);
-                gameSession.FileWatcher.EnableRaisingEvents = true;
+                if (!writer.IsWatcherEnabled(gameSession.GameChannel))
+                {
+                    writer.StartWatcher(gameSession.GameChannel);
+                    gameSession.GameChannel.FileWatcher.Changed += (sender, e) => OnChannelFileChanged(gameSession, sender, e);
+                }
             }
         }
 
-        void OnFileModified(GameSession session, object sender, System.IO.FileSystemEventArgs e)
+        void OnChannelFileChanged(GameSession session, object sender, System.IO.FileSystemEventArgs e)
         {
             if (CommandsReceivedEvent != null)
             {
@@ -224,7 +222,7 @@ namespace ThwargLauncher
                 return gameSession;
             }
         }
-        public void StartLaunchingSession(string serverName, string accountName)
+        public GameSession StartLaunchingSession(string serverName, string accountName)
         {
             lock (_locker)
             {
@@ -243,6 +241,7 @@ namespace ThwargLauncher
                     gameSession.Status = ServerAccountStatus.Starting;
                     AddGameSession(gameSession);
                 }
+                return gameSession;
             }
         }
         public void EndLaunchingSession(string serverName, string accountName)
