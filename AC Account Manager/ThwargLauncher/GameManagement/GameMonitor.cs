@@ -22,6 +22,7 @@ namespace ThwargLauncher
         private TimeSpan _warningInterval; // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
+        private const int TIMER_SECONDS = 60;
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
         private DateTime _lastUpdateUi = DateTime.MinValue;
@@ -48,7 +49,7 @@ namespace ThwargLauncher
             _liveInterval = TimeSpan.FromSeconds(ConfigSettings.GetConfigInt("HeartbeatFailedTimeoutSeconds", 60));
             _warningInterval = TimeSpan.FromSeconds(ConfigSettings.GetConfigInt("HeartbeatWarningTimeoutSeconds", 15));
 
-            int intervalMilliseconds = 3000;
+            int intervalMilliseconds = 1000 * TIMER_SECONDS;
             _timer.Interval = intervalMilliseconds;
             _timer.Elapsed += _timer_Elapsed;
             _timer.Start();
@@ -57,6 +58,7 @@ namespace ThwargLauncher
 
         void MapCommandsReceivedEvent(GameSession session)
         {
+            Logger.WriteError("QWQ Thwarg Received channel Watch Event");
             PerformWork();
         }
         public void Stop() // main thread

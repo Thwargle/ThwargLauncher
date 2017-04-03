@@ -13,8 +13,8 @@ namespace MagFilter
         private Channels.Channel _myChannel = Channels.Channel.MakeGameChannel();
         private MagFilterCommandParser _cmdParser = null;
         private DateTime LastSendAndReceive;
-        private const int TIMER_MILLISECONDS = 3000;
-        private const int TIMER_SKIPMS = 1000; // Skip timer if send & received this recent
+        private const int TIMER_SECONDS = 60;
+        private const int TIMER_SKIPSEC = 1; // Skip timer if send & received this recent
 
         private HeartbeatGameStatus _status = new HeartbeatGameStatus();
 
@@ -48,7 +48,7 @@ namespace MagFilter
             int dllProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
             _gameToLauncherFilepath = FileLocations.GetGameHeartbeatFilepath(dllProcessId);
 
-            int intervalMilliseconds = TIMER_MILLISECONDS;
+            int intervalMilliseconds = 1000 * TIMER_SECONDS;
             _timer = new System.Windows.Forms.Timer();
             _timer.Interval = intervalMilliseconds;
             _timer.Tick += timer_Tick;
@@ -68,6 +68,7 @@ namespace MagFilter
         }
         void OnChannelFileWatcherChanged(object sender, System.IO.FileSystemEventArgs e)
         {
+            log.WriteLogMsg("WQW Channel File Watcher Fired");
             Heartbeat.SendAndReceiveImmediately();
         }
         void CurrentDomain_ProcessExit(object sender, EventArgs e)
@@ -93,7 +94,7 @@ namespace MagFilter
         {
             if (System.Threading.Monitor.TryEnter(_locker))
             {
-                if ((DateTime.UtcNow - LastSendAndReceive).TotalMilliseconds < TIMER_SKIPMS)
+                if ((DateTime.UtcNow - LastSendAndReceive).TotalMilliseconds < 1000 * TIMER_SKIPSEC)
                 {
                     return;
                 }
