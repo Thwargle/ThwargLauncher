@@ -12,6 +12,9 @@ namespace MagFilter
         private static Heartbeat theHeartbeat = new Heartbeat();
         private Channels.Channel _myChannel = Channels.Channel.MakeGameChannel();
         private MagFilterCommandParser _cmdParser = null;
+        private DateTime LastSendAndReceive;
+        private const int TIMER_MILLISECONDS = 3000;
+        private const int TIMER_SKIPMS = 1000; // Skip timer if send & received this recent
 
         private HeartbeatGameStatus _status = new HeartbeatGameStatus();
 
@@ -45,7 +48,7 @@ namespace MagFilter
             int dllProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
             _gameToLauncherFilepath = FileLocations.GetGameHeartbeatFilepath(dllProcessId);
 
-            int intervalMilliseconds = 3000;
+            int intervalMilliseconds = TIMER_MILLISECONDS;
             _timer = new System.Windows.Forms.Timer();
             _timer.Interval = intervalMilliseconds;
             _timer.Tick += timer_Tick;
@@ -69,6 +72,10 @@ namespace MagFilter
         {
             if (System.Threading.Monitor.TryEnter(_locker))
             {
+                if ((DateTime.UtcNow - LastSendAndReceive).TotalMilliseconds < TIMER_SKIPMS)
+                {
+                    return;
+                }
                 try
                 {
                     SendAndReceiveCommands();
@@ -103,6 +110,7 @@ namespace MagFilter
         /// </summary>
         private void SendAndReceiveCommands()
         {
+            bool success = true;
             try
             {
                 _status.TeamList = _cmdParser.GetTeamList();
@@ -110,6 +118,7 @@ namespace MagFilter
             }
             catch (Exception exc)
             {
+                success = false;
                 log.WriteLogMsg("Exception writing heartbeat status: " + exc.ToString());
             }
             try
@@ -122,6 +131,7 @@ namespace MagFilter
             }
             catch (Exception exc)
             {
+                success = false;
                 log.WriteLogMsg("Exception writing command file status: " + exc.ToString());
             }
             try
@@ -130,7 +140,12 @@ namespace MagFilter
             }
             catch (Exception exc)
             {
+                success = false;
                 log.WriteLogMsg("Exception reading command file status: " + exc.ToString());
+            }
+            if (success)
+            {
+                LastSendAndReceive = DateTime.UtcNow;
             }
         }
         private void ReadAndProcessInboundCommands()
