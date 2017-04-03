@@ -54,18 +54,39 @@ namespace MagFilter
             _timer.Tick += timer_Tick;
             _timer.Enabled = true;
             _timer.Start();
+            StartChannelFileWatcher();
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
         }
-
+        private void StartChannelFileWatcher()
+        {
+            var writer = new Channels.ChannelWriter();
+            if (!writer.IsWatcherEnabled(_myChannel))
+            {
+                writer.StartWatcher(_myChannel);
+                _myChannel.FileWatcher.Changed += OnChannelFileWatcherChanged;
+            }
+        }
+        void OnChannelFileWatcherChanged(object sender, System.IO.FileSystemEventArgs e)
+        {
+            Heartbeat.SendAndReceiveImmediately();
+        }
         void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
             lock (_locker)
             {
+                if (_myChannel != null)
+                {
+                    var writer = new Channels.ChannelWriter();
+                    if (writer.IsWatcherEnabled(_myChannel))
+                    {
+                        writer.StopWatcher(_myChannel);
+                    }
+                }
                 if (_timer != null)
                 {
-                    log.WriteLogMsg("process exit");
                     _timer.Stop();
                 }
+                log.WriteLogMsg("process exit");
             }
         }
         void timer_Tick(object sender, EventArgs e)
@@ -100,9 +121,6 @@ namespace MagFilter
                 {
                     System.Threading.Monitor.Exit(_locker);
                 }
-            }
-            lock (_locker)
-            {
             }
         }
         /// <summary>
