@@ -468,6 +468,11 @@ namespace ThwargLauncher
                 gameSession.StopSessionWatcher();
                 gameSession.Status = ServerAccountStatus.None;
                 NotifyGameChange(gameSession, GameChangeType.EndGame);
+                string gamePath = gameSession.ProcessStatusFilepath;
+                if(File.Exists(gamePath))
+                {
+                    File.Delete(gamePath);
+                }
             }
         }
         /// <summary>

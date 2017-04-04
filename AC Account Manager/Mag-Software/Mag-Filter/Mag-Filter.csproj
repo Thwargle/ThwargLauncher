@@ -101,6 +101,8 @@
     <Compile Include="LaunchControl.cs" />
     <Compile Include="log.cs" />
     <Compile Include="LoginCharacterTools.cs" />
+    <Compile Include="LoginCommandPersister.cs" />
+    <Compile Include="LoginCommands.cs" />
     <Compile Include="LoginCompleteMessageQueueManager.cs" />
     <Compile Include="LoginNextCharacterManager.cs" />
     <Compile Include="AfterLoginCompleteMessageQueueManager.cs" />
