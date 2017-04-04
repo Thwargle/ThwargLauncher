@@ -13,17 +13,33 @@ namespace MagFilter.Channels
 
         public void WriteCommandsToFile(CommandSet cmdset, string filepath)
         {
-            DateTime timestampUtc = DateTime.UtcNow;
-            using (var file = new StreamWriter(filepath, append: false))
+            var contents = WriteCommandsToString(cmdset);
+            WriteTextToFile(contents, filepath);
+        }
+        private string WriteCommandsToString(CommandSet cmdset)
+        {
+            using (var stream = new StringWriter())
             {
-                file.WriteLine("FileVersion:{0}", MASTER_FILE_VERSION);
-                file.WriteLine("Timestamp=TimeUtc:'{0:o}'", timestampUtc);
-                file.WriteLine("AcknowledgementUtc:{0:o}", cmdset.Acknowledgement);
-                file.WriteLine("CommandCount:{0}", cmdset.Commands.Count);
-                for (int i=0; i<cmdset.Commands.Count; ++i)
+                DateTime timestampUtc = DateTime.UtcNow;
+                stream.WriteLine("FileVersion:{0}", MASTER_FILE_VERSION);
+                stream.WriteLine("Timestamp=TimeUtc:'{0:o}'", timestampUtc);
+                stream.WriteLine("AcknowledgementUtc:{0:o}", cmdset.Acknowledgement);
+                stream.WriteLine("CommandCount:{0}", cmdset.Commands.Count);
+                for (int i = 0; i < cmdset.Commands.Count; ++i)
                 {
                     Command cmd = cmdset.Commands[i];
-                    file.WriteLine("Command{0}=TimeStampUtc:'{1}' CommandString:'{2}'", i+1, cmd.TimeStampUtc, cmd.CommandString);
+                    stream.WriteLine("Command{0}=TimeStampUtc:'{1}' CommandString:'{2}'", i + 1, cmd.TimeStampUtc, cmd.CommandString);
+                }
+                return stream.ToString();
+            }
+        }
+        private static void WriteTextToFile(string contents, string filepath)
+        {
+            using (var file = File.Open(filepath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                using (var outstr = new StreamWriter(file, Encoding.UTF8))
+                {
+                    outstr.Write(contents);
                 }
             }
         }

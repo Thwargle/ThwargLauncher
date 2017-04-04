@@ -175,17 +175,11 @@ namespace MagFilter
         internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status)
         {
             string contents = RecordHeartbeatStatusToString(status);
-            using (var file = File.Open(filepath, FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                using (var outstr = new System.IO.StreamWriter(file, Encoding.UTF8))
-                {
-                    outstr.Write(contents);
-                }
-            }
+            WriteTextToFile(contents, filepath);
         }
         private static string RecordHeartbeatStatusToString(HeartbeatGameStatus status)
         {
-            using (var stream = new System.IO.StringWriter())
+            using (var stream = new StringWriter())
             {
                 TimeSpan span = DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime;
                 stream.WriteLine("FileVersion:{0}", HeartbeatGameStatus.MASTER_FILE_VERSION);
@@ -201,6 +195,16 @@ namespace MagFilter
                 stream.WriteLine("MagFilterFilePath:{0}", assembly.Location);
                 var text = stream.ToString();
                 return text;
+            }
+        }
+        private static void WriteTextToFile(string contents, string filepath)
+        {
+            using (var file = File.Open(filepath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                using (var outstr = new StreamWriter(file, Encoding.UTF8))
+                {
+                    outstr.Write(contents);
+                }
             }
         }
         /// <summary>
