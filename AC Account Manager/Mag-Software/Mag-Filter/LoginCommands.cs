@@ -6,7 +6,7 @@ namespace MagFilter
 {
     class LoginCommands
     {
-        const int DefaultMillisecondsToWaitAfterLoginComplete = 3000;
+        public const int DefaultMillisecondsToWaitAfterLoginComplete = 3000;
         const int UnspecifiedWait = 9999;
 
         public readonly Queue<string> MessageQueue = new Queue<string>();

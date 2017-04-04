@@ -104,7 +104,7 @@ namespace MagFilter
             else if (e.Text == "/mf alcmq wait clear" || e.Text == "/mf olcwait clear")
             {
                 _loginCommands.ClearWait();
-                Debug.WriteToChat("After Login Complete Wait time reset to 3000ms");
+                Debug.WriteToChat(string.Format("After Login Complete Wait time reset to default {0} ms", LoginCommands.DefaultMillisecondsToWaitAfterLoginComplete));
 
                 e.Eat = true;
             }
