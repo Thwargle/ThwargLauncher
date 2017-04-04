@@ -174,20 +174,33 @@ namespace MagFilter
         }
         internal static void RecordHeartbeatStatus(string filepath, HeartbeatGameStatus status)
         {
-            using (var file = new System.IO.StreamWriter(filepath, append: false))
+            string contents = RecordHeartbeatStatusToString(status);
+            using (var file = File.Open(filepath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                using (var outstr = new System.IO.StreamWriter(file, Encoding.UTF8))
+                {
+                    outstr.Write(contents);
+                }
+            }
+        }
+        private static string RecordHeartbeatStatusToString(HeartbeatGameStatus status)
+        {
+            using (var stream = new System.IO.StringWriter())
             {
                 TimeSpan span = DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime;
-                file.WriteLine("FileVersion:{0}", HeartbeatGameStatus.MASTER_FILE_VERSION);
-                file.WriteLine("UptimeSeconds:{0}", (int)span.TotalSeconds);
-                file.WriteLine("ServerName:{0}", status.ServerName);
-                file.WriteLine("AccountName:{0}", status.AccountName);
-                file.WriteLine("CharacterName:{0}", status.CharacterName);
-                file.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
-                file.WriteLine("ProcessId:{0}", System.Diagnostics.Process.GetCurrentProcess().Id);
-                file.WriteLine("TeamList:{0}", status.TeamList);
+                stream.WriteLine("FileVersion:{0}", HeartbeatGameStatus.MASTER_FILE_VERSION);
+                stream.WriteLine("UptimeSeconds:{0}", (int)span.TotalSeconds);
+                stream.WriteLine("ServerName:{0}", status.ServerName);
+                stream.WriteLine("AccountName:{0}", status.AccountName);
+                stream.WriteLine("CharacterName:{0}", status.CharacterName);
+                stream.WriteLine("LogFilepath:{0}", log.GetLogFilepath());
+                stream.WriteLine("ProcessId:{0}", System.Diagnostics.Process.GetCurrentProcess().Id);
+                stream.WriteLine("TeamList:{0}", status.TeamList);
                 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                file.WriteLine("MagFilterVersion:{0}", assembly.GetName().Version);
-                file.WriteLine("MagFilterFilePath:{0}", assembly.Location);
+                stream.WriteLine("MagFilterVersion:{0}", assembly.GetName().Version);
+                stream.WriteLine("MagFilterFilePath:{0}", assembly.Location);
+                var text = stream.ToString();
+                return text;
             }
         }
         /// <summary>
