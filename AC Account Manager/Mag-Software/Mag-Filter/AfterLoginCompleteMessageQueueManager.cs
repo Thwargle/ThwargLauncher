@@ -60,6 +60,12 @@ namespace MagFilter
                 {
                     PostMessageTools.SendEnter();
                     string cmd = _loginCommands.MessageQueue.Dequeue();
+                    // The game is losing the first character of our commands
+                    // So deliberately send a space at the start
+                    if (!cmd.StartsWith(" "))
+                    {
+                        cmd = " " + cmd;
+                    }
                     log.WriteLogMsg(String.Format("Dequeued a login message: '{0}'", cmd));
                     PostMessageTools.SendCharString(cmd);
                     sendingLastEnter = true;
@@ -73,6 +79,7 @@ namespace MagFilter
             bool writeChanges = true;
             bool global = false;
             if (e.Text.Contains("/mfglobal")) { global = true; }
+            log.WriteLogMsg("QQ TEST");
             if (e.Text.StartsWith("/mf alcmq add ") || e.Text.StartsWith("/mf olcmq add "))
             {
                 _loginCommands.MessageQueue.Enqueue(e.Text.Substring(14, e.Text.Length - 14));

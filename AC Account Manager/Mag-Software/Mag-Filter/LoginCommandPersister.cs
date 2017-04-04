@@ -61,8 +61,12 @@ namespace MagFilter
                 int count = int.Parse(settings.GetValue("CommandCount").SingleParameter);
                 for (int i = 0; i < count; ++i)
                 {
-                    log.WriteLogMsg(string.Format("qq--{0} ({1}", i, global));
+                    log.WriteLogMsg(string.Format("qq--{0} ({1})", i, global));
                     string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleParameter;
+                    if (!string.IsNullOrEmpty(cmd))
+                    {
+                        log.WriteLogMsg("cmd: '" + cmd + "'");
+                    }
                     loginCommands.MessageQueue.Enqueue(cmd);
                 }
             }
@@ -80,7 +84,8 @@ namespace MagFilter
                 filename = string.Format("LoginCommands-{0}-{1}-{2}.txt", GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
                 // TODO - encode to ASCII
             }
-            return Path.Combine(FileLocations.AppFolder, filename);
+
+            return Path.Combine(FileLocations.GetLoginCommandsFolder(), filename);
         }
     }
 }

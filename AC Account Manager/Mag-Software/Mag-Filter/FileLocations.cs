@@ -48,12 +48,23 @@ namespace MagFilter
         /// <returns></returns>
         public static string GetRunningFolder()
         {
-            string profilesFolder = Path.Combine(AppFolder, "Running");
-            if (!Directory.Exists(profilesFolder))
+            var folder = Path.Combine(AppFolder, "Running");
+            if (!Directory.Exists(folder))
             {
-                Directory.CreateDirectory(profilesFolder);
+                Directory.CreateDirectory(folder);
             }
-            return profilesFolder;
+            return folder;
+        }
+
+        internal static string GetLoginCommandsFolder()
+        {
+            var folder = Path.Combine(AppFolder, "LoginCommands");
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            return folder;
+
         }
 
         internal static string GetGameHeartbeatFilepath(int processId)
