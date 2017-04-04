@@ -74,7 +74,10 @@ namespace MagFilter.Channels
         }
         public void StopWatcher(Channel channel)
         {
-            channel.FileWatcher.EnableRaisingEvents = false;
+            if (channel != null)
+            {
+                channel.FileWatcher.EnableRaisingEvents = false;
+            }
         }
         public bool IsWatcherEnabled(Channel channel)
         {

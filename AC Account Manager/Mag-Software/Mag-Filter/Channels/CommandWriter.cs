@@ -35,7 +35,17 @@ namespace MagFilter.Channels
                 {
                     return null;
                 }
-                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                SettingsCollection settings = null; 
+                try
+                {
+                    settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                }
+                catch (Exception exc)
+                {
+                    log.WriteLogMsg(string.Format("Exception reading commands from file '{0}': {1}", filepath, exc));
+                    //return new CommandSet(new List<Command>(), new DateTime());
+                    return null;
+                }
 
                 string fileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
                 if (!fileVersion.StartsWith(MASTER_FILE_VERSION_COMPAT))

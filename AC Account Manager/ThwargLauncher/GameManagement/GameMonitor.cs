@@ -22,7 +22,7 @@ namespace ThwargLauncher
         private TimeSpan _warningInterval; // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
-        private const int TIMER_SECONDS = 60;
+        private const int TIMER_SECONDS = 3;
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
         private DateTime _lastUpdateUi = DateTime.MinValue;
@@ -59,6 +59,7 @@ namespace ThwargLauncher
         void MapCommandsReceivedEvent(GameSession session)
         {
             Logger.WriteError("QWQ Thwarg Received channel Watch Event");
+            _rereadRequested = true;
             PerformWork();
         }
         public void Stop() // main thread

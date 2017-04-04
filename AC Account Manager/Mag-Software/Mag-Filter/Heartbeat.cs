@@ -13,7 +13,7 @@ namespace MagFilter
         private Channels.Channel _myChannel = Channels.Channel.MakeGameChannel();
         private MagFilterCommandParser _cmdParser = null;
         private DateTime LastSendAndReceive;
-        private const int TIMER_SECONDS = 60;
+        private const int TIMER_SECONDS = 3;
         private const int TIMER_SKIPSEC = 1; // Skip timer if send & received this recent
 
         private HeartbeatGameStatus _status = new HeartbeatGameStatus();
