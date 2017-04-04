@@ -116,7 +116,6 @@ namespace MagFilter
                     Debug.WriteToChat(string.Format("cmd: {0}", cmd));
                 }
                 Debug.WriteToChat(string.Format("Wait: {0}", _loginCommands.WaitMillisencds));
-                _loginCommands.MessageQueue.Clear();
 
                 e.Eat = true;
                 writeChanges = false;
