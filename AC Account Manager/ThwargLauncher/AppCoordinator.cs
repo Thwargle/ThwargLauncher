@@ -29,9 +29,9 @@ namespace ThwargLauncher
 
             BeginMonitoringGame();
 
-            BeginMonitoringServers();
-
             ShowMainWindow();
+
+            BeginMonitoringServers();
         }
         public static void RemoveObsoleteProcess(int processId)
         {

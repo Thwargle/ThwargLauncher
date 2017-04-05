@@ -37,16 +37,16 @@ namespace ThwargLauncher
             Random random = new Random();
             while (true)
             {
-                ++index;
-                if (index >= _items.Count)
-                {
-                    index = 0;
-                    _millisecondsDelay = 5000;
-                }
                 if (_items.Count > 0)
                 {
                     var server = _items[index];
                     CheckServer(server);
+                }
+                ++index;
+                if (index >= _items.Count)
+                {
+                    index = 0;
+                    _millisecondsDelay = 5 * 60 * 1000;
                 }
                 Thread.Sleep(_millisecondsDelay);
             }
@@ -66,11 +66,12 @@ namespace ThwargLauncher
         {
             try
             {
-                UdpClient udpClient = new UdpClient(port);
+                UdpClient udpClient = new UdpClient();
                 udpClient.Client.ReceiveTimeout = 13000;
                 udpClient.Connect(address, port);
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                Byte[] sendBytes = ConstructPacket();
+                Byte[] sendBytes = Packet.MakeLoginPacket();
+                //Byte[] sendBytes = ConstructPacket();
                 udpClient.Send(sendBytes, sendBytes.Length);
                 Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
                 return true;
