@@ -13,6 +13,7 @@ namespace KeyUtil
         private const byte VK_CONTROL = 0x11;
         private const byte VK_PAUSE = 0x13;
         private const byte VK_SPACE = 0x20;
+        private const byte VK_ESCAPE = 0x1B;
 
         private static byte ScanCode(char Char)
         {
@@ -90,6 +91,12 @@ namespace KeyUtil
         {
             User32.PostMessage(wnd, User32.WM_KEYDOWN, (IntPtr)VK_RETURN, (UIntPtr)0x001C0001);
             User32.PostMessage(wnd, User32.WM_KEYUP, (IntPtr)VK_RETURN, (UIntPtr)0xC01C0001);
+        }
+
+        public static void SendEscape(IntPtr wnd)
+        {
+            User32.PostMessage(wnd, User32.WM_KEYDOWN, (IntPtr)VK_ESCAPE, (UIntPtr)0x001C0001);
+            User32.PostMessage(wnd, User32.WM_KEYUP, (IntPtr)VK_ESCAPE, (UIntPtr)0xC01C0001);
         }
 
         public static void SendPause(IntPtr wnd)

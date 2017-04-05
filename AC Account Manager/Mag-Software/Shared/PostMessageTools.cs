@@ -22,6 +22,11 @@ namespace Mag.Shared
 		    PostMsgs.SendEnter(CoreManager.Current.Decal.Hwnd);
 		}
 
+		public static void SendEscape()
+		{
+		    PostMsgs.SendEscape(CoreManager.Current.Decal.Hwnd);
+		}
+
 		public static void SendPause()
 		{
 		    PostMsgs.SendPause(CoreManager.Current.Decal.Hwnd);
