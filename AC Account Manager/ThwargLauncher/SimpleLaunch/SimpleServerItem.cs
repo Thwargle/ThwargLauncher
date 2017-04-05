@@ -21,10 +21,10 @@ namespace ThwargLauncher
         public SimpleServerItem(Server.ServerItem server)
         {
             _item = server;
-            _item.PropertyChanged += _item_PropertyChanged;
+            _item.PropertyChanged += OnItemPropertyChanged;
         }
 
-        void _item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
         }
