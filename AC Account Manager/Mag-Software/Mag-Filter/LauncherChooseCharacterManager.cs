@@ -40,7 +40,7 @@ namespace MagFilter
                 server = Convert.ToString(e.Message["server"]);
                 var launchInfo = LaunchControl.GetLaunchInfo();
                 server = launchInfo.ServerName;
-                log.WriteLogMsg("Server as retrieved from launchInfo: " + server);
+                log.WriteInfo("Server as retrieved from launchInfo: " + server);
             }
 
             // F7E5 - Unknown? (we only get this the first time we connect), E5 F7 00 00 01 00 00 00 01 00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 
@@ -83,7 +83,7 @@ namespace MagFilter
                     if (DateTime.UtcNow - launchInfo.LaunchTime < FiveMinutes)
                     {
                         var ourCharacter = new DefaultFirstCharacter(launchInfo.ServerName, zonename, launchInfo.CharacterName);
-                        log.WriteLogMsg("Character login requested: " + launchInfo.CharacterName);
+                        log.WriteInfo("Character login requested: " + launchInfo.CharacterName);
 
                         if (ourCharacter.ZoneId == zonename && ourCharacter.Server == server)
                         {
@@ -103,12 +103,12 @@ namespace MagFilter
                     }
                     else
                     {
-                        log.WriteLogMsg("launcherChooseCharTimer_Tick: LaunchInfo too old: " + launchInfo.LaunchTime.ToString());
+                        log.WriteInfo("launcherChooseCharTimer_Tick: LaunchInfo too old: " + launchInfo.LaunchTime.ToString());
                     }
                 }
                 else
                 {
-                    log.WriteLogMsg("launcherChooseCharTimer_Tick: LaunchInfo not valid");
+                    log.WriteInfo("launcherChooseCharTimer_Tick: LaunchInfo not valid");
                 }
 
 				if (state >= 3)

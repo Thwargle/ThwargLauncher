@@ -19,19 +19,19 @@ namespace MagFilter
             if (e.Message.Type == 0xF658) // Zone Name
             {
                 zonename = Convert.ToString(e.Message["zonename"]);
-                log.WriteLogMsg(string.Format("zonename: '{0}'", zonename));
+                log.WriteInfo(string.Format("zonename: '{0}'", zonename));
             }
 
             if (e.Message.Type == 0xF7E1) // Server Name
             {
                 //Server Name retrieved from the server message, not used (unreliable in EMU)
                 var server = Convert.ToString(e.Message["server"]);
-                log.WriteLogMsg(string.Format("server: '{0}'", server));
+                log.WriteInfo(string.Format("server: '{0}'", server));
             }
 
 			if (e.Message.Type == 0xF658) // Character List
 			{
-                log.WriteLogMsg("Inside ServerDispatch. 0xF658");
+                log.WriteInfo("Inside ServerDispatch. 0xF658");
 				characterSlots = Convert.ToInt32(e.Message["slotCount"]);
 
 				characters = new List<Character>();
@@ -45,7 +45,7 @@ namespace MagFilter
 					int deleteTimeout = Convert.ToInt32(charactersStruct.Struct(i)["deleteTimeout"]);
 
 					characters.Add(new Character(character, name, deleteTimeout));
-                    log.WriteLogMsg(character.ToString() + " " + name + " " + deleteTimeout.ToString());
+                    log.WriteInfo(character.ToString() + " " + name + " " + deleteTimeout.ToString());
 				}
 
 				characters.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
@@ -56,7 +56,7 @@ namespace MagFilter
                 {
                     CharacterManager mgr = CharacterManager.ReadCharacters();
 			        mgr.WriteCharacters(zonename: zonename, characters: characters);
-                    log.WriteLogMsg("Wrote our characters to file");
+                    log.WriteInfo("Wrote our characters to file");
                     written = true;
 			    }
             }
@@ -108,7 +108,7 @@ namespace MagFilter
 			// Click the Enter button
 			Mag.Shared.PostMessageTools.SendMouseClick(0x015C, 0x0185);
 
-            log.WriteLogMsg("LoginCharacterTools.LoginByIndex");
+            log.WriteInfo("LoginCharacterTools.LoginByIndex");
 
 			return true;
 		}

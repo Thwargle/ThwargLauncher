@@ -20,7 +20,7 @@ namespace MagFilter
         }
         public IEnumerable<string> GetKeys()
         {
-            log.WriteLogMsg("GetKeys function: " + _data.Keys);
+            log.WriteDebug("GetKeys function: " + _data.Keys);
             return _data.Keys;
         }
         public ServerCharacterListByAccount GetCharacters(string serverName, string accountName)
@@ -28,7 +28,7 @@ namespace MagFilter
             string key = GetKey(server: serverName, accountName: accountName);
             if (this._data.ContainsKey(key))
             {
-                log.WriteLogMsg("GetChars sN aN Function: " + this._data[key]);
+                log.WriteDebug("GetChars sN aN Function: " + this._data[key]);
                 return this._data[key];
             }
             else
@@ -38,12 +38,12 @@ namespace MagFilter
         }
         internal ServerCharacterListByAccount GetCharacters(string key)
         {
-            log.WriteLogMsg("GetChars key Function: " + this._data[key]);
+            log.WriteDebug("GetChars key Function: " + this._data[key]);
             return this._data[key];
         }
         private static string GetKey(string server, string accountName)
         {
-            log.WriteLogMsg("GetKey function: " + string.Format("{0}-{1}", server, accountName));
+            log.WriteDebug("GetKey function: " + string.Format("{0}-{1}", server, accountName));
             return string.Format("{0}-{1}", server, accountName);
         }
 
@@ -52,7 +52,7 @@ namespace MagFilter
             var launchInfo = LaunchControl.GetLaunchInfo();
             if (!launchInfo.IsValid)
             {
-                log.WriteLogMsg("LaunchInfo not valid");
+                log.WriteError("LaunchInfo not valid");
                 return;
             }
             if (!IsValidCharacterName(launchInfo.CharacterName))
@@ -63,10 +63,10 @@ namespace MagFilter
                 }
                 catch
                 {
-                    log.WriteLogMsg("WriteCharacters: Exception trying to record launch response");
+                    log.WriteError("WriteCharacters: Exception trying to record launch response");
                 }
             }
-            log.WriteLogMsg("LaunchInfo valid");
+            log.WriteDebug("LaunchInfo valid");
 
             // Pass info to Heartbeat
             Heartbeat.RecordServer(launchInfo.ServerName);
@@ -79,7 +79,7 @@ namespace MagFilter
                     ZoneId = zonename,
                     CharacterList = characters
                 };
-            log.WriteLogMsg("Writing characters: " + clist.ToString());
+            log.WriteInfo("Writing characters: " + clist.ToString());
             this._data[key] = clist;
             string contents = JsonConvert.SerializeObject(_data, Formatting.Indented);
             string path = FileLocations.GetCharacterFilePath();
@@ -100,12 +100,12 @@ namespace MagFilter
         {
             try
             {
-                log.WriteLogMsg("ReadCharacterImpl: " + ReadCharactersImpl());
+                log.WriteDebug("ReadCharacterImpl: " + ReadCharactersImpl());
                 return ReadCharactersImpl();
             }
             catch (Exception exc)
             {
-                log.WriteLogMsg("ReadCharacterImpl Exception: " + exc.ToString());
+                log.WriteError("ReadCharacterImpl Exception: " + exc.ToString());
                 return null;
             }
         }

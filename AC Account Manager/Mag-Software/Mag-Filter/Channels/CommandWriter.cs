@@ -58,7 +58,7 @@ namespace MagFilter.Channels
                 }
                 catch (Exception exc)
                 {
-                    log.WriteLogMsg(string.Format("Exception reading commands from file '{0}': {1}", filepath, exc));
+                    log.WriteError(string.Format("Exception reading commands from file '{0}': {1}", filepath, exc));
                     //return new CommandSet(new List<Command>(), new DateTime());
                     return null;
                 }
@@ -66,7 +66,7 @@ namespace MagFilter.Channels
                 string fileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
                 if (!fileVersion.StartsWith(MASTER_FILE_VERSION_COMPAT))
                 {
-                    log.WriteLogMsg(string.Format(
+                    log.WriteError(string.Format(
                         "Incompatible command file, version: {0}",
                         fileVersion));
                     return null;
@@ -74,7 +74,7 @@ namespace MagFilter.Channels
                 DateTime timestamp = settings.GetValue("Timestamp").GetUtcDateParam("TimeUtc");
                 if (DateTime.UtcNow - timestamp > TimeSpan.FromHours(1))
                 {
-                    log.WriteLogMsg(string.Format(
+                    log.WriteInfo(string.Format(
                         "Ignoring command file older than one hour, timestamp={0:O}",
                         timestamp));
                     return null;
@@ -97,7 +97,7 @@ namespace MagFilter.Channels
             }
             catch (Exception exc)
             {
-                log.WriteLogMsg(string.Format("Exception reading command file: {0}", exc));
+                log.WriteError(string.Format("Exception reading command file: {0}", exc));
                 return null;
             }
         }
