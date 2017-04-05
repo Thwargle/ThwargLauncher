@@ -68,7 +68,7 @@ namespace MagFilter
         }
         void OnChannelFileWatcherChanged(object sender, System.IO.FileSystemEventArgs e)
         {
-            log.WriteLogMsg("WQW Channel File Watcher Fired");
+            log.WriteInfo("WQW Channel File Watcher Fired");
             Heartbeat.SendAndReceiveImmediately();
         }
         void CurrentDomain_ProcessExit(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace MagFilter
                 {
                     _timer.Stop();
                 }
-                log.WriteLogMsg("process exit");
+                log.WriteInfo("process exit");
             }
         }
         void timer_Tick(object sender, EventArgs e)
@@ -138,7 +138,7 @@ namespace MagFilter
             catch (Exception exc)
             {
                 success = false;
-                log.WriteLogMsg("Exception writing heartbeat status: " + exc.ToString());
+                log.WriteError("Exception writing heartbeat status: " + exc.ToString());
             }
             try
             {
@@ -151,7 +151,7 @@ namespace MagFilter
             catch (Exception exc)
             {
                 success = false;
-                log.WriteLogMsg("Exception writing command file status: " + exc.ToString());
+                log.WriteError("Exception writing command file status: " + exc.ToString());
             }
             try
             {
@@ -160,7 +160,7 @@ namespace MagFilter
             catch (Exception exc)
             {
                 success = false;
-                log.WriteLogMsg("Exception reading command file status: " + exc.ToString());
+                log.WriteError("Exception reading command file status: " + exc.ToString());
             }
             if (success)
             {

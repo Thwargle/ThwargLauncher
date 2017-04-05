@@ -66,7 +66,7 @@ namespace MagFilter
                     {
                         cmd = " " + cmd;
                     }
-                    log.WriteLogMsg(String.Format("Dequeued a login message: '{0}'", cmd));
+                    log.WriteInfo("Dequeued a login message: '{0}'", cmd);
                     PostMessageTools.SendCharString(cmd);
                     sendingLastEnter = true;
                 }
@@ -74,16 +74,29 @@ namespace MagFilter
             catch (Exception ex) { Debug.LogException(ex); }
         }
 
+        private string TextRemainder(string text, string prefix)
+        {
+            if (text.Length <= prefix.Length) { return string.Empty; }
+            return text.Substring(prefix.Length);
+        }
         public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
         {
             bool writeChanges = true;
             bool global = false;
             if (e.Text.Contains("/mfglobal")) { global = true; }
-            log.WriteLogMsg("QQ TEST");
-            if (e.Text.StartsWith("/mf alcmq add ") || e.Text.StartsWith("/mf olcmq add "))
+            log.WriteDebug("FilterCore_CommandLineText: '{0}'", e.Text);
+            if (e.Text.StartsWith("/mf log "))
             {
-                _loginCommands.MessageQueue.Enqueue(e.Text.Substring(14, e.Text.Length - 14));
-                Debug.WriteToChat("After Login Complete Message Queue added: " + e.Text);
+                string logmsg = TextRemainder(e.Text, "/mf log ");
+                log.WriteInfo(logmsg);
+
+                e.Eat = true;
+            }
+            else if (e.Text.StartsWith("/mf alcmq add ") || e.Text.StartsWith("/mf olcmq add "))
+            {
+                string cmd = TextRemainder(e.Text, "/mf alcmq add ");
+                _loginCommands.MessageQueue.Enqueue(cmd);
+                Debug.WriteToChat("After Login Complete Message Queue added: " + cmd);
 
                 e.Eat = true;
             }
@@ -96,15 +109,17 @@ namespace MagFilter
             }
             else if (e.Text.StartsWith("/mf alcmq wait set "))
             {
-                _loginCommands.WaitMillisencds = int.Parse(e.Text.Substring(19, e.Text.Length - 19));
-                Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + e.Text + "ms");
+                string valstr = TextRemainder(e.Text, "/mf alcmq wait set ");
+                _loginCommands.WaitMillisencds = int.Parse(valstr);
+                Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + valstr + "ms");
 
                 e.Eat = true;
             }
             else if (e.Text.StartsWith("/mf olcwait set ")) // Backwards Compatability
             {
-                _loginCommands.WaitMillisencds = int.Parse(e.Text.Substring(16, e.Text.Length - 16));
-                Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + e.Text + "ms");
+                string valstr = TextRemainder(e.Text, "/mf olcwait set ");
+                _loginCommands.WaitMillisencds = int.Parse(valstr);
+                Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + valstr + "ms");
 
                 e.Eat = true;
             }

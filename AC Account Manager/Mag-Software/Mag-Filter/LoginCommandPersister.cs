@@ -27,7 +27,7 @@ namespace MagFilter
         {
             try
             {
-                log.WriteLogMsg("reading queue");
+                log.WriteDebug("reading queue");
                 var gcmds = ReadQueue(true);
                 var cmds = ReadQueue(false);
                 if (!gcmds.IsWaitSpecified() && cmds.IsWaitSpecified())
@@ -38,12 +38,12 @@ namespace MagFilter
                 {
                     gcmds.MessageQueue.Enqueue(cmd);
                 }
-                log.WriteLogMsg(string.Format("Found {0} cmds", gcmds.MessageQueue.Count));
+                log.WriteInfo("Found {0} cmds", gcmds.MessageQueue.Count);
                 return gcmds;
             }
             catch (Exception exc)
             {
-                log.WriteLogMsg(string.Format("Exception in ReadQueue: {0}", exc));
+                log.WriteError("Exception in ReadQueue: {0}", exc);
                 return new LoginCommands();
             }
         }
@@ -53,19 +53,19 @@ namespace MagFilter
             string filepath = GetFilepath(global);
             if (File.Exists(filepath))
             {
-                log.WriteLogMsg("qq01");
+                log.WriteDebug("qq01");
                 var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
-                log.WriteLogMsg("qq03");
-                log.WriteLogMsg("qq05");
+                log.WriteDebug("qq03");
+                log.WriteDebug("qq05");
                 loginCommands.WaitMillisencds = int.Parse(settings.GetValue("WaitMilliseconds").SingleParameter);
                 int count = int.Parse(settings.GetValue("CommandCount").SingleParameter);
                 for (int i = 0; i < count; ++i)
                 {
-                    log.WriteLogMsg(string.Format("qq--{0} ({1})", i, global));
+                    log.WriteDebug("qq--{0} ({1})", i, global);
                     string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleParameter;
                     if (!string.IsNullOrEmpty(cmd))
                     {
-                        log.WriteLogMsg("cmd: '" + cmd + "'");
+                        log.WriteInfo("cmd: '" + cmd + "'");
                     }
                     loginCommands.MessageQueue.Enqueue(cmd);
                 }

@@ -25,7 +25,7 @@ namespace MagFilter
                 }
                 catch
                 {
-                    log.WriteLogMsg("FilterCore_ClientDispatch: Exception trying to record launch response");
+                    log.WriteInfo("FilterCore_ClientDispatch: Exception trying to record launch response");
                 }
                 Heartbeat.LaunchHeartbeat();
             }

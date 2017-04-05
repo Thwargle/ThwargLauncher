@@ -56,11 +56,11 @@ namespace MagFilter
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-            log.WriteLogMsg(string.Format(
+            log.WriteInfo(
                 "MagFilter.Startup, AssemblyVer: {0}, AssemblyFileVer: {1}",
                 assembly.GetName().Version,
                 System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location)
-                                ));
+                                );
         }
 
         public void ExternalShutdown() { Shutdown(); } // for game emulator
@@ -72,7 +72,7 @@ namespace MagFilter
 
             CommandLineText -= new EventHandler<ChatParserInterceptEventArgs>(FilterCore_CommandLineText);
 
-            log.WriteLogMsg("FilterCore-Shutdown");
+            log.WriteInfo("FilterCore-Shutdown");
         }
 
         public void CallFilterCoreClientDispatch(object sender, NetworkMessageEventArgs e) // for game emulator

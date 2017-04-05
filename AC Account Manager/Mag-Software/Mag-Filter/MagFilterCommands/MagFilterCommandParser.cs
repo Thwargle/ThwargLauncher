@@ -128,7 +128,7 @@ namespace MagFilter
                                 );
 
             Debug.WriteToChat("Version: " + msg);
-            log.WriteLogMsg("Called Debug.WriteToChat Version: " + msg);
+            log.WriteInfo("Called Debug.WriteToChat Version: " + msg);
         }
         private void HelpCommandHandler(string command)
         {
