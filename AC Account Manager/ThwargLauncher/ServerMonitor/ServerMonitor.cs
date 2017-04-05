@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace ThwargLauncher
@@ -15,8 +16,8 @@ namespace ThwargLauncher
 
         private Thread _thread = null;
         private IList<Server.ServerItem> _items;
-        private int _millisecondsDelay = 1000;
-        private int index;
+        private int _secondsDelay = 5 * 60;
+        const int TIMEOUTSEC = 3;
         public void StartMonitor(IList<Server.ServerItem> items)
         {
             StopMonitor();
@@ -32,49 +33,52 @@ namespace ThwargLauncher
                 _thread = null;
             }
         }
-        private void MonitorLoop()
+        private async void MonitorLoop()
         {
             Random random = new Random();
             while (true)
             {
-                if (_items.Count > 0)
-                {
-                    var server = _items[index];
-                    CheckServer(server);
-                }
-                ++index;
-                if (index >= _items.Count)
-                {
-                    index = 0;
-                    _millisecondsDelay = 5 * 60 * 1000;
-                }
-                Thread.Sleep(_millisecondsDelay);
+                await CheckAllServers();
+                Thread.Sleep(_secondsDelay);
             }
         }
-        private void CheckServer(Server.ServerItem server)
+        private async Task CheckAllServers()
+        {
+            await Task.WhenAll(_items.Select(s => CheckServer(s)).ToArray());
+        }
+        private async Task CheckServer(Server.ServerItem server)
         {
             var address = AddressParser.Parse(server.ServerIpAndPort);
             if (string.IsNullOrEmpty(address.Ip) || address.Port <= 0) { return; }
-            bool up = IsUdpServerUp(address.Ip, address.Port);
+            bool up = await IsUdpServerUp(address.Ip, address.Port);
             string status = GetStatusString(up);
             if (server.ConnectionStatus != status)
             {
                 CallToUpdate(server, status);
             }
         }
-        private bool IsUdpServerUp(string address, int port)
+        private async Task<bool> IsUdpServerUp(string address, int port)
         {
             try
             {
                 UdpClient udpClient = new UdpClient();
-                udpClient.Client.ReceiveTimeout = 13000;
+                // udpClient.Client.ReceiveTimeout not used in Async calls
                 udpClient.Connect(address, port);
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                Byte[] sendBytes = Packet.MakeLoginPacket();
+                byte[] sendBytes = Packet.MakeLoginPacket();
                 //Byte[] sendBytes = ConstructPacket();
                 udpClient.Send(sendBytes, sendBytes.Length);
-                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
-                return true;
+                var receiveTask = udpClient.ReceiveAsync();
+                var tsk = await Task.WhenAny(receiveTask, Task.Delay(TimeSpan.FromSeconds(TIMEOUTSEC)));
+                if (tsk == receiveTask)
+                {
+                    return true;
+                }
+                else
+                {
+                    // TODO: clean up udpClient?
+                    return false;
+                }
             }
             catch (SocketException e)
             {
