@@ -21,8 +21,14 @@ namespace MagFilter
             return _logFilepath;
         }
         public static void WriteError(string msg) { WriteMsg(LOG_LEVEL.Error, msg); }
+        public static void WriteError(string fmt, params object[] args) { WriteError(string.Format(fmt, args)); }
+
         public static void WriteInfo(string msg) { WriteMsg(LOG_LEVEL.Info, msg); }
+        public static void WriteInfo(string fmt, params object[] args) { WriteInfo(string.Format(fmt, args)); }
+        
         public static void WriteDebug(string msg) { WriteMsg(LOG_LEVEL.Debug, msg); }
+        public static void WriteDebug(string fmt, params object[] args) { WriteDebug(string.Format(fmt, args)); }
+
         /// <summary>
         /// This is the main logging code
         ///// </summary>

@@ -38,12 +38,12 @@ namespace MagFilter
                 {
                     gcmds.MessageQueue.Enqueue(cmd);
                 }
-                log.WriteInfo(string.Format("Found {0} cmds", gcmds.MessageQueue.Count));
+                log.WriteInfo("Found {0} cmds", gcmds.MessageQueue.Count);
                 return gcmds;
             }
             catch (Exception exc)
             {
-                log.WriteError(string.Format("Exception in ReadQueue: {0}", exc));
+                log.WriteError("Exception in ReadQueue: {0}", exc);
                 return new LoginCommands();
             }
         }
@@ -61,7 +61,7 @@ namespace MagFilter
                 int count = int.Parse(settings.GetValue("CommandCount").SingleParameter);
                 for (int i = 0; i < count; ++i)
                 {
-                    log.WriteDebug(string.Format("qq--{0} ({1})", i, global));
+                    log.WriteDebug("qq--{0} ({1})", i, global);
                     string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleParameter;
                     if (!string.IsNullOrEmpty(cmd))
                     {

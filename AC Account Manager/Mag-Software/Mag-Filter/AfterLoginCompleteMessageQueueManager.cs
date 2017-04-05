@@ -66,7 +66,7 @@ namespace MagFilter
                     {
                         cmd = " " + cmd;
                     }
-                    log.WriteInfo(String.Format("Dequeued a login message: '{0}'", cmd));
+                    log.WriteInfo("Dequeued a login message: '{0}'", cmd);
                     PostMessageTools.SendCharString(cmd);
                     sendingLastEnter = true;
                 }
@@ -84,7 +84,7 @@ namespace MagFilter
             bool writeChanges = true;
             bool global = false;
             if (e.Text.Contains("/mfglobal")) { global = true; }
-            log.WriteDebug(string.Format("FilterCore_CommandLineText: '{0}'", e.Text));
+            log.WriteDebug("FilterCore_CommandLineText: '{0}'", e.Text);
             if (e.Text.StartsWith("/mf log "))
             {
                 string logmsg = TextRemainder(e.Text, "/mf log ");

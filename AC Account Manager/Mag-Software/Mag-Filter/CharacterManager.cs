@@ -38,13 +38,14 @@ namespace MagFilter
         }
         internal ServerCharacterListByAccount GetCharacters(string key)
         {
-            log.WriteDebug("GetChars key Function: " + this._data[key]);
+            log.WriteDebug("GetChars key Function: {0}", _data[key]);
             return this._data[key];
         }
         private static string GetKey(string server, string accountName)
         {
-            log.WriteDebug("GetKey function: " + string.Format("{0}-{1}", server, accountName));
-            return string.Format("{0}-{1}", server, accountName);
+            string key = string.Format("{0}-{1}", server, accountName);
+            log.WriteDebug("GetKey function: {0}", key);
+            return key;
         }
 
         public void WriteCharacters(string zonename, List<Character> characters)

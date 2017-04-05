@@ -56,11 +56,11 @@ namespace MagFilter
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-            log.WriteInfo(string.Format(
+            log.WriteInfo(
                 "MagFilter.Startup, AssemblyVer: {0}, AssemblyFileVer: {1}",
                 assembly.GetName().Version,
                 System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location)
-                                ));
+                                );
         }
 
         public void ExternalShutdown() { Shutdown(); } // for game emulator
