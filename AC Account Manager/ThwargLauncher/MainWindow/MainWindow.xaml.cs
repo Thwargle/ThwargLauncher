@@ -659,7 +659,7 @@ namespace ThwargLauncher
             if (IsTrue(result))
             {
                 PopulateServerList();
-                ReloadKnownAccountsAndCharacters();
+                LoadUserAccounts(initialLoad: false);
             }
             MainWindowEnable();
         }
