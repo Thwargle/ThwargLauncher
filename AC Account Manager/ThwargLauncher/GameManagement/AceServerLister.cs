@@ -17,13 +17,13 @@ namespace ThwargLauncher.GameManagement
         {
             _folder = folder;
         }
-        public List<Server.ServerItem> LoadACEServers()
+        public IList<Server.ServerItem> LoadACEServers()
         {
             return LoadServers();
         }
-        public List<Server.ServerItem> LoadServers()
+        public IList<Server.ServerItem> LoadServers()
         {
-            List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
+            IList<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
             try
             {
                 string filepath = GetFilePath(ServerManager.AceServerList);
@@ -39,19 +39,7 @@ namespace ThwargLauncher.GameManagement
                 {
                     return serverItemList;
                 }
-                XmlTextReader reader = new XmlTextReader(filepath);
-                var xmlDoc = new XmlDocument();
-                xmlDoc.Load(reader);
-
-                foreach (XmlNode node in xmlDoc.SelectNodes("//ServerItem"))
-                {
-                    Server.ServerItem si = new Server.ServerItem();
-
-                    si.ServerName = GetSubvalue(node, "name");
-                    si.ServerIpAndPort = GetSubvalue(node, "connect_string");
-                    si.EMU = EMU;
-                    serverItemList.Add(si);
-                }
+                serverItemList = ServerPersister.ReadServerList(EMU, filepath);
             }
             catch(Exception exc)
             {

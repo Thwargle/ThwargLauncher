@@ -31,7 +31,17 @@ namespace ThwargLauncher
             }
             IsLoaded = true;
         }
-        public string GetServerDataFolder()
+        public static string GetPhatServerFilepath()
+        {
+            string folder = GetServerDataFolder();
+            return System.IO.Path.Combine(folder, PhatServerList);
+        }
+        public static string GetAceServerFilepath()
+        {
+            string folder = GetServerDataFolder();
+            return System.IO.Path.Combine(folder, AceServerList);
+        }
+        private static string GetServerDataFolder()
         {
             string folderpath = System.IO.Path.Combine(MagFilter.FileLocations.AppFolder, "Servers");
             folderpath = MagFilter.FileLocations.ExpandFilepath(folderpath);

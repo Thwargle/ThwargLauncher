@@ -39,15 +39,17 @@ namespace ThwargLauncher.AccountManagement
 
             if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
             {
-                XDocument doc = XDocument.Load("ACEServerList.xml");
+                string filepath = ServerManager.GetAceServerFilepath();
+                XDocument doc = XDocument.Load(filepath);
                 AddNewServerToXmlDoc(doc);
-                doc.Save("ACEServerList.xml");
+                doc.Save(filepath);
             }
             else if(rdPhatACServer.IsChecked.HasValue && rdPhatACServer.IsChecked.Value)
             {
-                XDocument doc = XDocument.Load("PhatACServerList.xml");
+                string filepath = ServerManager.GetPhatServerFilepath();
+                XDocument doc = XDocument.Load(filepath);
                 AddNewServerToXmlDoc(doc);
-                doc.Save("PhatACServerList.xml");
+                doc.Save(filepath);
             }
             this.DialogResult = true;
             Close();
@@ -91,25 +93,15 @@ namespace ThwargLauncher.AccountManagement
 
         private void AddNewServerToXmlDoc(XDocument doc)
         {
-            serverName = txtServerName.Text;
-            serverDesc = txtServeDesc.Text;
-            serverIP = txtServerIP.Text;
-            serverPort = txtServerPort.Text;
-            connectionString = serverIP + ":" + serverPort;
-            rodatSetting = cmbDefaultRodat.SelectedValue.ToString();
-
-            XElement serverItemArray = doc.Element("ArrayOfServerItem");
-            serverItemArray.Add(new XElement("ServerItem",
-                            new XElement("name", serverName),
-                            new XElement("description", serverDesc),
-                            new XElement("connect_string", connectionString),
-                            new XElement("enable_login", "true"),
-                            new XElement("custom_credentials", "true"),
-                            new XElement("default_rodat", rodatSetting),
-                            new XElement("default_username", "username"),
-                            new XElement("default_password", "password"),
-                            new XElement("allow_dual_log", "true"))
-                    );
+            var server = new GameManagement.ServerPersister.EditedServerInfo()
+            {
+                ServerName =  txtServerName.Text,
+                ServerDesc = txtServeDesc.Text,
+                ConnectionString = txtServerIP.Text + ":" + txtServerPort.Text,
+                RodatSetting = cmbDefaultRodat.SelectedValue.ToString()
+            };
+            // Used by both ACE & Phat
+            GameManagement.ServerPersister.AddNewServerToXmlDoc(server, doc);
         }
     }
 }
