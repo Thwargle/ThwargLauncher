@@ -655,10 +655,17 @@ namespace ThwargLauncher
         {
             MainWindowDisable();
             var dlg = new AddServer();
-            dlg.ShowDialog();
-            PopulateServerList();
-            ReloadKnownAccountsAndCharacters();
+            var result = dlg.ShowDialog();
+            if (IsTrue(result))
+            {
+                PopulateServerList();
+                ReloadKnownAccountsAndCharacters();
+            }
             MainWindowEnable();
+        }
+        private static bool IsTrue(bool? bval)
+        {
+            return bval.HasValue && bval.Value;
         }
     }
 }

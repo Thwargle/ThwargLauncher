@@ -49,6 +49,7 @@ namespace ThwargLauncher.AccountManagement
                 AddNewServerToXmlDoc(doc);
                 doc.Save("PhatACServerList.xml");
             }
+            this.DialogResult = true;
             Close();
         }
 
