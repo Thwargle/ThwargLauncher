@@ -72,6 +72,13 @@ namespace ThwargLauncher.AccountManagement
                 txtServerPort.Focus();
                 return false;
             }
+            int portnum = 0;
+            if (!int.TryParse(txtServerPort.Text, out portnum))
+            {
+                MessageBox.Show("Server Port must be numeric");
+                txtServerPort.Focus();
+                return false;
+            }
             if (cmbDefaultRodat.SelectedValue == null)
             {
                 MessageBox.Show("Rodat selection required");
