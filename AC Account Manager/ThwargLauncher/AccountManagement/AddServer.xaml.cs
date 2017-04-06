@@ -35,24 +35,7 @@ namespace ThwargLauncher.AccountManagement
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtServerName.Text))
-            {
-                MessageBox.Show("Server Name required");
-                txtServerName.Focus();
-                return;
-            }
-            if (string.IsNullOrEmpty(txtServerIP.Text))
-            {
-                MessageBox.Show("Server Address required");
-                txtServerIP.Focus();
-                return;
-            }
-            if (cmbDefaultRodat.SelectedValue == null)
-            {
-                MessageBox.Show("Rodat selection required");
-                cmbDefaultRodat.Focus();
-                return;
-            }
+            if (!ValidateInput()) { return; }
 
             if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
             {
@@ -67,6 +50,35 @@ namespace ThwargLauncher.AccountManagement
                 doc.Save("PhatACServerList.xml");
             }
             Close();
+        }
+
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrEmpty(txtServerName.Text))
+            {
+                MessageBox.Show("Server Name required");
+                txtServerName.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtServerIP.Text))
+            {
+                MessageBox.Show("Server Address required");
+                txtServerIP.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtServerPort.Text))
+            {
+                MessageBox.Show("Server Port required");
+                txtServerPort.Focus();
+                return false;
+            }
+            if (cmbDefaultRodat.SelectedValue == null)
+            {
+                MessageBox.Show("Rodat selection required");
+                cmbDefaultRodat.Focus();
+                return false;
+            }
+            return true;
         }
 
         private void AddNewServerToXmlDoc(XDocument doc)
