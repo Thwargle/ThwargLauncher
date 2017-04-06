@@ -23,6 +23,19 @@ namespace ThwargLauncher
         public class ServerItem : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
+            public override bool Equals(object obj)
+            {
+                ServerItem ob2 = (obj as ServerItem);
+                if (ob2 == null) { return false; }
+                if (GetHashCode() != ob2.GetHashCode()) { return false; }
+                if (ServerName != ob2.ServerName) { return false; }
+                if (ServerIpAndPort != ob2.ServerIpAndPort) { return false; }
+                return true;
+            }
+            public override int GetHashCode()
+            {
+                return ServerIpAndPort.GetHashCode();
+            }
             protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
                 PropertyChangedEventHandler handler = PropertyChanged;

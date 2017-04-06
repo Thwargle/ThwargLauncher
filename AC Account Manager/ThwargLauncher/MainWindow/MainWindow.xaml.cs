@@ -82,7 +82,6 @@ namespace ThwargLauncher
         {
             var serverMgr = new ServerManager();
             serverMgr.LoadServerLists();
-
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
