@@ -42,13 +42,13 @@
                         <Border BorderBrush="Black" BorderThickness="0" Padding="5">
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=ServerName,StringFormat='Name:{0} '}" />
                                     <TextBlock Text="{Binding Path=EMU}" Foreground="Orange" />
+                                    <TextBlock Text="{Binding Path=ServerName,StringFormat=' - {0} '}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=ServerIpAndPort}" FontStyle="Italic" />
+                                    <TextBlock Foreground="{Binding Path=ConnectionColor}" Text="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
                                     <TextBlock Text=" " />
-                                    <TextBlock Text="{Binding Path=ConnectionStatus,Mode=TwoWay}" FontStyle="Oblique"  Foreground="AntiqueWhite"/>
+                                    <TextBlock Text="{Binding Path=ServerIpAndPort}" FontStyle="Italic" />
                                 </StackPanel>
                                 <TextBlock Text="{Binding Path=ServerDescription}" FontStyle="Italic" />
                             </StackPanel>

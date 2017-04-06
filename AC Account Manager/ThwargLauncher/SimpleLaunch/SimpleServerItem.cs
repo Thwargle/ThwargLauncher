@@ -34,6 +34,7 @@ namespace ThwargLauncher
         public string ServerDescription { get { return _item.ServerDescription; } }
         public Server.ServerItem ServerItem { get { return _item; }}
         public string ConnectionStatus { get { return _item.ConnectionStatus; } set { _item.ConnectionStatus = value; } }
+        public System.Windows.Media.SolidColorBrush ConnectionColor { get { return _item.ConnectionColor; } }
 
         public override bool Equals(object obj)
         {

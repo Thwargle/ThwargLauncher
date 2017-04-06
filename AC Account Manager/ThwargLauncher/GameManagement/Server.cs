@@ -35,7 +35,9 @@ namespace ThwargLauncher
             public string ServerIpAndPort { get; set; }
             public string EMU { get; set; }
             public string RodatSetting { get; set; }
-            private string _connectionStatus;
+            private string _connectionStatus = "?";
+            private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
+            private ServerUpStatus _upStatus;
             public string ConnectionStatus
             {
                 get { return _connectionStatus; }
@@ -46,6 +48,41 @@ namespace ThwargLauncher
                         _connectionStatus = value;
                         OnPropertyChanged("ConnectionStatus");
                     }
+                }
+            }
+            public System.Windows.Media.SolidColorBrush ConnectionColor
+            {
+                get { return _connectionColor; }
+                set
+                {
+                    if (_connectionColor != value)
+                    {
+                        _connectionColor = value;
+                        OnPropertyChanged("ConnectionColor");
+                    }
+                }
+            }
+            public enum ServerUpStatus {  Unknown, Down, Up };
+            public ServerUpStatus UpStatus
+            {
+                get { return _upStatus; }
+                set
+                {
+                    if (_upStatus != value)
+                    {
+                        _upStatus = value;
+                        ConnectionColor = GetBrushColorFromUpStatus(_upStatus);
+                        OnPropertyChanged("UpStatus");
+                    }
+                }
+            }
+            private System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatus upStatus)
+            {
+                switch (_upStatus)
+                {
+                    case ServerUpStatus.Down: return System.Windows.Media.Brushes.Red;
+                    case ServerUpStatus.Up: return System.Windows.Media.Brushes.Lime;
+                    default: return System.Windows.Media.Brushes.AntiqueWhite;
                 }
             }
         }
@@ -70,6 +107,7 @@ namespace ThwargLauncher
         public string EMU { get {  return _myServerItem.EMU; } }
         public string RodatSetting { get { return _myServerItem.RodatSetting; } }
         public string ConnectionStatus { get { return _myServerItem.ConnectionStatus; } }
+        public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServerItem.ConnectionColor;  } }
         public string ServerDisplayName
         {
             get

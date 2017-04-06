@@ -52,6 +52,7 @@ namespace ThwargLauncher
             if (string.IsNullOrEmpty(address.Ip) || address.Port <= 0) { return; }
             bool up = await IsUdpServerUp(address.Ip, address.Port);
             string status = GetStatusString(up);
+            server.UpStatus = (up ? Server.ServerItem.ServerUpStatus.Up : Server.ServerItem.ServerUpStatus.Down);
             if (server.ConnectionStatus != status)
             {
                 CallToUpdate(server, status);
@@ -102,7 +103,7 @@ namespace ThwargLauncher
         }
         private static string GetStatusString(bool up)
         {
-            return (up ? "Online" : "Offline");
+            return (up ? "✓" : "X");
         }
         private bool IsTcpServerUp(string address, int port)
         {
