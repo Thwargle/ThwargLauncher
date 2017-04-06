@@ -26,10 +26,11 @@ namespace ThwargLauncher.AccountManagement
         string serverIP;
         string serverPort;
         string connectionString;
+        string rodatSetting;
         public AddServer()
         {
             InitializeComponent();
-            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
+            AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -46,7 +47,7 @@ namespace ThwargLauncher.AccountManagement
                 AddNewServerToXmlDoc(doc);
                 doc.Save("PhatACServerList.xml");
             }
-            this.Close();
+            Close();
         }
 
         private void AddNewServerToXmlDoc(XDocument doc)
@@ -56,6 +57,7 @@ namespace ThwargLauncher.AccountManagement
             serverIP = txtServerIP.Text;
             serverPort = txtServerPort.Text;
             connectionString = serverIP + ":" + serverPort;
+            rodatSetting = cmbDefaultRodat.SelectedValue.ToString();
 
             XElement serverItemArray = doc.Element("ArrayOfServerItem");
             serverItemArray.Add(new XElement("ServerItem",
@@ -64,7 +66,7 @@ namespace ThwargLauncher.AccountManagement
                             new XElement("connect_string", connectionString),
                             new XElement("enable_login", "true"),
                             new XElement("custom_credentials", "true"),
-                            new XElement("default_rodat", "false"),
+                            new XElement("default_rodat", rodatSetting),
                             new XElement("default_username", "username"),
                             new XElement("default_password", "password"),
                             new XElement("allow_dual_log", "true"))

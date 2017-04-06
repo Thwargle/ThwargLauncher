@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{4C2EA4FF-1248-4C9D-A811-F20019E26F83} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{6366D90F-55ED-4CD8-B22D-B9B63E0B25F3} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="4.4.0.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="4.6.0.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -53,7 +53,7 @@
     <ROW Component="ThwargLauncher.exe" ComponentId="{4FCECFE5-6D37-417A-A4C3-094EEDEA8AAA}" Directory_="APPDIR" Attributes="0" KeyPath="ThwargLauncher.exe"/>
     <ROW Component="VCS5.dll" ComponentId="{E282A294-1839-45AE-8A9F-62250E92E2ED}" Directory_="APPDIR" Attributes="0" KeyPath="VCS5.dll"/>
     <ROW Component="VirindiViewService.dll" ComponentId="{924688CE-C3DC-45C0-AC92-91537CED247F}" Directory_="APPDIR" Attributes="0" KeyPath="VirindiViewService.dll"/>
-    <ROW Component="VirindiViewService.xml" ComponentId="{0F63A4D9-B1FA-40B9-B1C9-B7A74980D57A}" Directory_="APPDIR" Attributes="0" KeyPath="VirindiViewService.xml" Type="0"/>
+    <ROW Component="VirindiViewService.xml" ComponentId="{0F63A4D9-B1FA-40B9-B1C9-B7A74980D57A}" Directory_="APPDIR" Attributes="0" KeyPath="App.config" Type="0"/>
     <ROW Component="WebControlWrapper.dll" ComponentId="{8B0022BC-F608-46CE-B2E2-6D084D43CC09}" Directory_="APPDIR" Attributes="0" KeyPath="WebControlWrapper.dll"/>
     <ROW Component="injector.dll" ComponentId="{CA028219-950A-449E-B5E9-BD368D00929E}" Directory_="APPDIR" Attributes="0" KeyPath="injector.dll"/>
     <ROW Component="stdole.dll" ComponentId="{F9749020-279A-4F75-B435-41787CD84A95}" Directory_="APPDIR" Attributes="0" KeyPath="stdole.dll"/>
@@ -73,16 +73,16 @@
     <ROW File="Logo_circleonly.ico" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.ICO|Logo_circleonly.ico" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.ico" SelfReg="false" NextFile="Logo_circleonly.png"/>
     <ROW File="Logo_circleonly.png" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.PNG|Logo_circleonly.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.png" SelfReg="false" NextFile="UserPreferences.png"/>
     <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\MagFilter.dll" SelfReg="false" NextFile="injector.dll"/>
+    <ROW File="MagFilter.dll.config" Component_="VirindiViewService.xml" FileName="MAGFIL~1.CON|MagFilter.dll.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\MagFilter.dll.config" SelfReg="false"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
-    <ROW File="PhatACServerList.xml" Component_="VirindiViewService.xml" FileName="PHATAC~1.XML|PhatACServerList.xml" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\PhatACServerList.xml" SelfReg="false"/>
+    <ROW File="PhatACServerList.xml" Component_="VirindiViewService.xml" FileName="PHATAC~1.XML|PhatACServerList.xml" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\PhatACServerList.xml" SelfReg="false" NextFile="MagFilter.dll.config"/>
     <ROW File="System.Data.SQLite.dll" Component_="System.Data.SQLite.dll" FileName="SYSTEM~1.DLL|System.Data.SQLite.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\System.Data.SQLite.dll" SelfReg="false" NextFile="ACEServerList.xml"/>
     <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~2.EXE|ThwargLauncher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\ThwargLauncher.exe" SelfReg="false" NextFile="updater.exe" DigSign="true"/>
     <ROW File="ThwargLauncher.exe.config" Component_="VirindiViewService.xml" FileName="THWARG~2.CON|ThwargLauncher.exe.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\ThwargLauncher.exe.config" SelfReg="false" NextFile="MagFilter.dll"/>
     <ROW File="UserPreferences.png" Component_="ACCoverArt.jpg" FileName="USERPR~1.PNG|UserPreferences.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\UserPreferences.png" SelfReg="false" NextFile="Decal.Adapter.dll"/>
     <ROW File="VCS5.dll" Component_="VCS5.dll" FileName="VCS5.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VCS5.dll" SelfReg="false" NextFile="VirindiViewService.dll"/>
     <ROW File="VirindiViewService.dll" Component_="VirindiViewService.dll" FileName="VIRIND~1.DLL|VirindiViewService.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.dll" SelfReg="false" NextFile="WebControlWrapper.dll"/>
-    <ROW File="VirindiViewService.xml" Component_="VirindiViewService.xml" FileName="VIRIND~1.XML|VirindiViewService.xml" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.xml" SelfReg="false" NextFile="ThwargLauncher.exe.config"/>
-    <ROW File="WebControlWrapper.dll" Component_="WebControlWrapper.dll" FileName="WEBCON~1.DLL|WebControlWrapper.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\WebControlWrapper.dll" SelfReg="false" NextFile="VirindiViewService.xml"/>
+    <ROW File="WebControlWrapper.dll" Component_="WebControlWrapper.dll" FileName="WEBCON~1.DLL|WebControlWrapper.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\WebControlWrapper.dll" SelfReg="false" NextFile="ThwargLauncher.exe.config"/>
     <ROW File="acwallpaperwide10yrs.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~1.JPG|acwallpaperwide10yrs.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwide10yrs.jpg" SelfReg="false" NextFile="acwallpaperwideaerbax.jpg"/>
     <ROW File="acwallpaperwideGroup.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~4.JPG|acwallpaperwideGroup.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwideGroup.jpg" SelfReg="false" NextFile="Credit.PNG"/>
     <ROW File="acwallpaperwideaerbax.jpg" Component_="ACCoverArt.jpg" FileName="ACWALL~2.JPG|acwallpaperwideaerbax.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\acwallpaperwideaerbax.jpg" SelfReg="false" NextFile="acwallpaperwideaerfalle.jpg"/>
