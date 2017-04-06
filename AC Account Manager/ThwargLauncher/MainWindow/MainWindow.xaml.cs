@@ -221,6 +221,15 @@ namespace ThwargLauncher
         }
         private void btnLaunch_Click(object sender, RoutedEventArgs e)
         {
+            LaunchGame();
+        }
+
+        public void LaunchGameCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            LaunchGame();
+        }
+        public void LaunchGame()
+        { 
             _launcherLocation = txtLauncherLocation.Text;
             if (string.IsNullOrEmpty(_launcherLocation))
             {

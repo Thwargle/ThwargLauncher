@@ -8,6 +8,15 @@
     <Window.Background>
         <ImageBrush Stretch="UniformToFill"/>
     </Window.Background>
+    <Window.Resources>
+        <RoutedUICommand x:Key="LaunchGameCommand" />
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource LaunchGameCommand}" Executed="LaunchGameCommand" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{StaticResource LaunchGameCommand}" />
+    </Window.InputBindings>
     <Grid x:Name="ContentGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Rectangle x:Name="rctBlack" Fill="Black" HorizontalAlignment="Stretch" Margin="1,1,0.4,-0.2" Stroke="Black" VerticalAlignment="Stretch" Opacity="0.5"/>
         <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
