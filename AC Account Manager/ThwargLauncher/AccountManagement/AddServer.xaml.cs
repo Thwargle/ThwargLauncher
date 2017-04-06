@@ -35,6 +35,25 @@ namespace ThwargLauncher.AccountManagement
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(txtServerName.Text))
+            {
+                MessageBox.Show("Server Name required");
+                txtServerName.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(txtServerIP.Text))
+            {
+                MessageBox.Show("Server Address required");
+                txtServerIP.Focus();
+                return;
+            }
+            if (cmbDefaultRodat.SelectedValue == null)
+            {
+                MessageBox.Show("Rodat selection required");
+                cmbDefaultRodat.Focus();
+                return;
+            }
+
             if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
             {
                 XDocument doc = XDocument.Load("ACEServerList.xml");
