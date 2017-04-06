@@ -39,7 +39,7 @@ namespace ThwargLauncher
             while (true)
             {
                 await CheckAllServers();
-                Thread.Sleep(_secondsDelay);
+                Thread.Sleep(TimeSpan.FromSeconds(_secondsDelay));
             }
         }
         private async Task CheckAllServers()
