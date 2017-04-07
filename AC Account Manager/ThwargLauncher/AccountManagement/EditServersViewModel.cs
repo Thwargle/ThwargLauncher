@@ -18,7 +18,7 @@ namespace ThwargLauncher
         public EditServersViewModel()
         {
             ServerList = new ObservableCollection<ServerModel>();
-            foreach (var server in ServerManager.ServerList)
+            foreach (var server in ServerManager.ServerList.Where(s => s.ServerSource != ServerModel.ServerSourceEnum.Published ))
             {
                 ServerList.Add(server);
             }
