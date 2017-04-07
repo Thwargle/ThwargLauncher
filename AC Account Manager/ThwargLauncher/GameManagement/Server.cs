@@ -5,6 +5,11 @@ using System.Runtime.CompilerServices;
 
 namespace ThwargLauncher
 {
+    /// <summary>
+    /// This holds the data for one Account+Server combination
+    /// which is a list of characters and the character selected, and this server's status (in the context of this account)
+    /// The server properties are all forwarded from a pointer to the ServerModel of the relevant server
+    /// </summary>
     public class Server : INotifyPropertyChanged
     {
         public Server(ServerModel serverItem)

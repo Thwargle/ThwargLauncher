@@ -6,6 +6,10 @@ using System.Text;
 
 namespace ThwargLauncher
 {
+    /// <summary>
+    /// A ServerModel is the information about one game server
+    /// This is independent of accounts or runnning games
+    /// </summary>
     public class ServerModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
