@@ -32,9 +32,9 @@ namespace ThwargLauncher.GameManagement
                     );
         }
 
-        public static IList<Server.ServerItem> ReadServerList(string emu, string filename)
+        public static IList<ServerInfo> ReadServerList(string emu, string filename)
         {
-            var list = new List<Server.ServerItem>();
+            var list = new List<ServerInfo>();
             using (XmlTextReader reader = new XmlTextReader(filename))
             {
 
@@ -42,7 +42,7 @@ namespace ThwargLauncher.GameManagement
                 xmlDoc2.Load(reader);
                 foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
                 {
-                    Server.ServerItem si = new Server.ServerItem();
+                    ServerInfo si = new ServerInfo();
 
                     si.ServerName = GetSubvalue(node, "name");
                     si.ServerDescription = GetSubvalue(node, "description");

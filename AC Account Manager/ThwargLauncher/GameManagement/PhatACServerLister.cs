@@ -17,13 +17,13 @@ namespace ThwargLauncher.GameManagement
         {
             _folder = folder;
         }
-        public List<Server.ServerItem> LoadPhatServers()
+        public List<ServerInfo> LoadPhatServers()
         {
             return LoadServers();
         }
-        private List<Server.ServerItem> LoadServers()
+        private List<ServerInfo> LoadServers()
         {
-            List<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
+            List<ServerInfo> serverItemList = new List<ServerInfo>();
             DownloadPublishedPhatServers();
             AddPhatServersFromFile(serverItemList, ServerManager.PublishedPhatServerList, "Published Phat Server List");
             AddPhatServersFromFile(serverItemList, ServerManager.PhatServerList, "User's Phat Server List");
@@ -49,7 +49,7 @@ namespace ThwargLauncher.GameManagement
                 Logger.WriteInfo("Unable to download Published Phat Server List: " + exc.ToString());
             }
         }
-        private void AddPhatServersFromFile(List<Server.ServerItem> serverItemList, string filename, string description)
+        private void AddPhatServersFromFile(List<ServerInfo> serverItemList, string filename, string description)
         {
             try
             {

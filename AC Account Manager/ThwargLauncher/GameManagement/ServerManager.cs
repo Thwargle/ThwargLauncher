@@ -11,7 +11,7 @@ namespace ThwargLauncher
         public const string PublishedPhatServerList = "PublishedPhatACServerList";
         public const string PhatServerList = "PhatACServerList.xml";
         public const string AceServerList = "ACEServerList.xml";
-        public static List<Server.ServerItem> ServerList = new List<Server.ServerItem>();
+        public static List<ServerInfo> ServerList = new List<ServerInfo>();
         public static bool IsLoaded;
 
         public void LoadServerLists()
@@ -49,7 +49,7 @@ namespace ThwargLauncher
             return folderpath;
         }
 
-        private void AddOrUpdateServer(Server.ServerItem server)
+        private void AddOrUpdateServer(ServerInfo server)
         {
             var existing = ServerList.FirstOrDefault(s => s.GetHashCode() == server.GetHashCode());
             if (existing != null)

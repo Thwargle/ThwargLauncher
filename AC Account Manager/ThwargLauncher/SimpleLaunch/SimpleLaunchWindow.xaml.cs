@@ -20,7 +20,7 @@ namespace ThwargLauncher
     public partial class SimpleLaunchWindow : Window
     {
         private SimpleLaunchWindowViewModel _viewModel;
-        //private List<Server.ServerItem> sl = new List<Server.ServerItem>();
+        //private List<ServerInfo> sl = new List<ServerInfo>();
         public SimpleLaunchWindow(SimpleLaunchWindowViewModel viewModel)
         {
             InitializeComponent();

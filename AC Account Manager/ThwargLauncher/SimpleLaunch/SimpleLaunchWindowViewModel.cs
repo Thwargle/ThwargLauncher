@@ -24,7 +24,7 @@ namespace ThwargLauncher
         private SimpleLaunchWindowViewModel()
         {
             IEnumerable<SimpleServerItem> items = ServerManager.ServerList.Select(p => new SimpleServerItem(p));
-            //IEnumerable<Server.ServerItem> items = ServerManager.ServerList;
+            //IEnumerable<ServerInfo> items = ServerManager.ServerList;
             _servers = new CollectionView(items);
             GotoMainViewCommand = new DelegateCommand(
                     PerformGotoMainView
@@ -68,7 +68,7 @@ namespace ThwargLauncher
             string path = Properties.Settings.Default.ACLocation; // "c:\\Turbine\\Asheron's Call\\acclient.exe";
             LaunchSimpleGame(path, SelectedServer.ServerItem, AccountName, Password);
         }
-        private void LaunchSimpleGame(string path, Server.ServerItem server, string account, string pwd)
+        private void LaunchSimpleGame(string path, ServerInfo server, string account, string pwd)
         {
             SaveToSettings();
             var launchItem = new LaunchItem();

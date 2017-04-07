@@ -17,13 +17,13 @@ namespace ThwargLauncher.GameManagement
         {
             _folder = folder;
         }
-        public IList<Server.ServerItem> LoadACEServers()
+        public IList<ServerInfo> LoadACEServers()
         {
             return LoadServers();
         }
-        public IList<Server.ServerItem> LoadServers()
+        public IList<ServerInfo> LoadServers()
         {
-            IList<Server.ServerItem> serverItemList = new List<Server.ServerItem>();
+            IList<ServerInfo> serverItemList = new List<ServerInfo>();
             try
             {
                 string filepath = GetFilePath(ServerManager.AceServerList);
