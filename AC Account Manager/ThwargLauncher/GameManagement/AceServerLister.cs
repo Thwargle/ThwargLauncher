@@ -17,13 +17,13 @@ namespace ThwargLauncher.GameManagement
         {
             _folder = folder;
         }
-        public IList<ServerInfo> LoadACEServers()
+        public IList<ServerModel> LoadACEServers()
         {
             return LoadServers();
         }
-        public IList<ServerInfo> LoadServers()
+        public IList<ServerModel> LoadServers()
         {
-            IList<ServerInfo> serverItemList = new List<ServerInfo>();
+            IList<ServerModel> serverItemList = new List<ServerModel>();
             try
             {
                 string filepath = GetFilePath(ServerManager.AceServerList);
@@ -39,7 +39,7 @@ namespace ThwargLauncher.GameManagement
                 {
                     return serverItemList;
                 }
-                serverItemList = ServerPersister.ReadServerList(EMU, filepath);
+                serverItemList = ServerPersister.ReadServerList(EMU, ServerModel.ServerSourceEnum.User, filepath);
             }
             catch(Exception exc)
             {

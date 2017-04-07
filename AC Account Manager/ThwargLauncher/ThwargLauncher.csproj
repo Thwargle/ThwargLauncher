@@ -113,7 +113,7 @@
     <Compile Include="GameManagement\GameSession.cs" />
     <Compile Include="GameManagement\GameSessionMap.cs" />
     <Compile Include="GameManagement\PhatACServerLister.cs" />
-    <Compile Include="GameManagement\ServerInfo.cs" />
+    <Compile Include="GameManagement\ServerModel.cs" />
     <Compile Include="GameManagement\ServerManager.cs" />
     <Compile Include="GameManagement\ServerPersister.cs" />
     <Compile Include="HelpWindow\HelpWindowViewModel.cs" />

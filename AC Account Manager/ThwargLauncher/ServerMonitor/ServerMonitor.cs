@@ -15,10 +15,10 @@ namespace ThwargLauncher
         public delegate void ReportSomethingDelegateMethod(string msg);
 
         private Thread _thread = null;
-        private IList<ServerInfo> _items;
+        private IList<ServerModel> _items;
         private int _secondsDelay = 5 * 60;
         const int TIMEOUTSEC = 3;
-        public void StartMonitor(IList<ServerInfo> items)
+        public void StartMonitor(IList<ServerModel> items)
         {
             StopMonitor();
             _thread = new Thread(new ThreadStart(MonitorLoop));
@@ -46,13 +46,13 @@ namespace ThwargLauncher
         {
             await Task.WhenAll(_items.Select(s => CheckServer(s)).ToArray());
         }
-        private async Task CheckServer(ServerInfo server)
+        private async Task CheckServer(ServerModel server)
         {
             var address = AddressParser.Parse(server.ServerIpAndPort);
             if (string.IsNullOrEmpty(address.Ip) || address.Port <= 0) { return; }
             bool up = await IsUdpServerUp(address.Ip, address.Port);
             string status = GetStatusString(up);
-            server.UpStatus = (up ? ServerInfo.ServerUpStatus.Up : ServerInfo.ServerUpStatus.Down);
+            server.UpStatus = (up ? ServerModel.ServerUpStatusEnum.Up : ServerModel.ServerUpStatusEnum.Down);
             if (server.ConnectionStatus != status)
             {
                 CallToUpdate(server, status);
@@ -119,7 +119,7 @@ namespace ThwargLauncher
                 return false;
             }
         }
-        private void CallToUpdate(ServerInfo server, string status)
+        private void CallToUpdate(ServerModel server, string status)
         {
             if (System.Windows.Application.Current == null) return;
             System.Windows.Application.Current.Dispatcher.BeginInvoke(
@@ -131,7 +131,7 @@ namespace ThwargLauncher
         /// <summary>
         /// Called on UI thread
         /// </summary>
-        private void PerformUpdate(ServerInfo server, string status)
+        private void PerformUpdate(ServerModel server, string status)
         {
             if (server.ConnectionStatus != status)
             {

@@ -17,8 +17,8 @@ namespace ThwargLauncher
         }
 
         
-        private readonly ServerInfo _item;
-        public SimpleServerItem(ServerInfo server)
+        private readonly ServerModel _item;
+        public SimpleServerItem(ServerModel server)
         {
             _item = server;
             _item.PropertyChanged += OnItemPropertyChanged;
@@ -32,7 +32,7 @@ namespace ThwargLauncher
         public string EMU { get { return _item.EMU; } }
         public string ServerIpAndPort { get { return _item.ServerIpAndPort; } }
         public string ServerDescription { get { return _item.ServerDescription; } }
-        public ServerInfo ServerItem { get { return _item; }}
+        public ServerModel ServerItem { get { return _item; }}
         public string ConnectionStatus { get { return _item.ConnectionStatus; } set { _item.ConnectionStatus = value; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor { get { return _item.ConnectionColor; } }
 

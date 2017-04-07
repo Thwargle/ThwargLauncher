@@ -6,12 +6,15 @@ using System.Text;
 
 namespace ThwargLauncher
 {
-    public class ServerInfo : INotifyPropertyChanged
+    public class ServerModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public enum ServerUpStatusEnum { Unknown, Down, Up };
+        public enum ServerSourceEnum { User, Published };
+
         public override bool Equals(object obj)
         {
-            ServerInfo ob2 = (obj as ServerInfo);
+            ServerModel ob2 = (obj as ServerModel);
             if (ob2 == null) { return false; }
             if (GetHashCode() != ob2.GetHashCode()) { return false; }
             if (ServerName != ob2.ServerName) { return false; }
@@ -36,7 +39,8 @@ namespace ThwargLauncher
         public string RodatSetting { get; set; }
         private string _connectionStatus = "?";
         private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
-        private ServerUpStatus _upStatus;
+        private ServerUpStatusEnum _upStatus = ServerUpStatusEnum.Unknown;
+        private ServerSourceEnum _serverSource = ServerSourceEnum.User;
         public string ConnectionStatus
         {
             get { return _connectionStatus; }
@@ -61,8 +65,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        public enum ServerUpStatus { Unknown, Down, Up };
-        public ServerUpStatus UpStatus
+        public ServerUpStatusEnum UpStatus
         {
             get { return _upStatus; }
             set
@@ -75,12 +78,25 @@ namespace ThwargLauncher
                 }
             }
         }
-        private System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatus upStatus)
+        public ServerSourceEnum ServerSource
+        {
+            get { return _serverSource; }
+            set
+            {
+                if (_serverSource != value)
+                {
+                    _serverSource = value;
+                    OnPropertyChanged("ServerSource");
+                }
+            }
+        }
+       
+        private System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
         {
             switch (_upStatus)
             {
-                case ServerUpStatus.Down: return System.Windows.Media.Brushes.Red;
-                case ServerUpStatus.Up: return System.Windows.Media.Brushes.Lime;
+                case ServerUpStatusEnum.Down: return System.Windows.Media.Brushes.Red;
+                case ServerUpStatusEnum.Up: return System.Windows.Media.Brushes.Lime;
                 default: return System.Windows.Media.Brushes.AntiqueWhite;
             }
         }

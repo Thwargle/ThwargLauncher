@@ -7,7 +7,7 @@ namespace ThwargLauncher
 {
     public class Server : INotifyPropertyChanged
     {
-        public Server(ServerInfo serverItem)
+        public Server(ServerModel serverItem)
         {
             _myServer = serverItem;
             _myServer.PropertyChanged += ServerItemPropertyChanged;
@@ -48,7 +48,7 @@ namespace ThwargLauncher
             {
                 if (string.IsNullOrEmpty(_myServer.ServerDescription))
                 {
-                    return string.Format("{0}", ServerName);
+                    return string.Format("{0} ({1})", ServerName, _myServer.ServerSource);
                 }
                 else
                 {
@@ -58,11 +58,11 @@ namespace ThwargLauncher
                     {
                         desc = desc.Substring(0, MAXLEN - 3) + "...";
                     }
-                    return string.Format("{0} - {1}", ServerName, desc);
+                    return string.Format("{0} ({1}) - {2}", ServerName, _myServer.ServerSource, desc);
                 }
             }
         }
-        readonly private ServerInfo _myServer;
+        readonly private ServerModel _myServer;
         private bool _serverSelected;
         public bool ServerSelected
         {

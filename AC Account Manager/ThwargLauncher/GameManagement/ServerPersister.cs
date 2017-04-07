@@ -32,9 +32,9 @@ namespace ThwargLauncher.GameManagement
                     );
         }
 
-        public static IList<ServerInfo> ReadServerList(string emu, string filename)
+        public static IList<ServerModel> ReadServerList(string emu, ServerModel.ServerSourceEnum source, string filename)
         {
-            var list = new List<ServerInfo>();
+            var list = new List<ServerModel>();
             using (XmlTextReader reader = new XmlTextReader(filename))
             {
 
@@ -42,13 +42,14 @@ namespace ThwargLauncher.GameManagement
                 xmlDoc2.Load(reader);
                 foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
                 {
-                    ServerInfo si = new ServerInfo();
+                    ServerModel si = new ServerModel();
 
                     si.ServerName = GetSubvalue(node, "name");
                     si.ServerDescription = GetSubvalue(node, "description");
                     si.ServerLoginEnabled = StringToBool(GetSubvalue(node, "enable_login"));
                     si.ServerIpAndPort = GetSubvalue(node, "connect_string");
                     si.EMU = emu;
+                    si.ServerSource = source;
                     si.RodatSetting = GetSubvalue(node, "default_rodat");
                     list.Add(si);
                 }

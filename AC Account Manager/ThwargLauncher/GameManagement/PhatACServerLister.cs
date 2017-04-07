@@ -17,16 +17,16 @@ namespace ThwargLauncher.GameManagement
         {
             _folder = folder;
         }
-        public List<ServerInfo> LoadPhatServers()
+        public List<ServerModel> LoadPhatServers()
         {
             return LoadServers();
         }
-        private List<ServerInfo> LoadServers()
+        private List<ServerModel> LoadServers()
         {
-            List<ServerInfo> serverItemList = new List<ServerInfo>();
+            List<ServerModel> serverItemList = new List<ServerModel>();
             DownloadPublishedPhatServers();
-            AddPhatServersFromFile(serverItemList, ServerManager.PublishedPhatServerList, "Published Phat Server List");
-            AddPhatServersFromFile(serverItemList, ServerManager.PhatServerList, "User's Phat Server List");
+            AddPhatServersFromFile(serverItemList, ServerModel.ServerSourceEnum.Published, ServerManager.PublishedPhatServerList, "Published Phat Server List");
+            AddPhatServersFromFile(serverItemList, ServerModel.ServerSourceEnum.User, ServerManager.PhatServerList, "User's Phat Server List");
             return serverItemList;
         }
         private void DownloadPublishedPhatServers()
@@ -49,7 +49,7 @@ namespace ThwargLauncher.GameManagement
                 Logger.WriteInfo("Unable to download Published Phat Server List: " + exc.ToString());
             }
         }
-        private void AddPhatServersFromFile(List<ServerInfo> serverItemList, string filename, string description)
+        private void AddPhatServersFromFile(List<ServerModel> serverItemList, ServerModel.ServerSourceEnum source, string filename, string description)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace ThwargLauncher.GameManagement
                     return;
                 }
                 const string EMU = "PhatAC";
-                var phatServerItems = ServerPersister.ReadServerList(EMU, filepath);
+                var phatServerItems = ServerPersister.ReadServerList(EMU, source, filepath);
                 serverItemList.AddRange(phatServerItems);
             }
             catch (Exception exc)
