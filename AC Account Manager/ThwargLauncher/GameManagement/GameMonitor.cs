@@ -161,16 +161,16 @@ namespace ThwargLauncher
             {
                 string heartbeatFile = gameSession.ProcessStatusFilepath;
                 var status = GetStatusFromHeartbeatFileTime(gameSession);
-                if (status == ServerAccountStatus.None)
+                if (status == ServerAccountStatusEnum.None)
                 {
                     deadGames.Add(gameSession);
                 }
                 else
                 {
                     // Handle orphan games that never got a heartbeat
-                    if (status == ServerAccountStatus.Warning && gameSession.LastGoodStatusUtc == DateTime.MinValue)
+                    if (status == ServerAccountStatusEnum.Warning && gameSession.LastGoodStatusUtc == DateTime.MinValue)
                     {
-                        status = ServerAccountStatus.None;
+                        status = ServerAccountStatusEnum.None;
                     }
                     if (gameSession.Status != status)
                     {
@@ -181,7 +181,7 @@ namespace ThwargLauncher
             }
             foreach (var deadGame in deadGames)
             {
-                deadGame.Status = ServerAccountStatus.None;
+                deadGame.Status = ServerAccountStatusEnum.None;
                 RemoveSessionByPidKey(deadGame.ProcessIdKey);
             }
         }
@@ -324,14 +324,14 @@ namespace ThwargLauncher
             gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(processId);
             _map.StartSessionWatcher(gameSession);
         }
-        private ServerAccountStatus GetStatusFromHeartbeatFileTime(GameSession gameSession)
+        private ServerAccountStatusEnum GetStatusFromHeartbeatFileTime(GameSession gameSession)
         {
-            if (gameSession.Status == ServerAccountStatus.Starting) { return ServerAccountStatus.Starting; }
+            if (gameSession.Status == ServerAccountStatusEnum.Starting) { return ServerAccountStatusEnum.Starting; }
             if (string.IsNullOrEmpty(gameSession.ProcessStatusFilepath))
             {
-                if (gameSession.Status == ServerAccountStatus.Running)
+                if (gameSession.Status == ServerAccountStatusEnum.Running)
                 {
-                    return ServerAccountStatus.Warning;
+                    return ServerAccountStatusEnum.Warning;
                 }
                 else
                 {
@@ -347,17 +347,17 @@ namespace ThwargLauncher
             TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
             if (elapsed < _warningInterval)
             {
-                return ServerAccountStatus.Running;
+                return ServerAccountStatusEnum.Running;
             }
             else
             {
                 if (elapsed > _liveInterval)
                 {
-                    return ServerAccountStatus.None;
+                    return ServerAccountStatusEnum.None;
                 }
                 else
                 {
-                    return ServerAccountStatus.Warning;
+                    return ServerAccountStatusEnum.Warning;
                 }
             }
         }
@@ -466,7 +466,7 @@ namespace ThwargLauncher
             if (gameSession != null)
             {
                 gameSession.StopSessionWatcher();
-                gameSession.Status = ServerAccountStatus.None;
+                gameSession.Status = ServerAccountStatusEnum.None;
                 NotifyGameChange(gameSession, GameChangeType.EndGame);
                 string gamePath = gameSession.ProcessStatusFilepath;
                 if(File.Exists(gamePath))

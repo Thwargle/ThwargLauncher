@@ -157,7 +157,7 @@
     <Compile Include="ProfileManagement\ProfileManager.cs" />
     <Compile Include="GameManagement\Server.cs" />
     <Compile Include="AccountManagement\UserAccount.cs" />
-    <Compile Include="GameManagement\ServerAccountStatus.cs" />
+    <Compile Include="GameManagement\ServerAccountStatusEnum.cs" />
     <Compile Include="GameManagement\UiGameMonitorBridge.cs" />
     <Compile Include="UtilityCode\PropertyChangedBase.cs" />
     <Compile Include="UtilityCode\PropertyDependencyManager.cs" />

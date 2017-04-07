@@ -253,7 +253,7 @@ namespace ThwargLauncher
             mgr.CreateProfileIfDoesNotExist(profileName);
         }
 
-        internal void UpdateAccountStatus(string serverName, string accountName, ServerAccountStatus status)
+        internal void UpdateAccountStatus(string serverName, string accountName, ServerAccountStatusEnum status)
         {
             AccountServer acctServer = FindServer(serverName, accountName);
             if (acctServer != null)
@@ -304,14 +304,14 @@ namespace ThwargLauncher
             _SessionStatusWarning = ConfigSettings.GetConfigString("SessionStatusWarning", "☔");
 
         }
-        private string GetStatusSymbol(ServerAccountStatus status)
+        private string GetStatusSymbol(ServerAccountStatusEnum status)
         {
             switch (status)
             {
-                case ServerAccountStatus.None: return _SessionStatusNone;
-                case ServerAccountStatus.Starting: return _SessionStatusStarting;
-                case ServerAccountStatus.Running: return _SessionStatusRunning;
-                case ServerAccountStatus.Warning: return _SessionStatusWarning;
+                case ServerAccountStatusEnum.None: return _SessionStatusNone;
+                case ServerAccountStatusEnum.Starting: return _SessionStatusStarting;
+                case ServerAccountStatusEnum.Running: return _SessionStatusRunning;
+                case ServerAccountStatusEnum.Warning: return _SessionStatusWarning;
                 default:
                     return "✖";
             }

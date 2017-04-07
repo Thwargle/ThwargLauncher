@@ -145,12 +145,12 @@ namespace ThwargLauncher
                 }
             }
         }
-        public ServerAccountStatus GetGameSessionStateByServerAccount(string serverName, string accountName)
+        public ServerAccountStatusEnum GetGameSessionStateByServerAccount(string serverName, string accountName)
         {
             var gameSession = GetGameSessionByServerAccount(serverName, accountName);
             if (gameSession == null)
             {
-                return ServerAccountStatus.None;
+                return ServerAccountStatusEnum.None;
             }
             else
             {
@@ -229,7 +229,7 @@ namespace ThwargLauncher
                 var gameSession = GetGameSessionByServerAccountImplUnlocked(serverName, accountName);
                 if (gameSession != null)
                 {
-                    gameSession.Status = ServerAccountStatus.Starting;
+                    gameSession.Status = ServerAccountStatusEnum.Starting;
                 }
                 else
                 {
@@ -238,7 +238,7 @@ namespace ThwargLauncher
                     gameSession.ProcessIdKey = Guid.NewGuid().ToString();
                     gameSession.ServerName = serverName;
                     gameSession.AccountName = accountName;
-                    gameSession.Status = ServerAccountStatus.Starting;
+                    gameSession.Status = ServerAccountStatusEnum.Starting;
                     AddGameSession(gameSession);
                 }
                 return gameSession;
@@ -251,10 +251,10 @@ namespace ThwargLauncher
                 var gameSession = GetGameSessionByServerAccountImplUnlocked(serverName, accountName);
                 if (gameSession != null)
                 {
-                    if (gameSession.Status == ServerAccountStatus.Starting)
+                    if (gameSession.Status == ServerAccountStatusEnum.Starting)
                     {
                         // If it never made it out of starting, then it should be set to warning
-                        gameSession.Status = ServerAccountStatus.Warning;
+                        gameSession.Status = ServerAccountStatusEnum.Warning;
                     }
                 }
             }
@@ -265,9 +265,9 @@ namespace ThwargLauncher
             {
                 foreach (var gameSession in _sessionByProcessId.Values)
                 {
-                    if (gameSession.Status == ServerAccountStatus.Starting)
+                    if (gameSession.Status == ServerAccountStatusEnum.Starting)
                     {
-                        gameSession.Status = ServerAccountStatus.Warning;
+                        gameSession.Status = ServerAccountStatusEnum.Warning;
                     }
                 }
             }

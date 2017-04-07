@@ -408,7 +408,7 @@ namespace ThwargLauncher
                         if (server.ServerSelected)
                         {
                             var state = _gameSessionMap.GetGameSessionStateByServerAccount(serverName: server.ServerName, accountName: account.Name);
-                            if (state != ServerAccountStatus.None)
+                            if (state != ServerAccountStatusEnum.None)
                             {
                                 continue;
                             }
@@ -480,7 +480,7 @@ namespace ThwargLauncher
                 try
                 {
                     session = _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
-                    UpdateAccountStatus(ServerAccountStatus.Starting, launchItem);
+                    UpdateAccountStatus(ServerAccountStatusEnum.Starting, launchItem);
                     launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
                 }
                 finally
@@ -508,7 +508,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        private void UpdateAccountStatus(ServerAccountStatus status, LaunchItem launchItem)
+        private void UpdateAccountStatus(ServerAccountStatusEnum status, LaunchItem launchItem)
         {
             _viewModel.UpdateAccountStatus(launchItem.ServerName, launchItem.AccountName, status);
         }
