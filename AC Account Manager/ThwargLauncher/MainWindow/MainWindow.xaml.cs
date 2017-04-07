@@ -651,15 +651,22 @@ namespace ThwargLauncher
             btnChooseProfile_Click(sender, e);
         }
 
-        private void btnAddServers_Click(object sender, RoutedEventArgs e)
+        private void btnEditServers_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisable();
-            var dlg = new AddServer();
-            var result = dlg.ShowDialog();
-            if (IsTrue(result))
+
+            EditServersViewModel vm = new EditServersViewModel();
+            EditServersWindow win = new EditServersWindow(vm);
+            win.ShowDialog();
+            if (vm.AddServerRequested)
             {
-                PopulateServerList();
-                LoadUserAccounts(initialLoad: false);
+                var dlg = new AddServer();
+                var result = dlg.ShowDialog();
+                if (IsTrue(result))
+                {
+                    PopulateServerList();
+                    LoadUserAccounts(initialLoad: false);
+                }
             }
             MainWindowEnable();
         }

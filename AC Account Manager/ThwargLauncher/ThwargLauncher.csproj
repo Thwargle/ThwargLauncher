@@ -97,6 +97,10 @@
       <DependentUpon>AddServer.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
+    <Compile Include="AccountManagement\EditServersViewModel.cs" />
+    <Compile Include="AccountManagement\EditServersWindow.xaml.cs">
+      <DependentUpon>EditServersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AppCoordinator.cs" />
     <Compile Include="AppSettings\JSON.cs" />
     <Compile Include="AppSettings\WpfWindowPlacementSetting.cs" />
@@ -178,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AccountManagement\AddUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountManagement\EditServersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
