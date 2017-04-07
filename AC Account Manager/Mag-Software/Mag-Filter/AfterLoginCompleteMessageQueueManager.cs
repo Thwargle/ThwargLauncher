@@ -51,24 +51,35 @@ namespace MagFilter
                     return;
                 }
 
-                if (sendingLastEnter)
+                bool useMagToolsStyle = true;
+
+                if (useMagToolsStyle)
                 {
-                    PostMessageTools.SendEnter();
-                    sendingLastEnter = false;
+                    string cmd = _loginCommands.MessageQueue.Dequeue();
+                    log.WriteInfo("Dequeued a login message to send to DecalProxy: {0}", cmd);
+                    DecalProxy.DispatchChatToBoxWithPluginIntercept(cmd);
                 }
                 else
                 {
-                    PostMessageTools.SendEnter();
-                    string cmd = _loginCommands.MessageQueue.Dequeue();
-                    // The game is losing the first character of our commands
-                    // So deliberately send a space at the start
-                    if (!cmd.StartsWith(" "))
+                    if (sendingLastEnter)
                     {
-                        cmd = " " + cmd;
+                        PostMessageTools.SendEnter();
+                        sendingLastEnter = false;
                     }
-                    log.WriteInfo("Dequeued a login message: '{0}'", cmd);
-                    PostMessageTools.SendCharString(cmd);
-                    sendingLastEnter = true;
+                    else
+                    {
+                        PostMessageTools.SendEnter();
+                        string cmd = _loginCommands.MessageQueue.Dequeue();
+                        // The game is losing the first character of our commands
+                        // So deliberately send a space at the start
+                        if (!cmd.StartsWith(" "))
+                        {
+                            cmd = " " + cmd;
+                        }
+                        log.WriteInfo("Dequeued a login message to send char-by-char to chat: '{0}'", cmd);
+                        PostMessageTools.SendCharString(cmd);
+                        sendingLastEnter = true;
+                    }
                 }
             }
             catch (Exception ex) { Debug.LogException(ex); }
