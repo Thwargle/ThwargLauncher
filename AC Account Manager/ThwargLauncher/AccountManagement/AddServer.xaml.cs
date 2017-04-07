@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,19 +41,27 @@ namespace ThwargLauncher.AccountManagement
             if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
             {
                 string filepath = ServerManager.GetAceServerFilepath();
-                XDocument doc = XDocument.Load(filepath);
-                AddNewServerToXmlDoc(doc);
-                doc.Save(filepath);
+                CreateOrModifyServerXML(filepath);
             }
             else if(rdPhatACServer.IsChecked.HasValue && rdPhatACServer.IsChecked.Value)
             {
                 string filepath = ServerManager.GetPhatServerFilepath();
-                XDocument doc = XDocument.Load(filepath);
-                AddNewServerToXmlDoc(doc);
-                doc.Save(filepath);
+                CreateOrModifyServerXML(filepath);
             }
             this.DialogResult = true;
             Close();
+        }
+
+        private void CreateOrModifyServerXML(string filepath)
+        {
+            var doc = new XDocument(new XElement("ArrayOfServerItem"));
+            if (File.Exists(filepath))
+            {
+                doc = XDocument.Load(filepath);
+            }
+            AddNewServerToXmlDoc(doc);
+            doc.Save(filepath);
+
         }
 
         private bool ValidateInput()

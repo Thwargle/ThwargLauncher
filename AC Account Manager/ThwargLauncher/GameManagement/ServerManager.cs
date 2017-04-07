@@ -8,7 +8,7 @@ namespace ThwargLauncher
 {
     public class ServerManager
     {
-        public const string PublishedPhatServerList = "PublishedPhatACServerList";
+        public const string PublishedPhatServerList = "PublishedPhatACServerList.xml";
         public const string PhatServerList = "PhatACServerList.xml";
         public const string AceServerList = "ACEServerList.xml";
         public static List<ServerModel> ServerList = new List<ServerModel>();

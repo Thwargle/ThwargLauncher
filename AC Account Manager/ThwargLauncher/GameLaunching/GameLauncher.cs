@@ -77,7 +77,7 @@ namespace ThwargLauncher
                 string ip = ipAddress.Substring(0, tok);
                 string port = ipAddress.Substring(tok + 1);
                 string genArgsPhatServer;
-                if(rodatSetting == "true")
+                if (rodatSetting == "false")
                 {
                     genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat on";
                 }
