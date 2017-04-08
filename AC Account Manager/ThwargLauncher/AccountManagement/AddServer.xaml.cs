@@ -52,6 +52,7 @@ namespace ThwargLauncher.AccountManagement
         {
             var sdata = new GameManagement.ServerPersister.ServerData()
             {
+                ServerId = Guid.NewGuid(),
                 ServerName = txtServerName.Text,
                 ServerDesc = txtServeDesc.Text,
                 ConnectionString = txtServerIP.Text + ":" + txtServerPort.Text,
