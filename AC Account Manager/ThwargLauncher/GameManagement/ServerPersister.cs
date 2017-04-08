@@ -83,8 +83,12 @@ namespace ThwargLauncher.GameManagement
                     {
                         ServerData si = new ServerData();
 
-                        Guid guid = StringToGuid(GetOptionalSubvalue(node, "ServerId", ""));
-                        si.ServerId = (guid != Guid.Empty ? guid : Guid.NewGuid());
+                        Guid guid = StringToGuid(GetOptionalSubvalue(node, "id", ""));
+                        if (guid == Guid.Empty)
+                        {
+                             guid = Guid.NewGuid(); // temporary compatibility step - to be removed
+                        }
+                        si.ServerId = guid;
                         si.ServerName = GetSubvalue(node, "name");
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));

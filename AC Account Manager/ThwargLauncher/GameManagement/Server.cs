@@ -46,6 +46,7 @@ namespace ThwargLauncher
             }
         }
         public string ServerIpAndPort { get { return _myServer.ServerIpAndPort; } }
+        public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }
         public ServerModel.ServerEmuEnum EMU { get {  return _myServer.EMU; } }
         public string RodatSetting { get { return _myServer.RodatSetting; } }
