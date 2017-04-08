@@ -14,9 +14,16 @@ namespace ThwargLauncher
     {
         public delegate void ReportSomethingDelegateMethod(string msg);
 
+        private class ServerCheckStatus
+        {
+            public DateTime LastCheckedUtc = DateTime.MinValue;
+        }
+
         private Thread _thread = null;
         private GetServerAction _serverFetcher;
-        private int _secondsDelay = 5 * 60;
+        private int _secondsDelay = 15;
+        private Dictionary<Guid, ServerCheckStatus> _serverCheckStatuses = new Dictionary<Guid, ServerCheckStatus>();
+
         const int TIMEOUTSEC = 3;
         public delegate IEnumerable<ServerModel> GetServerAction();
         public void StartMonitor(GetServerAction serverFetcher)
@@ -52,6 +59,18 @@ namespace ThwargLauncher
         }
         private async Task CheckServer(ServerModel server)
         {
+            // Get our status for this server
+            if (!_serverCheckStatuses.ContainsKey(server.ServerId))
+            {
+                _serverCheckStatuses[server.ServerId] = new ServerCheckStatus();
+            }
+            var checkStatus = _serverCheckStatuses[server.ServerId];
+            // Is it time to check again
+            if (DateTime.UtcNow - checkStatus.LastCheckedUtc < TimeSpan.FromSeconds(server.StatusIntervalSeconds))
+            {
+                return;
+            }
+            checkStatus.LastCheckedUtc = DateTime.UtcNow;
             var address = AddressParser.Parse(server.ServerIpAndPort);
             if (string.IsNullOrEmpty(address.Ip) || address.Port <= 0) { return; }
             bool up = await IsUdpServerUp(address.Ip, address.Port);

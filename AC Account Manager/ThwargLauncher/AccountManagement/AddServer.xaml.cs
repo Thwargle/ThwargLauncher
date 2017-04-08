@@ -114,18 +114,5 @@ namespace ThwargLauncher.AccountManagement
             }
             return true;
         }
-
-        private void AddNewServerToXmlDoc(XDocument doc)
-        {
-            var server = new GameManagement.ServerPersister.ServerData()
-            {
-                ServerName =  txtServerName.Text,
-                ServerDesc = txtServeDesc.Text,
-                ConnectionString = txtServerIP.Text + ":" + txtServerPort.Text,
-                RodatSetting = cmbDefaultRodat.SelectedValue.ToString()
-            };
-            // Used by both ACE & Phat
-            GameManagement.ServerPersister.AddNewServerToXmlDoc(server, doc);
-        }
     }
 }

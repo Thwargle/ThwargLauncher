@@ -22,18 +22,25 @@ namespace ThwargLauncher
         {
             ServerModel ob2 = (obj as ServerModel);
             if (ob2 == null) { return false; }
+            if (this.ServerId == ob2.ServerId) { return true; }
+            /*
+             * We are now using exact id match, not equivalent data
             if (GetHashCode() != ob2.GetHashCode()) { return false; }
             if (ServerName != ob2.ServerName) { return false; }
             if (ServerIpAndPort != ob2.ServerIpAndPort) { return false; }
+             * */
             return true;
         }
         public override int GetHashCode()
         {
-            return ServerIpAndPort.GetHashCode();
+            return ServerId.GetHashCode();
+            // Using exact id match, not equivalent data
+            // return ServerIpAndPort.GetHashCode();
         }
         internal static ServerModel Create(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
         {
             ServerModel server = new ServerModel();
+            server.ServerId = data.ServerId;
             server.ServerName = data.ServerName;
             server.ServerDescription = data.ServerDesc;
             server.ServerIpAndPort = data.ConnectionString;
@@ -46,6 +53,7 @@ namespace ThwargLauncher
         {
             if (ServerName != data.ServerName) { return false; }
             if (ServerIpAndPort != data.ConnectionString) { return false; }
+            if (ServerId != data.ServerId) { return false; } // using exact Id match, not just equivalent data
             return true;
         }
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -133,9 +141,6 @@ namespace ThwargLauncher
             }
         }
         private string _connectionStatus = "?";
-        private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
-        private ServerUpStatusEnum _upStatus = ServerUpStatusEnum.Unknown;
-        private ServerSourceEnum _serverSource = ServerSourceEnum.User;
         public string ConnectionStatus
         {
             get { return _connectionStatus; }
@@ -148,6 +153,7 @@ namespace ThwargLauncher
                 }
             }
         }
+        private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
         public System.Windows.Media.SolidColorBrush ConnectionColor
         {
             get { return _connectionColor; }
@@ -160,6 +166,7 @@ namespace ThwargLauncher
                 }
             }
         }
+        private ServerUpStatusEnum _upStatus = ServerUpStatusEnum.Unknown;
         public ServerUpStatusEnum UpStatus
         {
             get { return _upStatus; }
@@ -173,6 +180,7 @@ namespace ThwargLauncher
                 }
             }
         }
+        private ServerSourceEnum _serverSource = ServerSourceEnum.User;
         public ServerSourceEnum ServerSource
         {
             get { return _serverSource; }
@@ -185,6 +193,20 @@ namespace ThwargLauncher
                 }
             }
         }
+        private int _statusIntervalSeconds = 300;
+        public int StatusIntervalSeconds
+        {
+            get { return _statusIntervalSeconds; }
+            set
+            {
+                if (_statusIntervalSeconds != value)
+                {
+                    _statusIntervalSeconds = value;
+                    OnPropertyChanged("StatusIntervalSeconds");
+                }
+            }
+        }
+        public Guid ServerId { get; set; }
        
         private System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
         {
