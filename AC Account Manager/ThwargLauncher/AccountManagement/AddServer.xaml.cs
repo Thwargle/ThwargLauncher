@@ -56,7 +56,7 @@ namespace ThwargLauncher.AccountManagement
                 ServerDesc = txtServeDesc.Text,
                 ConnectionString = txtServerIP.Text + ":" + txtServerPort.Text,
                 RodatSetting = cmbDefaultRodat.SelectedValue.ToString(),
-                EMU = IsTrue(rdPhatACServer.IsChecked) ? "PHAT" : "ACE",
+                EMU = (IsTrue(rdPhatACServer.IsChecked) ? ServerModel.ServerEmuEnum.Phat : ServerModel.ServerEmuEnum.Ace),
                 LoginEnabled = true, // ??
                 ServerSource = ServerModel.ServerSourceEnum.User
             };

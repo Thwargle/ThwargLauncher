@@ -12,7 +12,7 @@ namespace ThwargLauncher
         public string Password;
         public string IpAndPort;
         public string ServerName;
-        public string EMU;
+        public ServerModel.ServerEmuEnum EMU;
         public string CharacterSelected;
         public string RodatSetting;
         public string CustomLaunchPath;

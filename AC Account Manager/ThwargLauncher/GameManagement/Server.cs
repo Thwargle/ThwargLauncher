@@ -47,7 +47,7 @@ namespace ThwargLauncher
         }
         public string ServerIpAndPort { get { return _myServer.ServerIpAndPort; } }
         public string ServerName { get { return _myServer.ServerName; } }
-        public string EMU { get {  return _myServer.EMU; } }
+        public ServerModel.ServerEmuEnum EMU { get {  return _myServer.EMU; } }
         public string RodatSetting { get { return _myServer.RodatSetting; } }
         public string ConnectionStatus { get { return _myServer.ConnectionStatus; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }

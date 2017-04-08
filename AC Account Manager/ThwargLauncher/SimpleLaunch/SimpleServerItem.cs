@@ -29,7 +29,7 @@ namespace ThwargLauncher
             OnPropertyChanged(e.PropertyName);
         }
         public string ServerName { get { return _item.ServerName; } }
-        public string EMU { get { return _item.EMU; } }
+        public ServerModel.ServerEmuEnum EMU { get { return _item.EMU; } }
         public string ServerIpAndPort { get { return _item.ServerIpAndPort; } }
         public string ServerDescription { get { return _item.ServerDescription; } }
         public ServerModel ServerItem { get { return _item; }}

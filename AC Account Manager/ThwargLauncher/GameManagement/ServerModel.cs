@@ -16,6 +16,7 @@ namespace ThwargLauncher
         public event PropertyChangedEventHandler PropertyChanged;
         public enum ServerUpStatusEnum { Unknown, Down, Up };
         public enum ServerSourceEnum { User, Published };
+        public enum ServerEmuEnum { Phat, Ace };
 
         public override bool Equals(object obj)
         {
@@ -105,8 +106,8 @@ namespace ThwargLauncher
                 }
             }
         }
-        private string _emu;
-        public string EMU
+        private ServerEmuEnum _emu;
+        public ServerEmuEnum EMU
         {
             get { return _emu; }
             set

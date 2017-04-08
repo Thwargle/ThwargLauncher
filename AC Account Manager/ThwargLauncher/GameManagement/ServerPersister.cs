@@ -21,7 +21,7 @@ namespace ThwargLauncher.GameManagement
             public string ServerName;
             public string ServerDesc;
             public string ConnectionString;
-            public string EMU;
+            public ServerModel.ServerEmuEnum EMU;
             public string RodatSetting;
             public ServerModel.ServerSourceEnum ServerSource;
             public bool LoginEnabled; // TODO - what is this?
@@ -29,7 +29,8 @@ namespace ThwargLauncher.GameManagement
 
         internal IEnumerable<ServerData> ReadUserServers(string filepath)
         {
-            var servers = ReadServerList(ServerModel.ServerSourceEnum.User, "?", filepath);
+            ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.Phat;
+            var servers = ReadServerList(ServerModel.ServerSourceEnum.User, emu, filepath);
             return servers;
         }
         public static void AddNewServerToXmlDoc(ServerData server, XDocument doc)
@@ -75,7 +76,7 @@ namespace ThwargLauncher.GameManagement
                             );
             return xelem;
         }
-        private IEnumerable<ServerData> ReadServerList(ServerModel.ServerSourceEnum source, string emu, string filepath)
+        private IEnumerable<ServerData> ReadServerList(ServerModel.ServerSourceEnum source, ServerModel.ServerEmuEnum emu, string filepath)
         {
             var list = new List<ServerData>();
             if (File.Exists(filepath))
@@ -93,7 +94,8 @@ namespace ThwargLauncher.GameManagement
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.EMU = GetOptionalSubvalue(node, "emu", emu);
+                        string emustr = GetOptionalSubvalue(node, "emu", emu.ToString());
+                        si.EMU = ParseEmu(emustr, emu);
                         si.ServerSource = source;
                         si.RodatSetting = GetSubvalue(node, "default_rodat");
                         list.Add(si);
@@ -101,6 +103,12 @@ namespace ThwargLauncher.GameManagement
                 }
             }
             return list;
+        }
+        private ServerModel.ServerEmuEnum ParseEmu(string text, ServerModel.ServerEmuEnum defval)
+        {
+            ServerModel.ServerEmuEnum value = defval;
+            Enum.TryParse(text, out value);
+            return value;
         }
         private IEnumerable<ServerData> ReadPublishedPhatServerList(string filepath)
         {
@@ -120,7 +128,7 @@ namespace ThwargLauncher.GameManagement
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.EMU = "Phat";
+                        si.EMU = ServerModel.ServerEmuEnum.Phat;
                         si.ServerSource = ServerModel.ServerSourceEnum.Published;
                         si.RodatSetting = GetSubvalue(node, "default_rodat");
                         list.Add(si);

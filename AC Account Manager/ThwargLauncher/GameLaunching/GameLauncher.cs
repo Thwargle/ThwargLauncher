@@ -49,7 +49,10 @@ namespace ThwargLauncher
             }
         }
 
-        public GameLaunchResult LaunchGameClient(string exelocation, string serverName, string accountName, string password, string ipAddress, string emu, string desiredCharacter, string rodatSetting, bool simpleLaunch)
+        public GameLaunchResult LaunchGameClient(string exelocation,
+            string serverName, string accountName, string password,
+            string ipAddress, ServerModel.ServerEmuEnum emu, string desiredCharacter,
+            string rodatSetting, bool simpleLaunch)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -62,11 +65,7 @@ namespace ThwargLauncher
 
             string genArgs = "TODO-below";
 
-            bool isPhat = false;
-            if(emu == "PhatAC")
-            { isPhat = true; }
-            else if(emu == "ACE")
-            { isPhat = false; }
+            bool isPhat = (emu == ServerModel.ServerEmuEnum.Phat);
             
             if (isPhat)
             {
