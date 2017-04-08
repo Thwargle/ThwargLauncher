@@ -15,14 +15,15 @@ namespace ThwargLauncher
         public delegate void ReportSomethingDelegateMethod(string msg);
 
         private Thread _thread = null;
-        private IList<ServerModel> _items;
+        private GetServerAction _serverFetcher;
         private int _secondsDelay = 5 * 60;
         const int TIMEOUTSEC = 3;
-        public void StartMonitor(IList<ServerModel> items)
+        public delegate IEnumerable<ServerModel> GetServerAction();
+        public void StartMonitor(GetServerAction serverFetcher)
         {
             StopMonitor();
             _thread = new Thread(new ThreadStart(MonitorLoop));
-            _items = items;
+            _serverFetcher = serverFetcher;
             _thread.Start();
         }
         public void StopMonitor()
@@ -44,7 +45,10 @@ namespace ThwargLauncher
         }
         private async Task CheckAllServers()
         {
-            await Task.WhenAll(_items.Select(s => CheckServer(s)).ToArray());
+            // Fetch servers into local list, so that we don't hold an enumeration
+            //  from main thread open any longer than necessary
+            var servers = _serverFetcher().ToList();
+            await Task.WhenAll(servers.Select(s => CheckServer(s)).ToArray());
         }
         private async Task CheckServer(ServerModel server)
         {

@@ -22,12 +22,6 @@ namespace ThwargLauncher.AccountManagement
     /// </summary>
     public partial class AddServer : Window
     {
-        string serverName;
-        string serverDesc;
-        string serverIP;
-        string serverPort;
-        string connectionString;
-        string rodatSetting;
         public AddServer()
         {
             InitializeComponent();
@@ -38,37 +32,51 @@ namespace ThwargLauncher.AccountManagement
         {
             if (!ValidateInput()) { return; }
 
-            if (rdACEServer.IsChecked.HasValue && rdACEServer.IsChecked.Value)
+            try
             {
-                string filepath = ServerManager.GetAceServerFilepath();
-                CreateOrModifyServerXML(filepath);
+                AddServerFromUiInfo();
+                this.DialogResult = true;
+                Close();
             }
-            else if(rdPhatACServer.IsChecked.HasValue && rdPhatACServer.IsChecked.Value)
+            catch (Exception exc)
             {
-                string filepath = ServerManager.GetPhatServerFilepath();
-                CreateOrModifyServerXML(filepath);
+                MessageBox.Show(string.Format("Exception: {0}", exc));
             }
-            this.DialogResult = true;
-            Close();
         }
-
-        private void CreateOrModifyServerXML(string filepath)
+        private void AddServerFromUiInfo()
         {
-            var doc = new XDocument(new XElement("ArrayOfServerItem"));
-            if (File.Exists(filepath))
-            {
-                doc = XDocument.Load(filepath);
-            }
-            AddNewServerToXmlDoc(doc);
-            doc.Save(filepath);
-
+            var sdata = GetServerDataFromUi();
+            ServerManager.AddNewServer(sdata);
         }
-
+        private GameManagement.ServerPersister.ServerData GetServerDataFromUi()
+        {
+            var sdata = new GameManagement.ServerPersister.ServerData()
+            {
+                ServerName = txtServerName.Text,
+                ServerDesc = txtServeDesc.Text,
+                ConnectionString = txtServerIP.Text + ":" + txtServerPort.Text,
+                RodatSetting = cmbDefaultRodat.SelectedValue.ToString(),
+                EMU = IsTrue(rdPhatACServer.IsChecked) ? "PHAT" : "ACE",
+                LoginEnabled = true, // ??
+                ServerSource = ServerModel.ServerSourceEnum.User
+            };
+            return sdata;
+        }
+        private static bool IsTrue(bool? bval, bool defval=false)
+        {
+            return (bval.HasValue ? bval.Value : defval);
+        }
         private bool ValidateInput()
         {
             if (string.IsNullOrEmpty(txtServerName.Text))
             {
                 MessageBox.Show("Server Name required");
+                txtServerName.Focus();
+                return false;
+            }
+            if (ServerManager.ServerList.Any(s => s.ServerName == txtServerName.Text))
+            {
+                MessageBox.Show("Server Name already exists");
                 txtServerName.Focus();
                 return false;
             }
@@ -82,6 +90,13 @@ namespace ThwargLauncher.AccountManagement
             {
                 MessageBox.Show("Server Port required");
                 txtServerPort.Focus();
+                return false;
+            }
+            string newAddress = string.Format("{0}:{1}", txtServerIP.Text, txtServerPort.Text);
+            if (ServerManager.ServerList.Any(s => s.ServerIpAndPort == newAddress))
+            {
+                MessageBox.Show("Server Address already exists");
+                txtServerName.Focus();
                 return false;
             }
             int portnum = 0;
@@ -102,7 +117,7 @@ namespace ThwargLauncher.AccountManagement
 
         private void AddNewServerToXmlDoc(XDocument doc)
         {
-            var server = new GameManagement.ServerPersister.EditedServerInfo()
+            var server = new GameManagement.ServerPersister.ServerData()
             {
                 ServerName =  txtServerName.Text,
                 ServerDesc = txtServeDesc.Text,

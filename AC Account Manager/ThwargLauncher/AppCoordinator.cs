@@ -63,7 +63,7 @@ namespace ThwargLauncher
             if (Properties.Settings.Default.ServerMonitorEnabled)
             {
                 _monitor = new ServerMonitor();
-                _monitor.StartMonitor(ServerManager.ServerList);
+                _monitor.StartMonitor(() => { return ServerManager.ServerList; });
             }
         }
         private void ShowMainWindow()

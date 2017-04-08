@@ -80,8 +80,7 @@ namespace ThwargLauncher
 
         private void PopulateServerList()
         {
-            var serverMgr = new ServerManager();
-            serverMgr.LoadServerLists();
+            ServerManager.LoadServerLists();
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -658,6 +657,8 @@ namespace ThwargLauncher
             EditServersViewModel vm = new EditServersViewModel();
             EditServersWindow win = new EditServersWindow(vm);
             win.ShowDialog();
+            ServerManager.SaveServerListToDisk();
+
             if (vm.AddServerRequested)
             {
                 var dlg = new AddServer();
@@ -670,9 +671,9 @@ namespace ThwargLauncher
             }
             MainWindowEnable();
         }
-        private static bool IsTrue(bool? bval)
+        private static bool IsTrue(bool? bval, bool defval = false)
         {
-            return bval.HasValue && bval.Value;
+            return (bval.HasValue ? bval.Value : defval);
         }
     }
 }

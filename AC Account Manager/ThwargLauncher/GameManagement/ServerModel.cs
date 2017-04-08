@@ -9,6 +9,7 @@ namespace ThwargLauncher
     /// <summary>
     /// A ServerModel is the information about one game server
     /// This is independent of accounts or runnning games
+    /// This is the master data in memory, and various displays bind to this data
     /// </summary>
     public class ServerModel : INotifyPropertyChanged
     {
@@ -29,18 +30,107 @@ namespace ThwargLauncher
         {
             return ServerIpAndPort.GetHashCode();
         }
+        internal static ServerModel Create(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
+        {
+            ServerModel server = new ServerModel();
+            server.ServerName = data.ServerName;
+            server.ServerDescription = data.ServerDesc;
+            server.ServerIpAndPort = data.ConnectionString;
+            server.EMU = data.EMU;
+            server.RodatSetting = data.RodatSetting;
+            server.ServerSource = data.ServerSource;
+            return server;
+        }
+        internal bool IsEqual(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
+        {
+            if (ServerName != data.ServerName) { return false; }
+            if (ServerIpAndPort != data.ConnectionString) { return false; }
+            return true;
+        }
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public string ServerName { get; set; }
-        public string ServerDescription { get; set; }
-        public bool ServerLoginEnabled { get; set; }
-        public string ServerIpAndPort { get; set; }
-        public string EMU { get; set; }
-        public string RodatSetting { get; set; }
+        private string _serverName;
+        public string ServerName
+        {
+            get { return _serverName; }
+            set
+            {
+                if (_serverName != value)
+                {
+                    _serverName = value;
+                    OnPropertyChanged("ServerName");
+                }
+            }
+        }
+        private string _serverDescription;
+        public string ServerDescription
+        {
+            get { return _serverDescription; }
+            set
+            {
+                if (_serverDescription != value)
+                {
+                    _serverDescription = value;
+                    OnPropertyChanged("ServerDescription");
+                }
+            }
+        }
+        private bool _serverLoginEnabled;
+        public bool ServerLoginEnabled
+        {
+            get { return _serverLoginEnabled; }
+            set
+            {
+                if (_serverLoginEnabled != value)
+                {
+                    _serverLoginEnabled = value;
+                    OnPropertyChanged("ServerLoginEnabled");
+                }
+            }
+        }
+        private string _serverIpAndPort;
+        public string ServerIpAndPort
+        {
+            get { return _serverIpAndPort; }
+            set
+            {
+                if (_serverIpAndPort != value)
+                {
+                    _serverIpAndPort = value;
+                    OnPropertyChanged("ServerIpAndPort");
+                }
+            }
+        }
+        private string _emu;
+        public string EMU
+        {
+            get { return _emu; }
+            set
+            {
+                if (_emu != value)
+                {
+                    _emu = value;
+                    OnPropertyChanged("EMU");
+                }
+            }
+        }
+        private string _rodatSetting;
+        public string RodatSetting
+        {
+            get { return _rodatSetting; }
+            set
+            {
+                if (_rodatSetting != value)
+                {
+                    _rodatSetting = value;
+                    OnPropertyChanged("RodatSetting");
+                }
+            }
+        }
         private string _connectionStatus = "?";
         private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
         private ServerUpStatusEnum _upStatus = ServerUpStatusEnum.Unknown;

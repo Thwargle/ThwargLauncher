@@ -22,6 +22,10 @@ namespace ThwargLauncher
 
         void ServerItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "ServerName" || e.PropertyName == "ServerDescription" || e.PropertyName == "ServerSource")
+            {
+                OnPropertyChanged("ServerDisplayName");
+            }
             OnPropertyChanged(e.PropertyName);
         }
 

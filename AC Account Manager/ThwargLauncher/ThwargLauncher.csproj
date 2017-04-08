@@ -111,12 +111,10 @@
     </Compile>
     <Compile Include="DiagnosticWindow\DiagnosticWindowViewModel.cs" />
     <Compile Include="GameLaunching\DecalInjection.cs" />
-    <Compile Include="GameManagement\AceServerLister.cs" />
     <Compile Include="GameManagement\CommandManager.cs" />
     <Compile Include="GameManagement\GameMonitor.cs" />
     <Compile Include="GameManagement\GameSession.cs" />
     <Compile Include="GameManagement\GameSessionMap.cs" />
-    <Compile Include="GameManagement\PhatACServerLister.cs" />
     <Compile Include="GameManagement\ServerModel.cs" />
     <Compile Include="GameManagement\ServerManager.cs" />
     <Compile Include="GameManagement\ServerPersister.cs" />

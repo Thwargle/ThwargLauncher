@@ -8,38 +8,37 @@ namespace ThwargLauncher
 {
     public class ServerManager
     {
-        public const string PublishedPhatServerList = "PublishedPhatACServerList.xml";
-        public const string PhatServerList = "PhatACServerList.xml";
-        public const string AceServerList = "ACEServerList.xml";
+        private const string PublishedPhatServerListFilename = "PublishedPhatACServerList.xml";
+        private const string UserServerListFilename = "UserServerList.xml";
         public static List<ServerModel> ServerList = new List<ServerModel>();
         public static bool IsLoaded;
 
-        public void LoadServerLists()
+        private static string GetPublishedPhatServerFilepath()
+        {
+            return System.IO.Path.Combine(GetServerDataFolder(), PublishedPhatServerListFilename);
+        }
+        private static string GetUserPhatServerFilepath()
+        {
+            return System.IO.Path.Combine(GetServerDataFolder(), UserServerListFilename);
+        }
+
+        public static void LoadServerLists()
         {
             string folder = GetServerDataFolder();
-            var phatLister = new GameManagement.PhatACServerLister(folder);
-            var phatServers = phatLister.LoadPhatServers();
-            foreach (var serverItem in phatServers.DistinctBy(p => p.GetHashCode()))
+            var persister = new GameManagement.ServerPersister();
+            var publishedPhatServers = persister.GetPublishedPhatServerList(GetPublishedPhatServerFilepath());
+            var userServers = persister.ReadUserServers(GetUserPhatServerFilepath());
+
+            var servers = new List<GameManagement.ServerPersister.ServerData>();
+            servers.AddRange(publishedPhatServers);
+            servers.AddRange(userServers);
+            var distinctServers = servers.Distinct().ToList();
+            foreach (var sdata in distinctServers)
             {
-                AddOrUpdateServer(serverItem);
-            }
-            var aceLister = new GameManagement.AceServerLister(folder);
-            var aceServers = aceLister.LoadACEServers();
-            foreach (var serverItem in aceServers.DistinctBy(p => p.GetHashCode()))
-            {
-                AddOrUpdateServer(serverItem);
+                AddOrUpdateServer(sdata);
+
             }
             IsLoaded = true;
-        }
-        public static string GetPhatServerFilepath()
-        {
-            string folder = GetServerDataFolder();
-            return System.IO.Path.Combine(folder, PhatServerList);
-        }
-        public static string GetAceServerFilepath()
-        {
-            string folder = GetServerDataFolder();
-            return System.IO.Path.Combine(folder, AceServerList);
         }
         private static string GetServerDataFolder()
         {
@@ -48,18 +47,34 @@ namespace ThwargLauncher
             MagFilter.FileLocations.CreateAnyNeededFoldersOfFolder(folderpath);
             return folderpath;
         }
-
-        private void AddOrUpdateServer(ServerModel server)
+        private static void AddOrUpdateServer(GameManagement.ServerPersister.ServerData servdata)
         {
-            var existing = ServerList.FirstOrDefault(s => s.GetHashCode() == server.GetHashCode());
+            var existing = ServerList.FirstOrDefault(s => s.IsEqual(servdata));
             if (existing != null)
             {
-                // Currently we don't update because our GUI doesn't support editing existing servers
+                existing.ServerName = servdata.ServerName;
+                existing.ServerDescription = servdata.ServerDesc;
+                existing.ServerIpAndPort = servdata.ConnectionString;
+                existing.RodatSetting = servdata.RodatSetting;
+                existing.EMU = servdata.EMU;
             }
             else
             {
-                ServerList.Add(server);
+                ServerModel model = ServerModel.Create(servdata);
+                ServerList.Add(model);
             }
+        }
+        internal static void AddNewServer(GameManagement.ServerPersister.ServerData servdata)
+        {
+            AddOrUpdateServer(servdata);
+            SaveServerListToDisk();
+        }
+        internal static void SaveServerListToDisk()
+        {
+            var userServers = ServerList.Where(s => s.ServerSource != ServerModel.ServerSourceEnum.Published);
+
+            var persister = new GameManagement.ServerPersister();
+            persister.WriteServerListToFile(userServers, GetUserPhatServerFilepath());
         }
     }
 }
