@@ -11,7 +11,7 @@
                 <DataGridTextColumn Header="Server" Binding="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridTextColumn Header="EMU" Binding="{Binding EMU,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Source" Binding="{Binding ServerSource}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Source" Binding="{Binding ServerSource,Mode=OneTime}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server" />
