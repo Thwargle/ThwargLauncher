@@ -11,10 +11,29 @@ namespace MagFilter
         private static string _logFilepath = "";
         private enum LOG_LEVEL { Min=0, None=0, Error=1, Info=2, Debug=3, Max=3 };
         private static LOG_LEVEL _logLevel = 0;
+        private static bool _started;
 
         static log()
         {
             InitConfiguration();
+        }
+        private static void WriteAssembliesInfo()
+        {
+            var trace = new System.Diagnostics.StackTrace();
+            var map = new Dictionary<string, int>();
+            foreach (var frame in trace.GetFrames())
+            {
+                var assembly = frame.GetMethod().DeclaringType.Assembly;
+                if (map.ContainsKey(assembly.FullName)) { continue; }
+                WriteInfo("Assembly: {0}", DescribeAssembly(assembly));
+                map[assembly.FullName] = 1;
+            }
+        }
+        private static string DescribeAssembly(System.Reflection.Assembly assembly)
+        {
+            var aname = assembly.GetName();
+            string text = string.Format("{0): {1}", aname.Name, aname.Version);
+            return text;
         }
         public static string GetLogFilepath()
         {
@@ -34,13 +53,20 @@ namespace MagFilter
         ///// </summary>
         private static void WriteMsg(LOG_LEVEL level, string msg)
         {
+            if (!_started)
+            {
+                // should mutex this (not using _locker) except it would cost us every log call
+                // and worst case is we log the assembly stuff more than once, which isn't terrible
+                _started = true;
+                WriteAssembliesInfo();
+            }
             if (msg == "REINITIALIZE") { InitConfiguration(); return; }
             if (_logLevel < level) { return; }
             lock (_locker)
             {
                 using (StreamWriter file = new StreamWriter(_logFilepath, append: true))
                 {
-                    file.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} {1,-6} {2}", DateTime.Now, level.ToString(), msg));
+                    file.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} {1,-6} {2}", DateTime.Now, level, msg));
                 }
             }
         }
