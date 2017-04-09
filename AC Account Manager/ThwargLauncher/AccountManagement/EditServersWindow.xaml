@@ -16,7 +16,6 @@
                 <DataGridTextColumn Header="Source" Binding="{Binding ServerSource,Mode=OneTime}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ComboBox ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+ServerEmuEnum}"/>
         <Button x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server" />
     </StackPanel>
 </Window>
