@@ -17,6 +17,7 @@ namespace ThwargLauncher
         public enum ServerUpStatusEnum { Unknown, Down, Up };
         public enum ServerSourceEnum { User, Published };
         public enum ServerEmuEnum { Phat, Ace };
+        public enum RodatEnum { On, Off };
 
         public override bool Equals(object obj)
         {
@@ -127,8 +128,8 @@ namespace ThwargLauncher
                 }
             }
         }
-        private string _rodatSetting;
-        public string RodatSetting
+        private RodatEnum _rodatSetting;
+        public RodatEnum RodatSetting
         {
             get { return _rodatSetting; }
             set

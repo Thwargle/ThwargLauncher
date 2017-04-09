@@ -23,7 +23,7 @@ namespace ThwargLauncher.GameManagement
             public string ServerDesc;
             public string ConnectionString;
             public ServerModel.ServerEmuEnum EMU;
-            public string RodatSetting;
+            public ServerModel.RodatEnum RodatSetting;
             public ServerModel.ServerSourceEnum ServerSource;
             public bool LoginEnabled; // TODO - what is this?
         }
@@ -96,7 +96,8 @@ namespace ThwargLauncher.GameManagement
                         string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
                         si.EMU = ParseEmu(emustr, emudef);
                         si.ServerSource = source;
-                        si.RodatSetting = GetSubvalue(node, "default_rodat");
+                        string rodatstr = GetSubvalue(node, "default_rodat");
+                        si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
                         list.Add(si);
                     }
                 }
@@ -128,7 +129,8 @@ namespace ThwargLauncher.GameManagement
                         si.ConnectionString = GetSubvalue(node, "connect_string");
                         si.EMU = ServerModel.ServerEmuEnum.Phat;
                         si.ServerSource = ServerModel.ServerSourceEnum.Published;
-                        si.RodatSetting = GetSubvalue(node, "default_rodat");
+                        string rodatstr = GetSubvalue(node, "default_rodat");
+                        si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
 
                         list.Add(si);
                     }
@@ -274,6 +276,21 @@ namespace ThwargLauncher.GameManagement
             ServerModel.ServerEmuEnum value = defval;
             Enum.TryParse(text, out value);
             return value;
+        }
+        private ServerModel.RodatEnum ParseRodat(string text, ServerModel.RodatEnum defval)
+        {
+            if (string.Compare(text, "false", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.RodatEnum.On;
+            }
+            else if (string.Compare(text, "true", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.RodatEnum.Off;
+            }
+            else
+            {
+                return defval;
+            }
         }
         private static Guid StringToGuid(string text)
         {

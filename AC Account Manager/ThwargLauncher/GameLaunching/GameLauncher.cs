@@ -52,7 +52,7 @@ namespace ThwargLauncher
         public GameLaunchResult LaunchGameClient(string exelocation,
             string serverName, string accountName, string password,
             string ipAddress, ServerModel.ServerEmuEnum emu, string desiredCharacter,
-            string rodatSetting, bool simpleLaunch)
+            ServerModel.RodatEnum rodatSetting, bool simpleLaunch)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -76,7 +76,7 @@ namespace ThwargLauncher
                 string ip = ipAddress.Substring(0, tok);
                 string port = ipAddress.Substring(tok + 1);
                 string genArgsPhatServer;
-                if (rodatSetting == "false")
+                if (rodatSetting == ServerModel.RodatEnum.On)
                 {
                     genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat on";
                 }

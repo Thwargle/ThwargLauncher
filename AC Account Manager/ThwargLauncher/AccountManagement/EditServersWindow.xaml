@@ -13,6 +13,7 @@
                 <DataGridTextColumn Header="Server" Binding="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridComboBoxColumn Header="EMU" SelectedItemBinding="{Binding EMU}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+ServerEmuEnum}"></DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Rodat" SelectedItemBinding="{Binding RodatSetting}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+RodatEnum}"></DataGridComboBoxColumn>
                 <DataGridTextColumn Header="Source" Binding="{Binding ServerSource,Mode=OneTime}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

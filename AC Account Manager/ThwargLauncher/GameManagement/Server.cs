@@ -49,7 +49,7 @@ namespace ThwargLauncher
         public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }
         public ServerModel.ServerEmuEnum EMU { get {  return _myServer.EMU; } }
-        public string RodatSetting { get { return _myServer.RodatSetting; } }
+        public ServerModel.RodatEnum RodatSetting { get { return _myServer.RodatSetting; } }
         public string ConnectionStatus { get { return _myServer.ConnectionStatus; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }
         public string ServerDisplayName

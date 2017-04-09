@@ -50,14 +50,17 @@ namespace ThwargLauncher.AccountManagement
         }
         private GameManagement.ServerPersister.ServerData GetServerDataFromUi()
         {
+            var emu = (IsTrue(rdPhatACServer.IsChecked) ? ServerModel.ServerEmuEnum.Phat : ServerModel.ServerEmuEnum.Ace);
+            var rodat = (cmbDefaultRodat.SelectedValue.ToString() == "true" ? ServerModel.RodatEnum.Off : ServerModel.RodatEnum.On);
+
             var sdata = new GameManagement.ServerPersister.ServerData()
             {
                 ServerId = Guid.NewGuid(),
                 ServerName = txtServerName.Text,
                 ServerDesc = txtServeDesc.Text,
                 ConnectionString = txtServerIP.Text + ":" + txtServerPort.Text,
-                RodatSetting = cmbDefaultRodat.SelectedValue.ToString(),
-                EMU = (IsTrue(rdPhatACServer.IsChecked) ? ServerModel.ServerEmuEnum.Phat : ServerModel.ServerEmuEnum.Ace),
+                RodatSetting = rodat,
+                EMU = emu,
                 LoginEnabled = true, // ??
                 ServerSource = ServerModel.ServerSourceEnum.User
             };

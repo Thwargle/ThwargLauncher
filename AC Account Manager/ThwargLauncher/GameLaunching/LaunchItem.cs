@@ -14,7 +14,7 @@ namespace ThwargLauncher
         public string ServerName;
         public ServerModel.ServerEmuEnum EMU;
         public string CharacterSelected;
-        public string RodatSetting;
+        public ServerModel.RodatEnum RodatSetting;
         public string CustomLaunchPath;
         public string CustomPreferencePath;
         public bool IsSimpleLaunch;
