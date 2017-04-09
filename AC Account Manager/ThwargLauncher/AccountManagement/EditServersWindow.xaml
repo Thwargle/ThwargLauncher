@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wpfenumhelper="clr-namespace:WpfEnumHelper"
         xmlns:local="clr-namespace:ThwargLauncher"
-        Title="EditServersWindow" Height="300" Width="300">
+        Title="Edit Servers" Height="300" Width="300">
     <StackPanel Orientation="Vertical">
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,35" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=ServerList}"
