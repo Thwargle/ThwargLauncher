@@ -30,5 +30,15 @@ namespace ThwargLauncher.AccountManagement
             InitializeComponent();
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
+
+        private void DataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            var server = e.Row.Item as ServerModel;
+            if (server != null && server.ServerSource == ServerModel.ServerSourceEnum.Published)
+            {
+                // Disallow editing of published servers
+                e.Cancel = true;
+            }
+        }
     }
 }

@@ -8,7 +8,16 @@
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,35" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=ServerList}"
                   AutoGenerateColumns="False"
-                  AlternatingRowBackground="Wheat">
+                  AlternatingRowBackground="Wheat" BeginningEdit="DataGrid_BeginningEdit">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ServerSource}" Value="Published">
+                            <Setter Property="TextElement.Foreground" Value="DarkGray"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Server" Binding="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
