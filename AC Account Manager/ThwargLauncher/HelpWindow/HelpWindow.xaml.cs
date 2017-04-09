@@ -23,8 +23,9 @@ namespace ThwargLauncher
             InitializeComponent();
             _viewModel = viewModel;
             chkShowStartup.IsChecked = Properties.Settings.Default.ShowHelpAtStart;
-            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            var assemblyTitle = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            var assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
+            var version = assemblyName.Version;
+            var assemblyTitle = assemblyName.Name;
             this.Title = string.Format("Help - {0} {1}", assemblyTitle, version);
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
