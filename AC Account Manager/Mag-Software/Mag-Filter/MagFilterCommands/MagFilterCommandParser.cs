@@ -50,6 +50,10 @@ namespace MagFilter
         private const string CMD_LeaveTeam2 = "lt ";
         private const string CMD_Test = "test ";
         private const string CMD_SetWindowTitle = "swt ";
+        private const string CMD_Inventory = "inventory";
+        private const string CMD_Inventory2 = "inv";
+        private ThwargInventory _thwargInventory;
+        public ThwargInventory Inventory { set { _thwargInventory = value; } }
 
         public string GetTeamList() { return GetTeamStringList(); }
         private string GetTeamStringList()
@@ -81,6 +85,8 @@ namespace MagFilter
             cmdHandlers.Add(CMD_LeaveTeam2, LeaveTeamCommandHandler, null);
             cmdHandlers.Add(CMD_Test, TestCommandHandler, "Test submitting a command directly to game ('/mf test somecommandstring')");
             cmdHandlers.Add(CMD_SetWindowTitle, SetWindowTitleCommandHandler, "Set window title ('/mf swt MyGame')");
+            cmdHandlers.Add(CMD_Inventory, InventoryCommandHandler, "List inventory to log ('/mf inv')");
+            cmdHandlers.Add(CMD_Inventory2, InventoryCommandHandler, null);
         }
         public void ExecuteCommandFromLauncher(string command)
         {
@@ -187,6 +193,10 @@ namespace MagFilter
         private void LeaveTeam(string team)
         {
             myTeams.Remove(team);
+        }
+        private void InventoryCommandHandler(string command)
+        {
+            _thwargInventory.HandleInventoryCommand();
         }
         private void TestCommandHandler(string command)
         {

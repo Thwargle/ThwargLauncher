@@ -117,6 +117,7 @@
     <Compile Include="SettingsLineParser.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Shared\PostMsgs.cs" />
+    <Compile Include="ThwargInventory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

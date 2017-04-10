@@ -26,7 +26,9 @@ namespace MagFilter
         private LauncherChooseCharacterManager chooseCharacterManager;
         private MagFilterCommandExecutor magFilterCommandExecutor;
         private MagFilterCommandParser magFilterCommandParser;
-        LoginNextCharacterManager loginNextCharacterManager;
+        private LoginNextCharacterManager loginNextCharacterManager;
+        private ThwargInventory thwargInventory;
+
 
         private string PluginName { get { return FileLocations.PluginName; } }
 
@@ -43,11 +45,12 @@ namespace MagFilter
             magFilterCommandParser = new MagFilterCommandParser(magFilterCommandExecutor);
             Heartbeat.SetCommandParser(magFilterCommandParser);
             loginNextCharacterManager = new LoginNextCharacterManager(loginCharacterTools);
+            thwargInventory = new ThwargInventory();
+            magFilterCommandParser.Inventory = thwargInventory;
 
             ClientDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ClientDispatch);
             ServerDispatch += new EventHandler<NetworkMessageEventArgs>(FilterCore_ServerDispatch);
             WindowMessage += new EventHandler<WindowMessageEventArgs>(FilterCore_WindowMessage);
-
 
             CommandLineText += new EventHandler<ChatParserInterceptEventArgs>(FilterCore_CommandLineText);
         }
