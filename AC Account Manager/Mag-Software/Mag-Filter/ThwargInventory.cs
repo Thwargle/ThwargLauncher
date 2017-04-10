@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using IdMap = System.Collections.Generic.Dictionary<int, string>;
 
 using Decal.Adapter;
 using Decal.Adapter.Wrappers;
@@ -9,7 +10,7 @@ namespace MagFilter
 {
     class ThwargInventory
     {
-        private Dictionary<int, string> _items = new Dictionary<int, string>();
+        private IdMap _items = new IdMap();
         private bool disposed;
 
         public ThwargInventory()
@@ -48,6 +49,7 @@ namespace MagFilter
             {
                 log.WriteDebug("Item selected {0} - sending request", e.ItemGuid);
                 CoreManager.Current.Actions.RequestId(e.ItemGuid);
+                _items[e.ItemGuid] = "Q";
             }
             else
             {
