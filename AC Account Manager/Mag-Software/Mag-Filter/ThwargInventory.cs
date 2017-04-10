@@ -58,8 +58,10 @@ namespace MagFilter
         }
         public void HandleInventoryCommand()
         {
+            int count = 0;
             foreach (WorldObject wo in CoreManager.Current.WorldFilter.GetInventory())
             {
+                ++count;
                 if (!wo.HasIdData)
                 {
                     log.WriteDebug("Lack id data for {0}", wo.Id);
@@ -69,6 +71,7 @@ namespace MagFilter
                     log.WriteDebug("Id {0}, ObjectClass {1} Name {2}", wo.Id, wo.Name, wo.ObjectClass);
                 }
             }
+            log.WriteDebug("Inventory listed {0} items", count);
         }
     }
 }
