@@ -19,20 +19,27 @@ namespace MagFilter
         }
         private static void WriteAssembliesInfo()
         {
-            var trace = new System.Diagnostics.StackTrace();
-            var map = new Dictionary<string, int>();
-            foreach (var frame in trace.GetFrames())
+            try
             {
-                var assembly = frame.GetMethod().DeclaringType.Assembly;
-                if (map.ContainsKey(assembly.FullName)) { continue; }
-                WriteInfo("Assembly: {0}", DescribeAssembly(assembly));
-                map[assembly.FullName] = 1;
+                var trace = new System.Diagnostics.StackTrace();
+                var map = new Dictionary<string, int>();
+                foreach (var frame in trace.GetFrames())
+                {
+                    var assembly = frame.GetMethod().DeclaringType.Assembly;
+                    if (map.ContainsKey(assembly.FullName)) { continue; }
+                    WriteInfo("Assembly: {0}", DescribeAssembly(assembly));
+                    map[assembly.FullName] = 1;
+                }
+            }
+            catch (Exception exc)
+            {
+                log.WriteError("Exception in WriteAssembliesInfo: {0}", exc);
             }
         }
         private static string DescribeAssembly(System.Reflection.Assembly assembly)
         {
             var aname = assembly.GetName();
-            string text = string.Format("{0): {1}", aname.Name, aname.Version);
+            string text = string.Format("{0} {1}", aname.Name, aname.Version);
             return text;
         }
         public static string GetLogFilepath()
@@ -60,6 +67,7 @@ namespace MagFilter
                 _started = true;
                 WriteAssembliesInfo();
             }
+            if (msg == "ASSEMBLIES") { WriteAssembliesInfo(); return; }
             if (msg == "REINITIALIZE") { InitConfiguration(); return; }
             if (_logLevel < level) { return; }
             lock (_locker)
