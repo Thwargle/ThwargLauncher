@@ -657,7 +657,11 @@ namespace ThwargLauncher
             EditServersViewModel vm = new EditServersViewModel();
             EditServersWindow win = new EditServersWindow(vm);
             win.ShowDialog();
+
+            // Save any changes the user made to disk
             ServerManager.SaveServerListToDisk();
+            // Update UI
+            LoadUserAccounts();
 
             if (vm.AddServerRequested)
             {
