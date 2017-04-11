@@ -93,6 +93,10 @@ namespace ThwargLauncher
         {
             OnPropertyChanged("VisibleServers");
         }
+        public void NotifyAvailableCharactersChanged()
+        {
+            OnPropertyChanged("AvailableCharacters");
+        }
 
         void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

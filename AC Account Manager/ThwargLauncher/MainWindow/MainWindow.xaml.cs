@@ -175,6 +175,16 @@ namespace ThwargLauncher
             _uicontext.Post(new SendOrPostCallback(
                 (obj) => LoadUserAccounts()), state);
         }
+        private void CallUiNotifyAvailableCharactersChanged()
+        {
+            object state = null;
+            _uicontext.Post(new SendOrPostCallback(
+                (obj) => NotifyAvailableCharactersChanged()), state);
+        }
+        private void NotifyAvailableCharactersChanged()
+        {
+            _viewModel.NotifyAvailableCharactersChanged();
+        }
         private void LoadUserAccounts(bool initialLoad = false)
         {
             _viewModel.CreateProfileIfDoesNotExist();
@@ -298,7 +308,8 @@ namespace ThwargLauncher
 
         private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LoadUserAccounts();
+            NotifyAvailableCharactersChanged(); // experimental code, 2017-04-10
+            // LoadUserAccounts();  // before 2017-04-10
             try
             {
                 if (e.Cancelled)
@@ -490,7 +501,8 @@ namespace ThwargLauncher
                 if (launchResult.Success)
                 {
                     ++serverIndex;
-                    CallUiLoadUserAccounts(); // Pick up any characters
+                    CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
+                    // CallUiLoadUserAccounts(); // Pick up any characters - before 2017-04-10
                     _gameSessionMap.StartSessionWatcher(session);
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                 }

@@ -299,6 +299,13 @@ namespace ThwargLauncher
                 userAcct.NotifyVisibleServersChanged();
             }
         }
+        public void NotifyAvailableCharactersChanged()
+        {
+            foreach (var userAcct in KnownUserAccounts)
+            {
+                userAcct.NotifyAvailableCharactersChanged();
+            }
+        }
         private string _SessionStatusNone;
         private string _SessionStatusStarting;
         private string _SessionStatusRunning;
