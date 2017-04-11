@@ -22,7 +22,7 @@ namespace ThwargLauncher
 
         void ServerItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ServerName" || e.PropertyName == "ServerDescription" || e.PropertyName == "ServerSource")
+            if (e.PropertyName == "ServerName" || e.PropertyName == "ServerDescription")
             {
                 OnPropertyChanged("ServerDisplayName");
             }
@@ -58,7 +58,7 @@ namespace ThwargLauncher
             {
                 if (string.IsNullOrEmpty(_myServer.ServerDescription))
                 {
-                    return string.Format("{0} ({1})", ServerName, _myServer.ServerSource);
+                    return string.Format("{0}", ServerName);
                 }
                 else
                 {
@@ -68,7 +68,7 @@ namespace ThwargLauncher
                     {
                         desc = desc.Substring(0, MAXLEN - 3) + "...";
                     }
-                    return string.Format("{0} ({1}) - {2}", ServerName, _myServer.ServerSource, desc);
+                    return string.Format("{0} - {1}", ServerName, desc);
                 }
             }
         }
