@@ -110,6 +110,10 @@ namespace ThwargLauncher
         {
             get { return _servers.Where(x => x.ServerSelected).ToList(); }
         }
+        public List<Server> VisibleServers
+        {
+            get { return _servers.Where(x => x.VisibilitySetting == ServerModel.VisibilityEnum.Visible).ToList(); }
+        }
 
         public string AccountSummary
         {

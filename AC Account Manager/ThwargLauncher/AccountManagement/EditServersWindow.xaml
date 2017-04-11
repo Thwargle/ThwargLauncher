@@ -19,12 +19,36 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Server" Binding="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></DataGridTextColumn>
-                <DataGridComboBoxColumn Header="EMU" SelectedItemBinding="{Binding EMU}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+ServerEmuEnum}"></DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="Rodat" SelectedItemBinding="{Binding RodatSetting}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+RodatEnum}"></DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Server" Binding="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridComboBoxColumn Header="EMU" SelectedItemBinding="{Binding EMU}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+ServerEmuEnum}">
+                    <DataGridComboBoxColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridComboBoxColumn.CellStyle>
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Rodat" SelectedItemBinding="{Binding RodatSetting}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+RodatEnum}">
+                    <DataGridComboBoxColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridComboBoxColumn.CellStyle>
+                </DataGridComboBoxColumn>
                 <DataGridTextColumn Header="Source" Binding="{Binding ServerSource,Mode=OneTime}" IsReadOnly="True"></DataGridTextColumn>
-                <!--<DataGridComboBoxColumn Header="Visible" SelectedItemBinding="{Binding Visibility}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+VisibilityEnum}"></DataGridComboBoxColumn>-->
+                <DataGridComboBoxColumn Header="Visible" SelectedItemBinding="{Binding VisibilitySetting}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+VisibilityEnum}"></DataGridComboBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server" />

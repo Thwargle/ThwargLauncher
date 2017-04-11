@@ -18,7 +18,7 @@ namespace ThwargLauncher
         public enum ServerSourceEnum { User, Published };
         public enum ServerEmuEnum { Phat, Ace };
         public enum RodatEnum { On, Off };
-        public enum VisibilityEnum {  Visible, Invisible };
+        public enum VisibilityEnum { Visible, Invisible };
 
         public override bool Equals(object obj)
         {
@@ -48,6 +48,7 @@ namespace ThwargLauncher
             server.ServerIpAndPort = data.ConnectionString;
             server.EMU = data.EMU;
             server.RodatSetting = data.RodatSetting;
+            server.VisibilitySetting = data.VisibilitySetting;
             server.ServerSource = data.ServerSource;
             return server;
         }
@@ -142,7 +143,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        private VisibilityEnum _visibilitySetting;
+        private VisibilityEnum _visibilitySetting = VisibilityEnum.Visible;
         public VisibilityEnum VisibilitySetting
         {
             get { return _visibilitySetting; }
@@ -208,6 +209,7 @@ namespace ThwargLauncher
                 }
             }
         }
+        public bool IsUserServer { get { return _serverSource == ServerSourceEnum.User; } }
         private int _statusIntervalSeconds = 300;
         public int StatusIntervalSeconds
         {

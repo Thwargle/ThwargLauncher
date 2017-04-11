@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using PublishedServerInfoMap = System.Collections.Generic.Dictionary<string, ThwargLauncher.GameManagement.ServerPersister.PublishedServerLocalInfo>;
 
 namespace ThwargLauncher.GameManagement
 {
@@ -28,9 +29,31 @@ namespace ThwargLauncher.GameManagement
             public ServerModel.ServerSourceEnum ServerSource;
             public bool LoginEnabled; // TODO - what is this?
         }
-
-        internal IEnumerable<ServerData> ReadUserServers(string filepath)
+        public class PublishedServerLocalInfo
         {
+            public string Name;
+            public Guid Id;
+            public ServerModel.VisibilityEnum VisibilitySetting;
+        }
+        private const string PublishedPhatServerListFilename = "PublishedPhatACServerList.xml";
+        private const string LocalPublishedPhatServerInfosFilename = "PublishedServerInfo.xml";
+        private const string UserServerListFilename = "UserServerList.xml";
+        private string _serverDataFolder;
+        private string _publishedPhatServersFilepath;
+        private string _localPublishedPhatServersInfoFilepath;
+        private string _userServersFilepath;
+
+        public ServerPersister(string serverDataFolder)
+        {
+            _serverDataFolder = serverDataFolder;
+            _publishedPhatServersFilepath = Path.Combine(_serverDataFolder, PublishedPhatServerListFilename);
+            _localPublishedPhatServersInfoFilepath = Path.Combine(_serverDataFolder, LocalPublishedPhatServerInfosFilename);
+            _userServersFilepath = Path.Combine(_serverDataFolder, UserServerListFilename);
+        }
+
+        internal IEnumerable<ServerData> ReadUserServers()
+        {
+            string filepath = _userServersFilepath;
             ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.Phat;
             var servers = ReadServerList(ServerModel.ServerSourceEnum.User, emu, filepath);
             return servers;
@@ -91,9 +114,10 @@ namespace ThwargLauncher.GameManagement
             }
             return list;
         }
-        private IEnumerable<ServerData> ReadPublishedPhatServerList(string filepath, Dictionary<string, Guid> publishedIds)
+        private IEnumerable<ServerData> ReadPublishedPhatServerList(PublishedServerInfoMap publishedInfos)
         {
             var list = new List<ServerData>();
+            string filepath = _publishedPhatServersFilepath;
             if (File.Exists(filepath))
             {
                 using (XmlTextReader reader = new XmlTextReader(filepath))
@@ -106,11 +130,20 @@ namespace ThwargLauncher.GameManagement
                         ServerData si = new ServerData();
 
                         si.ServerName = GetSubvalue(node, "name");
-                        if (!publishedIds.ContainsKey(si.ServerName))
+                        PublishedServerLocalInfo info = null;
+                        if (!publishedInfos.ContainsKey(si.ServerName))
                         {
-                            publishedIds[si.ServerName] = Guid.NewGuid();
+                            info = new PublishedServerLocalInfo();
+                            info.Name = si.ServerName;
+                            info.Id = Guid.NewGuid();
+                            info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
+                            publishedInfos[si.ServerName] = info;
                         }
-                        si.ServerId = publishedIds[si.ServerName];
+                        else
+                        {
+                            info = publishedInfos[si.ServerName];
+                        }
+                        si.ServerId = info.Id;
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
@@ -118,6 +151,7 @@ namespace ThwargLauncher.GameManagement
                         si.ServerSource = ServerModel.ServerSourceEnum.Published;
                         string rodatstr = GetSubvalue(node, "default_rodat");
                         si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
+                        si.VisibilitySetting = info.VisibilitySetting;
 
                         list.Add(si);
                     }
@@ -126,23 +160,24 @@ namespace ThwargLauncher.GameManagement
             return list;
         }
 
-        public IEnumerable<ServerData> GetPublishedPhatServerList(string filepath)
+        public IEnumerable<ServerData> GetPublishedPhatServerList()
         {
-            string serverFolder = Path.GetDirectoryName(filepath);
-            CleanupObsoleteFiles(serverFolder);
-            string cachedIdsFilepath = Path.Combine(serverFolder, "PublishedServerIds.xml");
-            var publishedServerIds = LoadPublishedServerIds(cachedIdsFilepath);
+            var publishedServerInfos = LoadPublishedServerInfos();
 
-            DownloadPublishedPhatServersToCacheIfPossible(filepath);
-            var publishedServers = ReadPublishedPhatServerList(filepath, publishedServerIds);
+            DownloadPublishedPhatServersToCacheIfPossible();
+            var publishedServers = ReadPublishedPhatServerList(publishedServerInfos);
 
-            SavePublishedServerIds(cachedIdsFilepath, publishedServerIds);
+            SavePublishedServerInfos(publishedServerInfos);
 
             return publishedServers;
         }
-        private Dictionary<string, Guid> LoadPublishedServerIds(string filepath)
+        private PublishedServerInfoMap LoadPublishedServerInfos()
         {
-            var publishedServerIds = new Dictionary<string, Guid>();
+            string serverFolder = Path.GetDirectoryName(_userServersFilepath);
+            CleanupObsoleteFiles(serverFolder); // TODO - get rid of this later
+
+            var publishedServerInfos = new PublishedServerInfoMap();
+            string filepath = _localPublishedPhatServersInfoFilepath;
             if (File.Exists(filepath))
             {
                 using (XmlTextReader reader = new XmlTextReader(filepath))
@@ -152,38 +187,42 @@ namespace ThwargLauncher.GameManagement
                     xmlDoc2.Load(reader);
                     foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
                     {
-                        string serverName = GetSubvalue(node, "name");
+                        var info = new PublishedServerLocalInfo();
+                        info.Name = GetSubvalue(node, "name");
                         Guid guid = StringToGuid(GetSubvalue(node, "id"));
-                        if (guid != Guid.Empty)
-                        {
-                            publishedServerIds[serverName] = guid;
-                        }
+                        if (guid == Guid.Empty) { guid = Guid.NewGuid(); }
+                        info.Id = guid;
+                        string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible"); // optional for upgrade by developers
+                        info.VisibilitySetting = ParseVisibility(visibilitystr, ServerModel.VisibilityEnum.Visible);
+                        publishedServerInfos[info.Name] = info;
                     }
                 }
             }
-            return publishedServerIds;
+            return publishedServerInfos;
         }
-        private void SavePublishedServerIds(string filepath, Dictionary<string, Guid> publishedServerIds)
+        private void SavePublishedServerInfos(PublishedServerInfoMap publishedServerInfos)
         {
             XElement root = new XElement("ArrayOfServerItem");
             XDocument doc = new XDocument(root);
-            foreach (var item in publishedServerIds)
+            foreach (var item in publishedServerInfos)
             {
                 string name = item.Key;
-                Guid id = item.Value;
+                var info = item.Value;
+                ServerModel.VisibilityEnum visibilitySetting = item.Value.VisibilitySetting;
                 if (string.IsNullOrEmpty(name)) { continue; }
-                if (id == Guid.Empty) { continue; }
                 var xelem = new XElement("ServerItem",
-                                new XElement("id", id),
-                                new XElement("name", name));
+                                new XElement("id", info.Id),
+                                new XElement("name", name),
+                                new XElement("visibility", info.VisibilitySetting));
                 root.Add(xelem);
             }
-            doc.Save(filepath);
+            doc.Save(_localPublishedPhatServersInfoFilepath);
         }
-        private void DownloadPublishedPhatServersToCacheIfPossible(string filepath)
+        private void DownloadPublishedPhatServersToCacheIfPossible()
         {
             try
             {
+                string filepath = _publishedPhatServersFilepath;
                 var url = Properties.Settings.Default.PhatServerListUrl;
                 string xmlStr;
                 using (var wc = new WebClient())
@@ -199,10 +238,24 @@ namespace ThwargLauncher.GameManagement
                 Logger.WriteInfo("Unable to download Published Phat Server List: " + exc.ToString());
             }
         }
-        public void WriteServerListToFile(IEnumerable<ServerModel> servers, string filepath)
+        public void WriteServerListToFile(IEnumerable<ServerModel> servers)
         {
+            // Save all user servers
             var xdoc = WriteServersToXml(servers);
-            WriteServerXmlToFile(xdoc, filepath);
+            WriteServerXmlToFile(xdoc, _userServersFilepath);
+
+            // Save local published server info in case any visibilities changed
+            var publishedServerInfos = LoadPublishedServerInfos();
+            // Update publishedServerInfos visibility data from in-memory data
+            foreach (var info in publishedServerInfos.Values)
+            {
+                var server = ServerManager.ServerList.Where(s => s.ServerId == info.Id).FirstOrDefault();
+                if (server != null && info.VisibilitySetting != server.VisibilitySetting)
+                {
+                    info.VisibilitySetting = server.VisibilitySetting;
+                }
+            }
+            SavePublishedServerInfos(publishedServerInfos);
         }
         /// <summary>
         /// Delete some files from earlier versions which are no longer used
@@ -266,11 +319,11 @@ namespace ThwargLauncher.GameManagement
         }
         private ServerModel.RodatEnum ParseRodat(string text, ServerModel.RodatEnum defval)
         {
-            if (string.Compare(text, "Invisible", StringComparison.InvariantCultureIgnoreCase) == 0)
+            if (string.Compare(text, "On", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.RodatEnum.On;
             }
-            else if (string.Compare(text, "Visible", StringComparison.InvariantCultureIgnoreCase) == 0)
+            else if (string.Compare(text, "Off", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.RodatEnum.Off;
             }
@@ -281,11 +334,11 @@ namespace ThwargLauncher.GameManagement
         }
         private ServerModel.VisibilityEnum ParseVisibility(string text, ServerModel.VisibilityEnum defval)
         {
-            if (string.Compare(text, "false", StringComparison.InvariantCultureIgnoreCase) == 0)
+            if (string.Compare(text, "Invisible", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.VisibilityEnum.Invisible;
             }
-            else if (string.Compare(text, "true", StringComparison.InvariantCultureIgnoreCase) == 0)
+            else if (string.Compare(text, "Visible", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.VisibilityEnum.Visible;
             }

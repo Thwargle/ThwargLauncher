@@ -8,26 +8,16 @@ namespace ThwargLauncher
 {
     public class ServerManager
     {
-        private const string PublishedPhatServerListFilename = "PublishedPhatACServerList.xml";
-        private const string UserServerListFilename = "UserServerList.xml";
         public static List<ServerModel> ServerList = new List<ServerModel>();
         public static bool IsLoaded;
 
-        private static string GetPublishedPhatServerFilepath()
-        {
-            return System.IO.Path.Combine(GetServerDataFolder(), PublishedPhatServerListFilename);
-        }
-        private static string GetUserPhatServerFilepath()
-        {
-            return System.IO.Path.Combine(GetServerDataFolder(), UserServerListFilename);
-        }
 
         public static void LoadServerLists()
         {
             string folder = GetServerDataFolder();
-            var persister = new GameManagement.ServerPersister();
-            var publishedPhatServers = persister.GetPublishedPhatServerList(GetPublishedPhatServerFilepath());
-            var userServers = persister.ReadUserServers(GetUserPhatServerFilepath());
+            var persister = new GameManagement.ServerPersister(folder);
+            var publishedPhatServers = persister.GetPublishedPhatServerList();
+            var userServers = persister.ReadUserServers();
 
             var servers = new List<GameManagement.ServerPersister.ServerData>();
             servers.AddRange(publishedPhatServers);
@@ -56,6 +46,7 @@ namespace ThwargLauncher
                 existing.ServerDescription = servdata.ServerDesc;
                 existing.ServerIpAndPort = servdata.ConnectionString;
                 existing.RodatSetting = servdata.RodatSetting;
+                existing.VisibilitySetting = servdata.VisibilitySetting;
                 existing.EMU = servdata.EMU;
             }
             else
@@ -73,8 +64,8 @@ namespace ThwargLauncher
         {
             var userServers = ServerList.Where(s => s.ServerSource != ServerModel.ServerSourceEnum.Published);
 
-            var persister = new GameManagement.ServerPersister();
-            persister.WriteServerListToFile(userServers, GetUserPhatServerFilepath());
+            var persister = new GameManagement.ServerPersister(GetServerDataFolder());
+            persister.WriteServerListToFile(userServers);
         }
     }
 }

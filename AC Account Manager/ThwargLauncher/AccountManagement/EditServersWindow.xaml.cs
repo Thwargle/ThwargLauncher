@@ -37,7 +37,7 @@ namespace ThwargLauncher.AccountManagement
             if (server != null && server.ServerSource == ServerModel.ServerSourceEnum.Published)
             {
                 // Disallow editing of published servers
-                e.Cancel = true;
+                //e.Cancel = true;
             }
         }
     }
