@@ -259,7 +259,7 @@ namespace ThwargLauncher
             if (acctServer != null)
             {
                 acctServer.tServer.ServerStatusSymbol = GetStatusSymbol(status);
-                acctServer.tAccount.notifyAccountSummaryChanged();
+                acctServer.tAccount.NotifyAccountSummaryChanged();
             }
         }
         internal void ExecuteGameCommand(string serverName, string accountName, string command)
@@ -291,6 +291,13 @@ namespace ThwargLauncher
                 }
             }
             return null;
+        }
+        public void NotifyVisibleServersChanged()
+        {
+            foreach (var userAcct in KnownUserAccounts)
+            {
+                userAcct.NotifyVisibleServersChanged();
+            }
         }
         private string _SessionStatusNone;
         private string _SessionStatusStarting;

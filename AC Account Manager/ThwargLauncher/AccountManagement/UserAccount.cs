@@ -85,9 +85,13 @@ namespace ThwargLauncher
             InitializeMe();
         }
 
-        public void notifyAccountSummaryChanged()
+        public void NotifyAccountSummaryChanged()
         {
             OnPropertyChanged("AccountSummary");
+        }
+        public void NotifyVisibleServersChanged()
+        {
+            OnPropertyChanged("VisibleServers");
         }
 
         void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
