@@ -50,8 +50,10 @@ namespace ThwargLauncher
         public string ServerName { get { return _myServer.ServerName; } }
         public ServerModel.ServerEmuEnum EMU { get {  return _myServer.EMU; } }
         public ServerModel.RodatEnum RodatSetting { get { return _myServer.RodatSetting; } }
+        public ServerModel.VisibilityEnum VisibilitySetting { get { return _myServer.VisibilitySetting; } }
         public string ConnectionStatus { get { return _myServer.ConnectionStatus; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }
+        public string IsPublished {  get { return _myServer.ServerSource == ServerModel.ServerSourceEnum.Published ? "True" : "False"; } }
         public string ServerDisplayName
         {
             get
@@ -72,7 +74,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        readonly private ServerModel _myServer;
+        private readonly ServerModel _myServer;
         private bool _serverSelected;
         public bool ServerSelected
         {

@@ -24,6 +24,7 @@ namespace ThwargLauncher.GameManagement
             public string ConnectionString;
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
+            public ServerModel.VisibilityEnum VisibilitySetting;
             public ServerModel.ServerSourceEnum ServerSource;
             public bool LoginEnabled; // TODO - what is this?
         }
@@ -33,23 +34,6 @@ namespace ThwargLauncher.GameManagement
             ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.Phat;
             var servers = ReadServerList(ServerModel.ServerSourceEnum.User, emu, filepath);
             return servers;
-        }
-        private static XElement CreateServerXmlElement_unused(ServerData server)
-        {
-            var xelem = new XElement("ServerItem",
-                            new XElement("id", server.ServerId),
-                            new XElement("name", server.ServerName),
-                            new XElement("description", server.ServerDesc),
-                            new XElement("emu", server.EMU),
-                            new XElement("connect_string", server.ConnectionString),
-                            new XElement("enable_login", "true"),
-                            new XElement("custom_credentials", "true"),
-                            new XElement("default_rodat", server.RodatSetting),
-                            new XElement("default_username", "username"),
-                            new XElement("default_password", "password"),
-                            new XElement("allow_dual_log", "true")
-                            );
-            return xelem;
         }
         private XElement CreateServerXmlElement(ServerModel server)
         {
@@ -63,6 +47,7 @@ namespace ThwargLauncher.GameManagement
                             new XElement("custom_credentials", "true"),
                             new XElement("emu", server.EMU),
                             new XElement("default_rodat", server.RodatSetting),
+                            new XElement("visibility", server.VisibilitySetting),
                             new XElement("default_username", "username"),
                             new XElement("default_password", "password"),
                             new XElement("allow_dual_log", "true")
@@ -98,6 +83,8 @@ namespace ThwargLauncher.GameManagement
                         si.ServerSource = source;
                         string rodatstr = GetSubvalue(node, "default_rodat");
                         si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
+                        string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
+                        si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
                         list.Add(si);
                     }
                 }
@@ -279,13 +266,28 @@ namespace ThwargLauncher.GameManagement
         }
         private ServerModel.RodatEnum ParseRodat(string text, ServerModel.RodatEnum defval)
         {
-            if (string.Compare(text, "false", StringComparison.InvariantCultureIgnoreCase) == 0)
+            if (string.Compare(text, "Invisible", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.RodatEnum.On;
             }
-            else if (string.Compare(text, "true", StringComparison.InvariantCultureIgnoreCase) == 0)
+            else if (string.Compare(text, "Visible", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.RodatEnum.Off;
+            }
+            else
+            {
+                return defval;
+            }
+        }
+        private ServerModel.VisibilityEnum ParseVisibility(string text, ServerModel.VisibilityEnum defval)
+        {
+            if (string.Compare(text, "false", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.VisibilityEnum.Invisible;
+            }
+            else if (string.Compare(text, "true", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.VisibilityEnum.Visible;
             }
             else
             {

@@ -18,6 +18,7 @@ namespace ThwargLauncher
         public enum ServerSourceEnum { User, Published };
         public enum ServerEmuEnum { Phat, Ace };
         public enum RodatEnum { On, Off };
+        public enum VisibilityEnum {  Visible, Invisible };
 
         public override bool Equals(object obj)
         {
@@ -138,6 +139,19 @@ namespace ThwargLauncher
                 {
                     _rodatSetting = value;
                     OnPropertyChanged("RodatSetting");
+                }
+            }
+        }
+        private VisibilityEnum _visibilitySetting;
+        public VisibilityEnum VisibilitySetting
+        {
+            get { return _visibilitySetting; }
+            set
+            {
+                if (_visibilitySetting != value)
+                {
+                    _visibilitySetting = value;
+                    OnPropertyChanged("VisibilitySetting");
                 }
             }
         }
