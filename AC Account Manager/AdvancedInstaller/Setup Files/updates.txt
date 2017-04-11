@@ -1,21 +1,21 @@
 ;aiu;
 
-[ThwargLauncher-4.6.1.0]
+[ThwargLauncher-4.6.2.0]
 Name = ThwargLauncher
-ProductVersion = 4.6.1.0
+ProductVersion = 4.6.2.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7939618
-ReleaseDate = 06/04/2017
-MD5 = 447e412ce0f38fa79be565d44799d9aa
+Size = 7945334
+ReleaseDate = 10/04/2017
+MD5 = 59b7a163402e4eb835efb6e468be3717
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 4.6.1.0
-UpdatedApplications = ThwargLauncher[1.0-4.6.1]
-Description = VERSION 4.6.1.0 (2017-04-06)
-Enhancement = Your inner-most thoughts and dreams are slowly leaking out. I recommend duct tape.
-BugFix = Fixed missing images from Help window.
-BugFix1 = Fixed "Add Server" issue where it just kept adding to the list until application restart.
-BugFix2 = Fixed "Add Server" issue where it cleared your profile until application restart.
-BugFix3 = Fixed "Add Server" issue where cancel didn't really cancel.
+Version = 4.6.2.0
+UpdatedApplications = ThwargLauncher[1.0-4.6.2]
+Description = VERSION 4.6.2.0 (2017-04-10)
+Feature = Complete overhaul to adding servers, with new Edit Servers menu.
+Feature1 = Added Ability to Hide or Show servers.
+Enhancement = Upgraded the doomaflodgie to ramshangle the dingledorf. (don't ask)
+BugFix = Fixed adding server bug.
+BugFix1 = Fixed bug where expander would reset expanded or collapsed.
 AutoCloseApplication = [APPDIR]YourApplication.exe
