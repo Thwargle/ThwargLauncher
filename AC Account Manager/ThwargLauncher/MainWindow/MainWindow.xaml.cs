@@ -672,8 +672,6 @@ namespace ThwargLauncher
 
             // Save any changes the user made to disk
             ServerManager.SaveServerListToDisk();
-            // Update UI
-            _viewModel.NotifyVisibleServersChanged();
 
             if (vm.AddServerRequested)
             {

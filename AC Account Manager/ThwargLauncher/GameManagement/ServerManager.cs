@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using ThwargLauncher.UtilityCode;
@@ -8,7 +9,7 @@ namespace ThwargLauncher
 {
     public class ServerManager
     {
-        public static List<ServerModel> ServerList = new List<ServerModel>();
+        public static ObservableCollection<ServerModel> ServerList = new ObservableCollection<ServerModel>();
         public static bool IsLoaded;
 
 

@@ -32,11 +32,13 @@ namespace ThwargLauncher
             KnownUserAccounts = new ObservableCollection<UserAccount>();
             SelectedUserAccountName = "";
         }
+
         public MainWindowViewModel(GameSessionMap gameSessionMap, Configurator configurator)
         {
             if (gameSessionMap == null) { throw new Exception("Null GameSessionMap in MainWindowViewModel()"); }
             if (configurator == null) { throw new Exception("Null Configurator in MainWindowViewModel()"); }
 
+            SubscribeToServerPropertyChanges();
             _gameSessionMap = gameSessionMap;
             _configurator = configurator;
             NewProfileCommand = new DelegateCommand(
@@ -52,6 +54,42 @@ namespace ThwargLauncher
                     DeleteProfile
                 );
             LoadStatusSymbols();
+        }
+        private void SubscribeToServerPropertyChanges()
+        {
+            foreach (ServerModel server in ServerManager.ServerList)
+            {
+                server.PropertyChanged += ServerPropertyChanged;
+            }
+            // Wire up handlers for new servers
+            ServerManager.ServerList.CollectionChanged += ServerListCollectionChanged;
+        }
+        void ServerListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (ServerModel server in e.NewItems)
+                {
+                    server.PropertyChanged += ServerPropertyChanged;
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (ServerModel server in e.OldItems)
+                {
+                    server.PropertyChanged -= ServerPropertyChanged;
+                }
+            }
+        }
+        void ServerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "VisibilitySetting")
+            {
+                foreach (var userAcct in KnownUserAccounts)
+                {
+                    userAcct.NotifyVisibleServersChanged();
+                }
+            }
         }
         private void CreateNewProfile()
         {
@@ -291,13 +329,6 @@ namespace ThwargLauncher
                 }
             }
             return null;
-        }
-        public void NotifyVisibleServersChanged()
-        {
-            foreach (var userAcct in KnownUserAccounts)
-            {
-                userAcct.NotifyVisibleServersChanged();
-            }
         }
         public void NotifyAvailableCharactersChanged()
         {
