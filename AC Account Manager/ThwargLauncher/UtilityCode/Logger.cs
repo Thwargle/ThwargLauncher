@@ -8,16 +8,16 @@ namespace ThwargLauncher
     /// </summary>
     public class Logger
     {
-        public static void WriteError(string text)
-        {
-            Instance.SendMessage(LogLevel.Error, text);
-        }
-        public static void WriteInfo(string text)
-        {
-            Instance.SendMessage(LogLevel.Info, text);
-        }
+        public static void WriteError(string text) { Instance.SendMessage(LogLevel.Error, text); }
+        public static void WriteError(string fmt, params object[] args) { WriteError(string.Format(fmt, args)); }
 
-        public enum LogLevel { Error, Info };
+        public static void WriteInfo(string text) { Instance.SendMessage(LogLevel.Info, text); }
+        public static void WriteInfo(string fmt, params object[] args) { WriteInfo(string.Format(fmt, args)); }
+        
+        public static void WriteDebug(string text) { Instance.SendMessage(LogLevel.Debug, text); }
+        public static void WriteDebug(string fmt, params object[] args) { WriteDebug(string.Format(fmt, args)); }
+
+        public enum LogLevel { Error, Info, Debug };
         public delegate void MsgHandler(LogLevel level, string msg);
         public event MsgHandler MessageEvent;
 

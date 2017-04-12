@@ -163,6 +163,7 @@ namespace ThwargLauncher
                 var status = GetStatusFromHeartbeatFileTime(gameSession);
                 if (status == ServerAccountStatusEnum.None)
                 {
+                    Logger.WriteDebug("Found dead game: {0}", gameSession.ProcessId);
                     deadGames.Add(gameSession);
                 }
                 else
@@ -174,6 +175,7 @@ namespace ThwargLauncher
                     }
                     if (gameSession.Status != status)
                     {
+                        Logger.WriteDebug("Found orphan game {0}, changing status from {1} to {2}", gameSession.ProcessId, gameSession.Status, status);
                         gameSession.Status = status;
                         NotifyGameChange(gameSession, GameChangeType.ChangeStatus);
                     }
@@ -182,6 +184,7 @@ namespace ThwargLauncher
             foreach (var deadGame in deadGames)
             {
                 deadGame.Status = ServerAccountStatusEnum.None;
+                Logger.WriteDebug("Removing dead game: {0}", deadGame.ProcessId);
                 RemoveSessionByPidKey(deadGame.ProcessIdKey);
             }
         }
@@ -386,6 +389,8 @@ namespace ThwargLauncher
                     }
                     else
                     {
+                        Logger.WriteDebug("Killing game because elapsed {0:0} is less than liveInterval {1:0}",
+                            elapsed.TotalSeconds, _liveInterval.TotalSeconds);
                         RemoveDeadSessionByPid(processId);
                         processId = 0;
                     }
@@ -471,6 +476,7 @@ namespace ThwargLauncher
                 string gamePath = gameSession.ProcessStatusFilepath;
                 if(File.Exists(gamePath))
                 {
+                    Logger.WriteDebug("Deleting game file {0}", gamePath);
                     File.Delete(gamePath);
                 }
             }
