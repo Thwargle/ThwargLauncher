@@ -476,7 +476,7 @@ namespace ThwargLauncher
                 string gamePath = gameSession.ProcessStatusFilepath;
                 if(File.Exists(gamePath))
                 {
-                    Logger.WriteDebug("Deleting game file {0}", gamePath);
+                    Logger.WriteDebug("Deleting game {0}", gameSession.Description);
                     File.Delete(gamePath);
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ThwargleStringExtensions;
 
 namespace ThwargLauncher
 {
@@ -38,6 +39,18 @@ namespace ThwargLauncher
         {
             var writer = new MagFilter.Channels.ChannelWriter();
             writer.StopWatcher(this.GameChannel);
+        }
+        public string Description
+        {
+            get
+            {
+                return string.Format("id={0},srvr={1},acct={2},char={3}",
+                    ProcessId,
+                    ServerName.Limit(8),
+                    AccountName.Limit(8),
+                    CharacterName.Limit(8)
+                    );
+            }
         }
         
         // Implementation

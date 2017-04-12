@@ -39,8 +39,8 @@ namespace ThwargLauncher
         void HandleGameCommandEvent(GameSession inboundGameSession, string command)
         {
             Logger.WriteInfo(string.Format(
-                "Command received from server='{0}', account='{1}': {2}",
-                inboundGameSession.ServerName, inboundGameSession.AccountName, command));
+                "Command received from {0}: {1}",
+                inboundGameSession.Description, command));
             string commandString = "";
             if (IsCommandPrefix(command, "broadcast ", ref commandString))
             {
@@ -68,8 +68,8 @@ namespace ThwargLauncher
                 if (teamNames == null || gameSession.HasAnyTeam(teamNames))
                 {
                     Logger.WriteInfo(string.Format(
-                        "Sending command '{0}' to server '{1}' and account '{2}'",
-                        commandString, gameSession.ServerName, gameSession.AccountName
+                        "Sending command '{0}' to {1}",
+                        commandString, gameSession.Description
                                             ));
                     SendGameCommand(gameSession, commandString);
                 }

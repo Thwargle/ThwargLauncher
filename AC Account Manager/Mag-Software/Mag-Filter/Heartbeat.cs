@@ -133,6 +133,7 @@ namespace MagFilter
             try
             {
                 _status.TeamList = _cmdParser.GetTeamList();
+                log.WriteDebug("SendAndReceive writing heartbeat to {0}", _gameToLauncherFilepath);
                 LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
             catch (Exception exc)
