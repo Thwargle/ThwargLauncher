@@ -308,8 +308,11 @@ namespace ThwargLauncher
 
         private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            NotifyAvailableCharactersChanged(); // experimental code, 2017-04-10
-            // LoadUserAccounts();  // before 2017-04-10
+            // It would be nice to call NotifyAvailableCharactersChanged()
+            // The properties haven't actually changed
+            // But the problem is the characters file needs to be reread from disk
+            LoadUserAccounts();
+
             try
             {
                 if (e.Cancelled)
