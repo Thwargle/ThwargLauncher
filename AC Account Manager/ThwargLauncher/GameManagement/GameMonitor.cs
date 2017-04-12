@@ -389,7 +389,7 @@ namespace ThwargLauncher
                     }
                     else
                     {
-                        Logger.WriteDebug("Killing game because elapsed {0:0} is less than liveInterval {1:0}",
+                        Logger.WriteDebug("Killing game because elapsed {0:0} not less than liveInterval {1:0}",
                             elapsed.TotalSeconds, _liveInterval.TotalSeconds);
                         RemoveDeadSessionByPid(processId);
                         processId = 0;
