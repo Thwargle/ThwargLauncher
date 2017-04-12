@@ -68,7 +68,7 @@ namespace MagFilter
         }
         void OnChannelFileWatcherChanged(object sender, System.IO.FileSystemEventArgs e)
         {
-            log.WriteInfo("WQW Channel File Watcher Fired");
+            log.WriteInfo("Channel File Watcher Fired");
             Heartbeat.SendAndReceiveImmediately();
         }
         void CurrentDomain_ProcessExit(object sender, EventArgs e)
@@ -100,12 +100,10 @@ namespace MagFilter
                     {
                         return;
                     }
-                    log.WriteDebug("Timer_Tick going to send/receive");
                     SendAndReceiveCommands();
                 }
                 finally
                 {
-                    log.WriteDebug("Timer_Tick releasing lock");
                     System.Threading.Monitor.Exit(_locker);
                 }
             }
@@ -118,19 +116,16 @@ namespace MagFilter
                 {
                     try
                     {
-                        log.WriteDebug("SendAndReceiveImmediately stopping timer");
                         theHeartbeat._timer.Stop();
                         theHeartbeat.SendAndReceiveCommands();
                     }
                     finally
                     {
-                        log.WriteDebug("SendAndReceiveImmediately restarting timer");
                         theHeartbeat._timer.Start();
                     }
                 }
                 finally
                 {
-                    log.WriteDebug("SendAndReceiveImmediately releasing lock");
                     System.Threading.Monitor.Exit(_locker);
                 }
             }
@@ -144,7 +139,6 @@ namespace MagFilter
             try
             {
                 _status.TeamList = _cmdParser.GetTeamList();
-                log.WriteDebug("SendAndReceive writing heartbeat to {0}", _gameToLauncherFilepath);
                 LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
             catch (Exception exc)
