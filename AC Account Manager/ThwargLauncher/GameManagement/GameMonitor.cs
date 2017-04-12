@@ -163,7 +163,7 @@ namespace ThwargLauncher
                 var status = GetStatusFromHeartbeatFileTime(gameSession);
                 if (status == ServerAccountStatusEnum.None)
                 {
-                    Logger.WriteDebug("Found dead game: {0}", gameSession.ProcessId);
+                    Logger.WriteDebug("Found dead game: {0}", gameSession.Description);
                     deadGames.Add(gameSession);
                 }
                 else
@@ -175,7 +175,7 @@ namespace ThwargLauncher
                     }
                     if (gameSession.Status != status)
                     {
-                        Logger.WriteDebug("Found orphan game {0}, changing status from {1} to {2}", gameSession.ProcessId, gameSession.Status, status);
+                        Logger.WriteDebug("Found orphan game {0}, changing status from {1} to {2}", gameSession.Description, gameSession.Status, status);
                         gameSession.Status = status;
                         NotifyGameChange(gameSession, GameChangeType.ChangeStatus);
                     }
@@ -184,7 +184,7 @@ namespace ThwargLauncher
             foreach (var deadGame in deadGames)
             {
                 deadGame.Status = ServerAccountStatusEnum.None;
-                Logger.WriteDebug("Removing dead game: {0}", deadGame.ProcessId);
+                Logger.WriteDebug("Removing dead game: {0}", deadGame.Description);
                 RemoveSessionByPidKey(deadGame.ProcessIdKey);
             }
         }
@@ -389,8 +389,8 @@ namespace ThwargLauncher
                     }
                     else
                     {
-                        Logger.WriteDebug("Killing game because elapsed {0:0} not less than liveInterval {1:0}",
-                            elapsed.TotalSeconds, _liveInterval.TotalSeconds);
+                        Logger.WriteDebug("Killing game because elapsed {0:0} not less than liveInterval {1:0} - file {2}",
+                            elapsed.TotalSeconds, _liveInterval.TotalSeconds, fileInfo.Name);
                         RemoveDeadSessionByPid(processId);
                         processId = 0;
                     }

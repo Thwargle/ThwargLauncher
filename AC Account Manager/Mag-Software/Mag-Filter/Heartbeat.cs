@@ -41,7 +41,7 @@ namespace MagFilter
         {
             theHeartbeat.StartBeating();
         }
-        private System.Windows.Forms.Timer _timer = null;
+        private System.Timers.Timer _timer = null;
         private string _gameToLauncherFilepath;
         private void StartBeating()
         {
@@ -49,9 +49,9 @@ namespace MagFilter
             _gameToLauncherFilepath = FileLocations.GetGameHeartbeatFilepath(dllProcessId);
 
             int intervalMilliseconds = 1000 * TIMER_SECONDS;
-            _timer = new System.Windows.Forms.Timer();
+            _timer = new System.Timers.Timer();
             _timer.Interval = intervalMilliseconds;
-            _timer.Tick += timer_Tick;
+            _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
             _timer.Start();
             StartChannelFileWatcher();
@@ -90,36 +90,47 @@ namespace MagFilter
                 log.WriteInfo("process exit");
             }
         }
-        void timer_Tick(object sender, EventArgs e)
+        void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (System.Threading.Monitor.TryEnter(_locker))
+            if (System.Threading.Monitor.TryEnter(_locker, 500)) // half second timeout
             {
-                if ((DateTime.UtcNow - LastSendAndReceive).TotalMilliseconds < 1000 * TIMER_SKIPSEC)
-                {
-                    return;
-                }
                 try
                 {
+                    if ((DateTime.UtcNow - LastSendAndReceive).TotalMilliseconds < 1000 * TIMER_SKIPSEC)
+                    {
+                        return;
+                    }
+                    log.WriteDebug("Timer_Tick going to send/receive");
                     SendAndReceiveCommands();
                 }
                 finally
                 {
+                    log.WriteDebug("Timer_Tick releasing lock");
                     System.Threading.Monitor.Exit(_locker);
                 }
             }
         }
         public static void SendAndReceiveImmediately()
         {
-            if (System.Threading.Monitor.TryEnter(_locker))
+            if (System.Threading.Monitor.TryEnter(_locker, 1000)) // one second timeout
             {
                 try
                 {
-                    theHeartbeat._timer.Stop();
-                    theHeartbeat.SendAndReceiveCommands();
-                    theHeartbeat._timer.Start();
+                    try
+                    {
+                        log.WriteDebug("SendAndReceiveImmediately stopping timer");
+                        theHeartbeat._timer.Stop();
+                        theHeartbeat.SendAndReceiveCommands();
+                    }
+                    finally
+                    {
+                        log.WriteDebug("SendAndReceiveImmediately restarting timer");
+                        theHeartbeat._timer.Start();
+                    }
                 }
                 finally
                 {
+                    log.WriteDebug("SendAndReceiveImmediately releasing lock");
                     System.Threading.Monitor.Exit(_locker);
                 }
             }
