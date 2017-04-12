@@ -308,10 +308,12 @@ namespace ThwargLauncher
 
         private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            _viewModel.ReloadCharacters();
+            _viewModel.NotifyAvailableCharactersChanged();
             // It would be nice to call NotifyAvailableCharactersChanged()
-            // The properties haven't actually changed
-            // But the problem is the characters file needs to be reread from disk
-            LoadUserAccounts();
+            // But the properties haven't actually changed yet
+            // The characters file needs to be reread from disk & the properties updated from it
+            // LoadUserAccounts();
 
             try
             {

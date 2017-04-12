@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -335,6 +336,26 @@ namespace ThwargLauncher
             foreach (var userAcct in KnownUserAccounts)
             {
                 userAcct.NotifyAvailableCharactersChanged();
+            }
+        }
+        public void ReloadCharacters()
+        {
+            var charmgr = MagFilter.CharacterManager.ReadCharacters();
+            foreach (var uacct in KnownUserAccounts)
+            {
+                foreach (var srvr in uacct.Servers)
+                {
+                    var currentNameList = srvr.AvailableCharacters.Select(x => x.Name).ToList();
+                    currentNameList.Sort();
+                    var newMagDataList = charmgr.GetCharacters(srvr.ServerName, uacct.Name);
+                    var newNameList = newMagDataList.CharacterList.Select(x => x.Name).ToList();
+                    newNameList.Sort();
+                    if (!currentNameList.SequenceEqual(newNameList))
+                    {
+                        uacct.LoadCharacterListFromMagFilterData(srvr, newMagDataList.CharacterList);
+                        uacct.NotifyAvailableCharactersChanged();
+                    }
+                }
             }
         }
         private string _SessionStatusNone;

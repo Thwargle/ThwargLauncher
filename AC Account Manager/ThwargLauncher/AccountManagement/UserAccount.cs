@@ -46,31 +46,35 @@ namespace ThwargLauncher
                 // Construct server & character data
                 var server = new Server(serverItem);
 
-                //create and add a default character of none.
-                var defaultChar = new AccountCharacter()
-                {
-                    Id = 0,
-                    Name = "None"
-                };
-                server.AvailableCharacters.Add(defaultChar);
                 server.ChosenCharacter = "None";
 
-                if (charlist != null)
-                {
-                    foreach (var dllChar in charlist.CharacterList)
-                    {
-                        var acctChar = new AccountCharacter()
-                        {
-                            Id = 99, // TODO - not used
-                            Name = dllChar.Name
-                        };
-                        server.AvailableCharacters.Add(acctChar);
-                    }
-                    this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
-                }
+                LoadCharacterListFromMagFilterData(server, charlist.CharacterList);
+                this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
                 server.PropertyChanged += server_PropertyChanged;
                 // Record data
                 _servers.Add(server);
+            }
+        }
+        public void LoadCharacterListFromMagFilterData(Server server, List<MagFilter.Character> magchars)
+        {
+            //create and add a default character of none.
+            var defaultChar = new AccountCharacter()
+            {
+                Id = 0,
+                Name = "None"
+            };
+            server.AvailableCharacters.Add(defaultChar);
+            if (magchars != null)
+            {
+                foreach (var dllChar in magchars)
+                {
+                    var acctChar = new AccountCharacter()
+                    {
+                        Id = 99, // TODO - not used
+                        Name = dllChar.Name
+                    };
+                    server.AvailableCharacters.Add(acctChar);
+                }
             }
         }
         /// <summary>
