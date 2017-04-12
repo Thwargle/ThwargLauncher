@@ -44,6 +44,7 @@ namespace ThwargLauncher
         /// </summary>
         private void UiHandleGameChangeEvent(GameSession gameSession, GameMonitor.GameChangeType changeType)
         {
+            Logger.WriteDebug("Game {0} status change type {1} status {2}", gameSession.Description, changeType, gameSession.Status);
             _viewModel.UpdateAccountStatus(gameSession.ServerName, gameSession.AccountName, gameSession.Status);
         }
         /// <summary>

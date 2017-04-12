@@ -135,7 +135,6 @@ namespace ThwargLauncher
                 }
                 launcherProc.EnableRaisingEvents = true;
                 launcherProc.Exited += LauncherProc_Exited;
-
                 if (!gameReady)
                 {
                     WaitForLauncher(launcherProc);
@@ -174,6 +173,7 @@ namespace ThwargLauncher
                                 loginTime = DateTime.UtcNow;
                                 TimeSpan maxLatency = DateTime.UtcNow - startWait;
                                 launchResponse = LaunchControl.GetLaunchResponse(maxLatency);
+                                Logger.WriteDebug("Launch found {0}", launchResponse.ProcessId);
                             }
                         }
                         else

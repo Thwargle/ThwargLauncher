@@ -166,7 +166,7 @@ namespace MagFilter
             catch (Exception exc)
             {
                 success = false;
-                log.WriteError("Exception reading command file status: " + exc.ToString());
+                log.WriteError("Exception reading command file status: " + exc + " - "  + exc.StackTrace);
             }
             if (success)
             {
@@ -175,17 +175,31 @@ namespace MagFilter
         }
         private void ReadAndProcessInboundCommands()
         {
-            var writer = new Channels.ChannelWriter();
-            writer.ReadCommandsFromFile(_myChannel);
-            while (_myChannel.HasInboundCommandCount())
+            string status = "Creating ChannelWriter";
+            try
             {
-                var cmd = _myChannel.DequeueInbound();
-                ExecuteGameCommandString(cmd.CommandString);
-                if (cmd.TimeStampUtc > _myChannel.LastInboundProcessedUtc)
+                var writer = new Channels.ChannelWriter();
+                status = "writer.ReadCommandsFromFile";
+                writer.ReadCommandsFromFile(_myChannel);
+                status = "while HasInboundCommandCount";
+                while (_myChannel.HasInboundCommandCount())
                 {
-                    _myChannel.LastInboundProcessedUtc = cmd.TimeStampUtc;
-                    _myChannel.NeedsToWrite = true;
+                    status = "DequeueInbound";
+                    var cmd = _myChannel.DequeueInbound();
+                    status = "ExecuteGameCommandString";
+                    ExecuteGameCommandString(cmd.CommandString);
+                    status = "time stamp handling";
+                    if (cmd.TimeStampUtc > _myChannel.LastInboundProcessedUtc)
+                    {
+                        _myChannel.LastInboundProcessedUtc = cmd.TimeStampUtc;
+                        _myChannel.NeedsToWrite = true;
+                    }
+                    status = "finishing loop";
                 }
+            }
+            catch (Exception exc)
+            {
+                throw new Exception("ReadAndProcessInboundCommands: " + status, exc);
             }
         }
         private void ExecuteGameCommandString(string commandString)

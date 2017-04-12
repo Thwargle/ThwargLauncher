@@ -256,6 +256,11 @@ namespace ThwargLauncher
                         // If it never made it out of starting, then it should be set to warning
                         gameSession.Status = ServerAccountStatusEnum.Warning;
                     }
+                    Logger.WriteDebug("Ended launching game {0} in status {1}", gameSession.Description, gameSession.Status);
+                }
+                else
+                {
+                    Logger.WriteDebug("Ended launching srv {0} acct {1} and cannot find game session", serverName, accountName);
                 }
             }
         }
