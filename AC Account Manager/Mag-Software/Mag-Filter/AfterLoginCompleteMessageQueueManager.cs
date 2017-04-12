@@ -94,54 +94,59 @@ namespace MagFilter
         {
             bool writeChanges = true;
             bool global = false;
-            if (e.Text.Contains("/mfglobal")) { global = true; }
-            log.WriteDebug("FilterCore_CommandLineText: '{0}'", e.Text);
-            if (e.Text.StartsWith("/mf log "))
+            string cmdtext = e.Text;
+            if (cmdtext.Contains("/mfglobal"))
             {
-                string logmsg = TextRemainder(e.Text, "/mf log ");
+                cmdtext = cmdtext.Replace("/mfglobal", "");
+                global = true;
+            }
+            log.WriteDebug("FilterCore_CommandLineText: '{0}'", cmdtext);
+            if (cmdtext.StartsWith("/mf log "))
+            {
+                string logmsg = TextRemainder(cmdtext, "/mf log ");
                 log.WriteInfo(logmsg);
 
                 e.Eat = true;
             }
-            else if (e.Text.StartsWith("/mf alcmq add ") || e.Text.StartsWith("/mf olcmq add "))
+            else if (cmdtext.StartsWith("/mf alcmq add ") || cmdtext.StartsWith("/mf olcmq add "))
             {
-                string cmd = TextRemainder(e.Text, "/mf alcmq add ");
+                string cmd = TextRemainder(cmdtext, "/mf alcmq add ");
                 _loginCommands.MessageQueue.Enqueue(cmd);
                 Debug.WriteToChat("After Login Complete Message Queue added: " + cmd);
 
                 e.Eat = true;
             }
-            else if (e.Text == "/mf alcmq clear" || e.Text == "/mf olcmq clear")
+            else if (cmdtext == "/mf alcmq clear" || cmdtext == "/mf olcmq clear")
             {
                 _loginCommands.MessageQueue.Clear();
                 Debug.WriteToChat("After Login Complete Message Queue cleared");
 
                 e.Eat = true;
             }
-            else if (e.Text.StartsWith("/mf alcmq wait set "))
+            else if (cmdtext.StartsWith("/mf alcmq wait set "))
             {
-                string valstr = TextRemainder(e.Text, "/mf alcmq wait set ");
+                string valstr = TextRemainder(cmdtext, "/mf alcmq wait set ");
                 _loginCommands.WaitMillisencds = int.Parse(valstr);
                 Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + valstr + "ms");
 
                 e.Eat = true;
             }
-            else if (e.Text.StartsWith("/mf olcwait set ")) // Backwards Compatability
+            else if (cmdtext.StartsWith("/mf olcwait set ")) // Backwards Compatability
             {
-                string valstr = TextRemainder(e.Text, "/mf olcwait set ");
+                string valstr = TextRemainder(cmdtext, "/mf olcwait set ");
                 _loginCommands.WaitMillisencds = int.Parse(valstr);
                 Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + valstr + "ms");
 
                 e.Eat = true;
             }
-            else if (e.Text == "/mf alcmq wait clear" || e.Text == "/mf olcwait clear")
+            else if (cmdtext == "/mf alcmq wait clear" || cmdtext == "/mf olcwait clear")
             {
                 _loginCommands.ClearWait();
                 Debug.WriteToChat(string.Format("After Login Complete Wait time reset to default {0} ms", LoginCommands.DefaultMillisecondsToWaitAfterLoginComplete));
 
                 e.Eat = true;
             }
-            else if (e.Text == "/mf alcmq show" || e.Text == "/mf olcmq show")
+            else if (cmdtext == "/mf alcmq show" || cmdtext == "/mf olcmq show")
             {
                 Debug.WriteToChat(string.Format("LoginCmds: {0}", _loginCommands.MessageQueue.Count));
                 foreach (string cmd in _loginCommands.MessageQueue)
