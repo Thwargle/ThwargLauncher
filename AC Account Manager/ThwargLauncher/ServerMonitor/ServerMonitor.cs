@@ -65,8 +65,9 @@ namespace ThwargLauncher
                 _serverCheckStatuses[server.ServerId] = new ServerCheckStatus();
             }
             var checkStatus = _serverCheckStatuses[server.ServerId];
+            int delaysec = (server.UpStatus == ServerModel.ServerUpStatusEnum.Up ? server.StatusOnlineIntervalSeconds : server.StatusOfflineIntervalSeconds);
             // Is it time to check again
-            if (DateTime.UtcNow - checkStatus.LastCheckedUtc < TimeSpan.FromSeconds(server.StatusIntervalSeconds))
+            if (DateTime.UtcNow - checkStatus.LastCheckedUtc < TimeSpan.FromSeconds(delaysec))
             {
                 return;
             }

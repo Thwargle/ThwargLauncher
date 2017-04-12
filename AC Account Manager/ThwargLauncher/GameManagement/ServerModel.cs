@@ -210,16 +210,29 @@ namespace ThwargLauncher
             }
         }
         public bool IsUserServer { get { return _serverSource == ServerSourceEnum.User; } }
-        private int _statusIntervalSeconds = 300;
-        public int StatusIntervalSeconds
+        private int _statusOfflineIntervalSeconds = 15;
+        public int StatusOfflineIntervalSeconds
         {
-            get { return _statusIntervalSeconds; }
+            get { return _statusOfflineIntervalSeconds; }
             set
             {
-                if (_statusIntervalSeconds != value)
+                if (_statusOfflineIntervalSeconds != value)
                 {
-                    _statusIntervalSeconds = value;
-                    OnPropertyChanged("StatusIntervalSeconds");
+                    _statusOfflineIntervalSeconds = value;
+                    OnPropertyChanged("StatusOfflineIntervalSeconds");
+                }
+            }
+        }
+        private int _statusOnlineIntervalSeconds = 300;
+        public int StatusOnlineIntervalSeconds
+        {
+            get { return _statusOnlineIntervalSeconds; }
+            set
+            {
+                if (_statusOnlineIntervalSeconds != value)
+                {
+                    _statusOnlineIntervalSeconds = value;
+                    OnPropertyChanged("StatusOnlineIntervalSeconds");
                 }
             }
         }
