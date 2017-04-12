@@ -36,6 +36,18 @@ namespace MagFilter
                 return null;
             }
         }
+        public ServerCharacterListByAccount GetCharactersOrEmpty(string serverName, string accountName)
+        {
+            var list = GetCharacters(serverName, accountName: accountName);
+            if (list != null)
+            {
+                return list;
+            }
+            else
+            {
+                return new ServerCharacterListByAccount();
+            }
+        }
         internal ServerCharacterListByAccount GetCharacters(string key)
         {
             log.WriteDebug("GetChars key Function: {0}", _data[key]);

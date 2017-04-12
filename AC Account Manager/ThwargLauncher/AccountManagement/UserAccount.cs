@@ -48,15 +48,19 @@ namespace ThwargLauncher
 
                 server.ChosenCharacter = "None";
 
-                LoadCharacterListFromMagFilterData(server, charlist.CharacterList);
-                this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
-                server.PropertyChanged += server_PropertyChanged;
+                if (charlist != null)
+                {
+                    LoadCharacterListFromMagFilterData(server, charlist.CharacterList);
+                    this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
+                }
+                server.PropertyChanged += ServerPropertyChanged;
                 // Record data
                 _servers.Add(server);
             }
         }
         public void LoadCharacterListFromMagFilterData(Server server, List<MagFilter.Character> magchars)
         {
+            server.AvailableCharacters.Clear();
             //create and add a default character of none.
             var defaultChar = new AccountCharacter()
             {
@@ -102,7 +106,7 @@ namespace ThwargLauncher
             OnPropertyChanged("AvailableCharacters");
         }
 
-        void server_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void ServerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ServerSelected" || e.PropertyName == "ChosenCharacter")
             {

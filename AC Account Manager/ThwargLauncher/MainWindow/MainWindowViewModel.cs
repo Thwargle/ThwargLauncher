@@ -345,9 +345,9 @@ namespace ThwargLauncher
             {
                 foreach (var srvr in uacct.Servers)
                 {
-                    var currentNameList = srvr.AvailableCharacters.Select(x => x.Name).ToList();
+                    var currentNameList = srvr.AvailableCharacters.Where(x => x.Id != 0).Select(x => x.Name).ToList();
                     currentNameList.Sort();
-                    var newMagDataList = charmgr.GetCharacters(srvr.ServerName, uacct.Name);
+                    var newMagDataList = charmgr.GetCharactersOrEmpty(srvr.ServerName, uacct.Name);
                     var newNameList = newMagDataList.CharacterList.Select(x => x.Name).ToList();
                     newNameList.Sort();
                     if (!currentNameList.SequenceEqual(newNameList))
