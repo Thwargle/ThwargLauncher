@@ -293,8 +293,10 @@ namespace ThwargLauncher
 
         private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            _viewModel.ReloadCharacters();
-            _viewModel.NotifyAvailableCharactersChanged();
+            // Just wait - the game monitor checks the character periodically
+            // and the account manager is subscribed on it for changes
+            // _viewModel.ReloadCharacters();
+            // _viewModel.NotifyAvailableCharactersChanged();
             // It would be nice to call NotifyAvailableCharactersChanged()
             // But the properties haven't actually changed yet
             // The characters file needs to be reread from disk & the properties updated from it
@@ -491,7 +493,9 @@ namespace ThwargLauncher
                 if (launchResult.Success)
                 {
                     ++serverIndex;
-                    CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
+                    // Let's just wait for game monitor to check if the character list changed
+                    // b/c the AccountManager is subscribed for that event
+                    //CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
                     // CallUiLoadUserAccounts(); // Pick up any characters - before 2017-04-10
                     _gameSessionMap.StartSessionWatcher(session);
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);

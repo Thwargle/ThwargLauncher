@@ -349,7 +349,10 @@ namespace ThwargLauncher
         {
             foreach (var userAcct in KnownUserAccounts)
             {
-                userAcct.NotifyAvailableCharactersChanged();
+                foreach (var server in userAcct.Servers)
+                {
+                    server.NotifyAvailableCharactersChanged();
+                }
             }
         }
         private string _SessionStatusNone;

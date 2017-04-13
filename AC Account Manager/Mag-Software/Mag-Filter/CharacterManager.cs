@@ -6,15 +6,15 @@ using Newtonsoft.Json;
 
 namespace MagFilter
 {
-    public class CharacterManager
+    public class CharacterBook
     {
         private Dictionary<string, ServerCharacterListByAccount> _data = null;
 
-        private CharacterManager(Dictionary<string, ServerCharacterListByAccount> dictionary)
+        private CharacterBook(Dictionary<string, ServerCharacterListByAccount> dictionary)
         {
             _data = dictionary;
         }
-        private CharacterManager()
+        private CharacterBook()
         {
             _data = new Dictionary<string, ServerCharacterListByAccount>();
         }
@@ -109,7 +109,7 @@ namespace MagFilter
             return true;
         }
 
-        public static CharacterManager ReadCharacters()
+        public static CharacterBook ReadCharacters()
         {
             try
             {
@@ -123,7 +123,7 @@ namespace MagFilter
             }
         }
 
-        private static CharacterManager ReadCharactersImpl()
+        private static CharacterBook ReadCharactersImpl()
         {
             string path = FileLocations.GetCharacterFilePath();
             if (!File.Exists(path))
@@ -131,12 +131,12 @@ namespace MagFilter
                 path = FileLocations.GetOldCharacterFilePath();
             }
 
-            if (!File.Exists(path)) { return new CharacterManager(); }
+            if (!File.Exists(path)) { return new CharacterBook(); }
             using (var file = new StreamReader(path))
             {
                 string contents = file.ReadToEnd();
                 var data = JsonConvert.DeserializeObject<Dictionary<string, ServerCharacterListByAccount>>(contents);
-                CharacterManager charMgr = new CharacterManager(data);
+                CharacterBook charMgr = new CharacterBook(data);
                 return charMgr;
             }
         }

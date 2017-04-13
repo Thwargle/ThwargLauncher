@@ -13,20 +13,20 @@ namespace ThwargLauncher
 
         public List<UserAccount> ReadOrMigrateAccounts(string oldUsersFilePath)
         {
-            var characterMgr = MagFilter.CharacterManager.ReadCharacters();
+            var charBook = MagFilter.CharacterBook.ReadCharacters();
             var acctList = new List<UserAccount>();
             if (File.Exists(AccountFilePath))
             {
-                acctList = ReadAccounts(characterMgr, AccountFilePath);
+                acctList = ReadAccounts(charBook, AccountFilePath);
             }
             else if (File.Exists(OldAccountFilePath))
             {
-                acctList = ReadAccounts(characterMgr, OldAccountFilePath);
+                acctList = ReadAccounts(charBook, OldAccountFilePath);
                 WriteAccounts(acctList);
             }
             else if (File.Exists(oldUsersFilePath))
             {
-                acctList = ReadOldUserNames(characterMgr, oldUsersFilePath);
+                acctList = ReadOldUserNames(charBook, oldUsersFilePath);
                 WriteAccounts(acctList);
             }
             else
@@ -37,7 +37,7 @@ namespace ThwargLauncher
             return acctList;
         }
 
-        private List<UserAccount> ReadAccounts(MagFilter.CharacterManager characterMgr, string accountFilepath)
+        private List<UserAccount> ReadAccounts(MagFilter.CharacterBook characterMgr, string accountFilepath)
         {
             var acctList = new List<UserAccount>();
             string fileVersion = null;
@@ -72,8 +72,8 @@ namespace ThwargLauncher
                         if (!nameValueSet.ContainsKey("Password")) { continue; }
                         string accountName = nameValueSet["Name"];
 
-                        var user = new UserAccount(accountName, characterMgr);
-                        user.LoadAllProperties(nameValueSet);
+                        var user = new UserAccount(accountName);
+                        user.LoadAllProperties(characterMgr, nameValueSet);
 
                         acctList.Add(user);
                     }
@@ -183,7 +183,7 @@ namespace ThwargLauncher
             text = text.Replace("^u", "^");
             return text;
         }
-        private List<UserAccount> ReadOldUserNames(MagFilter.CharacterManager characterMgr, string oldUsersFilePath)
+        private List<UserAccount> ReadOldUserNames(MagFilter.CharacterBook charBook, string oldUsersFilePath)
         {
             var acctList = new List<UserAccount>();
             using (var reader = new StreamReader(oldUsersFilePath))
@@ -202,7 +202,7 @@ namespace ThwargLauncher
                         string accountName = arr[0];
                         string password = arr[1];
 
-                        var user = new UserAccount(accountName, characterMgr)
+                        var user = new UserAccount(accountName)
                             {
                                 Password = password
                             };

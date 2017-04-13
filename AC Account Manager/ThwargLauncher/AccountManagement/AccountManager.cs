@@ -26,19 +26,19 @@ namespace ThwargLauncher
         }
         public void ReloadAccounts(string oldUsersFilePath)
         {
+            AccountParser parser = new AccountParser();
+            List<UserAccount> accounts = null;
+            try
+            {
+                accounts = parser.ReadOrMigrateAccounts(oldUsersFilePath);
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteError("Exception reading account file: " + exc.Message);
+                accounts = new List<UserAccount>();
+            }
             lock (_locker)
             {
-                AccountParser parser = new AccountParser();
-                List<UserAccount> accounts = null;
-                try
-                {
-                    accounts = parser.ReadOrMigrateAccounts(oldUsersFilePath);
-                }
-                catch (Exception exc)
-                {
-                    Logger.WriteError("Exception reading account file: " + exc.Message);
-                    accounts = new List<UserAccount>();
-                }
                 UserAccounts.Clear();
                 foreach (UserAccount acct in accounts)
                 {
@@ -48,22 +48,29 @@ namespace ThwargLauncher
         }
         public void ReloadCharacters()
         {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                ReloadCharactersOnPrimaryThead();
+            }));
+        }
+        private void ReloadCharactersOnPrimaryThead()
+        {
+            var charBook = MagFilter.CharacterBook.ReadCharacters();
             lock (_locker)
             {
-                var charmgr = MagFilter.CharacterManager.ReadCharacters();
                 foreach (var uacct in UserAccounts)
                 {
                     foreach (var srvr in uacct.Servers)
                     {
                         var currentNameList = srvr.AvailableCharacters.Where(x => x.Id != 0).Select(x => x.Name).ToList();
                         currentNameList.Sort();
-                        var newMagDataList = charmgr.GetCharactersOrEmpty(srvr.ServerName, uacct.Name);
+                        var newMagDataList = charBook.GetCharactersOrEmpty(srvr.ServerName, uacct.Name);
                         var newNameList = newMagDataList.CharacterList.Select(x => x.Name).ToList();
                         newNameList.Sort();
                         if (!currentNameList.SequenceEqual(newNameList))
                         {
                             uacct.LoadCharacterListFromMagFilterData(srvr, newMagDataList.CharacterList);
-                            uacct.NotifyAvailableCharactersChanged();
+                            srvr.NotifyAvailableCharactersChanged();
                         }
                     }
                 }

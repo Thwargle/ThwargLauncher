@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using ThwarglePropertyExtensions;
 
 namespace ThwargLauncher
 {
@@ -16,7 +19,7 @@ namespace ThwargLauncher
         {
             _myServer = serverItem;
             _myServer.PropertyChanged += ServerItemPropertyChanged;
-            AvailableCharacters = new List<AccountCharacter>();
+            AvailableCharacters = new ObservableCollection<AccountCharacter>();
             ServerStatusSymbol = "";
         }
 
@@ -88,8 +91,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        public List<AccountCharacter> AvailableCharacters { get; private set; }
-
+        public ObservableCollection<AccountCharacter> AvailableCharacters { get; private set; }
         private string _chosenCharacter;
         public string ChosenCharacter
         {
@@ -109,15 +111,18 @@ namespace ThwargLauncher
             return ServerName;
         }
 
+        public void NotifyAvailableCharactersChanged()
+        {
+            OnPropertyChanged("AvailableCharacters");
+            // Do wo need to also send one for ChosenCharacter?
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged.Raise(this, propertyName);
         }
     }
-
     public static class AddressParser
     {
         public class Address

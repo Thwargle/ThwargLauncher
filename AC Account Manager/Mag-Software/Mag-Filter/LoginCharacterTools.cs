@@ -54,7 +54,7 @@ namespace MagFilter
             {
                 if (zonename != null && characters != null)
                 {
-                    CharacterManager mgr = CharacterManager.ReadCharacters();
+                    CharacterBook mgr = CharacterBook.ReadCharacters();
 			        mgr.WriteCharacters(zonename: zonename, characters: characters);
                     log.WriteInfo("Wrote our characters to file");
                     written = true;

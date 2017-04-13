@@ -163,6 +163,7 @@
     <Compile Include="GameManagement\ServerAccountStatusEnum.cs" />
     <Compile Include="GameManagement\UiGameMonitorBridge.cs" />
     <Compile Include="UtilityCode\PropertyChangedBase.cs" />
+    <Compile Include="UtilityCode\PropertyChangedNotifier.cs" />
     <Compile Include="UtilityCode\PropertyDependencyManager.cs" />
     <Compile Include="UtilityCode\StringUtil.cs" />
     <Compile Include="UtilityCode\WpfEnumHelper.cs" />

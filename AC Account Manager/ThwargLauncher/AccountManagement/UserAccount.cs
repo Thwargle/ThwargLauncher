@@ -2,16 +2,15 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using ThwarglePropertyExtensions;
 
 namespace ThwargLauncher
 {
     public class UserAccount : INotifyPropertyChanged
     {
-        private MagFilter.CharacterManager _characterMgr;
-        public UserAccount(string accountName, MagFilter.CharacterManager characterMgr)
+        public UserAccount(string accountName)
         {
             this.Name = accountName;
-            this._characterMgr = characterMgr;
         }
         public UserAccount(string name, string password)
         {
@@ -30,18 +29,17 @@ namespace ThwargLauncher
             string propName = serverName + "Enabled";
             SetPropertyByName(propName, enabled.ToString());
         }
-        private void InitializeMe()
+        private void InitializeMe(MagFilter.CharacterBook characterBook)
         {
-            MagFilter.CharacterManager characterMgr = _characterMgr;
             foreach (var serverItem in ServerManager.ServerList)
             {
                 //TODO: Actual Server Selection
                 //if (!IsServerEnabled(serverName)) { continue; }
                 // Get characters from dll
                 MagFilter.ServerCharacterListByAccount charlist = null;
-                if (characterMgr != null)
+                if (characterBook != null)
                 {
-                    charlist = characterMgr.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);   
+                    charlist = characterBook.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);   
                 }
                 // Construct server & character data
                 var server = new Server(serverItem);
@@ -84,13 +82,13 @@ namespace ThwargLauncher
         /// <summary>
         /// Used to load data from file on disk
         /// </summary>
-        public void LoadAllProperties(Dictionary<string, string> properties)
+        public void LoadAllProperties(MagFilter.CharacterBook characterBook, Dictionary<string, string> properties)
         {
             foreach (KeyValuePair<string, string> property in properties)
             {
                 _properties[property.Key] = property.Value;
             }
-            InitializeMe();
+            InitializeMe(characterBook);
         }
 
         public void NotifyAccountSummaryChanged()
@@ -245,8 +243,7 @@ namespace ThwargLauncher
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged.Raise(this, propertyName);
         }
     }
 }
