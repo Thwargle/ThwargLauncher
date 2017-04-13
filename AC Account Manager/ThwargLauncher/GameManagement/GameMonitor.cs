@@ -23,12 +23,16 @@ namespace ThwargLauncher
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private const int TIMER_SECONDS = 3;
+        private const int CHARACTERFILE_CHECK_SECONDS = 30;
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
         private DateTime _lastUpdateUi = DateTime.MinValue;
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
         private DateTime _lastWork;
+        public event Action CharacterFileChanged;
+        private DateTime _lastCheckedCharacterFileUtc = DateTime.MinValue;
+        private DateTime _characterFileTimeUtc = DateTime.MinValue;
 
         public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeTeam, ChangeNone };
         public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
@@ -96,6 +100,10 @@ namespace ThwargLauncher
                 if (ShouldWeReadProcessFiles())
                 {
                     ReadProcessFiles();
+                }
+                if (ShouldWeCheckCharacterFile())
+                {
+                    CheckCharacterFile();
                 }
                 CheckLiveProcessFiles();
                 SendAndReceiveCommands();
@@ -187,6 +195,29 @@ namespace ThwargLauncher
                 Logger.WriteDebug("Removing dead game: {0}", deadGame.Description);
                 RemoveSessionByPidKey(deadGame.ProcessIdKey);
             }
+        }
+        private bool ShouldWeCheckCharacterFile()
+        {
+            var elapsed = (DateTime.UtcNow - _lastCheckedCharacterFileUtc);
+            return (elapsed.TotalSeconds > CHARACTERFILE_CHECK_SECONDS);
+        }
+        private void CheckCharacterFile()
+        {
+            string filepath = MagFilter.FileLocations.GetCharacterFilePath();
+            if (File.Exists(filepath))
+            {
+                DateTime fileTimeUtc = File.GetLastWriteTimeUtc(filepath);
+                if (fileTimeUtc > _characterFileTimeUtc)
+                {
+                    _characterFileTimeUtc = fileTimeUtc;
+                    // character file changed
+                    if (CharacterFileChanged != null)
+                    {
+                        CharacterFileChanged();
+                    }
+                }
+            }
+            _lastCheckedCharacterFileUtc = DateTime.UtcNow;
         }
         private void SendAndReceiveCommands()
         {
