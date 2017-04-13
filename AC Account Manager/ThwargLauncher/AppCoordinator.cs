@@ -12,6 +12,7 @@ namespace ThwargLauncher
     class AppCoordinator
     {
         private static AppCoordinator theAppCoordinator = null;
+        private AccountManager _accountManager = null;
         private MainWindow _mainWindow;
         private MainWindowViewModel _mainViewModel;
         private WebService.WebServiceManager _webManager = new WebService.WebServiceManager();
@@ -45,9 +46,10 @@ namespace ThwargLauncher
             _configurator = new Configurator();
             RecordGameDll();
             _gameSessionMap = new GameSessionMap();
-            _mainViewModel = new MainWindowViewModel(_gameSessionMap, _configurator);
-            _mainViewModel.RequestShowMainWindowEvent += () => _mainWindow.Show();
             _gameMonitor = new GameMonitor(_gameSessionMap, _configurator);
+            _accountManager = new AccountManager(_gameMonitor);
+            _mainViewModel = new MainWindowViewModel(_accountManager, _gameSessionMap, _configurator);
+            _mainViewModel.RequestShowMainWindowEvent += () => _mainWindow.Show();
             _commandManager = new CommandManager(_gameMonitor, _gameSessionMap);
             bool testCommandTokenParser = true;
             if (testCommandTokenParser)

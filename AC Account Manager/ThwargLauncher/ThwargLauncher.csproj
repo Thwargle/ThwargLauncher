@@ -92,6 +92,7 @@
       <DependentUpon>AccountEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountManagement\AccountEditorViewModel.cs" />
+    <Compile Include="AccountManagement\AccountManager.cs" />
     <Compile Include="AccountManagement\AccountParser.cs" />
     <Compile Include="AccountManagement\AddServer.xaml.cs">
       <DependentUpon>AddServer.xaml</DependentUpon>

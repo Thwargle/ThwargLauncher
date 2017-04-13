@@ -208,22 +208,7 @@ namespace ThwargLauncher
         }
         private void ReloadKnownAccountsAndCharacters()
         {
-            AccountParser parser = new AccountParser();
-            List<UserAccount> accounts = null;
-            try
-            {
-                accounts = parser.ReadOrMigrateAccounts(OldUsersFilePath);
-            }
-            catch (Exception exc)
-            {
-                Logger.WriteError("Exception reading account file: " + exc.Message);
-                accounts = new List<UserAccount>();
-            }
-            _viewModel.Reset();
-            foreach (UserAccount acct in accounts)
-            {
-                _viewModel.KnownUserAccounts.Add(acct);
-            }
+            _viewModel.ReloadAccounts(OldUsersFilePath);
             lstUsername.ItemsSource = null;
             lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
         }

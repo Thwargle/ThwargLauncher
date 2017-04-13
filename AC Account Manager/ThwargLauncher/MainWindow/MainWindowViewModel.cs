@@ -19,6 +19,7 @@ namespace ThwargLauncher
         public event HandleEvent RequestShowMainWindowEvent;
         public Action CloseAction { get; set; }
 
+        private AccountManager _accountManager;
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
         HelpWindow _helpWindow = null;
@@ -28,20 +29,18 @@ namespace ThwargLauncher
         SimpleLaunchWindowViewModel _simpleLaunchViewModel = null;
         private bool _switchingToMainWindow = false;
 
-        public void Reset()
+        public MainWindowViewModel(AccountManager accountManager, GameSessionMap gameSessionMap, Configurator configurator)
         {
-            KnownUserAccounts = new ObservableCollection<UserAccount>();
-            SelectedUserAccountName = "";
-        }
+            if (accountManager == null) { throw new ArgumentException("Null Null GameSessionMap in MainWindowViewModel()", "accountManager"); }
+            if (gameSessionMap == null) { throw new ArgumentException("Null GameSessionMap in MainWindowViewModel()", "gameSessionMap"); }
+            if (configurator == null) { throw new ArgumentException("Null Configurator in MainWindowViewModel()", "configurator"); }
 
-        public MainWindowViewModel(GameSessionMap gameSessionMap, Configurator configurator)
-        {
-            if (gameSessionMap == null) { throw new Exception("Null GameSessionMap in MainWindowViewModel()"); }
-            if (configurator == null) { throw new Exception("Null Configurator in MainWindowViewModel()"); }
-
-            SubscribeToServerPropertyChanges();
+            _accountManager = accountManager;
             _gameSessionMap = gameSessionMap;
             _configurator = configurator;
+
+            SubscribeToServerPropertyChanges();
+
             NewProfileCommand = new DelegateCommand(
                     CreateNewProfile
                 );
@@ -157,7 +156,13 @@ namespace ThwargLauncher
             SaveCurrentProfile();
         }
 
-        public ObservableCollection<UserAccount> KnownUserAccounts { get; set; }
+        public ObservableCollection<UserAccount> KnownUserAccounts
+        {
+            get
+            {
+                return _accountManager.UserAccounts;
+            }
+        }
         public string SelectedUserAccountName { get; set; }
         private Profile CurrentProfile { get; set; }
         public string CurrentProfileName
@@ -193,7 +198,7 @@ namespace ThwargLauncher
 
         public void ApplyCurrentProfileToModel()
         {
-            foreach (var account in this.KnownUserAccounts)
+            foreach (var account in KnownUserAccounts)
             {
                 account.AccountLaunchable = CurrentProfile.RetrieveAccountState(account.Name); ;
                 foreach (var server in account.Servers)
@@ -214,6 +219,15 @@ namespace ThwargLauncher
                 }
             }
             OnPropertyChanged("KnownUserAccounts");
+        }
+        public void ReloadCharacters()
+        {
+            _accountManager.ReloadCharacters();
+        }
+        public void ReloadAccounts(string oldUsersFilePath)
+        {
+            SelectedUserAccountName = "";
+            _accountManager.ReloadAccounts(oldUsersFilePath);
         }
         public void UpdateProfileFromCurrentModelSettings()
         {
@@ -336,26 +350,6 @@ namespace ThwargLauncher
             foreach (var userAcct in KnownUserAccounts)
             {
                 userAcct.NotifyAvailableCharactersChanged();
-            }
-        }
-        public void ReloadCharacters()
-        {
-            var charmgr = MagFilter.CharacterManager.ReadCharacters();
-            foreach (var uacct in KnownUserAccounts)
-            {
-                foreach (var srvr in uacct.Servers)
-                {
-                    var currentNameList = srvr.AvailableCharacters.Where(x => x.Id != 0).Select(x => x.Name).ToList();
-                    currentNameList.Sort();
-                    var newMagDataList = charmgr.GetCharactersOrEmpty(srvr.ServerName, uacct.Name);
-                    var newNameList = newMagDataList.CharacterList.Select(x => x.Name).ToList();
-                    newNameList.Sort();
-                    if (!currentNameList.SequenceEqual(newNameList))
-                    {
-                        uacct.LoadCharacterListFromMagFilterData(srvr, newMagDataList.CharacterList);
-                        uacct.NotifyAvailableCharactersChanged();
-                    }
-                }
             }
         }
         private string _SessionStatusNone;
