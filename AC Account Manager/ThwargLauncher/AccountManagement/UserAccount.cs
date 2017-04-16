@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -113,10 +114,10 @@ namespace ThwargLauncher
         }
 
         //private string _name = "Unspecified";
-        private readonly List<Server> _servers = new List<Server>();
+        private readonly ObservableCollection<Server> _servers = new ObservableCollection<Server>();
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
 
-        public List<Server> Servers
+        public ObservableCollection<Server> Servers
         {
             get { return _servers; }
         }
@@ -124,9 +125,9 @@ namespace ThwargLauncher
         {
             get { return _servers.Where(x => x.ServerSelected).ToList(); }
         }
-        public List<Server> VisibleServers
+        public ObservableCollection<Server> VisibleServers
         {
-            get { return _servers.Where(x => x.VisibilitySetting == ServerModel.VisibilityEnum.Visible).ToList(); }
+            get { return new ObservableCollection<Server>(_servers.Where(x => x.VisibilitySetting == ServerModel.VisibilityEnum.Visible)); }
         }
 
         public string AccountSummary
