@@ -388,6 +388,7 @@ namespace ThwargLauncher
                 _helpWindow = new HelpWindow(hwvm);
                 _helpWindow.Closing += (s,e) => _helpWindow = null;
             }
+            _helpWindow.Activate();
             _helpWindow.Show();
         }
         public void DisplaySimpleLauncher()
