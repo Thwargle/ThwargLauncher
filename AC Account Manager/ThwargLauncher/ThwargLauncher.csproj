@@ -102,6 +102,7 @@
     <Compile Include="AccountManagement\EditServersWindow.xaml.cs">
       <DependentUpon>EditServersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AccountManagement\UserAcctViewModel.cs" />
     <Compile Include="AppCoordinator.cs" />
     <Compile Include="AppSettings\JSON.cs" />
     <Compile Include="AppSettings\WpfWindowPlacementSetting.cs" />

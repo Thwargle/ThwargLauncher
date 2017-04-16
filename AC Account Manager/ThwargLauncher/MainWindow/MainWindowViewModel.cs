@@ -28,6 +28,7 @@ namespace ThwargLauncher
         SimpleLaunchWindow _simpleLaunchWindow = null;
         SimpleLaunchWindowViewModel _simpleLaunchViewModel = null;
         private bool _switchingToMainWindow = false;
+        private ObservableCollection<UserAcctViewModel> _userAccountViewModels = new ObservableCollection<UserAcctViewModel>();
 
         public MainWindowViewModel(AccountManager accountManager, GameSessionMap gameSessionMap, Configurator configurator)
         {
@@ -40,6 +41,7 @@ namespace ThwargLauncher
             _configurator = configurator;
 
             SubscribeToServerPropertyChanges();
+            _accountManager.UserAccounts.CollectionChanged += UserAccountsCollectionChanged;
 
             NewProfileCommand = new DelegateCommand(
                     CreateNewProfile
@@ -54,6 +56,25 @@ namespace ThwargLauncher
                     DeleteProfile
                 );
             LoadStatusSymbols();
+        }
+        void UserAccountsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (UserAccount ua in e.OldItems)
+                {
+                    UserAcctViewModel avm = _userAccountViewModels.FirstOrDefault(vm => vm.Account == ua);
+                    _userAccountViewModels.Remove(avm);
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (UserAccount ua in e.NewItems)
+                {
+                    UserAcctViewModel avm = new UserAcctViewModel(ua);
+                    _userAccountViewModels.Add(avm);
+                }
+            }
         }
         private void SubscribeToServerPropertyChanges()
         {
@@ -156,13 +177,7 @@ namespace ThwargLauncher
             SaveCurrentProfile();
         }
 
-        public ObservableCollection<UserAccount> KnownUserAccounts
-        {
-            get
-            {
-                return _accountManager.UserAccounts;
-            }
-        }
+        public ObservableCollection<UserAcctViewModel> KnownUserAccounts { get { return _userAccountViewModels; } }
         public string SelectedUserAccountName { get; set; }
         private Profile CurrentProfile { get; set; }
         public string CurrentProfileName
@@ -286,6 +301,16 @@ namespace ThwargLauncher
                 OnPropertyChanged("CurrentProfileName");
             }
         }
+        public void WindowClosing()
+        {
+            SaveCurrentProfile();
+            foreach (var acct in _userAccountViewModels)
+            {
+                acct.SaveSettings();
+            }
+            var settings = PersistenceHelper.SettingsFactory.Get();
+            settings.Save();
+        }
         public void SaveCurrentProfile()
         {
             UpdateProfileFromCurrentModelSettings();
@@ -338,8 +363,8 @@ namespace ThwargLauncher
             {
                 if (account.Name == accountName)
                 {
-                    var server = account.Servers.Find(x => x.ServerName == serverName);
-                    AccountServer acctServer = new AccountServer() { tAccount = account, tServer = server };
+                    var server = account.Servers.FirstOrDefault(x => x.ServerName == serverName);
+                    AccountServer acctServer = new AccountServer() { tAccount = account.Account, tServer = server };
                     return acctServer;
                 }
             }
@@ -386,7 +411,7 @@ namespace ThwargLauncher
                 var hwvm = new HelpWindowViewModel(_configurator);
                 hwvm.OpeningSimpleLauncherEvent += OnSimpleLauncher;
                 _helpWindow = new HelpWindow(hwvm);
-                _helpWindow.Closing += (s,e) => _helpWindow = null;
+                _helpWindow.Closing += (s, e) => _helpWindow = null;
             }
             _helpWindow.Activate();
             _helpWindow.Show();

@@ -380,7 +380,7 @@ namespace ThwargLauncher
         private void UpdateConcurrentQueue()
         {
             var launchSorter = new LaunchSorter();
-            var launchList = GetLaunchListFromAccountList(_viewModel.KnownUserAccounts);
+            var launchList = GetLaunchListFromAccountList(_viewModel.KnownUserAccounts.Select(x => x.Account));
             launchList = launchSorter.SortLaunchList(launchList);
             foreach (var item in launchList.GetLaunchList())
             {
@@ -570,7 +570,7 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveCurrentProfile();
+            _viewModel.WindowClosing();
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
             Properties.Settings.Default.ACLocation = txtLauncherLocation.Text;
@@ -581,7 +581,7 @@ namespace ThwargLauncher
         private void btnAddUsers_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisable();
-            var dlg = new AddUsers(_viewModel.KnownUserAccounts);
+            var dlg = new AddUsers(_viewModel.KnownUserAccounts.Select(x => x.Account));
             dlg.ShowDialog();
             LoadUserAccounts();
             MainWindowEnable();
@@ -629,7 +629,7 @@ namespace ThwargLauncher
         }
         private void btnEditUsers_Click(object sender, RoutedEventArgs e)
         {
-            AccountEditorViewModel acevm = new AccountEditorViewModel(this._viewModel.KnownUserAccounts);
+            AccountEditorViewModel acevm = new AccountEditorViewModel(this._viewModel.KnownUserAccounts.Select(x => x.Account));
             
             AccountEditor dlg = new AccountEditor();
             dlg.DataContext = acevm;
