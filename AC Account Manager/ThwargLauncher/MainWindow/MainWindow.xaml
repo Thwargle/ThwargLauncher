@@ -37,15 +37,14 @@
                 <Button x:Name="btnEditUsers" Content="Edit Users" HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnEditUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnOpenUsers" Content="Open User File" HorizontalAlignment="Left" Margin="255,0,0,0" VerticalAlignment="Top" Width="102" Foreground="Black" Click="btnOpenUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="365,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnChooseProfile_Click" Background="#FFF6D18F" FontWeight="Bold" />
+                <Button x:Name="btnEditCharacters" Content="Chars" Command="{Binding EditCharactersCommand}"   HorizontalAlignment="Left" Margin="450,0,0,0" VerticalAlignment="Top" Width="40" Foreground="Black" Background="#FFF6D18F" FontWeight="Bold"/>
+                <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Right" Margin="0,0,47,0" VerticalAlignment="Top" Width="39" Foreground="Black" Click="btnHelp_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnLogWindow" Content="Log" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Top" Width="32" Foreground="Black" Click="btnLogWindow_Click" Background="#FFF6D18F" FontWeight="Bold" />
-
 
                 <Label x:Name="lblLauncherLocation" Content="AC Client File Location:" HorizontalAlignment="Left" Margin="15,19,0,0" VerticalAlignment="Top" Foreground="#FFFFB619" BorderBrush="Black"/>
                 <TextBox x:Name="txtLauncherLocation" Text="C:\Turbine\Asheron's Call\acclient.exe" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="15,40,55.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick" Background="#FFF6D18F"/>
                 <Button x:Name="btnLauncherLocation" Content="..." ToolTip="Browse" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,40,10.4,0" Foreground="Black" Click="btnLauncherLocation_Click" Height="23" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Label x:Name="lblWorkerProgress" Content="" Foreground="#FFFFB619" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="185,19,10,0" VerticalAlignment="Top" Width="397"/>
-                <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Right" Margin="0,0,47,0" VerticalAlignment="Top" Width="39" Foreground="Black" Click="btnHelp_Click" Background="#FFF6D18F" FontWeight="Bold"/>
-
             </Grid>
 
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

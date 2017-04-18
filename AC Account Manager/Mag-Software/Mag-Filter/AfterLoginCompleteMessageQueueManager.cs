@@ -25,7 +25,8 @@ namespace MagFilter
             {
                 freshLogin = false;
 
-                var persister = new LoginCommandPersister();
+                var persister = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
+
                 _loginCommands = persister.ReadAndCombineQueues();
 
                 if (_loginCommands.MessageQueue.Count > 0)
@@ -150,7 +151,8 @@ namespace MagFilter
             }
             else if (cmdtext == "/mf alcmq show" || cmdtext == "/mf olcmq show" || cmdtext == "/mf alcmq list" || cmdtext == "/mf olcmq list")
             {
-                var queue = (new LoginCommandPersister()).ReadQueue(global);
+                var rdr = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
+                var queue = rdr.ReadQueue(global);
                 Debug.WriteToChat(string.Format("LoginCmds: {0}", queue.MessageQueue.Count));
                 foreach (string cmd in queue.MessageQueue)
                 {
@@ -162,7 +164,7 @@ namespace MagFilter
             }
             if (e.Eat && writeChanges)
             {
-                var persister = new LoginCommandPersister();
+                var persister = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
                 persister.WriteQueue(_loginCommands, global);
             }
         }

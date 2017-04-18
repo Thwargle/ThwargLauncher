@@ -98,6 +98,10 @@
       <DependentUpon>AddServer.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
+    <Compile Include="AccountManagement\EditCharactersViewModel.cs" />
+    <Compile Include="AccountManagement\EditCharactersWindow.xaml.cs">
+      <DependentUpon>EditCharactersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AccountManagement\EditServersViewModel.cs" />
     <Compile Include="AccountManagement\EditServersWindow.xaml.cs">
       <DependentUpon>EditServersWindow.xaml</DependentUpon>
@@ -187,6 +191,10 @@
     <Page Include="AccountManagement\AddUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountManagement\EditCharactersWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="AccountManagement\EditServersWindow.xaml">
       <SubType>Designer</SubType>
