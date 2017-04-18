@@ -1,23 +1,23 @@
 ;aiu;
 
-[ThwargLauncher-4.4.0.0]
+[ThwargLauncher-4.6.4.0]
 Name = ThwargLauncher
-ProductVersion = 4.4.0.0
+ProductVersion = 4.6.4.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7934108
-ReleaseDate = 28/03/2017
-MD5 = 8b9db34834c49ea9ec4cad512d394151
+Size = 7865993
+ReleaseDate = 17/04/2017
+MD5 = aa52e97a6a3d348f71b3af195e65090a
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 4.4.0.0
-UpdatedApplications = ThwargLauncher[1.0-4.4]
-Description = VERSION 4.4.0.0 (2017-03-28)
-Description1 = - New SimpleLauncher
-Description2 = - Persist location of AddServer window
-Description3 = - Block creation of duplicate server name
-Feature = Simple Launch Mode
-Enhancement = Genereal Bug Fixes
-BugFix = Too Numerous to List
-BugFix1 = Too Senile to Remember
+Version = 4.6.4.0
+UpdatedApplications = ThwargLauncher[1.0-4.6.4]
+Description = VERSION 4.6.4.0 (2017-04-17)
+Description1 = - Fixed a bunch of MagFilter commands
+Description2 = - Fixed Expand/Collapse UI to remember state
+Description3 = - Fixed Character dropdown None list option
+Description4 = - Fixed Edit Server bugs
+Feature = Expanders now remember their state!
+Enhancement = Bugs were squashed. Don't worry, no bugs were harmed? Uh..
+BugFix = Things and stuff. No more bug eggs lying around. They were gross.
 AutoCloseApplication = [APPDIR]YourApplication.exe

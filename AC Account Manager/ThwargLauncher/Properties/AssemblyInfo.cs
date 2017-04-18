@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ThwargLauncher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A Thwargle and Zorgle application. In association with ThwargleGames.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ThwargLauncher")]
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.6.2.1")]
-[assembly: AssemblyFileVersion("4.6.2.1")]
+[assembly: AssemblyVersion("4.6.4.0")]
+[assembly: AssemblyFileVersion("4.6.4.0")]
