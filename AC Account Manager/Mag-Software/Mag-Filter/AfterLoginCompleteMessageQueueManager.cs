@@ -26,7 +26,7 @@ namespace MagFilter
                 freshLogin = false;
 
                 var persister = new LoginCommandPersister();
-                _loginCommands = persister.ReadQueue();
+                _loginCommands = persister.ReadAndCombineQueues();
 
                 if (_loginCommands.MessageQueue.Count > 0)
                 {
@@ -97,6 +97,8 @@ namespace MagFilter
             string cmdtext = e.Text;
             if (cmdtext.Contains("/mfglobal"))
             {
+                cmdtext = cmdtext.Replace(" /mfglobal", "");
+                cmdtext = cmdtext.Replace("/mfglobal ", "");
                 cmdtext = cmdtext.Replace("/mfglobal", "");
                 global = true;
             }
@@ -146,15 +148,15 @@ namespace MagFilter
 
                 e.Eat = true;
             }
-            else if (cmdtext == "/mf alcmq show" || cmdtext == "/mf olcmq show")
+            else if (cmdtext == "/mf alcmq show" || cmdtext == "/mf olcmq show" || cmdtext == "/mf alcmq list" || cmdtext == "/mf olcmq list")
             {
-                Debug.WriteToChat(string.Format("LoginCmds: {0}", _loginCommands.MessageQueue.Count));
-                foreach (string cmd in _loginCommands.MessageQueue)
+                var queue = (new LoginCommandPersister()).ReadQueue(global);
+                Debug.WriteToChat(string.Format("LoginCmds: {0}", queue.MessageQueue.Count));
+                foreach (string cmd in queue.MessageQueue)
                 {
                     Debug.WriteToChat(string.Format("cmd: {0}", cmd));
                 }
-                Debug.WriteToChat(string.Format("Wait: {0}", _loginCommands.WaitMillisencds));
-
+                Debug.WriteToChat(string.Format("Wait: {0}", queue.WaitMillisencds));
                 e.Eat = true;
                 writeChanges = false;
             }

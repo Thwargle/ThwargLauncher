@@ -40,16 +40,16 @@ namespace ThwargLauncher
                 MagFilter.ServerCharacterListByAccount charlist = null;
                 if (characterBook != null)
                 {
-                    charlist = characterBook.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);   
+                    charlist = characterBook.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);
                 }
                 // Construct server & character data
                 var server = new Server(serverItem);
 
                 server.ChosenCharacter = "None";
 
+                LoadCharacterListFromMagFilterData(server, charlist);
                 if (charlist != null)
                 {
-                    LoadCharacterListFromMagFilterData(server, charlist.CharacterList);
                     this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
                 }
                 server.PropertyChanged += ServerPropertyChanged;
@@ -57,7 +57,7 @@ namespace ThwargLauncher
                 _servers.Add(server);
             }
         }
-        public void LoadCharacterListFromMagFilterData(Server server, List<MagFilter.Character> magchars)
+        public void LoadCharacterListFromMagFilterData(Server server, MagFilter.ServerCharacterListByAccount charlist)
         {
             server.AvailableCharacters.Clear();
             //create and add a default character of none.
@@ -67,16 +67,21 @@ namespace ThwargLauncher
                 Name = "None"
             };
             server.AvailableCharacters.Add(defaultChar);
-            if (magchars != null)
+
+            if (charlist != null)
             {
-                foreach (var dllChar in magchars)
+                List<MagFilter.Character> magchars = charlist.CharacterList;
+                if (magchars != null)
                 {
-                    var acctChar = new AccountCharacter()
+                    foreach (var dllChar in magchars)
                     {
-                        Id = 99, // TODO - not used
-                        Name = dllChar.Name
-                    };
-                    server.AvailableCharacters.Add(acctChar);
+                        var acctChar = new AccountCharacter()
+                        {
+                            Id = 99, // TODO - not used
+                            Name = dllChar.Name
+                        };
+                        server.AvailableCharacters.Add(acctChar);
+                    }
                 }
             }
         }

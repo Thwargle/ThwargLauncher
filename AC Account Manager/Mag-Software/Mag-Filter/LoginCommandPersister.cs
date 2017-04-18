@@ -23,11 +23,11 @@ namespace MagFilter
                 }
             }
         }
-        public LoginCommands ReadQueue()
+        public LoginCommands ReadAndCombineQueues()
         {
             try
             {
-                log.WriteDebug("reading queue");
+                log.WriteDebug("reading queues");
                 var gcmds = ReadQueue(true);
                 var cmds = ReadQueue(false);
                 if (!gcmds.IsWaitSpecified() && cmds.IsWaitSpecified())
@@ -47,7 +47,7 @@ namespace MagFilter
                 return new LoginCommands();
             }
         }
-        private LoginCommands ReadQueue(bool global)
+        public LoginCommands ReadQueue(bool global)
         {
             var loginCommands = new LoginCommands();
             string filepath = GetFilepath(global);
