@@ -30,13 +30,13 @@ namespace MagFilter
         private ThwargInventory thwargInventory;
 
 
-        private string PluginName { get { return FileLocations.PluginName; } }
+        private string PluginName { get { return FileLocations.FilterName; } }
 
         public void ExternalStartup() { Startup(); } // for game emulator
         protected override void Startup()
         {
             Debug.Init(FileLocations.PluginPersonalFolder.FullName + @"\Exceptions.txt", PluginName);
-            SettingsFile.Init(FileLocations.GetPluginSettingsFile(), PluginName);
+            SettingsFile.Init(FileLocations.GetFilterSettingsFilepath(), PluginName);
             LogStartup();
 
             defaultFirstCharacterManager = new DefaultFirstCharacterManager(loginCharacterTools);

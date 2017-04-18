@@ -7,18 +7,18 @@ namespace MagFilter
 {
     public class FileLocations
     {
-        internal static string PluginName = "Mag-Filter";
+        internal static string FilterName = "Mag-Filter";
 
-        public static string GetPluginSettingsFile()
+        public static string GetFilterSettingsFilepath()
         {
-            return PluginPersonalFolder.FullName + @"\" + PluginName + ".xml";
+            return PluginPersonalFolder.FullName + @"\" + FilterName + ".xml";
         }
         /// <summary>
         /// Launch file contains instructions (character) name from ThwargLauncher.exe for Mag-Filter.dll
         /// </summary>
         public static string GetCurrentLaunchFilePath()
         {
-            string path = Path.Combine(AppFolder, PluginName + "_launch.txt");
+            string path = Path.Combine(AppFolder, FilterName + "_launch.txt");
             return path;
         }
         /// <summary>
@@ -26,7 +26,7 @@ namespace MagFilter
         /// </summary>
         public static string GetCurrentLaunchResponseFilePath()
         {
-            string path = Path.Combine(AppFolder, PluginName + "_launchResponse.txt");
+            string path = Path.Combine(AppFolder, FilterName + "_launchResponse.txt");
             return path;
         }
 
@@ -139,7 +139,7 @@ namespace MagFilter
             get
             {
                 string folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins";
-                DirectoryInfo pluginPersonalFolder = new DirectoryInfo(folder + @"\" + PluginName);
+                DirectoryInfo pluginPersonalFolder = new DirectoryInfo(folder + @"\" + FilterName);
 
                 try
                 {
