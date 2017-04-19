@@ -59,6 +59,11 @@ namespace ThwargLauncher
         }
         void UserAccountsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+            {
+                _userAccountViewModels.Clear();
+                return;
+            }
             if (e.OldItems != null)
             {
                 foreach (UserAccount ua in e.OldItems)
