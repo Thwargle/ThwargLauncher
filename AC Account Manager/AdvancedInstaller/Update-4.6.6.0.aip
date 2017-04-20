@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="12.8" Modules="update" RootPath="." Language="en" Id="{21BF6976-15B7-406D-8F21-74EAF1CE2C5B}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="ProductVersion" Value="4.6.6.0"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="ReleaseDate" Value="19091"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Version" Value="4.6.6.0"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-4.6.6]"/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Description" Value="VERSION 4.6.6.0 (2017-04-19)&#13;&#10;- You know things, and I know things, but are all those things the same? I don&apos;t think so."/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Feature" Value="Stuff and things, and things and stuff."/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="Enhancement" Value="Zorgle stopped the dang accounts from just inserting themselves without permission. It was really rude of them and I&apos;m glad they stopped."/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="BugFix" Value="Accounts now mind their own business. "/>
+    <ROW Section="ThwargLauncher-4.6.6.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>
