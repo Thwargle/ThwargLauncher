@@ -15,8 +15,9 @@ namespace ThwargLauncher
     /// </summary>
     public class Server : INotifyPropertyChanged
     {
-        public Server(ServerModel serverItem)
+        public Server(UserAccount acct, ServerModel serverItem)
         {
+            _myAccount = acct;
             _myServer = serverItem;
             _myServer.PropertyChanged += ServerItemPropertyChanged;
             AvailableCharacters = new ObservableCollection<AccountCharacter>();
@@ -45,6 +46,7 @@ namespace ThwargLauncher
                 {
                     _serverStatusSymbol = value;
                     OnPropertyChanged("ServerStatusSymbol");
+                    OnPropertyChanged("StatusSummary");
                 }
             }
         }
@@ -77,6 +79,7 @@ namespace ThwargLauncher
                 }
             }
         }
+        private readonly UserAccount _myAccount;
         private readonly ServerModel _myServer;
         private bool _serverSelected;
         public bool ServerSelected
@@ -105,7 +108,57 @@ namespace ThwargLauncher
                 }
             }
         }
-        
+        public string StatusSummary
+        {
+            get
+            {
+                string entry = ServerName;
+                if (HasChosenCharacter)
+                {
+                    entry = string.Format("{0}{1}", ServerStatusSymbol, ServerName);
+                    entry += string.Format("->{0}", ChosenCharacter);
+                    // architectural problem getting to game session here
+                    GameSession session = AppCoordinator.GetTheGameSessionByServerAccount(serverName: ServerName, accountName: _myAccount.Name);
+                    if (session != null)
+                    {
+                        if (session.UptimeSeconds > 0)
+                        {
+                            entry += " [" + SummarizeUptime(session) + "]";
+                        }
+                        if (session.TeamCount > 0)
+                        {
+                            entry += " (" + session.TeamList + ")";
+                        }
+                    }
+                }
+                return entry;
+            }
+        }
+        private bool HasChosenCharacter
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ChosenCharacter)) { return false; }
+                if (ChosenCharacter == "None") { return false; }
+                return true;
+            }
+        }
+        private static string SummarizeUptime(GameSession session)
+        {
+            if (session.UptimeSeconds < 60)
+            {
+                return string.Format("{0}s", session.UptimeSeconds);
+            }
+            if (session.UptimeSeconds < 60 * 60)
+            {
+                return string.Format("{0}m", session.UptimeSeconds / 60);
+            }
+            if (session.UptimeSeconds < 60 * 60 * 24)
+            {
+                return string.Format("{0}h", session.UptimeSeconds / (60 * 60));
+            }
+            return string.Format("{0}d", session.UptimeSeconds / (60 * 60 * 24));
+        }
         public override string ToString()
         {
             return ServerName;

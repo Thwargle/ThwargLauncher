@@ -9,6 +9,13 @@ namespace ThwargLauncher
 {
     class UserAcctViewModel : PropertyChangedBase
     {
+        class AccountServer
+        {
+            public override string ToString()
+            {
+                return "www";
+            }
+        }
         private UserAccount _account;
         public UserAcctViewModel(UserAccount account)
         {
@@ -28,6 +35,7 @@ namespace ThwargLauncher
         public string Name { get { return _account.Name; } }
         public ObservableCollection<Server> Servers { get { return _account.Servers; } }
         public ObservableCollection<Server> VisibleServers { get { return _account.VisibleServers; } }
+        public ObservableCollection<Server> EnabledServers { get { return _account.EnabledServers; } }
         public string Password { get { return _account.Password; } }
         public string AccountSummary { get { return _account.AccountSummary; } }
         public UserAccount Account { get { return _account; } }

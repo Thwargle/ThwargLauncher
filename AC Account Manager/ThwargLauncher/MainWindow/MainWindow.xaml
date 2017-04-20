@@ -100,7 +100,29 @@
                                 <CheckBox x:Name="AccountLaunchable" Margin="0 5 0 0" IsChecked="{Binding Path=AccountLaunchable,Mode=TwoWay}" Grid.Column="0"></CheckBox>
                                 <Expander x:Name="AccountExpander" Grid.Column="1" IsExpanded="{Binding Path=IsExpanded,Mode=TwoWay}" Foreground="#FFBB8000" Background="Transparent" >
                                     <Expander.Header>
-                                        <Label Content="{Binding Path=AccountSummary}" Foreground="AliceBlue"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ItemsControl ItemsSource="{Binding EnabledServers}" AlternationCount="{Binding RelativeSource={RelativeSource Self}, Path=Items.Count}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock x:Name="SeparatorTextBlock" Text=", "/>
+                                                            <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
+                                                            <Label Content="{Binding StatusSummary}" Foreground="#FFBB8000"/>
+                                                        </StackPanel>
+                                                        <DataTemplate.Triggers>
+                                                            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                                                <Setter Property="Visibility" TargetName="SeparatorTextBlock" Value="Collapsed" />
+                                                            </Trigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
                                     </Expander.Header>
                                     <ListBox ItemsSource="{Binding Path=VisibleServers}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch">
                                             <ListBox.ItemContainerStyle>
