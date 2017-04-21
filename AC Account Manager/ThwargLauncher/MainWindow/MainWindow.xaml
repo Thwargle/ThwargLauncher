@@ -112,8 +112,7 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock x:Name="SeparatorTextBlock" Text=", "/>
-                                                            <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
-                                                            <Label Content="{Binding StatusSummary}" Foreground="#FFBB8000"/>
+                                                            <Label Content="{Binding StatusSummary}" Foreground="{Binding Path=ConnectionColor}"/>
                                                         </StackPanel>
                                                         <DataTemplate.Triggers>
                                                             <Trigger Property="ItemsControl.AlternationIndex" Value="0">
