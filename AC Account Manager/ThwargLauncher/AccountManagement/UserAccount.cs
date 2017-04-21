@@ -116,6 +116,10 @@ namespace ThwargLauncher
             {
                 OnPropertyChanged("AccountSummary");
             }
+            if (e.PropertyName == "ServerSelected")
+            {
+                OnPropertyChanged("EnabledServers");
+            }
         }
 
         //private string _name = "Unspecified";
