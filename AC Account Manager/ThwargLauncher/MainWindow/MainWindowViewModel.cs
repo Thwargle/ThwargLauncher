@@ -220,13 +220,13 @@ namespace ThwargLauncher
         {
             foreach (var account in KnownUserAccounts)
             {
-                account.AccountLaunchable = CurrentProfile.RetrieveAccountState(account.Name); ;
+                account.AccountLaunchable = CurrentProfile.RetrieveAccountState(account.AccountName); ;
                 foreach (var server in account.Servers)
                 {
-                    var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
+                    var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.AccountName, serverName: server.ServerName);
                     if (charSetting != null)
                     {
-                        var state = _gameSessionMap.GetGameSessionStateByServerAccount(server.ServerName, account.Name);
+                        var state = _gameSessionMap.GetGameSessionStateByServerAccount(server.ServerName, account.AccountName);
                         string statusSymbol = GetStatusSymbol(state);
                         server.ServerStatusSymbol = statusSymbol;
                         server.ServerSelected = charSetting.Active;
@@ -253,11 +253,11 @@ namespace ThwargLauncher
         {
             foreach (var account in this.KnownUserAccounts)
             {
-                CurrentProfile.StoreAccountState(account.Name, account.AccountLaunchable);
+                CurrentProfile.StoreAccountState(account.AccountName, account.AccountLaunchable);
                 foreach (var server in account.Servers)
                 {
                     var charSetting = new CharacterSetting();
-                    charSetting.AccountName = account.Name;
+                    charSetting.AccountName = account.AccountName;
                     charSetting.ServerName = server.ServerName;
                     charSetting.Active = server.ServerSelected;
                     charSetting.ChosenCharacter = server.ChosenCharacter;
@@ -366,7 +366,7 @@ namespace ThwargLauncher
         {
             foreach (var account in KnownUserAccounts)
             {
-                if (account.Name == accountName)
+                if (account.AccountName == accountName)
                 {
                     var server = account.Servers.FirstOrDefault(x => x.ServerName == serverName);
                     AccountServer acctServer = new AccountServer() { tAccount = account.Account, tServer = server };

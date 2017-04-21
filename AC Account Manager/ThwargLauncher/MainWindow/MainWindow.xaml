@@ -101,6 +101,7 @@
                                 <Expander x:Name="AccountExpander" Grid.Column="1" IsExpanded="{Binding Path=IsExpanded,Mode=TwoWay}" Foreground="#FFBB8000" Background="Transparent" >
                                     <Expander.Header>
                                         <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding AccountName}" Foreground="#FFBB8000"/>
                                             <ItemsControl ItemsSource="{Binding EnabledServers}" AlternationCount="{Binding RelativeSource={RelativeSource Self}, Path=Items.Count}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>

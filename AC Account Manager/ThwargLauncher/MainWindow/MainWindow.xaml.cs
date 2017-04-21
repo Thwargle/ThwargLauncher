@@ -249,13 +249,13 @@ namespace ThwargLauncher
             {
                 if (account.AccountLaunchable)
                 {
-                    accounts[account.Name] = 1;
+                    accounts[account.AccountName] = 1;
                     foreach (var server in account.Servers)
                     {
                         if (server.ServerSelected)
                         {
                             ++count;
-                            if (string.IsNullOrWhiteSpace(account.Name))
+                            if (string.IsNullOrWhiteSpace(account.AccountName))
                             {
                                 // We try not to let this happen, so it should be very rare
                                 ShowErrorMessage("Blank account not allowed");

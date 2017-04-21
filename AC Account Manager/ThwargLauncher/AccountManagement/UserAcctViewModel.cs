@@ -32,7 +32,7 @@ namespace ThwargLauncher
             _account.NotifyVisibleServersChanged();
         }
         public bool AccountLaunchable { get { return _account.AccountLaunchable; } set { _account.AccountLaunchable = value; } }
-        public string Name { get { return _account.Name; } }
+        public string AccountName { get { return _account.Name; } }
         public ObservableCollection<Server> Servers { get { return _account.Servers; } }
         public ObservableCollection<Server> VisibleServers { get { return _account.VisibleServers; } }
         public ObservableCollection<Server> EnabledServers { get { return _account.EnabledServers; } }
@@ -44,7 +44,7 @@ namespace ThwargLauncher
         private void PersistSettings(Persistence direction)
         {
             var settings = PersistenceHelper.SettingsFactory.Get();
-            string key = Name + ":IsExpanded";
+            string key = AccountName + ":IsExpanded";
             if (direction == Persistence.Load)
             {
                 IsExpanded = settings.GetBool(key, false);
