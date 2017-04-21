@@ -30,6 +30,10 @@ namespace ThwargLauncher
             {
                 OnPropertyChanged("ServerDisplayName");
             }
+            if (e.PropertyName == "UpStatus")
+            {
+                OnPropertyChanged("UpStatusString");
+            }
             OnPropertyChanged(e.PropertyName);
         }
 
@@ -56,6 +60,8 @@ namespace ThwargLauncher
         public ServerModel.ServerEmuEnum EMU { get {  return _myServer.EMU; } }
         public ServerModel.RodatEnum RodatSetting { get { return _myServer.RodatSetting; } }
         public ServerModel.VisibilityEnum VisibilitySetting { get { return _myServer.VisibilitySetting; } }
+        public ServerModel.ServerUpStatusEnum UpStatus { get { return _myServer.UpStatus; } }
+        public string UpStatusString { get { return _myServer.UpStatus.ToString(); } }
         public string ConnectionStatus { get { return _myServer.ConnectionStatus; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }
         public string IsPublished {  get { return _myServer.ServerSource == ServerModel.ServerSourceEnum.Published ? "True" : "False"; } }

@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
+        xmlns:local="clr-namespace:ThwargLauncher"
         Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="350" Width="525" 
         Closing="ThwargLauncherMainWindow_Closing" Loaded="MainWindow_OnLoaded" ResizeMode="CanResizeWithGrip"
         MinHeight="300" MinWidth="600">
@@ -112,7 +113,23 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock x:Name="SeparatorTextBlock" Text=", "/>
-                                                            <Label Content="{Binding StatusSummary}" Foreground="{Binding Path=ConnectionColor}"/>
+                                                            <Label Content="{Binding StatusSummary}" >
+                                                                <Label.Style>
+                                                                    <Style TargetType="Label">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Path=UpStatus}" Value="{x:Static local:ServerModel+ServerUpStatusEnum.Up}">
+                                                                                <Setter Property="Foreground" Value="Green"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Path=UpStatus}" Value="{x:Static local:ServerModel+ServerUpStatusEnum.Down}">
+                                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Path=UpStatus}" Value="{x:Static local:ServerModel+ServerUpStatusEnum.Unknown}">
+                                                                                <Setter Property="Foreground" Value="White"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Label.Style>
+                                                            </Label>
                                                         </StackPanel>
                                                         <DataTemplate.Triggers>
                                                             <Trigger Property="ItemsControl.AlternationIndex" Value="0">
