@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="SimpleLaunch\SimpleLaunchWindowViewModel.cs" />
     <Compile Include="SimpleLaunch\SimpleServerItem.cs" />
+    <Compile Include="UtilityCode\AddressParser.cs" />
     <Compile Include="UtilityCode\Bindable.cs" />
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
