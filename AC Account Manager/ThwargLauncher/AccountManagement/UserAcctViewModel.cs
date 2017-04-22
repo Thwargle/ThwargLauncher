@@ -15,21 +15,6 @@ namespace ThwargLauncher
             _account = account;
             _account.PropertyChanged += AccountPropertyChanged;
             PersistSettings(Persistence.Load);
-            WatchServersForChanges();
-        }
-        private void WatchServersForChanges()
-        {
-            foreach (var server in Account.Servers)
-            {
-                server.PropertyChanged += ServerPropertyChanged;
-            }
-        }
-        void ServerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "VisibilitySetting")
-            {
-                OnPropertyChanged("VisibleServers");
-            }
         }
         private void AccountPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

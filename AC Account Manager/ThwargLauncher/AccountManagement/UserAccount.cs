@@ -120,6 +120,10 @@ namespace ThwargLauncher
             {
                 OnPropertyChanged("SelectedServers");
             }
+            if (e.PropertyName == "VisibilitySetting")
+            {
+                OnPropertyChanged("VisibleServers");
+            }
         }
 
         //private string _name = "Unspecified";
