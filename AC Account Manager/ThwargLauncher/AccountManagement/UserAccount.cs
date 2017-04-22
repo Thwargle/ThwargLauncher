@@ -116,7 +116,7 @@ namespace ThwargLauncher
             {
                 OnPropertyChanged("AccountSummary");
             }
-            if (e.PropertyName == "ServerSelected")
+            if (e.PropertyName == "ServerSelected" || e.PropertyName == "VisibilitySetting")
             {
                 OnPropertyChanged("SelectedServers");
             }
@@ -140,12 +140,13 @@ namespace ThwargLauncher
         }
         public ObservableCollection<Server> VisibleServers
         {
-            get { return new ObservableCollection<Server>(_servers.Where(x => x.VisibilitySetting == ServerModel.VisibilityEnum.Visible)); }
+            get { return new ObservableCollection<Server>(_servers.Where(x => Visible(x))); }
         }
         public ObservableCollection<Server> SelectedServers
         {
-            get { return new ObservableCollection<Server>(_servers.Where(x => x.ServerSelected)); }
+            get { return new ObservableCollection<Server>(_servers.Where(x => x.ServerSelected && Visible(x))); }
         }
+        private static bool Visible(Server server) { return server.VisibilitySetting == ServerModel.VisibilityEnum.Visible; }
 
         public string AccountSummary
         {
