@@ -69,124 +69,62 @@ namespace ThwargLauncher
         public string ServerName
         {
             get { return _serverName; }
-            set
-            {
-                if (_serverName != value)
-                {
-                    _serverName = value;
-                    OnPropertyChanged("ServerName");
-                }
-            }
+            set { if (_serverName != value) { _serverName = value; OnPropertyChanged("ServerName"); } }
         }
         private string _serverDescription;
         public string ServerDescription
         {
             get { return _serverDescription; }
-            set
-            {
-                if (_serverDescription != value)
-                {
-                    _serverDescription = value;
-                    OnPropertyChanged("ServerDescription");
-                }
-            }
+            set { if (_serverDescription != value) { _serverDescription = value; OnPropertyChanged("ServerDescription"); } }
         }
         private bool _serverLoginEnabled;
         public bool ServerLoginEnabled
         {
             get { return _serverLoginEnabled; }
-            set
-            {
-                if (_serverLoginEnabled != value)
-                {
-                    _serverLoginEnabled = value;
-                    OnPropertyChanged("ServerLoginEnabled");
-                }
-            }
+            set { if (_serverLoginEnabled != value) { _serverLoginEnabled = value; OnPropertyChanged("ServerLoginEnabled"); } }
         }
         private string _serverIpAndPort;
         public string ServerIpAndPort
         {
             get { return _serverIpAndPort; }
-            set
-            {
-                if (_serverIpAndPort != value)
-                {
-                    _serverIpAndPort = value;
-                    OnPropertyChanged("ServerIpAndPort");
-                }
-            }
+            set { if (_serverIpAndPort != value) { _serverIpAndPort = value; OnPropertyChanged("ServerIpAndPort"); } }
         }
         private ServerEmuEnum _emu;
         public ServerEmuEnum EMU
         {
             get { return _emu; }
-            set
-            {
-                if (_emu != value)
-                {
-                    _emu = value;
-                    OnPropertyChanged("EMU");
-                }
-            }
+            set { if (_emu != value) { _emu = value; OnPropertyChanged("EMU"); } }
         }
         private RodatEnum _rodatSetting;
         public RodatEnum RodatSetting
         {
             get { return _rodatSetting; }
-            set
-            {
-                if (_rodatSetting != value)
-                {
-                    _rodatSetting = value;
-                    OnPropertyChanged("RodatSetting");
-                }
+            set { if (_rodatSetting != value) { _rodatSetting = value; OnPropertyChanged("RodatSetting"); }
             }
         }
         private VisibilityEnum _visibilitySetting = VisibilityEnum.Visible;
         public VisibilityEnum VisibilitySetting
         {
             get { return _visibilitySetting; }
-            set
-            {
-                if (_visibilitySetting != value)
-                {
-                    _visibilitySetting = value;
-                    OnPropertyChanged("VisibilitySetting");
-                }
-            }
+            set { if (_visibilitySetting != value) { _visibilitySetting = value; OnPropertyChanged("VisibilitySetting"); } }
         }
         private string _connectionStatus = "?";
         public string ConnectionStatus
         {
             get { return _connectionStatus; }
-            set
-            {
-                if (_connectionStatus != value)
-                {
-                    _connectionStatus = value;
-                    OnPropertyChanged("ConnectionStatus");
-                }
-            }
+            set { if (_connectionStatus != value) { _connectionStatus = value; OnPropertyChanged("ConnectionStatus"); } }
         }
         private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
         public System.Windows.Media.SolidColorBrush ConnectionColor
         {
             get { return _connectionColor; }
-            set
-            {
-                if (_connectionColor != value)
-                {
-                    _connectionColor = value;
-                    OnPropertyChanged("ConnectionColor");
-                }
-            }
+            set { if (_connectionColor != value) { _connectionColor = value; OnPropertyChanged("ConnectionColor"); } }
         }
         private ServerUpStatusEnum _upStatus = ServerUpStatusEnum.Unknown;
         public ServerUpStatusEnum UpStatus
         {
             get { return _upStatus; }
-            set
+            set 
             {
                 if (_upStatus != value)
                 {
@@ -200,41 +138,20 @@ namespace ThwargLauncher
         public ServerSourceEnum ServerSource
         {
             get { return _serverSource; }
-            set
-            {
-                if (_serverSource != value)
-                {
-                    _serverSource = value;
-                    OnPropertyChanged("ServerSource");
-                }
-            }
+            set { if (_serverSource != value) { _serverSource = value; OnPropertyChanged("ServerSource"); } }
         }
         public bool IsUserServer { get { return _serverSource == ServerSourceEnum.User; } }
         private int _statusOfflineIntervalSeconds = 15;
         public int StatusOfflineIntervalSeconds
         {
             get { return _statusOfflineIntervalSeconds; }
-            set
-            {
-                if (_statusOfflineIntervalSeconds != value)
-                {
-                    _statusOfflineIntervalSeconds = value;
-                    OnPropertyChanged("StatusOfflineIntervalSeconds");
-                }
-            }
+            set { if (_statusOfflineIntervalSeconds != value) { _statusOfflineIntervalSeconds = value; OnPropertyChanged("StatusOfflineIntervalSeconds"); } }
         }
         private int _statusOnlineIntervalSeconds = 300;
         public int StatusOnlineIntervalSeconds
         {
             get { return _statusOnlineIntervalSeconds; }
-            set
-            {
-                if (_statusOnlineIntervalSeconds != value)
-                {
-                    _statusOnlineIntervalSeconds = value;
-                    OnPropertyChanged("StatusOnlineIntervalSeconds");
-                }
-            }
+            set { if (_statusOnlineIntervalSeconds != value) { _statusOnlineIntervalSeconds = value; OnPropertyChanged("StatusOnlineIntervalSeconds"); } }
         }
         public Guid ServerId { get; set; }
        
