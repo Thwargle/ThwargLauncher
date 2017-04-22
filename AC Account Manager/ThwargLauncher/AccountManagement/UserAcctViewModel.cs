@@ -9,13 +9,6 @@ namespace ThwargLauncher
 {
     class UserAcctViewModel : PropertyChangedBase
     {
-        class AccountServer
-        {
-            public override string ToString()
-            {
-                return "www";
-            }
-        }
         private UserAccount _account;
         public UserAcctViewModel(UserAccount account)
         {
