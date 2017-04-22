@@ -12,7 +12,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,35" VerticalAlignment="Stretch"
+        <DataGrid HorizontalAlignment="Stretch" Margin="0,5,0,30" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllAccounts}"
                   AutoGenerateColumns="False"
                   AlternatingRowBackground="Wheat">

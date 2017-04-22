@@ -20,8 +20,8 @@ namespace ThwargLauncher.AccountManagement
             if (viewModel == null) { throw new ArgumentNullException("viewModel", "Null view model passed to EditCharactersWindow"); }
 
             InitializeComponent();
-            
-            this.DataContext = viewModel;
+
+            this.DataContext = viewModel.CharacterList;
         }
     }
 }

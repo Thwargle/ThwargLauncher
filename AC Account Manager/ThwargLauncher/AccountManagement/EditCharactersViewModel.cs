@@ -19,18 +19,28 @@ namespace ThwargLauncher.AccountManagement
             public string ServerName { get; set; }
             public string CharacterName { get; set; }
             public int CharacterLoginCommandsCount { get; set; }
-            public string CharacterLoginCommandList { get; set; }
+            public string CharacterLoginCommandListString { get; set; }
         }
 
         // Properties
         public ObservableCollection<EditableCharacterViewModel> CharacterList { get { return _characters; } }
-        public int GlobalLoginCommandCount { get; private set; }
-
+        public string DetailText { get; private set; }
+        public EditableCharacterViewModel SelectedCharacter { get; set; }
         private ObservableCollection<EditableCharacterViewModel> _characters = new ObservableCollection<EditableCharacterViewModel>();
 
+        private string CmdListToString(List<string> cmds) { return string.Join("\r\n", cmds); }
         internal EditCharactersViewModel(AccountManager accountManager)
         {
-            GlobalLoginCommandCount = MagFilter.LoginCommandPersister.GetGlobalLoginCommands().Count;
+            var globalCmds = MagFilter.LoginCommandPersister.GetGlobalLoginCommands();
+            _characters.Add(
+                new EditableCharacterViewModel()
+                {
+                    AccountName = "",
+                    ServerName = "",
+                    CharacterName = "(Global)",
+                    CharacterLoginCommandsCount = globalCmds.Count,
+                    CharacterLoginCommandListString = CmdListToString(globalCmds)
+                });
 
             foreach (var account in accountManager.UserAccounts)
             {
@@ -47,7 +57,7 @@ namespace ThwargLauncher.AccountManagement
                                 ServerName = server.ServerName,
                                 CharacterName = character.Name,
                                 CharacterLoginCommandsCount = cmds.Count,
-                                CharacterLoginCommandList = string.Join("\r\n", cmds)
+                                CharacterLoginCommandListString = CmdListToString(cmds)
                                 }
                             );
                     }

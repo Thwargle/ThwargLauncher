@@ -171,6 +171,7 @@
     <Compile Include="UtilityCode\PropertyChangedNotifier.cs" />
     <Compile Include="UtilityCode\PropertyDependencyManager.cs" />
     <Compile Include="UtilityCode\StringUtil.cs" />
+    <Compile Include="UtilityCode\ToolTipContentConverter.cs" />
     <Compile Include="UtilityCode\WpfEnumHelper.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />
