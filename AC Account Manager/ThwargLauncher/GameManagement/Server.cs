@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using ThwarglePropertyExtensions;
+using Bindable = TwMoch.Framework.Bindable;
 
 namespace ThwargLauncher
 {
@@ -13,7 +14,7 @@ namespace ThwargLauncher
     /// which is a list of characters and the character selected, and this server's status (in the context of this account)
     /// The server properties are all forwarded to the ServerModel of the relevant server
     /// </summary>
-    public class Server : INotifyPropertyChanged
+    public class Server : Bindable
     {
         public Server(UserAccount acct, ServerModel serverItem)
         {
@@ -34,40 +35,27 @@ namespace ThwargLauncher
             {
                 OnPropertyChanged("UpStatusString");
             }
-            OnPropertyChanged(e.PropertyName);
+            NotifyOfPropertyChange(e.PropertyName);
         }
 
-        private string _serverStatusSymbol;
         public string ServerStatusSymbol
         {
-            get
-            {
-                return _serverStatusSymbol;
-            }
-            private set
-            {
-                if (_serverStatusSymbol != value)
+            get { return Get<string>(); }
+            set {
+                if (Set(value))
                 {
-                    _serverStatusSymbol = value;
-                    OnPropertyChanged("ServerStatusSymbol");
                     OnPropertyChanged("StatusSummary");
                 }
             }
         }
-        private ServerAccountStatusEnum _accountServerStatus;
         public ServerAccountStatusEnum AccountServerStatus
         {
-            get
-            {
-                return _accountServerStatus;
-            }
-            private set
-            {
-                if (_accountServerStatus != value)
+            get { return Get<ServerAccountStatusEnum>(); }
+            set {
+                if (Set(value))
                 {
-                    _accountServerStatus = value;
-                    OnPropertyChanged("AccountServerStatus");
-                    OnPropertyChanged("AccountServerStatus");
+                    NotifyOfPropertyChange("AccountServerStatus");
+                    NotifyOfPropertyChange("AccountServerStatus");
                 }
             }
         }
@@ -109,33 +97,9 @@ namespace ThwargLauncher
         }
         private readonly UserAccount _myAccount;
         private readonly ServerModel _myServer;
-        private bool _serverSelected;
-        public bool ServerSelected
-        {
-            get { return _serverSelected; }
-            set
-            {
-                if (_serverSelected != value)
-                {
-                    _serverSelected = value;
-                    OnPropertyChanged("ServerSelected");
-                }
-            }
-        }
+        public bool ServerSelected { get { return Get<bool>(); } set { Set(value); } }
         public ObservableCollection<AccountCharacter> AvailableCharacters { get; private set; }
-        private string _chosenCharacter;
-        public string ChosenCharacter
-        {
-            get { return _chosenCharacter; }
-            set
-            {
-                if (_chosenCharacter != value)
-                {
-                    _chosenCharacter = value;
-                    OnPropertyChanged("ChosenCharacter");
-                }
-            }
-        }
+        public string ChosenCharacter { get { return Get<string>(); } set { Set(value); } }
         public string StatusSummary
         {
             get
@@ -194,14 +158,8 @@ namespace ThwargLauncher
 
         public void NotifyAvailableCharactersChanged()
         {
-            OnPropertyChanged("AvailableCharacters");
+            NotifyOfPropertyChange("AvailableCharacters");
             // Do wo need to also send one for ChosenCharacter?
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged.Raise(this, propertyName);
         }
     }
 }
