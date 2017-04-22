@@ -15,6 +15,21 @@ namespace ThwargLauncher
             _account = account;
             _account.PropertyChanged += AccountPropertyChanged;
             PersistSettings(Persistence.Load);
+            WatchServersForChanges();
+        }
+        private void WatchServersForChanges()
+        {
+            foreach (var server in Account.Servers)
+            {
+                server.PropertyChanged += ServerPropertyChanged;
+            }
+        }
+        void ServerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "VisibilitySetting")
+            {
+                OnPropertyChanged("VisibleServers");
+            }
         }
         private void AccountPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -28,7 +43,7 @@ namespace ThwargLauncher
         public string AccountName { get { return _account.Name; } }
         public ObservableCollection<Server> Servers { get { return _account.Servers; } }
         public ObservableCollection<Server> VisibleServers { get { return _account.VisibleServers; } }
-        public ObservableCollection<Server> EnabledServers { get { return _account.EnabledServers; } }
+        public ObservableCollection<Server> SelectedServers { get { return _account.SelectedServers; } }
         public string Password { get { return _account.Password; } }
         public string AccountSummary { get { return _account.AccountSummary; } }
         public UserAccount Account { get { return _account; } }

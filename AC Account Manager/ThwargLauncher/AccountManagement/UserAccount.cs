@@ -118,7 +118,7 @@ namespace ThwargLauncher
             }
             if (e.PropertyName == "ServerSelected")
             {
-                OnPropertyChanged("EnabledServers");
+                OnPropertyChanged("SelectedServers");
             }
         }
 
@@ -138,7 +138,7 @@ namespace ThwargLauncher
         {
             get { return new ObservableCollection<Server>(_servers.Where(x => x.VisibilitySetting == ServerModel.VisibilityEnum.Visible)); }
         }
-        public ObservableCollection<Server> EnabledServers
+        public ObservableCollection<Server> SelectedServers
         {
             get { return new ObservableCollection<Server>(_servers.Where(x => x.ServerSelected)); }
         }

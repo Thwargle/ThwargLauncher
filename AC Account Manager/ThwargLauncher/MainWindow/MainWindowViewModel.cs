@@ -40,7 +40,6 @@ namespace ThwargLauncher
             _gameSessionMap = gameSessionMap;
             _configurator = configurator;
 
-            SubscribeToServerPropertyChanges();
             _accountManager.UserAccounts.CollectionChanged += UserAccountsCollectionChanged;
 
             NewProfileCommand = new DelegateCommand(
@@ -78,42 +77,6 @@ namespace ThwargLauncher
                 {
                     UserAcctViewModel avm = new UserAcctViewModel(ua);
                     _userAccountViewModels.Add(avm);
-                }
-            }
-        }
-        private void SubscribeToServerPropertyChanges()
-        {
-            foreach (ServerModel server in ServerManager.ServerList)
-            {
-                server.PropertyChanged += ServerPropertyChanged;
-            }
-            // Wire up handlers for new servers
-            ServerManager.ServerList.CollectionChanged += ServerListCollectionChanged;
-        }
-        void ServerListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (ServerModel server in e.NewItems)
-                {
-                    server.PropertyChanged += ServerPropertyChanged;
-                }
-            }
-            if (e.OldItems != null)
-            {
-                foreach (ServerModel server in e.OldItems)
-                {
-                    server.PropertyChanged -= ServerPropertyChanged;
-                }
-            }
-        }
-        void ServerPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "VisibilitySetting")
-            {
-                foreach (var userAcct in KnownUserAccounts)
-                {
-                    userAcct.NotifyVisibleServersChanged();
                 }
             }
         }
