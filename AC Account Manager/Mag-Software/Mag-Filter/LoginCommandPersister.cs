@@ -6,9 +6,43 @@ using System.Text;
 
 namespace MagFilter
 {
-    class LoginCommandPersister
+    public class LoginCommandPersister
     {
-        public void WriteQueue(LoginCommands loginCommands, bool global)
+        private string _accountName;
+        private string _serverName;
+        private string _characterName;
+
+        public static List<string> GetGlobalLoginCommands()
+        {
+            var persister = new LoginCommandPersister();
+            var queue = persister.ReadQueue(global: true).MessageQueue;
+            return QueueToList(queue);
+        }
+        private static List<string> QueueToList(Queue<string> queue)
+        {
+            List<string> list = new List<string>();
+            foreach (var cmd in queue)
+            {
+                list.Add(cmd);
+            }
+            return list;
+        }
+        public static List<string> GetLoginCommands(string accountName, string serverName, string characterName)
+        {
+            var persister = new LoginCommandPersister(accountName: accountName, serverName: serverName, characterName: characterName);
+            var queue = persister.ReadQueue(false).MessageQueue;
+            return QueueToList(queue);
+        }
+        private LoginCommandPersister()
+        {
+        }
+        internal LoginCommandPersister(string accountName, string serverName, string characterName)
+        {
+            _accountName = accountName;
+            _serverName = serverName;
+            _characterName = characterName;
+        }
+        internal void WriteQueue(LoginCommands loginCommands, bool global)
         {
             string filepath = GetFilepath(global);
             using (var file = new StreamWriter(filepath, append: false))
@@ -23,7 +57,7 @@ namespace MagFilter
                 }
             }
         }
-        public LoginCommands ReadAndCombineQueues()
+        internal LoginCommands ReadAndCombineQueues()
         {
             try
             {
@@ -47,21 +81,17 @@ namespace MagFilter
                 return new LoginCommands();
             }
         }
-        public LoginCommands ReadQueue(bool global)
+        internal LoginCommands ReadQueue(bool global)
         {
             var loginCommands = new LoginCommands();
             string filepath = GetFilepath(global);
             if (File.Exists(filepath))
             {
-                log.WriteDebug("qq01");
                 var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
-                log.WriteDebug("qq03");
-                log.WriteDebug("qq05");
                 loginCommands.WaitMillisencds = int.Parse(settings.GetValue("WaitMilliseconds").SingleParameter);
                 int count = int.Parse(settings.GetValue("CommandCount").SingleParameter);
                 for (int i = 0; i < count; ++i)
                 {
-                    log.WriteDebug("qq--{0} ({1})", i, global);
                     string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleParameter;
                     if (!string.IsNullOrEmpty(cmd))
                     {
@@ -81,7 +111,7 @@ namespace MagFilter
             }
             else
             {
-                filename = string.Format("LoginCommands-{0}-{1}-{2}.txt", GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
+                filename = string.Format("LoginCommands-{0}-{1}-{2}.txt", _accountName, _serverName, _characterName);
                 // TODO - encode to ASCII
             }
 

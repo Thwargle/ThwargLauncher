@@ -1,0 +1,35 @@
+﻿<Window x:Class="ThwargLauncher.AccountManagement.EditCharactersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit Characters" Height="300" Width="300">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="{Binding Path=GlobalLoginCommandCount}" />
+            <ListBox x:Name="lstCharacters" HorizontalAlignment="Stretch"
+                     ItemsSource="{Binding Path=CharacterList}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{Binding Path=AccountName}" />
+                            <Label Grid.Column="1" Content="{Binding Path=ServerName}" />
+                            <Label Grid.Column="2" Content="{Binding Path=CharacterName}" />
+                            <TextBlock Grid.Column="3" Text="{Binding Path=CharacterLoginCommandsCount}">
+                                <TextBlock.ToolTip>
+                                    <ToolTip Visibility="Visible">
+                                        <TextBlock Text="{Binding CharacterLoginCommandList}" />
+                                    </ToolTip>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Grid>
+</Window>

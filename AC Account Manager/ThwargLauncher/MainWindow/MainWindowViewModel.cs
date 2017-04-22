@@ -42,18 +42,11 @@ namespace ThwargLauncher
 
             _accountManager.UserAccounts.CollectionChanged += UserAccountsCollectionChanged;
 
-            NewProfileCommand = new DelegateCommand(
-                    CreateNewProfile
-                );
-            NextProfileCommand = new DelegateCommand(
-                    GoToNextProfile
-                );
-            PrevProfileCommand = new DelegateCommand(
-                    GoToPrevProfile
-                );
-            DeleteProfileCommand = new DelegateCommand(
-                    DeleteProfile
-                );
+            NewProfileCommand = new DelegateCommand(CreateNewProfile);
+            NextProfileCommand = new DelegateCommand(GoToNextProfile);
+            PrevProfileCommand = new DelegateCommand(GoToPrevProfile);
+            DeleteProfileCommand = new DelegateCommand(DeleteProfile);
+            EditCharactersCommand = new DelegateCommand(EditCharacters);
             LoadStatusSymbols();
         }
         void UserAccountsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -174,6 +167,7 @@ namespace ThwargLauncher
         public ICommand PrevProfileCommand { get; private set; }
         public ICommand NewProfileCommand { get; private set; }
         public ICommand DeleteProfileCommand { get; private set; }
+        public ICommand EditCharactersCommand { get; private set; }
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -435,6 +429,12 @@ namespace ThwargLauncher
                 RequestShowMainWindowEvent();
             }
             _switchingToMainWindow = false;
+        }
+        private void EditCharacters()
+        {
+            var vm = new AccountManagement.EditCharactersViewModel(_accountManager);
+            var win = new AccountManagement.EditCharactersWindow(vm);
+            win.Show();
         }
 
         void OnRequestExecuteSimpleLaunch(LaunchItem launchItem)
