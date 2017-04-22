@@ -4,12 +4,12 @@ using System.Text;
 
 namespace MagFilter
 {
-    class LoginCommands
+    public class LoginCommands
     {
         public const int DefaultMillisecondsToWaitAfterLoginComplete = 3000;
         const int UnspecifiedWait = 9999;
 
-        public readonly Queue<string> MessageQueue = new Queue<string>();
+        public readonly Queue<string> Commands = new Queue<string>();
         private int _millisecondsToWaitAfterLoginComplete = UnspecifiedWait;
 
         public void ClearWait() { _millisecondsToWaitAfterLoginComplete = UnspecifiedWait; }

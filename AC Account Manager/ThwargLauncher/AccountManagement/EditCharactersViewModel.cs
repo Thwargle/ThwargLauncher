@@ -20,6 +20,7 @@ namespace ThwargLauncher.AccountManagement
             public string CharacterName { get; set; }
             public int CharacterLoginCommandsCount { get; set; }
             public string CharacterLoginCommandListString { get; set; }
+            public int WaitTimeMs { get; set; }
         }
 
         // Properties
@@ -28,18 +29,19 @@ namespace ThwargLauncher.AccountManagement
         public EditableCharacterViewModel SelectedCharacter { get; set; }
         private ObservableCollection<EditableCharacterViewModel> _characters = new ObservableCollection<EditableCharacterViewModel>();
 
-        private string CmdListToString(List<string> cmds) { return string.Join("\r\n", cmds); }
+        private string CmdQueueToString(Queue<string> cmds) { return string.Join("\r\n", cmds); }
         internal EditCharactersViewModel(AccountManager accountManager)
         {
-            var globalCmds = MagFilter.LoginCommandPersister.GetGlobalLoginCommands();
+            var globalCmds = MagFilter.LoginCommandsStorage.GetGlobalLoginCommands();
             _characters.Add(
                 new EditableCharacterViewModel()
                 {
                     AccountName = "",
                     ServerName = "",
                     CharacterName = "(Global)",
-                    CharacterLoginCommandsCount = globalCmds.Count,
-                    CharacterLoginCommandListString = CmdListToString(globalCmds)
+                    CharacterLoginCommandsCount = globalCmds.Commands.Count,
+                    CharacterLoginCommandListString = CmdQueueToString(globalCmds.Commands),
+                    WaitTimeMs = globalCmds.WaitMillisencds
                 });
 
             foreach (var account in accountManager.UserAccounts)
@@ -49,15 +51,16 @@ namespace ThwargLauncher.AccountManagement
                     foreach (var character in server.AvailableCharacters)
                     {
                         if (character.Id == 0) { continue; } // None
-                        var cmds = MagFilter.LoginCommandPersister.GetLoginCommands(account.Name, server.ServerName, character.Name);
+                        var cmds = MagFilter.LoginCommandsStorage.GetLoginCommands(account.Name, server.ServerName, character.Name);
                         _characters.Add(
                             new EditableCharacterViewModel()
                                 {
                                 AccountName = account.Name,
                                 ServerName = server.ServerName,
                                 CharacterName = character.Name,
-                                CharacterLoginCommandsCount = cmds.Count,
-                                CharacterLoginCommandListString = CmdListToString(cmds)
+                                CharacterLoginCommandsCount = cmds.Commands.Count,
+                                CharacterLoginCommandListString = CmdQueueToString(cmds.Commands),
+                                WaitTimeMs = cmds.WaitMillisencds
                                 }
                             );
                     }

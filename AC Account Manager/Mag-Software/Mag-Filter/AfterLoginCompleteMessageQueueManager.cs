@@ -11,7 +11,7 @@ namespace MagFilter
     {
         bool freshLogin;
 
-        LoginCommands _loginCommands = new LoginCommands();
+        LoginCommands _loginCmds = new LoginCommands();
         bool sendingLastEnter;
 
         DateTime loginCompleteTime = DateTime.MaxValue;
@@ -27,9 +27,9 @@ namespace MagFilter
 
                 var persister = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
 
-                _loginCommands = persister.ReadAndCombineQueues();
+                _loginCmds = persister.ReadAndCombineQueues();
 
-                if (_loginCommands.MessageQueue.Count > 0)
+                if (_loginCmds.Commands.Count > 0)
                 {
                     loginCompleteTime = DateTime.Now;
 
@@ -43,10 +43,10 @@ namespace MagFilter
         {
             try
             {
-                if (DateTime.Now.Subtract(TimeSpan.FromMilliseconds(_loginCommands.WaitMillisencds)) < loginCompleteTime)
+                if (DateTime.Now.Subtract(TimeSpan.FromMilliseconds(_loginCmds.WaitMillisencds)) < loginCompleteTime)
                     return;
 
-                if (_loginCommands.MessageQueue.Count == 0 && sendingLastEnter == false)
+                if (_loginCmds.Commands.Count == 0 && sendingLastEnter == false)
                 {
                     CoreManager.Current.RenderFrame -= new EventHandler<EventArgs>(Current_RenderFrame);
                     return;
@@ -56,7 +56,7 @@ namespace MagFilter
 
                 if (useMagToolsStyle)
                 {
-                    string cmd = _loginCommands.MessageQueue.Dequeue();
+                    string cmd = _loginCmds.Commands.Dequeue();
                     log.WriteInfo("Dequeued a login message to send to DecalProxy: {0}", cmd);
                     DecalProxy.DispatchChatToBoxWithPluginIntercept(cmd);
                 }
@@ -70,7 +70,7 @@ namespace MagFilter
                     else
                     {
                         PostMessageTools.SendEnter();
-                        string cmd = _loginCommands.MessageQueue.Dequeue();
+                        string cmd = _loginCmds.Commands.Dequeue();
                         // The game is losing the first character of our commands
                         // So deliberately send a space at the start
                         if (!cmd.StartsWith(" "))
@@ -114,14 +114,14 @@ namespace MagFilter
             else if (cmdtext.StartsWith("/mf alcmq add ") || cmdtext.StartsWith("/mf olcmq add "))
             {
                 string cmd = TextRemainder(cmdtext, "/mf alcmq add ");
-                _loginCommands.MessageQueue.Enqueue(cmd);
+                _loginCmds.Commands.Enqueue(cmd);
                 Debug.WriteToChat("After Login Complete Message Queue added: " + cmd);
 
                 e.Eat = true;
             }
             else if (cmdtext == "/mf alcmq clear" || cmdtext == "/mf olcmq clear")
             {
-                _loginCommands.MessageQueue.Clear();
+                _loginCmds.Commands.Clear();
                 Debug.WriteToChat("After Login Complete Message Queue cleared");
 
                 e.Eat = true;
@@ -129,7 +129,7 @@ namespace MagFilter
             else if (cmdtext.StartsWith("/mf alcmq wait set "))
             {
                 string valstr = TextRemainder(cmdtext, "/mf alcmq wait set ");
-                _loginCommands.WaitMillisencds = int.Parse(valstr);
+                _loginCmds.WaitMillisencds = int.Parse(valstr);
                 Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + valstr + "ms");
 
                 e.Eat = true;
@@ -137,14 +137,14 @@ namespace MagFilter
             else if (cmdtext.StartsWith("/mf olcwait set ")) // Backwards Compatability
             {
                 string valstr = TextRemainder(cmdtext, "/mf olcwait set ");
-                _loginCommands.WaitMillisencds = int.Parse(valstr);
+                _loginCmds.WaitMillisencds = int.Parse(valstr);
                 Debug.WriteToChat("After Login Complete Message Queue Wait time set: " + valstr + "ms");
 
                 e.Eat = true;
             }
             else if (cmdtext == "/mf alcmq wait clear" || cmdtext == "/mf olcwait clear")
             {
-                _loginCommands.ClearWait();
+                _loginCmds.ClearWait();
                 Debug.WriteToChat(string.Format("After Login Complete Wait time reset to default {0} ms", LoginCommands.DefaultMillisecondsToWaitAfterLoginComplete));
 
                 e.Eat = true;
@@ -153,8 +153,8 @@ namespace MagFilter
             {
                 var rdr = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
                 var queue = rdr.ReadQueue(global);
-                Debug.WriteToChat(string.Format("LoginCmds: {0}", queue.MessageQueue.Count));
-                foreach (string cmd in queue.MessageQueue)
+                Debug.WriteToChat(string.Format("LoginCmds: {0}", queue.Commands.Count));
+                foreach (string cmd in queue.Commands)
                 {
                     Debug.WriteToChat(string.Format("cmd: {0}", cmd));
                 }
@@ -165,7 +165,7 @@ namespace MagFilter
             if (e.Eat && writeChanges)
             {
                 var persister = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
-                persister.WriteQueue(_loginCommands, global);
+                persister.WriteQueue(_loginCmds, global);
             }
         }
     }

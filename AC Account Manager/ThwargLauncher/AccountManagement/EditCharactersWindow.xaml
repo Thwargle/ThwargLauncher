@@ -49,6 +49,8 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="Details"/>
                 <Label Content="{Binding CharacterName}"/>
+                <Label Content="Wait (ms)"/>
+                <Label Content="{Binding WaitTimeMs}"/>
             </StackPanel>
             <TextBox AcceptsReturn="True" Text="{Binding CharacterLoginCommandListString}" />
         </StackPanel>

@@ -6,19 +6,13 @@ using System.Text;
 
 namespace MagFilter
 {
-    public class LoginCommandPersister
+    internal class LoginCommandPersister
     {
         private string _accountName;
         private string _serverName;
         private string _characterName;
 
-        public static List<string> GetGlobalLoginCommands()
-        {
-            var persister = new LoginCommandPersister();
-            var queue = persister.ReadQueue(global: true).MessageQueue;
-            return QueueToList(queue);
-        }
-        private static List<string> QueueToList(Queue<string> queue)
+        private static List<string> QueueToList_unused(Queue<string> queue)
         {
             List<string> list = new List<string>();
             foreach (var cmd in queue)
@@ -27,13 +21,7 @@ namespace MagFilter
             }
             return list;
         }
-        public static List<string> GetLoginCommands(string accountName, string serverName, string characterName)
-        {
-            var persister = new LoginCommandPersister(accountName: accountName, serverName: serverName, characterName: characterName);
-            var queue = persister.ReadQueue(false).MessageQueue;
-            return QueueToList(queue);
-        }
-        private LoginCommandPersister()
+        internal LoginCommandPersister()
         {
         }
         internal LoginCommandPersister(string accountName, string serverName, string characterName)
@@ -48,9 +36,9 @@ namespace MagFilter
             using (var file = new StreamWriter(filepath, append: false))
             {
                 file.WriteLine("WaitMilliseconds:{0}", loginCommands.GetInternalWaitValue());
-                file.WriteLine("CommandCount:{0}", loginCommands.MessageQueue.Count);
+                file.WriteLine("CommandCount:{0}", loginCommands.Commands.Count);
                 int i = 0;
-                foreach (string cmd in loginCommands.MessageQueue)
+                foreach (string cmd in loginCommands.Commands)
                 {
                     file.WriteLine("Command{0}:{1}", i, cmd);
                     ++i;
@@ -68,11 +56,11 @@ namespace MagFilter
                 {
                     gcmds.WaitMillisencds = cmds.WaitMillisencds;
                 }
-                foreach (string cmd in cmds.MessageQueue)
+                foreach (string cmd in cmds.Commands)
                 {
-                    gcmds.MessageQueue.Enqueue(cmd);
+                    gcmds.Commands.Enqueue(cmd);
                 }
-                log.WriteInfo("Found {0} cmds", gcmds.MessageQueue.Count);
+                log.WriteInfo("Found {0} cmds", gcmds.Commands.Count);
                 return gcmds;
             }
             catch (Exception exc)
@@ -97,7 +85,7 @@ namespace MagFilter
                     {
                         log.WriteInfo("cmd: '" + cmd + "'");
                     }
-                    loginCommands.MessageQueue.Enqueue(cmd);
+                    loginCommands.Commands.Enqueue(cmd);
                 }
             }
             return loginCommands;
@@ -116,6 +104,24 @@ namespace MagFilter
             }
 
             return Path.Combine(FileLocations.GetLoginCommandsFolder(), filename);
+        }
+    }
+    /// <summary>
+    /// Called from Launcher
+    /// </summary>
+    public class LoginCommandsStorage
+    {
+        public static LoginCommands GetGlobalLoginCommands()
+        {
+            var persister = new LoginCommandPersister();
+            var cmds = persister.ReadQueue(global:true);
+            return cmds;
+        }
+        public static LoginCommands GetLoginCommands(string accountName, string serverName, string characterName)
+        {
+            var persister = new LoginCommandPersister(accountName: accountName, serverName: serverName, characterName: characterName);
+            var cmds = persister.ReadQueue(global: false);
+            return cmds;
         }
     }
 }
