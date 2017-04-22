@@ -101,10 +101,6 @@ namespace ThwargLauncher
         {
             OnPropertyChanged("AccountSummary");
         }
-        public void NotifyVisibleServersChanged()
-        {
-            OnPropertyChanged("VisibleServers");
-        }
         public void NotifyAvailableCharactersChanged()
         {
             OnPropertyChanged("AvailableCharacters");

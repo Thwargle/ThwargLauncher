@@ -20,10 +20,6 @@ namespace ThwargLauncher
         {
             OnPropertyChanged(e.PropertyName);
         }
-        public void NotifyVisibleServersChanged()
-        {
-            _account.NotifyVisibleServersChanged();
-        }
         public bool AccountLaunchable { get { return _account.AccountLaunchable; } set { _account.AccountLaunchable = value; } }
         public string AccountName { get { return _account.Name; } }
         public ObservableCollection<Server> Servers { get { return _account.Servers; } }
