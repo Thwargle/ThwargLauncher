@@ -44,7 +44,7 @@ namespace ThwargLauncher
             {
                 return _serverStatusSymbol;
             }
-            set
+            private set
             {
                 if (_serverStatusSymbol != value)
                 {
@@ -53,6 +53,28 @@ namespace ThwargLauncher
                     OnPropertyChanged("StatusSummary");
                 }
             }
+        }
+        private ServerAccountStatusEnum _accountServerStatus;
+        public ServerAccountStatusEnum AccountServerStatus
+        {
+            get
+            {
+                return _accountServerStatus;
+            }
+            private set
+            {
+                if (_accountServerStatus != value)
+                {
+                    _accountServerStatus = value;
+                    OnPropertyChanged("AccountServerStatus");
+                    OnPropertyChanged("AccountServerStatus");
+                }
+            }
+        }
+        public void SetAccountServerStatus(ServerAccountStatusEnum status, string symbol)
+        {
+            AccountServerStatus = status;
+            ServerStatusSymbol = symbol;
         }
         public string ServerIpAndPort { get { return _myServer.ServerIpAndPort; } }
         public System.Guid ServerId { get { return _myServer.ServerId; } }

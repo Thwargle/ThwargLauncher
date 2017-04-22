@@ -191,7 +191,7 @@ namespace ThwargLauncher
                     {
                         var state = _gameSessionMap.GetGameSessionStateByServerAccount(server.ServerName, account.AccountName);
                         string statusSymbol = GetStatusSymbol(state);
-                        server.ServerStatusSymbol = statusSymbol;
+                        server.SetAccountServerStatus(state, statusSymbol);
                         server.ServerSelected = charSetting.Active;
                         server.ChosenCharacter = charSetting.ChosenCharacter;
                         if (string.IsNullOrEmpty(server.ChosenCharacter))
@@ -304,13 +304,15 @@ namespace ThwargLauncher
             AccountServer acctServer = FindServer(serverName, accountName);
             if (acctServer != null)
             {
-                acctServer.tServer.ServerStatusSymbol = GetStatusSymbol(status);
+                string symbol = GetStatusSymbol(status);
+                acctServer.tServer.SetAccountServerStatus(status, symbol);
                 acctServer.tAccount.NotifyAccountSummaryChanged();
             }
         }
         internal void ExecuteGameCommand(string serverName, string accountName, string command)
         {
             AccountServer acctServer = FindServer(serverName, accountName);
+            if (acctServer == null) { return; }
             Logger.WriteInfo(string.Format(
                 "QQQ - not currently invoked -- Command received from server='{0}', account='{1}': {2}",
                 serverName, accountName, command));
@@ -327,16 +329,12 @@ namespace ThwargLauncher
         class AccountServer { public Server tServer; public UserAccount tAccount; }
         private AccountServer FindServer(string serverName, string accountName)
         {
-            foreach (var account in KnownUserAccounts)
-            {
-                if (account.AccountName == accountName)
-                {
-                    var server = account.Servers.FirstOrDefault(x => x.ServerName == serverName);
-                    AccountServer acctServer = new AccountServer() { tAccount = account.Account, tServer = server };
-                    return acctServer;
-                }
-            }
-            return null;
+            var account = KnownUserAccounts.FirstOrDefault(x => x.AccountName == accountName);
+            if (account == null) { return null; }
+            var server = account.Servers.FirstOrDefault(x => x.ServerName == serverName);
+            if (server == null) { return null; }
+            AccountServer acctServer = new AccountServer() { tAccount = account.Account, tServer = server };
+            return acctServer;
         }
         public void NotifyAvailableCharactersChanged()
         {
