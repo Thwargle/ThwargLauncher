@@ -65,77 +65,30 @@ namespace ThwargLauncher
             return true;
         }
 
-        public string ServerName 
-        {
-            get { return Get<string>(); }
-            set { Set(value); }
-        }
-        public string ServerDescription
-        {
-            get { return Get<string>(); }
-            set { Set(value); }
-        }
-        public bool ServerLoginEnabled
-        {
-            get { return Get<bool>(); }
-            set { Set(value); }
-        }
-        public string ServerIpAndPort
-        {
-            get { return Get<string>(); }
-            set { Set(value); }
-        }
-        public ServerEmuEnum EMU
-        {
-            get { return Get<ServerEmuEnum>(); }
-            set { Set(value); }
-        }
-        public RodatEnum RodatSetting
-        {
-            get { return Get<RodatEnum>(); }
-            set { Set(value); }
-        }
-        public VisibilityEnum VisibilitySetting
-        {
-            get { return Get<VisibilityEnum>(); }
-            set { Set(value); }
-        }
-        public string ConnectionStatus
-        {
-            get { return Get<string>(); }
-            set { Set(value); }
-        }
-        public System.Windows.Media.SolidColorBrush ConnectionColor
-        {
-            get { return Get<System.Windows.Media.SolidColorBrush>(); }
-            set { Set(value); }
-        }
+        public string ServerName { get { return Get<string>(); } set { Set(value); } }
+        public string ServerDescription { get { return Get<string>(); } set { Set(value); } }
+        public bool ServerLoginEnabled { get { return Get<bool>(); } set { Set(value); } }
+        public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
+        public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
+        public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
+        public VisibilityEnum VisibilitySetting { get { return Get<VisibilityEnum>(); } set { Set(value); } }
+        public string ConnectionStatus { get { return Get<string>(); } set { Set(value); } }
+        public System.Windows.Media.SolidColorBrush ConnectionColor { get { return Get<System.Windows.Media.SolidColorBrush>(); } set { Set(value); } }
         public ServerUpStatusEnum UpStatus
         {
             get { return Get<ServerUpStatusEnum>(); }
-            set { 
+            set {
+                // We have to adjust ConnectionColor any time UpStatus changes
                 if (Set(value)) 
                 {
                     ConnectionColor = GetBrushColorFromUpStatus(UpStatus);
                 }
             }
         }
-        public ServerSourceEnum ServerSource
-        {
-            get { return Get<ServerSourceEnum>(); }
-            set { Set(value); }
-        }
+        public ServerSourceEnum ServerSource { get { return Get<ServerSourceEnum>(); } set { Set(value); } }
         public bool IsUserServer { get { return ServerSource == ServerSourceEnum.User; } }
-        public int StatusOfflineIntervalSeconds
-        {
-            get { return Get<int>(); }
-            set { Set(value); }
-        }
-        public int StatusOnlineIntervalSeconds
-        {
-            get { return Get<int>(); }
-            set { Set(value); }
-        }
+        public int StatusOfflineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
+        public int StatusOnlineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
         public Guid ServerId { get; set; }
        
         private static System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
