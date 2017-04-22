@@ -117,10 +117,10 @@
                                                                     <Style TargetType="Label">
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding Path=UpStatus}" Value="{x:Static local:ServerModel+ServerUpStatusEnum.Up}">
-                                                                                <Setter Property="Foreground" Value="Green"/>
+                                                                                <Setter Property="Foreground" Value="#c1d146"/>
                                                                             </DataTrigger>
                                                                             <DataTrigger Binding="{Binding Path=UpStatus}" Value="{x:Static local:ServerModel+ServerUpStatusEnum.Down}">
-                                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                                <Setter Property="Foreground" Value="#d4b7a5"/>
                                                                             </DataTrigger>
                                                                             <DataTrigger Binding="{Binding Path=UpStatus}" Value="{x:Static local:ServerModel+ServerUpStatusEnum.Unknown}">
                                                                                 <Setter Property="Foreground" Value="White"/>
