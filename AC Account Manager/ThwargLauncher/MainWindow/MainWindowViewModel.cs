@@ -68,7 +68,10 @@ namespace ThwargLauncher
                 foreach (UserAccount ua in e.OldItems)
                 {
                     UserAcctViewModel avm = _userAccountViewModels.FirstOrDefault(vm => vm.Account == ua);
-                    _userAccountViewModels.Remove(avm);
+                    if (avm != null)
+                    {
+                        _userAccountViewModels.Remove(avm);
+                    }
                 }
             }
             if (e.NewItems != null)
