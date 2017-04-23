@@ -152,6 +152,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />
     <Compile Include="GameLaunching\GameLauncher.cs" />
+    <Compile Include="UtilityCode\ExpressionExtensions.cs" />
     <Compile Include="UtilityCode\getOS.cs" />
     <Compile Include="HelpWindow\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>

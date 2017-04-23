@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Caliburn.Micro;
 
 namespace TwMoch.Framework
 {
@@ -67,6 +70,11 @@ namespace TwMoch.Framework
             {
                 OnPropertyChanged(propertyName);
             }
+        }
+        //
+        public void NotifyOfPropertyChange<TProperty>(Expression<Func<TProperty>> property)
+        {
+            NotifyOfPropertyChange(property.GetMemberInfo().Name);
         }
 
         protected virtual void OnPropertyChanged(string name)

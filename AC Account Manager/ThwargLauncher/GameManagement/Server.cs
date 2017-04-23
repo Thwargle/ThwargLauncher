@@ -29,11 +29,11 @@ namespace ThwargLauncher
         {
             if (e.PropertyName == "ServerName" || e.PropertyName == "ServerDescription")
             {
-                OnPropertyChanged("ServerDisplayName");
+                NotifyOfPropertyChange(() => ServerDisplayName);
             }
             if (e.PropertyName == "UpStatus")
             {
-                OnPropertyChanged("UpStatusString");
+                NotifyOfPropertyChange(() => UpStatusString);
             }
             NotifyOfPropertyChange(e.PropertyName);
         }
@@ -44,20 +44,14 @@ namespace ThwargLauncher
             set {
                 if (Set(value))
                 {
-                    OnPropertyChanged("StatusSummary");
+                    NotifyOfPropertyChange(() => StatusSummary);
                 }
             }
         }
         public ServerAccountStatusEnum AccountServerStatus
         {
             get { return Get<ServerAccountStatusEnum>(); }
-            set {
-                if (Set(value))
-                {
-                    NotifyOfPropertyChange("AccountServerStatus");
-                    NotifyOfPropertyChange("AccountServerStatus");
-                }
-            }
+            set { Set(value); }
         }
         public void SetAccountServerStatus(ServerAccountStatusEnum status, string symbol)
         {
