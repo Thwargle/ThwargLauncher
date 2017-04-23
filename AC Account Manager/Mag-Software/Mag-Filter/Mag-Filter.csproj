@@ -115,7 +115,7 @@
     <Compile Include="SettingsFile.cs" />
     <Compile Include="SettingHelpers.cs" />
     <Compile Include="SettingsLineParser.cs" />
-    <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Settings\DefaultFirstCharacterLoader.cs" />
     <Compile Include="Shared\PostMsgs.cs" />
     <Compile Include="ThwargInventory.cs" />
   </ItemGroup>
