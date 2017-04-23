@@ -11,20 +11,25 @@ namespace GenericSettingsFile
     {
         public SettingsCollection ReadSettingsFile(string filepath)
         {
-            var settings = new SettingsCollection();
             if (string.IsNullOrEmpty(filepath)) { throw new Exception("ReadSettingsFile received empty filename"); }
             if (!File.Exists(filepath)) { throw new Exception("Missing file: " + filepath); }
             using (var file = new StreamReader(filepath))
             {
-                string contents = file.ReadToEnd();
-                string[] stringSeps = new string[] { "\r\n" };
-                string[] lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string line in lines)
-                {
-                    var lineParser = new SettingsLineParser();
-                    Setting setting = lineParser.ExtractLine(line);
-                    settings.AddSetting(setting);
-                }
+                var contents = file.ReadToEnd();
+                var stringSeps = new string[] { "\r\n" };
+                var lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
+                var settings = ParseSettings(lines);
+                return settings;
+            }
+        }
+        public SettingsCollection ParseSettings(IEnumerable<string> lines)
+        {
+            var settings = new SettingsCollection();
+            foreach (string line in lines)
+            {
+                var lineParser = new SettingsLineParser();
+                Setting setting = lineParser.ExtractLine(line);
+                settings.AddSetting(setting);
             }
             return settings;
         }
