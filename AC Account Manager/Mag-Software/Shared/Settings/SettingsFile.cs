@@ -134,7 +134,7 @@ namespace Mag.Shared.Settings
 			return collection;
 		}
 
-		public static void SetNodeChilderen(string xPath, string childNodeName, IList<string> innerTexts)
+		public static void SetNodeChilderen_unused(string xPath, string childNodeName, IList<string> innerTexts)
 		{
 			// Before we save a setting, we reload the document to make sure we don't overwrite settings saved from another session.
 			ReloadXmlDocument();
@@ -177,7 +177,7 @@ namespace Mag.Shared.Settings
 			return node;
 		}
 
-		public static void SetNodeChilderen(string xPath, string childNodeName, Collection<Dictionary<string, string>> childNodeAttributes)
+        public static void SetNodeChildrenAndSaveToDisk(string xPath, string childNodeName, Collection<Dictionary<string, string>> childNodeAttributes)
 		{
 			// Before we save a setting, we reload the document to make sure we don't overwrite settings saved from another session.
 			ReloadXmlDocument();

@@ -59,14 +59,14 @@ namespace MagFilter
 
 			if (lower.StartsWith("/mf dlc set"))
 			{
-				Settings.SettingsManager.CharacterSelectionScreen.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
+				Settings.DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
 				Debug.WriteToChat("Default Login Character set to: " + CoreManager.Current.CharacterFilter.Name);
 
 				e.Eat = true;
 			}
 			else if (lower == "/mf dlc clear")
 			{
-				Settings.SettingsManager.CharacterSelectionScreen.DeleteDefaultFirstCharacter(server, zonename);
+				Settings.DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
 				Debug.WriteToChat("Default Login Character cleared");
 
 				e.Eat = true;
@@ -77,7 +77,7 @@ namespace MagFilter
 		{
 			try
 			{
-				var defaultFirstCharacters = Settings.SettingsManager.CharacterSelectionScreen.DefaultFirstCharacters;
+				var defaultFirstCharacters = Settings.DefaultFirstCharacterLoader.DefaultFirstCharacters;
 
 				foreach (var character in defaultFirstCharacters)
 				{
