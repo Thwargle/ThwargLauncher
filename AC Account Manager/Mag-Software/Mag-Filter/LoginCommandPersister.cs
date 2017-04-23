@@ -76,11 +76,11 @@ namespace MagFilter
             if (File.Exists(filepath))
             {
                 var settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
-                loginCommands.WaitMillisencds = int.Parse(settings.GetValue("WaitMilliseconds").SingleParameter);
-                int count = int.Parse(settings.GetValue("CommandCount").SingleParameter);
+                loginCommands.WaitMillisencds = int.Parse(settings.GetValue("WaitMilliseconds").SingleValue);
+                int count = int.Parse(settings.GetValue("CommandCount").SingleValue);
                 for (int i = 0; i < count; ++i)
                 {
-                    string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleParameter;
+                    string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleValue;
                     if (!string.IsNullOrEmpty(cmd))
                     {
                         log.WriteInfo("cmd: '" + cmd + "'");

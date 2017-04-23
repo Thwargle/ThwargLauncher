@@ -9,15 +9,15 @@ namespace GenericSettingsFile
         public static string GetSingleStringValue(SettingsCollection coll, string key)
         {
             var setting = coll.GetValue(key);
-            if (setting.Parameters.Count > 0)
+            if (setting.ParameterCount > 0)
             {
                 throw new Exception(string.Format("Setting '{0}' has multiple parameters", key));
             }
-            if (!setting.HasSingleParameter())
+            if (!setting.HasSingleValue)
             {
                 return null;
             }
-            return setting.SingleParameter;
+            return setting.SingleValue;
         }
         public static int GetSingleIntValue(SettingsCollection coll, string key)
         {

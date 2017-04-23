@@ -7,7 +7,7 @@ namespace GenericSettingsFile
     /// A setting is a single line in a setting file
     /// and holds the setting name along with either 
     /// One value, e.g., character:JohnDoe
-    /// or multiple values, e.g., characters=primary:JohnDoe secondary:JaneDoe
+    /// or multiple (space-separated) values, e.g., characters=primary:JohnDoe secondary:JaneDoe
     /// Single or double quotes may be used around values,
     ///     e.g., names=primary:"John Doe" secondary:'Jane Doe'
     /// </summary>
@@ -21,9 +21,12 @@ namespace GenericSettingsFile
         }
 
         public string Name { get; private set; }
+        public bool HasSingleValue { get { return SingleValue != null; } }
+        public string SingleValue { get; set; }
+        public bool HasParameters { get { return SingleValue == null; } }
+        public int ParameterCount { get { return (Parameters == null ? 0 : Parameters.Count); } }
         public IDictionary<string, string> Parameters { get; set; }
-        public bool HasSingleParameter() { return SingleParameter != null; }
-        public string SingleParameter { get; set; }
+
         // Extracting parameters from within a multivalue
         public string GetStringParam(string key)
         {
@@ -56,6 +59,7 @@ namespace GenericSettingsFile
             {
                 // Entire line is setting name, no parameters at all
                 setting = new Setting(line);
+                setting.SingleValue = "";
             }
             else
             {
@@ -65,10 +69,11 @@ namespace GenericSettingsFile
                     string value = line.Substring(pos + 1);
                     if (line[pos] == ':')
                     {
-                        setting.SingleParameter = value;
+                        setting.SingleValue = value;
                     }
                     else
                     {
+                        // extract space separated key/value parameters
                         setting.Parameters = ExtractParameters(value);
                     }
                 }
