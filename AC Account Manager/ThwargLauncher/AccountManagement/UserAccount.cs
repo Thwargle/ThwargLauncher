@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -39,16 +40,16 @@ namespace ThwargLauncher
                 MagFilter.ServerCharacterListByAccount charlist = null;
                 if (characterBook != null)
                 {
-                    charlist = characterBook.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);   
+                    charlist = characterBook.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);
                 }
                 // Construct server & character data
-                var server = new Server(serverItem);
+                var server = new Server(this, serverItem);
 
                 server.ChosenCharacter = "None";
 
+                LoadCharacterListFromMagFilterData(server, charlist);
                 if (charlist != null)
                 {
-                    LoadCharacterListFromMagFilterData(server, charlist.CharacterList);
                     this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
                 }
                 server.PropertyChanged += ServerPropertyChanged;
@@ -56,7 +57,7 @@ namespace ThwargLauncher
                 _servers.Add(server);
             }
         }
-        public void LoadCharacterListFromMagFilterData(Server server, List<MagFilter.Character> magchars)
+        public void LoadCharacterListFromMagFilterData(Server server, MagFilter.ServerCharacterListByAccount charlist)
         {
             server.AvailableCharacters.Clear();
             //create and add a default character of none.
@@ -66,16 +67,21 @@ namespace ThwargLauncher
                 Name = "None"
             };
             server.AvailableCharacters.Add(defaultChar);
-            if (magchars != null)
+
+            if (charlist != null)
             {
-                foreach (var dllChar in magchars)
+                List<MagFilter.Character> magchars = charlist.CharacterList;
+                if (magchars != null)
                 {
-                    var acctChar = new AccountCharacter()
+                    foreach (var dllChar in magchars)
                     {
-                        Id = 99, // TODO - not used
-                        Name = dllChar.Name
-                    };
-                    server.AvailableCharacters.Add(acctChar);
+                        var acctChar = new AccountCharacter()
+                        {
+                            Id = 99, // TODO - not used
+                            Name = dllChar.Name
+                        };
+                        server.AvailableCharacters.Add(acctChar);
+                    }
                 }
             }
         }
@@ -95,10 +101,6 @@ namespace ThwargLauncher
         {
             OnPropertyChanged("AccountSummary");
         }
-        public void NotifyVisibleServersChanged()
-        {
-            OnPropertyChanged("VisibleServers");
-        }
         public void NotifyAvailableCharactersChanged()
         {
             OnPropertyChanged("AvailableCharacters");
@@ -110,13 +112,21 @@ namespace ThwargLauncher
             {
                 OnPropertyChanged("AccountSummary");
             }
+            if (e.PropertyName == "ServerSelected" || e.PropertyName == "VisibilitySetting")
+            {
+                OnPropertyChanged("SelectedServers");
+            }
+            if (e.PropertyName == "VisibilitySetting")
+            {
+                OnPropertyChanged("VisibleServers");
+            }
         }
 
         //private string _name = "Unspecified";
-        private readonly List<Server> _servers = new List<Server>();
+        private readonly ObservableCollection<Server> _servers = new ObservableCollection<Server>();
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
 
-        public List<Server> Servers
+        public ObservableCollection<Server> Servers
         {
             get { return _servers; }
         }
@@ -124,10 +134,15 @@ namespace ThwargLauncher
         {
             get { return _servers.Where(x => x.ServerSelected).ToList(); }
         }
-        public List<Server> VisibleServers
+        public ObservableCollection<Server> VisibleServers
         {
-            get { return _servers.Where(x => x.VisibilitySetting == ServerModel.VisibilityEnum.Visible).ToList(); }
+            get { return new ObservableCollection<Server>(_servers.Where(x => Visible(x))); }
         }
+        public ObservableCollection<Server> SelectedServers
+        {
+            get { return new ObservableCollection<Server>(_servers.Where(x => x.ServerSelected && Visible(x))); }
+        }
+        private static bool Visible(Server server) { return server.VisibilitySetting == ServerModel.VisibilityEnum.Visible; }
 
         public string AccountSummary
         {
@@ -138,29 +153,8 @@ namespace ThwargLauncher
                 {
                     if (server.ServerSelected)
                     {
-                        if (ServerHasChosenCharacter(server))
-                        {
-                            string entry = string.Format("{0}{1}->{2}", server.ServerStatusSymbol, server.ServerName, server.ChosenCharacter);
-                            // architectural problem getting to game session here
-                            GameSession session = AppCoordinator.GetTheGameSessionByServerAccount(serverName: server.ServerName, accountName: this.Name);
-                            if (session != null)
-                            {
-                                if (session.UptimeSeconds > 0)
-                                {
-                                    entry += " [" + SummarizeUptime(session) + "]";
-                                }
-                                if (session.TeamCount > 0)
-                                {
-                                    entry += " (" + session.TeamList + ")";
-                                }
-                            }
-                            serverInfos.Add(entry);
-                        }
-                        else
-                        {
-                            string entry = server.ServerName;
-                            serverInfos.Add(entry);
-                        }
+                        string entry = server.StatusSummary;
+                        serverInfos.Add(entry);
                     }
                 }
                 string text = DisplayName;
@@ -170,29 +164,6 @@ namespace ThwargLauncher
                 }
                 return text;
             }
-        }
-        private string SummarizeUptime(GameSession session)
-        {
-            if (session.UptimeSeconds < 60)
-            {
-                return string.Format("{0}s", session.UptimeSeconds);
-            }
-            if (session.UptimeSeconds < 60 * 60)
-            {
-                return string.Format("{0}m", session.UptimeSeconds / 60);
-            }
-            if (session.UptimeSeconds < 60 * 60 * 24)
-            {
-                return string.Format("{0}h", session.UptimeSeconds / (60 * 60));
-            }
-            return string.Format("{0}d", session.UptimeSeconds / (60 * 60 * 24));
-
-        }
-        private bool ServerHasChosenCharacter(Server server)
-        {
-            if (string.IsNullOrEmpty(server.ChosenCharacter)) { return false; }
-            if (server.ChosenCharacter == "None") { return false; }
-            return true;
         }
         public string GetPropertyByName(string key) { return GetPropertyValue(key); }
         private string GetPropertyValue(string key)

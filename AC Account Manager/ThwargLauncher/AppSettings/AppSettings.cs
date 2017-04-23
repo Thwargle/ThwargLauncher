@@ -11,6 +11,8 @@ namespace PersistenceHelper
     {
         string GetString(string key, string defval = "");
         void SetString(string key, string value);
+        bool GetBool(string key, bool defval = false);
+        void SetBool(string key, bool value);
         void Save();
     }
     class SettingsFactory
@@ -60,6 +62,17 @@ namespace PersistenceHelper
             InitializeIfNeeded();
             _values[key] = value;
         }
+        public bool GetBool(string key, bool defval = false)
+        {
+            InitializeIfNeeded();
+            if (!_values.ContainsKey(key)) { return defval; }
+            return ObjToBool(_values[key], defval);
+        }
+        public void SetBool(string key, bool value)
+        {
+            InitializeIfNeeded();
+            _values[key] = BoolToString(value);
+        }
         private void InitializeIfNeeded()
         {
             if (_values == null) { Load(); }
@@ -74,6 +87,28 @@ namespace PersistenceHelper
             {
                 return obj.ToString();
             }
+        }
+        private bool ObjToBool(object obj, bool defval)
+        {
+            bool bv = true;
+            string debug = bv.ToString();
+            bv = false;
+            string d2 = bv.ToString();
+            if (obj == null) { return defval; }
+            string text = obj.ToString();
+            if (EqStr(text, "True") || EqStr(text, "Yes")) { return true; }
+            if (EqStr(text, "False") || EqStr(text, "No")) { return false; }
+            bool bval = defval;
+            bool.TryParse(text, out bval);
+            return bval;
+        }
+        private string BoolToString(bool value)
+        {
+            return (value ? "True" : "False");
+        }
+        private static bool EqStr(string text1, string text2)
+        {
+            return (string.Compare(text1, text2, StringComparison.InvariantCultureIgnoreCase) == 0);
         }
         public void Load()
         {

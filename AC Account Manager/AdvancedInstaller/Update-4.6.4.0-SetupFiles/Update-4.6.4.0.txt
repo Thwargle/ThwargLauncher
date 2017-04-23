@@ -4,9 +4,9 @@
 Name = ThwargLauncher
 ProductVersion = 4.6.4.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7865993
+Size = 7865995
 ReleaseDate = 17/04/2017
-MD5 = aa52e97a6a3d348f71b3af195e65090a
+MD5 = 7e195a6361caec708461513831a21e6f
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version

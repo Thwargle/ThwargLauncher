@@ -69,7 +69,7 @@ namespace ThwargLauncher
                         newNameList.Sort();
                         if (!currentNameList.SequenceEqual(newNameList))
                         {
-                            uacct.LoadCharacterListFromMagFilterData(srvr, newMagDataList.CharacterList);
+                            uacct.LoadCharacterListFromMagFilterData(srvr, newMagDataList);
                             srvr.NotifyAvailableCharactersChanged();
                         }
                     }

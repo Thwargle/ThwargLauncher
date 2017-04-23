@@ -65,7 +65,7 @@ namespace MagFilter
         public MagFilterCommandParser(MagFilterCommandExecutor cmdExecutor)
         {
             executor = cmdExecutor;
-            cmdHandlers.Add("alcmq", null, "After Login Complete Message Queue (add, clear, wait set, wait clear)");
+            cmdHandlers.Add("alcmq", null, "After Login Complete Message Queue (add, clear, list, show, wait set, wait clear). Global commands are updated by using '/mfglobal'");
             cmdHandlers.Add("dlc", null, "Default Login Character (set, clear)");
             cmdHandlers.Add("lcmq", null, "Login Complete Message Queue (add, clear)");
             cmdHandlers.Add("lnq", null, "Login Next Queue (set, clear)");

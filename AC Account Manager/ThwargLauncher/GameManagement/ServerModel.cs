@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Bindable = TwMoch.Framework.Bindable;
 
 namespace ThwargLauncher
 {
@@ -11,9 +12,8 @@ namespace ThwargLauncher
     /// This is independent of accounts or runnning games
     /// This is the master data in memory, and various displays bind to this data
     /// </summary>
-    public class ServerModel : INotifyPropertyChanged
+    public class ServerModel : Bindable
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         public enum ServerUpStatusEnum { Unknown, Down, Up };
         public enum ServerSourceEnum { User, Published };
         public enum ServerEmuEnum { Phat, Ace };
@@ -44,12 +44,18 @@ namespace ThwargLauncher
             ServerModel server = new ServerModel();
             server.ServerId = data.ServerId;
             server.ServerName = data.ServerName;
+            server.ServerAlias = data.ServerAlias;
             server.ServerDescription = data.ServerDesc;
             server.ServerIpAndPort = data.ConnectionString;
             server.EMU = data.EMU;
             server.RodatSetting = data.RodatSetting;
             server.VisibilitySetting = data.VisibilitySetting;
             server.ServerSource = data.ServerSource;
+            server.ConnectionStatus = "?";
+            server.ConnectionColor = System.Windows.Media.Brushes.AntiqueWhite;
+            server.UpStatus = ServerUpStatusEnum.Unknown;
+            server.StatusOfflineIntervalSeconds = 15;
+            server.StatusOnlineIntervalSeconds = 300;
             return server;
         }
         internal bool IsEqual(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
@@ -59,188 +65,46 @@ namespace ThwargLauncher
             if (ServerId != data.ServerId) { return false; } // using exact Id match, not just equivalent data
             return true;
         }
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        private string _serverName;
         public string ServerName
         {
-            get { return _serverName; }
-            set
-            {
-                if (_serverName != value)
-                {
-                    _serverName = value;
-                    OnPropertyChanged("ServerName");
-                }
-            }
+            get { return Get<string>(); }
+            set { if (Set(value)) { NotifyOfPropertyChange(() => ServerDisplayAlias); } }
         }
-        private string _serverDescription;
-        public string ServerDescription
+        public string ServerAlias
         {
-            get { return _serverDescription; }
-            set
-            {
-                if (_serverDescription != value)
-                {
-                    _serverDescription = value;
-                    OnPropertyChanged("ServerDescription");
-                }
-            }
+            get { return Get<string>(); }
+            set { if (Set(value)) { NotifyOfPropertyChange(() => ServerDisplayAlias); } }
         }
-        private bool _serverLoginEnabled;
-        public bool ServerLoginEnabled
-        {
-            get { return _serverLoginEnabled; }
-            set
-            {
-                if (_serverLoginEnabled != value)
-                {
-                    _serverLoginEnabled = value;
-                    OnPropertyChanged("ServerLoginEnabled");
-                }
-            }
-        }
-        private string _serverIpAndPort;
-        public string ServerIpAndPort
-        {
-            get { return _serverIpAndPort; }
-            set
-            {
-                if (_serverIpAndPort != value)
-                {
-                    _serverIpAndPort = value;
-                    OnPropertyChanged("ServerIpAndPort");
-                }
-            }
-        }
-        private ServerEmuEnum _emu;
-        public ServerEmuEnum EMU
-        {
-            get { return _emu; }
-            set
-            {
-                if (_emu != value)
-                {
-                    _emu = value;
-                    OnPropertyChanged("EMU");
-                }
-            }
-        }
-        private RodatEnum _rodatSetting;
-        public RodatEnum RodatSetting
-        {
-            get { return _rodatSetting; }
-            set
-            {
-                if (_rodatSetting != value)
-                {
-                    _rodatSetting = value;
-                    OnPropertyChanged("RodatSetting");
-                }
-            }
-        }
-        private VisibilityEnum _visibilitySetting = VisibilityEnum.Visible;
-        public VisibilityEnum VisibilitySetting
-        {
-            get { return _visibilitySetting; }
-            set
-            {
-                if (_visibilitySetting != value)
-                {
-                    _visibilitySetting = value;
-                    OnPropertyChanged("VisibilitySetting");
-                }
-            }
-        }
-        private string _connectionStatus = "?";
-        public string ConnectionStatus
-        {
-            get { return _connectionStatus; }
-            set
-            {
-                if (_connectionStatus != value)
-                {
-                    _connectionStatus = value;
-                    OnPropertyChanged("ConnectionStatus");
-                }
-            }
-        }
-        private System.Windows.Media.SolidColorBrush _connectionColor = System.Windows.Media.Brushes.AntiqueWhite;
-        public System.Windows.Media.SolidColorBrush ConnectionColor
-        {
-            get { return _connectionColor; }
-            set
-            {
-                if (_connectionColor != value)
-                {
-                    _connectionColor = value;
-                    OnPropertyChanged("ConnectionColor");
-                }
-            }
-        }
-        private ServerUpStatusEnum _upStatus = ServerUpStatusEnum.Unknown;
+        public string ServerDisplayAlias { get { return (!string.IsNullOrEmpty(ServerAlias) ? ServerAlias : ServerName); } }
+        public string ServerDescription { get { return Get<string>(); } set { Set(value); } }
+        public bool ServerLoginEnabled { get { return Get<bool>(); } set { Set(value); } }
+        public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
+        public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
+        public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
+        public VisibilityEnum VisibilitySetting { get { return Get<VisibilityEnum>(); } set { Set(value); } }
+        public string ConnectionStatus { get { return Get<string>(); } set { Set(value); } }
+        public System.Windows.Media.SolidColorBrush ConnectionColor { get { return Get<System.Windows.Media.SolidColorBrush>(); } set { Set(value); } }
         public ServerUpStatusEnum UpStatus
         {
-            get { return _upStatus; }
-            set
-            {
-                if (_upStatus != value)
+            get { return Get<ServerUpStatusEnum>(); }
+            set {
+                // We have to adjust ConnectionColor any time UpStatus changes
+                if (Set(value)) 
                 {
-                    _upStatus = value;
-                    ConnectionColor = GetBrushColorFromUpStatus(_upStatus);
-                    OnPropertyChanged("UpStatus");
+                    ConnectionColor = GetBrushColorFromUpStatus(UpStatus);
                 }
             }
         }
-        private ServerSourceEnum _serverSource = ServerSourceEnum.User;
-        public ServerSourceEnum ServerSource
-        {
-            get { return _serverSource; }
-            set
-            {
-                if (_serverSource != value)
-                {
-                    _serverSource = value;
-                    OnPropertyChanged("ServerSource");
-                }
-            }
-        }
-        public bool IsUserServer { get { return _serverSource == ServerSourceEnum.User; } }
-        private int _statusOfflineIntervalSeconds = 15;
-        public int StatusOfflineIntervalSeconds
-        {
-            get { return _statusOfflineIntervalSeconds; }
-            set
-            {
-                if (_statusOfflineIntervalSeconds != value)
-                {
-                    _statusOfflineIntervalSeconds = value;
-                    OnPropertyChanged("StatusOfflineIntervalSeconds");
-                }
-            }
-        }
-        private int _statusOnlineIntervalSeconds = 300;
-        public int StatusOnlineIntervalSeconds
-        {
-            get { return _statusOnlineIntervalSeconds; }
-            set
-            {
-                if (_statusOnlineIntervalSeconds != value)
-                {
-                    _statusOnlineIntervalSeconds = value;
-                    OnPropertyChanged("StatusOnlineIntervalSeconds");
-                }
-            }
-        }
+        public ServerSourceEnum ServerSource { get { return Get<ServerSourceEnum>(); } set { Set(value); } }
+        public bool IsUserServer { get { return ServerSource == ServerSourceEnum.User; } }
+        public int StatusOfflineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
+        public int StatusOnlineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
         public Guid ServerId { get; set; }
        
-        private System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
+        private static System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
         {
-            switch (_upStatus)
+            switch (upStatus)
             {
                 case ServerUpStatusEnum.Down: return System.Windows.Media.Brushes.Red;
                 case ServerUpStatusEnum.Up: return System.Windows.Media.Brushes.Lime;

@@ -1,7 +1,7 @@
 ﻿
 namespace ThwargLauncher
 {
-    enum ServerAccountStatusEnum
+    public enum ServerAccountStatusEnum
     {
         None,
         Starting,

@@ -25,7 +25,10 @@ namespace ThwargLauncher.AppSettings
         {
             if (!IsShiftDown())
             {
-                window.SetPlacement(settings.GetString(key, null));
+                // string loaded from disk
+                string placementSerialized = settings.GetString(key, null);
+                // string used to set WPF window placement
+                window.SetPlacement(placementSerialized);
             }
         }
         private static bool IsShiftDown()
@@ -36,7 +39,10 @@ namespace ThwargLauncher.AppSettings
         {
             if (!IsShiftDown())
             {
-                settings.SetString(key, window.GetPlacement());
+                // WPF Window placement flattened into string
+                string placementSerialized = window.GetPlacement();
+                // string saved to disk
+                settings.SetString(key, placementSerialized);
                 settings.Save();
             }
         }

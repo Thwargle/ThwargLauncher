@@ -98,10 +98,15 @@
       <DependentUpon>AddServer.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
+    <Compile Include="AccountManagement\EditCharactersViewModel.cs" />
+    <Compile Include="AccountManagement\EditCharactersWindow.xaml.cs">
+      <DependentUpon>EditCharactersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AccountManagement\EditServersViewModel.cs" />
     <Compile Include="AccountManagement\EditServersWindow.xaml.cs">
       <DependentUpon>EditServersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AccountManagement\UserAcctViewModel.cs" />
     <Compile Include="AppCoordinator.cs" />
     <Compile Include="AppSettings\JSON.cs" />
     <Compile Include="AppSettings\WpfWindowPlacementSetting.cs" />
@@ -141,10 +146,13 @@
     </Compile>
     <Compile Include="SimpleLaunch\SimpleLaunchWindowViewModel.cs" />
     <Compile Include="SimpleLaunch\SimpleServerItem.cs" />
+    <Compile Include="UtilityCode\AddressParser.cs" />
+    <Compile Include="UtilityCode\Bindable.cs" />
     <Compile Include="UtilityCode\ConfigSettings.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="UtilityCode\DelegateCommand.cs" />
     <Compile Include="GameLaunching\GameLauncher.cs" />
+    <Compile Include="UtilityCode\ExpressionExtensions.cs" />
     <Compile Include="UtilityCode\getOS.cs" />
     <Compile Include="HelpWindow\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
@@ -166,6 +174,7 @@
     <Compile Include="UtilityCode\PropertyChangedNotifier.cs" />
     <Compile Include="UtilityCode\PropertyDependencyManager.cs" />
     <Compile Include="UtilityCode\StringUtil.cs" />
+    <Compile Include="UtilityCode\ToolTipContentConverter.cs" />
     <Compile Include="UtilityCode\WpfEnumHelper.cs" />
     <Compile Include="WebService\GameCommand.cs" />
     <Compile Include="WebService\GameSetting.cs" />
@@ -186,6 +195,10 @@
     <Page Include="AccountManagement\AddUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountManagement\EditCharactersWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="AccountManagement\EditServersWindow.xaml">
       <SubType>Designer</SubType>

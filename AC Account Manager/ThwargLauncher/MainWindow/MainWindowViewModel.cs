@@ -28,6 +28,7 @@ namespace ThwargLauncher
         SimpleLaunchWindow _simpleLaunchWindow = null;
         SimpleLaunchWindowViewModel _simpleLaunchViewModel = null;
         private bool _switchingToMainWindow = false;
+        private ObservableCollection<UserAcctViewModel> _userAccountViewModels = new ObservableCollection<UserAcctViewModel>();
 
         public MainWindowViewModel(AccountManager accountManager, GameSessionMap gameSessionMap, Configurator configurator)
         {
@@ -39,55 +40,39 @@ namespace ThwargLauncher
             _gameSessionMap = gameSessionMap;
             _configurator = configurator;
 
-            SubscribeToServerPropertyChanges();
+            _accountManager.UserAccounts.CollectionChanged += UserAccountsCollectionChanged;
 
-            NewProfileCommand = new DelegateCommand(
-                    CreateNewProfile
-                );
-            NextProfileCommand = new DelegateCommand(
-                    GoToNextProfile
-                );
-            PrevProfileCommand = new DelegateCommand(
-                    GoToPrevProfile
-                );
-            DeleteProfileCommand = new DelegateCommand(
-                    DeleteProfile
-                );
+            NewProfileCommand = new DelegateCommand(CreateNewProfile);
+            NextProfileCommand = new DelegateCommand(GoToNextProfile);
+            PrevProfileCommand = new DelegateCommand(GoToPrevProfile);
+            DeleteProfileCommand = new DelegateCommand(DeleteProfile);
+            EditCharactersCommand = new DelegateCommand(EditCharacters);
             LoadStatusSymbols();
         }
-        private void SubscribeToServerPropertyChanges()
+        void UserAccountsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (ServerModel server in ServerManager.ServerList)
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
             {
-                server.PropertyChanged += ServerPropertyChanged;
-            }
-            // Wire up handlers for new servers
-            ServerManager.ServerList.CollectionChanged += ServerListCollectionChanged;
-        }
-        void ServerListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (ServerModel server in e.NewItems)
-                {
-                    server.PropertyChanged += ServerPropertyChanged;
-                }
+                _userAccountViewModels.Clear();
+                return;
             }
             if (e.OldItems != null)
             {
-                foreach (ServerModel server in e.OldItems)
+                foreach (UserAccount ua in e.OldItems)
                 {
-                    server.PropertyChanged -= ServerPropertyChanged;
+                    UserAcctViewModel avm = _userAccountViewModels.FirstOrDefault(vm => vm.Account == ua);
+                    if (avm != null)
+                    {
+                        _userAccountViewModels.Remove(avm);
+                    }
                 }
             }
-        }
-        void ServerPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "VisibilitySetting")
+            if (e.NewItems != null)
             {
-                foreach (var userAcct in KnownUserAccounts)
+                foreach (UserAccount ua in e.NewItems)
                 {
-                    userAcct.NotifyVisibleServersChanged();
+                    UserAcctViewModel avm = new UserAcctViewModel(ua);
+                    _userAccountViewModels.Add(avm);
                 }
             }
         }
@@ -156,13 +141,7 @@ namespace ThwargLauncher
             SaveCurrentProfile();
         }
 
-        public ObservableCollection<UserAccount> KnownUserAccounts
-        {
-            get
-            {
-                return _accountManager.UserAccounts;
-            }
-        }
+        public ObservableCollection<UserAcctViewModel> KnownUserAccounts { get { return _userAccountViewModels; } }
         public string SelectedUserAccountName { get; set; }
         private Profile CurrentProfile { get; set; }
         public string CurrentProfileName
@@ -188,6 +167,7 @@ namespace ThwargLauncher
         public ICommand PrevProfileCommand { get; private set; }
         public ICommand NewProfileCommand { get; private set; }
         public ICommand DeleteProfileCommand { get; private set; }
+        public ICommand EditCharactersCommand { get; private set; }
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -200,15 +180,15 @@ namespace ThwargLauncher
         {
             foreach (var account in KnownUserAccounts)
             {
-                account.AccountLaunchable = CurrentProfile.RetrieveAccountState(account.Name); ;
+                account.AccountLaunchable = CurrentProfile.RetrieveAccountState(account.AccountName); ;
                 foreach (var server in account.Servers)
                 {
-                    var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.Name, serverName: server.ServerName);
+                    var charSetting = CurrentProfile.RetrieveCharacterSetting(accountName: account.AccountName, serverName: server.ServerName);
                     if (charSetting != null)
                     {
-                        var state = _gameSessionMap.GetGameSessionStateByServerAccount(server.ServerName, account.Name);
+                        var state = _gameSessionMap.GetGameSessionStateByServerAccount(server.ServerName, account.AccountName);
                         string statusSymbol = GetStatusSymbol(state);
-                        server.ServerStatusSymbol = statusSymbol;
+                        server.SetAccountServerStatus(state, statusSymbol);
                         server.ServerSelected = charSetting.Active;
                         server.ChosenCharacter = charSetting.ChosenCharacter;
                         if (string.IsNullOrEmpty(server.ChosenCharacter))
@@ -233,11 +213,11 @@ namespace ThwargLauncher
         {
             foreach (var account in this.KnownUserAccounts)
             {
-                CurrentProfile.StoreAccountState(account.Name, account.AccountLaunchable);
+                CurrentProfile.StoreAccountState(account.AccountName, account.AccountLaunchable);
                 foreach (var server in account.Servers)
                 {
                     var charSetting = new CharacterSetting();
-                    charSetting.AccountName = account.Name;
+                    charSetting.AccountName = account.AccountName;
                     charSetting.ServerName = server.ServerName;
                     charSetting.Active = server.ServerSelected;
                     charSetting.ChosenCharacter = server.ChosenCharacter;
@@ -286,6 +266,16 @@ namespace ThwargLauncher
                 OnPropertyChanged("CurrentProfileName");
             }
         }
+        public void WindowClosing()
+        {
+            SaveCurrentProfile();
+            foreach (var acct in _userAccountViewModels)
+            {
+                acct.SaveSettings();
+            }
+            var settings = PersistenceHelper.SettingsFactory.Get();
+            settings.Save();
+        }
         public void SaveCurrentProfile()
         {
             UpdateProfileFromCurrentModelSettings();
@@ -311,13 +301,15 @@ namespace ThwargLauncher
             AccountServer acctServer = FindServer(serverName, accountName);
             if (acctServer != null)
             {
-                acctServer.tServer.ServerStatusSymbol = GetStatusSymbol(status);
+                string symbol = GetStatusSymbol(status);
+                acctServer.tServer.SetAccountServerStatus(status, symbol);
                 acctServer.tAccount.NotifyAccountSummaryChanged();
             }
         }
         internal void ExecuteGameCommand(string serverName, string accountName, string command)
         {
             AccountServer acctServer = FindServer(serverName, accountName);
+            if (acctServer == null) { return; }
             Logger.WriteInfo(string.Format(
                 "QQQ - not currently invoked -- Command received from server='{0}', account='{1}': {2}",
                 serverName, accountName, command));
@@ -334,16 +326,12 @@ namespace ThwargLauncher
         class AccountServer { public Server tServer; public UserAccount tAccount; }
         private AccountServer FindServer(string serverName, string accountName)
         {
-            foreach (var account in KnownUserAccounts)
-            {
-                if (account.Name == accountName)
-                {
-                    var server = account.Servers.Find(x => x.ServerName == serverName);
-                    AccountServer acctServer = new AccountServer() { tAccount = account, tServer = server };
-                    return acctServer;
-                }
-            }
-            return null;
+            var account = KnownUserAccounts.FirstOrDefault(x => x.AccountName == accountName);
+            if (account == null) { return null; }
+            var server = account.Servers.FirstOrDefault(x => x.ServerName == serverName);
+            if (server == null) { return null; }
+            AccountServer acctServer = new AccountServer() { tAccount = account.Account, tServer = server };
+            return acctServer;
         }
         public void NotifyAvailableCharactersChanged()
         {
@@ -386,7 +374,7 @@ namespace ThwargLauncher
                 var hwvm = new HelpWindowViewModel(_configurator);
                 hwvm.OpeningSimpleLauncherEvent += OnSimpleLauncher;
                 _helpWindow = new HelpWindow(hwvm);
-                _helpWindow.Closing += (s,e) => _helpWindow = null;
+                _helpWindow.Closing += (s, e) => _helpWindow = null;
             }
             _helpWindow.Activate();
             _helpWindow.Show();
@@ -441,6 +429,12 @@ namespace ThwargLauncher
                 RequestShowMainWindowEvent();
             }
             _switchingToMainWindow = false;
+        }
+        private void EditCharacters()
+        {
+            var vm = new AccountManagement.EditCharactersViewModel(_accountManager);
+            var win = new AccountManagement.EditCharactersWindow(vm);
+            win.Show();
         }
 
         void OnRequestExecuteSimpleLaunch(LaunchItem launchItem)
