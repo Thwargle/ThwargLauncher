@@ -57,14 +57,14 @@ namespace MagFilter
 
 			if (lower.StartsWith("/mf dlc set"))
 			{
-				Settings.DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
+				DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
 				Debug.WriteToChat("Default Login Character set to: " + CoreManager.Current.CharacterFilter.Name);
 
 				e.Eat = true;
 			}
 			else if (lower == "/mf dlc clear")
 			{
-				Settings.DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
+				DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
 				Debug.WriteToChat("Default Login Character cleared");
 
 				e.Eat = true;

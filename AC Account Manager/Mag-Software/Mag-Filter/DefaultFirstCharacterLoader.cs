@@ -4,7 +4,7 @@ using System.Xml;
 
 using Mag.Shared.Settings;
 
-namespace MagFilter.Settings
+namespace MagFilter
 {
 	static class DefaultFirstCharacterLoader
 	{

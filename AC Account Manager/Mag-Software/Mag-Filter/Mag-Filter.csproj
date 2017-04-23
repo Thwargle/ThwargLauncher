@@ -115,7 +115,7 @@
     <Compile Include="SettingsFile.cs" />
     <Compile Include="SettingHelpers.cs" />
     <Compile Include="SettingsLineParser.cs" />
-    <Compile Include="Settings\DefaultFirstCharacterLoader.cs" />
+    <Compile Include="DefaultFirstCharacterLoader.cs" />
     <Compile Include="Shared\PostMsgs.cs" />
     <Compile Include="ThwargInventory.cs" />
   </ItemGroup>
@@ -125,6 +125,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
