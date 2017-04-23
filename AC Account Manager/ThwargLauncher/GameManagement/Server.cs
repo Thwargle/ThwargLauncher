@@ -29,13 +29,17 @@ namespace ThwargLauncher
 
         void ServerItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ServerName" || e.PropertyName == "ServerDescription")
+            if (e.PropertyName == "ServerName" || e.PropertyName == "ServerAlias" || e.PropertyName == "ServerDescription")
             {
                 NotifyOfPropertyChange(() => ServerNameAndDescription);
             }
             if (e.PropertyName == "UpStatus")
             {
                 NotifyOfPropertyChange(() => UpStatusString);
+            }
+            if (e.PropertyName == "ServerName" || e.PropertyName == "ServerAlias")
+            {
+                NotifyOfPropertyChange(() => StatusSummary);
             }
             NotifyOfPropertyChange(e.PropertyName);
         }
@@ -73,7 +77,7 @@ namespace ThwargLauncher
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }
         public string IsPublished {  get { return _myServer.ServerSource == ServerModel.ServerSourceEnum.Published ? "True" : "False"; } }
         public string ServerNameAndDescription
-        {
+        { // Used in account/server detail line
             get
             {
                 StringBuilder txt = new StringBuilder();
@@ -96,7 +100,7 @@ namespace ThwargLauncher
         public ObservableCollection<AccountCharacter> AvailableCharacters { get; private set; }
         public string ChosenCharacter { get { return Get<string>(); } set { Set(value); } }
         public string StatusSummary
-        {
+        { // used in account expander header
             get
             {
                 string entry = ServerDisplayAlias;
