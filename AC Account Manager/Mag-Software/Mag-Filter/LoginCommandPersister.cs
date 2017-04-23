@@ -75,7 +75,7 @@ namespace MagFilter
             string filepath = GetFilepath(global);
             if (File.Exists(filepath))
             {
-                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                var settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
                 loginCommands.WaitMillisencds = int.Parse(settings.GetValue("WaitMilliseconds").SingleParameter);
                 int count = int.Parse(settings.GetValue("CommandCount").SingleParameter);
                 for (int i = 0; i < count; ++i)

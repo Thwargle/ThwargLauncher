@@ -112,7 +112,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyDomain.cs" />
     <Compile Include="ServerCharacterListByAccount.cs" />
-    <Compile Include="Settings\SettingsFile.cs" />
+    <Compile Include="Settings\SettingsCollection.cs" />
+    <Compile Include="Settings\SettingsFileLoader.cs" />
     <Compile Include="Settings\SettingHelpers.cs" />
     <Compile Include="Settings\SettingsLineParser.cs" />
     <Compile Include="DefaultFirstCharacterLoader.cs" />

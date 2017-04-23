@@ -54,7 +54,7 @@ namespace MagFilter.Channels
                 SettingsCollection settings = null; 
                 try
                 {
-                    settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                    settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
                 }
                 catch (Exception exc)
                 {

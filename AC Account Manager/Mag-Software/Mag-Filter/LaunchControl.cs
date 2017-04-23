@@ -88,7 +88,7 @@ namespace MagFilter
                     log.WriteError("No launch file found: '{0}'", filepath);
                     return info;
                 }
-                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                var settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
 
                 info.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
                 if (!info.FileVersion.StartsWith(LaunchInfo.MASTER_FILE_VERSION_COMPAT))
@@ -146,7 +146,7 @@ namespace MagFilter
                 if (string.IsNullOrEmpty(filepath)) { return info; }
                 if (!File.Exists(filepath)) { return info; }
 
-                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                var settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
 
                 info.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
                 if (!info.FileVersion.StartsWith(LaunchResponse.MASTER_FILE_VERSION_COMPAT))
@@ -219,7 +219,7 @@ namespace MagFilter
                 if (string.IsNullOrEmpty(filepath)) { return info; }
                 if (!File.Exists(filepath)) { return info; }
 
-                var settings = (new SettingsFileParser()).ReadSettingsFile(filepath);
+                var settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
 
                 info.Status.FileVersion = SettingHelpers.GetSingleStringValue(settings, "FileVersion");
                 if (!info.Status.FileVersion.StartsWith(HeartbeatGameStatus.MASTER_FILE_VERSION_COMPAT))
