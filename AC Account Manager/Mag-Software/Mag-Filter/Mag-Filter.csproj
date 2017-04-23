@@ -112,9 +112,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyDomain.cs" />
     <Compile Include="ServerCharacterListByAccount.cs" />
-    <Compile Include="SettingsFile.cs" />
-    <Compile Include="SettingHelpers.cs" />
-    <Compile Include="SettingsLineParser.cs" />
+    <Compile Include="Settings\SettingsFile.cs" />
+    <Compile Include="Settings\SettingHelpers.cs" />
+    <Compile Include="Settings\SettingsLineParser.cs" />
     <Compile Include="DefaultFirstCharacterLoader.cs" />
     <Compile Include="Shared\PostMsgs.cs" />
     <Compile Include="ThwargInventory.cs" />
@@ -126,9 +126,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Settings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetPath)" "$(SolutionDir)..\..\ThwargLauncher\bin\Debug"</PostBuildEvent>
