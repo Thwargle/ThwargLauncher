@@ -21,6 +21,7 @@ namespace ThwargLauncher.GameManagement
         {
             public Guid ServerId;
             public string ServerName;
+            public string ServerAlias;
             public string ServerDesc;
             public string ConnectionString;
             public ServerModel.ServerEmuEnum EMU;
@@ -32,6 +33,7 @@ namespace ThwargLauncher.GameManagement
         public class PublishedServerLocalInfo
         {
             public string Name;
+            public string Alias;
             public Guid Id;
             public ServerModel.VisibilityEnum VisibilitySetting;
         }
@@ -63,6 +65,7 @@ namespace ThwargLauncher.GameManagement
             var xelem = new XElement("ServerItem",
                             new XElement("id", server.ServerId),
                             new XElement("name", server.ServerName),
+                            new XElement("alias", server.ServerAlias),
                             new XElement("description", server.ServerDescription),
                             new XElement("emu", server.EMU),
                             new XElement("connect_string", server.ServerIpAndPort),
@@ -84,7 +87,6 @@ namespace ThwargLauncher.GameManagement
             {
                 using (XmlTextReader reader = new XmlTextReader(filepath))
                 {
-
                     var xmlDoc2 = new XmlDocument();
                     xmlDoc2.Load(reader);
                     foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
@@ -98,6 +100,7 @@ namespace ThwargLauncher.GameManagement
                         }
                         si.ServerId = guid;
                         si.ServerName = GetSubvalue(node, "name");
+                        si.ServerAlias = GetOptionalSubvalue(node, "alias", null);
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
@@ -137,6 +140,7 @@ namespace ThwargLauncher.GameManagement
                             info.Name = si.ServerName;
                             info.Id = Guid.NewGuid();
                             info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
+                            info.Alias = null;
                             publishedInfos[si.ServerName] = info;
                         }
                         else
@@ -144,6 +148,7 @@ namespace ThwargLauncher.GameManagement
                             info = publishedInfos[si.ServerName];
                         }
                         si.ServerId = info.Id;
+                        si.ServerAlias = info.Alias;
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
@@ -182,7 +187,6 @@ namespace ThwargLauncher.GameManagement
             {
                 using (XmlTextReader reader = new XmlTextReader(filepath))
                 {
-
                     var xmlDoc2 = new XmlDocument();
                     xmlDoc2.Load(reader);
                     foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
@@ -194,6 +198,7 @@ namespace ThwargLauncher.GameManagement
                         info.Id = guid;
                         string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible"); // optional for upgrade by developers
                         info.VisibilitySetting = ParseVisibility(visibilitystr, ServerModel.VisibilityEnum.Visible);
+                        info.Alias = GetOptionalSubvalue(node, "alias", null);
                         publishedServerInfos[info.Name] = info;
                     }
                 }
@@ -208,11 +213,12 @@ namespace ThwargLauncher.GameManagement
             {
                 string name = item.Key;
                 var info = item.Value;
-                ServerModel.VisibilityEnum visibilitySetting = item.Value.VisibilitySetting;
+                string alias = info.Alias;
                 if (string.IsNullOrEmpty(name)) { continue; }
                 var xelem = new XElement("ServerItem",
                                 new XElement("id", info.Id),
                                 new XElement("name", name),
+                                new XElement("alias", info.Alias),
                                 new XElement("visibility", info.VisibilitySetting));
                 root.Add(xelem);
             }
@@ -246,16 +252,29 @@ namespace ThwargLauncher.GameManagement
 
             // Save local published server info in case any visibilities changed
             var publishedServerInfos = LoadPublishedServerInfos();
+            bool changed = false;
             // Update publishedServerInfos visibility data from in-memory data
             foreach (var info in publishedServerInfos.Values)
             {
                 var server = ServerManager.ServerList.Where(s => s.ServerId == info.Id).FirstOrDefault();
-                if (server != null && info.VisibilitySetting != server.VisibilitySetting)
+                if (server != null)
                 {
-                    info.VisibilitySetting = server.VisibilitySetting;
+                    if (info.VisibilitySetting != server.VisibilitySetting)
+                    {
+                        info.VisibilitySetting = server.VisibilitySetting;
+                        changed = true;
+                    }
+                    if (info.Alias != server.ServerAlias)
+                    {
+                        info.Alias = server.ServerAlias;
+                        changed = true;
+                    }
                 }
             }
-            SavePublishedServerInfos(publishedServerInfos);
+            if (changed)
+            {
+                SavePublishedServerInfos(publishedServerInfos);
+            }
         }
         /// <summary>
         /// Delete some files from earlier versions which are no longer used

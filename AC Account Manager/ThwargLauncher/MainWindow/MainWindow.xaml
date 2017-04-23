@@ -184,7 +184,7 @@
                                                         <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
                                                             <Label Foreground="#FFBB8000" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
                                                             <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
-                                                            <Label Foreground="#FFBB8000" Content="{Binding Path=ServerDisplayName}" HorizontalAlignment="Left"></Label>
+                                                            <Label Foreground="#FFBB8000" Content="{Binding Path=ServerNameAndDescription}" HorizontalAlignment="Left"></Label>
                                                             <Label Foreground="#FFBB8000" Content="{Binding Path=ServerIpAndPort}" FontStyle="Italic" HorizontalAlignment="Left"></Label>
                                                         </StackPanel>
                                                         <ComboBox Grid.Column="2" HorizontalAlignment="Right"

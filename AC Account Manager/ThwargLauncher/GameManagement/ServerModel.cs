@@ -44,6 +44,7 @@ namespace ThwargLauncher
             ServerModel server = new ServerModel();
             server.ServerId = data.ServerId;
             server.ServerName = data.ServerName;
+            server.ServerAlias = data.ServerAlias;
             server.ServerDescription = data.ServerDesc;
             server.ServerIpAndPort = data.ConnectionString;
             server.EMU = data.EMU;
@@ -65,7 +66,17 @@ namespace ThwargLauncher
             return true;
         }
 
-        public string ServerName { get { return Get<string>(); } set { Set(value); } }
+        public string ServerName
+        {
+            get { return Get<string>(); }
+            set { if (Set(value)) { NotifyOfPropertyChange(() => ServerDisplayAlias); } }
+        }
+        public string ServerAlias
+        {
+            get { return Get<string>(); }
+            set { if (Set(value)) { NotifyOfPropertyChange(() => ServerDisplayAlias); } }
+        }
+        public string ServerDisplayAlias { get { return (!string.IsNullOrEmpty(ServerAlias) ? ServerAlias : ServerName); } }
         public string ServerDescription { get { return Get<string>(); } set { Set(value); } }
         public bool ServerLoginEnabled { get { return Get<bool>(); } set { Set(value); } }
         public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }

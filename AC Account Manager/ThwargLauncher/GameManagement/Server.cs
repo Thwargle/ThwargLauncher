@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using ThwarglePropertyExtensions;
+using ThwargleStringExtensions;
 using Bindable = TwMoch.Framework.Bindable;
 
 namespace ThwargLauncher
@@ -29,7 +31,7 @@ namespace ThwargLauncher
         {
             if (e.PropertyName == "ServerName" || e.PropertyName == "ServerDescription")
             {
-                NotifyOfPropertyChange(() => ServerDisplayName);
+                NotifyOfPropertyChange(() => ServerNameAndDescription);
             }
             if (e.PropertyName == "UpStatus")
             {
@@ -61,7 +63,8 @@ namespace ThwargLauncher
         public string ServerIpAndPort { get { return _myServer.ServerIpAndPort; } }
         public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }
-        public ServerModel.ServerEmuEnum EMU { get {  return _myServer.EMU; } }
+        public string ServerDisplayAlias { get { return _myServer.ServerDisplayAlias; } }
+        public ServerModel.ServerEmuEnum EMU { get { return _myServer.EMU; } }
         public ServerModel.RodatEnum RodatSetting { get { return _myServer.RodatSetting; } }
         public ServerModel.VisibilityEnum VisibilitySetting { get { return _myServer.VisibilitySetting; } }
         public ServerModel.ServerUpStatusEnum UpStatus { get { return _myServer.UpStatus; } }
@@ -69,24 +72,22 @@ namespace ThwargLauncher
         public string ConnectionStatus { get { return _myServer.ConnectionStatus; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }
         public string IsPublished {  get { return _myServer.ServerSource == ServerModel.ServerSourceEnum.Published ? "True" : "False"; } }
-        public string ServerDisplayName
+        public string ServerNameAndDescription
         {
             get
             {
-                if (string.IsNullOrEmpty(_myServer.ServerDescription))
+                StringBuilder txt = new StringBuilder();
+                txt.Append(ServerName);
+                if (!string.IsNullOrEmpty(_myServer.ServerAlias))
                 {
-                    return string.Format("{0}", ServerName);
+                    txt.AppendFormat(" ('{0}')", _myServer.ServerAlias);
                 }
-                else
+                if (!string.IsNullOrEmpty(_myServer.ServerDescription))
                 {
-                    string desc = _myServer.ServerDescription;
-                    const int MAXLEN = 64;
-                    if (desc.Length > MAXLEN)
-                    {
-                        desc = desc.Substring(0, MAXLEN - 3) + "...";
-                    }
-                    return string.Format("{0} - {1}", ServerName, desc);
+                    txt.Append(_myServer.ServerDescription);
                 }
+                const int MAXLEN = 64;
+                return txt.ToString().Limit(MAXLEN);
             }
         }
         private readonly UserAccount _myAccount;
@@ -98,10 +99,10 @@ namespace ThwargLauncher
         {
             get
             {
-                string entry = ServerName;
+                string entry = ServerDisplayAlias;
                 if (HasChosenCharacter)
                 {
-                    entry = string.Format("{0}{1}", ServerStatusSymbol, ServerName);
+                    entry = string.Format("{0}{1}", ServerStatusSymbol, ServerDisplayAlias);
                     entry += string.Format("->{0}", ChosenCharacter);
                     // architectural problem getting to game session here
                     GameSession session = AppCoordinator.GetTheGameSessionByServerAccount(serverName: ServerName, accountName: _myAccount.Name);
