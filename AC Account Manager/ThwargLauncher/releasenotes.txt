@@ -8,6 +8,7 @@ Starting with most recent:
 NEW
 - global flag for login commands
 - server aliases
+- tweaks to account summary
 VERSION 4.4.0.0 (2017-03-28)
 - New SimpleLauncher
 - Persist location of AddServer window
