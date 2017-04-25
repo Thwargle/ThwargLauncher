@@ -296,6 +296,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\CowMoo.wav" />
+    <Content Include="Images\DrudgeScream.wav" />
     <Content Include="Images\Logo_circleonly.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
