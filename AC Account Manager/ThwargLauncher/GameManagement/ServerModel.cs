@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Media;
 using Bindable = TwMoch.Framework.Bindable;
 
 namespace ThwargLauncher
@@ -14,17 +15,48 @@ namespace ThwargLauncher
     /// </summary>
     public class ServerModel : Bindable
     {
-        public enum ServerUpStatusEnum { Unknown, Down, Up };
-        public enum ServerSourceEnum { User, Published };
-        public enum ServerEmuEnum { Phat, Ace };
-        public enum RodatEnum { On, Off };
-        public enum VisibilityEnum { Visible, Invisible };
+        public enum ServerUpStatusEnum
+        {
+            Unknown,
+            Down,
+            Up
+        };
+
+        public enum ServerSourceEnum
+        {
+            User,
+            Published
+        };
+
+        public enum ServerEmuEnum
+        {
+            Phat,
+            Ace
+        };
+
+        public enum RodatEnum
+        {
+            On,
+            Off
+        };
+
+        public enum VisibilityEnum
+        {
+            Visible,
+            Invisible
+        };
 
         public override bool Equals(object obj)
         {
             ServerModel ob2 = (obj as ServerModel);
-            if (ob2 == null) { return false; }
-            if (this.ServerId == ob2.ServerId) { return true; }
+            if (ob2 == null)
+            {
+                return false;
+            }
+            if (this.ServerId == ob2.ServerId)
+            {
+                return true;
+            }
             /*
              * We are now using exact id match, not equivalent data
             if (GetHashCode() != ob2.GetHashCode()) { return false; }
@@ -33,12 +65,14 @@ namespace ThwargLauncher
              * */
             return true;
         }
+
         public override int GetHashCode()
         {
             return ServerId.GetHashCode();
             // Using exact id match, not equivalent data
             // return ServerIpAndPort.GetHashCode();
         }
+
         internal static ServerModel Create(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
         {
             ServerModel server = new ServerModel();
@@ -58,58 +92,152 @@ namespace ThwargLauncher
             server.StatusOnlineIntervalSeconds = 300;
             return server;
         }
+
         internal bool IsEqual(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
         {
-            if (ServerName != data.ServerName) { return false; }
-            if (ServerIpAndPort != data.ConnectionString) { return false; }
-            if (ServerId != data.ServerId) { return false; } // using exact Id match, not just equivalent data
+            if (ServerName != data.ServerName)
+            {
+                return false;
+            }
+            if (ServerIpAndPort != data.ConnectionString)
+            {
+                return false;
+            }
+            if (ServerId != data.ServerId)
+            {
+                return false;
+            } // using exact Id match, not just equivalent data
             return true;
         }
 
         public string ServerName
         {
             get { return Get<string>(); }
-            set { if (Set(value)) { NotifyOfPropertyChange(() => ServerDisplayAlias); } }
+            set
+            {
+                if (Set(value))
+                {
+                    NotifyOfPropertyChange(() => ServerDisplayAlias);
+                }
+            }
         }
+
         public string ServerAlias
         {
             get { return Get<string>(); }
-            set { if (Set(value)) { NotifyOfPropertyChange(() => ServerDisplayAlias); } }
+            set
+            {
+                if (Set(value))
+                {
+                    NotifyOfPropertyChange(() => ServerDisplayAlias);
+                }
+            }
         }
-        public string ServerDisplayAlias { get { return (!string.IsNullOrEmpty(ServerAlias) ? ServerAlias : ServerName); } }
-        public string ServerDescription { get { return Get<string>(); } set { Set(value); } }
-        public bool ServerLoginEnabled { get { return Get<bool>(); } set { Set(value); } }
-        public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
-        public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
-        public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
-        public VisibilityEnum VisibilitySetting { get { return Get<VisibilityEnum>(); } set { Set(value); } }
-        public string ConnectionStatus { get { return Get<string>(); } set { Set(value); } }
-        public System.Windows.Media.SolidColorBrush ConnectionColor { get { return Get<System.Windows.Media.SolidColorBrush>(); } set { Set(value); } }
+
+        public string ServerDisplayAlias
+        {
+            get { return (!string.IsNullOrEmpty(ServerAlias) ? ServerAlias : ServerName); }
+        }
+
+        public string ServerDescription
+        {
+            get { return Get<string>(); }
+            set { Set(value); }
+        }
+
+        public bool ServerLoginEnabled
+        {
+            get { return Get<bool>(); }
+            set { Set(value); }
+        }
+
+        public string ServerIpAndPort
+        {
+            get { return Get<string>(); }
+            set { Set(value); }
+        }
+
+        public ServerEmuEnum EMU
+        {
+            get { return Get<ServerEmuEnum>(); }
+            set { Set(value); }
+        }
+
+        public RodatEnum RodatSetting
+        {
+            get { return Get<RodatEnum>(); }
+            set { Set(value); }
+        }
+
+        public VisibilityEnum VisibilitySetting
+        {
+            get { return Get<VisibilityEnum>(); }
+            set { Set(value); }
+        }
+
+        public string ConnectionStatus
+        {
+            get { return Get<string>(); }
+            set { Set(value); }
+        }
+
+        public System.Windows.Media.SolidColorBrush ConnectionColor
+        {
+            get { return Get<System.Windows.Media.SolidColorBrush>(); }
+            set { Set(value); }
+        }
+
         public ServerUpStatusEnum UpStatus
         {
             get { return Get<ServerUpStatusEnum>(); }
-            set {
+            set
+            {
                 // We have to adjust ConnectionColor any time UpStatus changes
-                if (Set(value)) 
+                if (Set(value))
                 {
                     ConnectionColor = GetBrushColorFromUpStatus(UpStatus);
                 }
             }
         }
-        public ServerSourceEnum ServerSource { get { return Get<ServerSourceEnum>(); } set { Set(value); } }
-        public bool IsUserServer { get { return ServerSource == ServerSourceEnum.User; } }
-        public int StatusOfflineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
-        public int StatusOnlineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
+
+        public ServerSourceEnum ServerSource
+        {
+            get { return Get<ServerSourceEnum>(); }
+            set { Set(value); }
+        }
+
+        public bool IsUserServer
+        {
+            get { return ServerSource == ServerSourceEnum.User; }
+        }
+
+        public int StatusOfflineIntervalSeconds
+        {
+            get { return Get<int>(); }
+            set { Set(value); }
+        }
+
+        public int StatusOnlineIntervalSeconds
+        {
+            get { return Get<int>(); }
+            set { Set(value); }
+        }
+
         public Guid ServerId { get; set; }
-       
+
         private static System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
         {
             switch (upStatus)
             {
                 case ServerUpStatusEnum.Down: return System.Windows.Media.Brushes.Red;
-                case ServerUpStatusEnum.Up: return System.Windows.Media.Brushes.Lime;
+                case ServerUpStatusEnum.Up: PlayServerSound();return System.Windows.Media.Brushes.Lime;
                 default: return System.Windows.Media.Brushes.AntiqueWhite;
             }
+        }
+        public static void PlayServerSound()
+        {
+            SoundPlayer serverUpSound = new SoundPlayer(@"Images\DrudgeScream.wav");
+            serverUpSound.Play();
         }
     }
 }
