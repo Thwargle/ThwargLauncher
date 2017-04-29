@@ -9,7 +9,11 @@
     <Grid Background="#FF464646">
         <Label x:Name="label" Content="Server Up Sound" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" VerticalContentAlignment="Center" Padding="0,0,5,0" HorizontalContentAlignment="Center" Foreground="#FFDC9700" Height="16" Margin="8,5,0,0"/>
         <ComboBox x:Name="SoundBox" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True" SelectedIndex="0" Background="#FFF6D18F">
-            <ListBoxItem Content="Armoredillo Roll" Background="Black"/>
+            <ListBoxItem Content="Armoredillo Roll">
+                <ListBoxItem.Background>
+                    <ImageBrush/>
+                </ListBoxItem.Background>
+            </ListBoxItem>
             <ListBoxItem Content="Buff Up">
                 <ListBoxItem.Background>
                     <ImageBrush/>
