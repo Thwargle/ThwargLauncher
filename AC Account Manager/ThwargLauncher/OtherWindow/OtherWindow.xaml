@@ -1,0 +1,43 @@
+﻿<Window x:Name="OtherOptionsWindow" x:Class="ThwargLauncher.OtherWindow.OtherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThwargLauncher.OtherWindow"
+        mc:Ignorable="d"
+        Title="Other Options" Height="395.182" Width="188.955" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closing="OtherOptionsWindow_Closing">
+    <Grid Background="#FF464646">
+        <Label x:Name="label" Content="Server Up Sound" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" VerticalContentAlignment="Center" Padding="0,0,5,0" HorizontalContentAlignment="Center" Foreground="#FFDC9700" Height="16" Margin="8,5,0,0"/>
+        <ComboBox x:Name="SoundBox" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True" SelectedIndex="0" Background="#FFF6D18F">
+            <ListBoxItem Content="Armoredillo Roll" Background="Black"/>
+            <ListBoxItem Content="Buff Up">
+                <ListBoxItem.Background>
+                    <ImageBrush/>
+                </ListBoxItem.Background>
+            </ListBoxItem>
+            <ListBoxItem Content="Cow Moo">
+                <ListBoxItem.Background>
+                    <ImageBrush/>
+                </ListBoxItem.Background>
+            </ListBoxItem>
+            <ListBoxItem Content="Drudge Death"/>
+            <ListBoxItem Content="Drudge Scream"/>
+            <ListBoxItem Content="Island Bird"/>
+            <ListBoxItem Content="Item Enchant"/>
+            <ListBoxItem Content="Level Up"/>
+            <ListBoxItem Content="LS Attune"/>
+            <ListBoxItem Content="Lugian"/>
+            <ListBoxItem Content="Mattekar"/>
+            <ListBoxItem Content="Mite I-Yeep"/>
+            <ListBoxItem Content="Olthoi"/>
+            <ListBoxItem Content="Rare Drop"/>
+            <ListBoxItem Content="Reedshark"/>
+            <ListBoxItem Content="Magic Resist"/>
+            <ListBoxItem Content="Skill Point"/>
+            <ListBoxItem Content="Ursuin Death"/>
+        </ComboBox>
+        <Button x:Name="btnSoundSample" Content="" HorizontalAlignment="Left" Margin="135,26,0,0" VerticalAlignment="Top" Width="30" Background="#FFF6D18F" Click="btnSoundSample_Click" Height="22"/>
+        <Image x:Name="WaveSound" HorizontalAlignment="Left" Height="16.5" Margin="137,28.75,0,0" VerticalAlignment="Top" Width="25.5" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" Source="/ThwargLauncher;component/Images/waveicon.png" IsHitTestVisible="False" Stretch="Fill"/>
+
+    </Grid>
+</Window>

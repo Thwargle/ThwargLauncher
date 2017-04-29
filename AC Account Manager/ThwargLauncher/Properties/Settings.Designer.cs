@@ -173,5 +173,17 @@ namespace ThwargLauncher.Properties {
                 return ((bool)(this["ServerMonitorEnabled"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SetServerSound {
+            get {
+                return ((int)(this["SetServerSound"]));
+            }
+            set {
+                this["SetServerSound"] = value;
+            }
+        }
     }
 }

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Media;
+using System.Net;
+using System.Security.Policy;
 using Bindable = TwMoch.Framework.Bindable;
 
 namespace ThwargLauncher
@@ -234,9 +238,97 @@ namespace ThwargLauncher
                 default: return System.Windows.Media.Brushes.AntiqueWhite;
             }
         }
+
+        public static int PickSound;
+        public static string ServerUpSound = "Audio\\DrudgeScream.wav";
+        public static string Armoredillo = "Audio\\Armoredillo.wav";
+        public static string Buff = "Audio\\Buff.wav";
+        public static string CowMoo = "Audio\\CowMoo.wav";
+        public static string DrudgeDeath = "Audio\\DrudgeDeath.wav";
+        public static string DrudgeScream = "Audio\\DrudgeScream.wav";
+        public static string IslandBird = "Audio\\IslandBird.wav";
+        public static string ItemEnchant = "Audio\\ItemEnchant.wav";
+        public static string LevelUp = "Audio\\LevelUp.wav";
+        public static string LSAttune = "Audio\\LSAttune.wav";
+        public static string Lugian = "Audio\\Lugian.wav";
+        public static string Mattekar = "Audio\\Mattekar.wav";
+        public static string MiteYeep = "Audio\\MiteYeep.wav";
+        public static string Olthoi = "Audio\\Olthoi.wav";
+        public static string RareFound = "Audio\\RareFound.wav";
+        public static string Reedshark = "Audio\\Reedshark.wav";
+        public static string Resist = "Audio\\Resist.wav";
+        public static string SkillPoint = "Audio\\SkillPoint.wav";
+        public static string UrsuinDeath = "Audio\\UrsuinDeath.wav";
+
+        public static void PickNewSound()
+        {
+            switch (PickSound) // Add more sounds when options are completed
+            {
+                case 0:
+                    ServerUpSound = Armoredillo;
+                    return;
+                case 1:
+                    ServerUpSound = Buff;
+                    return;
+                case 2:
+                    ServerUpSound = CowMoo;
+                    return;
+                case 3:
+                    ServerUpSound = DrudgeDeath;
+                    return;
+                case 4:
+                    ServerUpSound = DrudgeScream;
+                    return;
+                case 5:
+                    ServerUpSound = IslandBird;
+                    return;
+                case 6:
+                    ServerUpSound = ItemEnchant;
+                    return;
+                case 7:
+                    ServerUpSound = LevelUp;
+                    return;
+                case 8:
+                    ServerUpSound = LSAttune;
+                    return;
+                case 9:
+                    ServerUpSound = Lugian;
+                    return;
+                case 10:
+                    ServerUpSound = Mattekar;
+                    return;
+                case 11:
+                    ServerUpSound = MiteYeep;
+                    return;
+                case 12:
+                    ServerUpSound = Olthoi;
+                    return;
+                case 13:
+                    ServerUpSound = RareFound;
+                    return;
+                case 14:
+                    ServerUpSound = Reedshark;
+                    return;
+                case 15:
+                    ServerUpSound = Resist;
+                    return;
+                case 16:
+                    ServerUpSound = SkillPoint;
+                    return;
+                case 17:
+                    ServerUpSound = UrsuinDeath;
+                    return;
+                default:
+                    ServerUpSound = LevelUp;
+                    break;
+            }
+        }
+
         public static void PlayServerSound()
         {
-            SoundPlayer serverUpSound = new SoundPlayer(@"Images\DrudgeScream.wav");
+            PickSound = Properties.Settings.Default.SetServerSound;
+            PickNewSound();
+            SoundPlayer serverUpSound = new SoundPlayer(@ServerUpSound);
             serverUpSound.Play();
         }
     }

@@ -683,5 +683,18 @@ namespace ThwargLauncher
         {
             return (bval.HasValue ? bval.Value : defval);
         }
+        public static bool OptionsOpen = false;
+        public void button_Click(object sender, RoutedEventArgs e)
+        {
+            if (OptionsOpen == false)
+            {
+                OtherWindow.OtherWindow moreOptions = new OtherWindow.OtherWindow();
+                moreOptions.OtherOptionsWindow.Show();
+                moreOptions.SetComboBox();
+                OptionsOpen = true;
+                Keyboard.ClearFocus();
+            }
+            Keyboard.ClearFocus();
+        }
     }
 }
