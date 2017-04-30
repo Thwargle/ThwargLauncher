@@ -37,7 +37,6 @@ namespace ThwargLauncher.OtherWindow
         {
             Properties.Settings.Default.SetServerSound = SoundBox.SelectedIndex;
             ServerModel.PlayServerSound();
-            Keyboard.ClearFocus();
         }
     }
 }

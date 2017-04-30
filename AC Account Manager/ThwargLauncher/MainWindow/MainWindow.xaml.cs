@@ -690,6 +690,7 @@ namespace ThwargLauncher
         public static Window OptionWindow = null;
         public void button_Click(object sender, RoutedEventArgs e)
         {
+            Keyboard.ClearFocus(); 
             if (OptionsOpen == false)
             {
                 OtherWindow.OtherWindow moreOptions = new OtherWindow.OtherWindow();
@@ -697,13 +698,11 @@ namespace ThwargLauncher
                 OptionWindow = moreOptions;
                 moreOptions.SetComboBox();
                 OptionsOpen = true;
-                Keyboard.ClearFocus();
             }
             else
             {
                 OptionWindow.Focus();
             }
-                Keyboard.ClearFocus();
         }
     }
 }

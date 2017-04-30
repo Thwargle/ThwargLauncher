@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThwargLauncher.OtherWindow"
         mc:Ignorable="d"
-        Title="Other Options" Height="395.182" Width="188.955" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closing="OtherOptionsWindow_Closing">
+        Title="Sounds/Other" Height="395.182" Width="188.955" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closing="OtherOptionsWindow_Closing">
     <Grid Background="#FF464646">
         <Label x:Name="label" Content="Server Up Sound" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" VerticalContentAlignment="Center" Padding="0,0,5,0" HorizontalContentAlignment="Center" Foreground="#FFDC9700" Height="16" Margin="8,5,0,0"/>
         <ComboBox x:Name="SoundBox" HorizontalAlignment="Left" Margin="8,26,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True" SelectedIndex="0" Background="#FFF6D18F">

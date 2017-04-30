@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
         xmlns:local="clr-namespace:ThwargLauncher"
-        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="350" Width="525" 
+        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="350" Width="720" 
         Closing="ThwargLauncherMainWindow_Closing" Loaded="MainWindow_OnLoaded" ResizeMode="CanResizeWithGrip"
-        MinHeight="300" MinWidth="600">
+        MinHeight="300" MinWidth="720">
     <Window.Background>
         <ImageBrush Stretch="UniformToFill"/>
     </Window.Background>
@@ -39,7 +39,7 @@
                 <Button x:Name="btnOpenUsers" Content="Open User File" HorizontalAlignment="Left" Margin="251,0,0,0" VerticalAlignment="Top" Width="102" Foreground="Black" Click="btnOpenUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="357,0,0,0" VerticalAlignment="Top" Width="56" Foreground="Black" Click="btnChooseProfile_Click" Background="#FFF6D18F" FontWeight="Bold" />
                 <Button x:Name="btnEditCharacters" Content="Chars" Command="{Binding EditCharactersCommand}"   HorizontalAlignment="Left" Margin="417,0,0,0" VerticalAlignment="Top" Width="40" Foreground="Black" Background="#FFF6D18F" FontWeight="Bold"/>
-                <Button x:Name="btnOther" Content="Other" HorizontalAlignment="Left" Margin="461,0,0,0" VerticalAlignment="Top" Width="42" FontWeight="Bold" Background="#FFF6D18F" Click="button_Click"/>
+                <Button x:Name="btnOther" Content="Sounds" HorizontalAlignment="Left" Margin="461,0,0,0" VerticalAlignment="Top" Width="51" FontWeight="Bold" Background="#FFF6D18F" Click="button_Click"/>
                 <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Right" Margin="0,0,47,0" VerticalAlignment="Top" Width="39" Foreground="Black" Click="btnHelp_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnLogWindow" Content="Log" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Top" Width="32" Foreground="Black" Click="btnLogWindow_Click" Background="#FFF6D18F" FontWeight="Bold" />
 
@@ -181,7 +181,7 @@
                                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
-                                                    <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
+                                                    <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0" Background="#FFF6D18F"></CheckBox>
                                                     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
                                                         <Label Foreground="#FFBB8000" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
                                                         <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
@@ -192,7 +192,7 @@
                                                         ItemsSource="{Binding Path=AvailableCharacters,Mode=OneWay}"
                                                         DisplayMemberPath="Name"
                                                         SelectedValuePath="Name"
-                                                        SelectedValue="{Binding Path=ChosenCharacter}"></ComboBox>
+                                                        SelectedValue="{Binding Path=ChosenCharacter}" Background="#FFF6D18F"></ComboBox>
                                                     <Separator HorizontalAlignment="Stretch" Height="10" VerticalAlignment="Top"  BorderThickness="10" BorderBrush="#FF008BBF"/>
                                                 </Grid>
                                             </DataTemplate>
