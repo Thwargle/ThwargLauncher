@@ -574,7 +574,10 @@ namespace ThwargLauncher
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
             Properties.Settings.Default.ACLocation = txtLauncherLocation.Text;
-            
+            if (OptionWindow != null)
+            {
+                OptionWindow.Close();
+            }
             Properties.Settings.Default.Save();
         }
 
@@ -684,17 +687,23 @@ namespace ThwargLauncher
             return (bval.HasValue ? bval.Value : defval);
         }
         public static bool OptionsOpen = false;
+        public static Window OptionWindow = null;
         public void button_Click(object sender, RoutedEventArgs e)
         {
             if (OptionsOpen == false)
             {
                 OtherWindow.OtherWindow moreOptions = new OtherWindow.OtherWindow();
                 moreOptions.OtherOptionsWindow.Show();
+                OptionWindow = moreOptions;
                 moreOptions.SetComboBox();
                 OptionsOpen = true;
                 Keyboard.ClearFocus();
             }
-            Keyboard.ClearFocus();
+            else
+            {
+                OptionWindow.Focus();
+            }
+                Keyboard.ClearFocus();
         }
     }
 }
