@@ -13,6 +13,8 @@ namespace PersistenceHelper
         void SetString(string key, string value);
         bool GetBool(string key, bool defval = false);
         void SetBool(string key, bool value);
+        int GetInt(string key, int defval = 0);
+        void SetInt(string key, int value);
         void Save();
     }
     class SettingsFactory
@@ -73,6 +75,17 @@ namespace PersistenceHelper
             InitializeIfNeeded();
             _values[key] = BoolToString(value);
         }
+        public int GetInt(string key, int defval = 0)
+        {
+            InitializeIfNeeded();
+            if (!_values.ContainsKey(key)) { return defval; }
+            return ObjToInt(_values[key], defval);
+        }
+        public void SetInt(string key, int value)
+        {
+            InitializeIfNeeded();
+            _values[key] = IntToString(value);
+        }
         private void InitializeIfNeeded()
         {
             if (_values == null) { Load(); }
@@ -90,10 +103,6 @@ namespace PersistenceHelper
         }
         private bool ObjToBool(object obj, bool defval)
         {
-            bool bv = true;
-            string debug = bv.ToString();
-            bv = false;
-            string d2 = bv.ToString();
             if (obj == null) { return defval; }
             string text = obj.ToString();
             if (EqStr(text, "True") || EqStr(text, "Yes")) { return true; }
@@ -102,9 +111,21 @@ namespace PersistenceHelper
             bool.TryParse(text, out bval);
             return bval;
         }
+        private int ObjToInt(object obj, int defval)
+        {
+            if (obj == null) { return defval; }
+            string text = obj.ToString();
+            int value = defval;
+            int.TryParse(text, out value);
+            return value;
+        }
         private string BoolToString(bool value)
         {
             return (value ? "True" : "False");
+        }
+        private string IntToString(int value)
+        {
+            return value.ToString();
         }
         private static bool EqStr(string text1, string text2)
         {
