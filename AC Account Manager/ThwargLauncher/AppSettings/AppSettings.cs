@@ -203,6 +203,8 @@ namespace PersistenceHelper
             string text = SerializeAllValuesToString();
             if (text != null)
             {
+                string folder = System.IO.Path.GetDirectoryName(_filepath);
+                System.IO.Directory.CreateDirectory(folder);
                 System.IO.File.WriteAllText(_filepath, text);
             }
         }
