@@ -41,6 +41,8 @@ namespace ThwargLauncher
         }
         public void LaunchGame()
         {
+            Properties.Settings.Default.ACLocation = txtLauncherLocation.Text;
+            Properties.Settings.Default.Save();
             if (_viewModel.SelectedServer == null)
             {
                 MessageBox.Show("Please select a server.", "No server selected.");
@@ -63,12 +65,7 @@ namespace ThwargLauncher
 
         private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-        }
-
-        private void btnLauncherLocation_Click(object sender, RoutedEventArgs e)
-        {
-
+            _viewModel.ConfigureFileLocationCommand.Execute(null);
         }
     }
 }
