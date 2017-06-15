@@ -499,8 +499,11 @@ namespace ThwargLauncher
                 }
                 else
                 {
-                    globalQueue.Enqueue(launchItem);
-                    workerReportProgress("Requeued", launchItem, serverIndex, serverTotal);
+                    if (!launchItem.IsSimpleLaunch)
+                    {
+                        globalQueue.Enqueue(launchItem);
+                        workerReportProgress("Requeued", launchItem, serverIndex, serverTotal);
+                    }
                 }
 
                 if (_worker.CancellationPending)
