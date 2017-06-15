@@ -71,10 +71,6 @@ namespace ThwargLauncher
 
             WireUpBackgroundWorker();
 
-            if (Properties.Settings.Default.ACLocation != "")
-            {
-                txtLauncherLocation.Text = Properties.Settings.Default.ACLocation;
-            }
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
@@ -222,8 +218,9 @@ namespace ThwargLauncher
             LaunchGame();
         }
         public void LaunchGame()
-        { 
-            _launcherLocation = txtLauncherLocation.Text;
+        {
+            _viewModel.ClientFileLocation = txtLauncherLocation.Text;
+            _launcherLocation = _viewModel.ClientFileLocation;
             if (string.IsNullOrEmpty(_launcherLocation))
             {
                 ShowErrorMessage("Game launcher location required");
@@ -535,29 +532,10 @@ namespace ThwargLauncher
             Application.Current.Dispatcher.Invoke(() =>
                 MessageBox.Show(msg, caption, button, image));
         }
-
         private void OpenLauncherLocation()
         {
-            // Create OpenFileDialog
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.InitialDirectory = "C:\\Turbine\\Asheron's Call";
-
-            // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".exe";
-            dlg.Filter = "Executables (exe)|*.exe|All files (*.*)|*.*";
-
-            // Display OpenFileDialog by calling ShowDialog method
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                // Open document
-                string filename = dlg.FileName;
-                txtLauncherLocation.Text = filename;
-            }
+            _viewModel.ChooseLauncherLocation();
         }
-
         private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             OpenLauncherLocation();
@@ -573,7 +551,6 @@ namespace ThwargLauncher
             _viewModel.WindowClosing();
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
-            Properties.Settings.Default.ACLocation = txtLauncherLocation.Text;
             
             Properties.Settings.Default.Save();
         }

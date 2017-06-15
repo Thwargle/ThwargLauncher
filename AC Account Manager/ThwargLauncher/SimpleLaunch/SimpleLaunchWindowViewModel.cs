@@ -11,10 +11,28 @@ namespace ThwargLauncher
 {
     public class SimpleLaunchWindowViewModel : INotifyPropertyChanged
     {
-        public event System.EventHandler RequestingMainViewEvent;
+        public event EventHandler RequestingMainViewEvent;
+        public event EventHandler RequestingConfigureFileLocationEvent;
         public event LaunchGameDelegateMethod LaunchingEvent;
         public ICommand GotoMainViewCommand { get; private set; }
+        public ICommand ConfigureFileLocationCommand { get; private set; }
         public Action CloseAction { get; set; }
+        public string ClientFileLocation
+        {
+            get
+            {
+                return Properties.Settings.Default.ACLocation;
+            }
+            set
+            {
+                if (Properties.Settings.Default.ACLocation != value)
+                {
+                    Properties.Settings.Default.ACLocation = value;
+                    Properties.Settings.Default.Save();
+                    OnPropertyChanged("ClientFileLocation");
+                }
+            }
+        }
 
         public static SimpleLaunchWindowViewModel CreateViewModel()
         {
@@ -29,6 +47,11 @@ namespace ThwargLauncher
             GotoMainViewCommand = new DelegateCommand(
                     PerformGotoMainView
                 );
+            ConfigureFileLocationCommand = new DelegateCommand(
+                    PerformConfigureFileLocation
+                );
+
+            
 
             LoadFromSettings();
         }
@@ -90,6 +113,14 @@ namespace ThwargLauncher
             if (RequestingMainViewEvent != null)
             {
                 RequestingMainViewEvent(this, new EventArgs());
+            }
+        }
+        private void PerformConfigureFileLocation()
+        {
+            if (RequestingConfigureFileLocationEvent != null)
+            {
+                RequestingConfigureFileLocationEvent(this, new EventArgs());
+                OnPropertyChanged("ClientFileLocation");
             }
         }
     }

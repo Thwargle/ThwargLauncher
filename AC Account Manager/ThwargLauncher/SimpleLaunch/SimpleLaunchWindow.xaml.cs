@@ -60,5 +60,15 @@ namespace ThwargLauncher
         {
             _viewModel.SaveToSettings();
         }
+
+        private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void btnLauncherLocation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

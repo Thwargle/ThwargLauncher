@@ -18,6 +18,22 @@ namespace ThwargLauncher
         public event LaunchGameDelegateMethod LaunchingSimpleGameEvent;
         public event HandleEvent RequestShowMainWindowEvent;
         public Action CloseAction { get; set; }
+        public string ClientFileLocation
+        {
+            get
+            {
+                return Properties.Settings.Default.ACLocation;
+            }
+            set
+            {
+                if (Properties.Settings.Default.ACLocation != value)
+                {
+                    Properties.Settings.Default.ACLocation = value;
+                    Properties.Settings.Default.Save();
+                    OnPropertyChanged("ClientFileLocation");
+                }
+            }
+        }
 
         private AccountManager _accountManager;
         private GameSessionMap _gameSessionMap;
@@ -388,6 +404,7 @@ namespace ThwargLauncher
                     _simpleLaunchViewModel = SimpleLaunchWindowViewModel.CreateViewModel();
                     _simpleLaunchViewModel.LaunchingEvent += OnRequestExecuteSimpleLaunch;
                     _simpleLaunchViewModel.RequestingMainViewEvent += OnSimpleLaunchRequestMainView;
+                    _simpleLaunchViewModel.RequestingConfigureFileLocationEvent += OnSimpleLaunchRequestConfigureFileLocation;
                 }
                 _simpleLaunchWindow = new SimpleLaunchWindow(_simpleLaunchViewModel);
                 _simpleLaunchWindow.Closing += OnSimpleLaunchWindowClosing;
@@ -396,6 +413,11 @@ namespace ThwargLauncher
             _simpleLaunchWindow.Show();
             if (OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();
+        }
+
+        private void OnSimpleLaunchRequestConfigureFileLocation(object sender, EventArgs e)
+        {
+            ChooseLauncherLocation();
         }
 
         void OnSimpleLaunchRequestMainView(object sender, EventArgs e)
@@ -468,6 +490,25 @@ namespace ThwargLauncher
             {
                 _helpWindow.Close();
                 _helpWindow = null;
+            }
+        }
+        public void ChooseLauncherLocation()
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.InitialDirectory = "C:\\Turbine\\Asheron's Call";
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".exe";
+            dlg.Filter = "Executables (exe)|*.exe|All files (*.*)|*.*";
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                ClientFileLocation = dlg.FileName;
             }
         }
     }

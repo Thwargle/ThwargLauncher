@@ -31,6 +31,7 @@
             <Label x:Name="lblServers" Grid.Column="0" Grid.Row="0" Content="Servers:" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 0 5 5" Foreground="#FFFFB619" BorderBrush="Black"/>
             <Label x:Name="lblUserName" Grid.Row="1" Content="Account Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 5 5" Foreground="#FFFFB619" BorderBrush="Black" />
             <Label x:Name="lblUserPassword" Grid.Row="1" Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 0" Foreground="#FFFFB619" BorderBrush="Black" />
+            <Label x:Name="lblLauncherLocation" Grid.Row="1" Content="File Location:" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Foreground="#FFFFB619" BorderBrush="Black" Grid.RowSpan="2"/>
             <Button x:Name="btnMain" Command="{Binding GotoMainViewCommand}"  Grid.Row="2" Content="Advanced View" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 5" Background="#FFF6D18F" FontWeight="Bold" />
         </Grid>
         <Grid Grid.Column="1">
@@ -71,6 +72,8 @@
             <TextBox x:Name="txtUserPassword"
                      Text="{Binding Path=Password, Mode=TwoWay}"
                      Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 35 5 0" />
+            <TextBox x:Name="txtLauncherLocation" Grid.Row="2" Text="{Binding Path=ClientFileLocation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="6,2,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick" Background="#FFF6D18F"/>
+            <Button x:Name="btnLauncherLocation" Grid.Row="2" Content="..." ToolTip="Browse" Command="{Binding ConfigureFileLocationCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,2,19,0" Foreground="Black" Height="23" Background="#FFF6D18F" FontWeight="Bold"/>
             <CheckBox x:Name="chkUserDecal"
                       Foreground="#FFFFB619" BorderBrush="Black"
                       IsChecked="{Binding Path=UseDecal}"
