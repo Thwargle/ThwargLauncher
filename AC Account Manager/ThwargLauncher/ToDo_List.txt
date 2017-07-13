@@ -1,0 +1,8 @@
+﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
+
+// - Decal Checkbox on simple mode defaults to checked without being clickable if decal is not detected. Fix default state
+ - Add a message when switching to advanced mode if magfilter.dll is not detected in decal
+ - Do not allow accounts with blanks or special chars in either the account name or password
+ - Move simple launch button from help onto advanced interface
+ - Add space between server name and description string
+ - Include server playercount
