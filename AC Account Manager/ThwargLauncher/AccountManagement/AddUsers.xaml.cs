@@ -61,16 +61,72 @@ namespace ThwargLauncher
         }
         private bool ValidateAndAddUser(TextBox usernameBox, TextBox passwordBox)
         {
-            if (usernameBox.Text != "")
+            if (string.IsNullOrWhiteSpace(usernameBox.Text))
             {
-                if (!AddUserAccount(usernameBox.Text, passwordBox.Text))
-                {
-                    usernameBox.Focus();
-                    return false;
-                }
+                // ones they didn't fill in
+                return true;
+            }
+            if (!IsValidUserName(usernameBox.Text))
+            {
+                usernameBox.Focus();
+                return false;
+
+            }
+            if (!IsValidPassword(usernameBox.Text, passwordBox.Text))
+            {
+                passwordBox.Focus();
+                return false;
+
+            }
+            
+            if (!AddUserAccount(usernameBox.Text, passwordBox.Text))
+            {
+                usernameBox.Focus();
+                return false;
             }
             return true;
         }
+
+        private bool IsValidUserName(string text)
+        {
+            if (text.Contains("!") ||
+                text.Contains("@") ||
+                text.Contains("#") ||
+                text.Contains("$") ||
+                text.Contains("%") ||
+                text.Contains("^") ||
+                text.Contains("&") ||
+                text.Contains("*") ||
+                text.Contains("(") ||
+                text.Contains(")") ||
+                text.Contains("=") ||
+                text.Contains(".") ||
+                text.Contains(",") ||
+                text.Contains("<") ||
+                text.Contains(">") ||
+                text.Contains("?") ||
+                text.Contains(";") ||
+                text.Contains(":")
+                )
+            {
+                var msg = string.Format("Name '{0}' contains an invalid character. Please do not use !@#$%^&*()=.,<>?;:", text);
+                MessageBox.Show(msg, "Invalid name");
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsValidPassword(string name, string password)
+        {
+            if (password.Contains(" "))
+            {
+                var msg = string.Format("Password for account '{0}' may not contain a space.", name);
+                MessageBox.Show(msg, "Invalid password.");
+                return false;
+            }
+            return true;
+        }
+
         private bool AddUserAccount(string name, string password)
         {
             var newacct = new UserAccount(name, password);

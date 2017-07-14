@@ -277,6 +277,7 @@
     <Content Include="Images\acwallpaperwideaerbax.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="ToDo_List.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\ACCoverArt.jpg">

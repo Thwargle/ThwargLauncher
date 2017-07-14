@@ -659,6 +659,17 @@ namespace ThwargLauncher
             }
             MainWindowEnable();
         }
+        private void btnSimpleLaunch_Click(object sender, RoutedEventArgs e)
+        {
+            string exepath = Properties.Settings.Default.ACLocation;
+            if (!System.IO.File.Exists(exepath))
+            {
+                MessageBox.Show("Client exe not found: " + exepath, "Launcher configuration error");
+                //return;
+            }
+            _viewModel.CallSimpleLauncher();
+            this.Hide();
+        }
         private static bool IsTrue(bool? bval, bool defval = false)
         {
             return (bval.HasValue ? bval.Value : defval);

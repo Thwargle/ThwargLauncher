@@ -49,13 +49,57 @@ namespace ThwargLauncher
                 cmbServerList.Focus();
                 return;
             }
-            if (string.IsNullOrEmpty(_viewModel.AccountName))
+            if (!IsValidUserName(_viewModel.AccountName))
             {
-                MessageBox.Show("Please enter an acount name.", "No account selected.");
                 txtUserName.Focus();
                 return;
             }
+            if (!IsValidPassword(_viewModel.AccountName, _viewModel.Password))
+            {
+                txtUserPassword.Focus();
+                return;
+            }
             _viewModel.PerformSimpleLaunch();
+        }
+
+        private bool IsValidUserName(string text)
+        {
+            if (text.Contains("!") ||
+                text.Contains("@") ||
+                text.Contains("#") ||
+                text.Contains("$") ||
+                text.Contains("%") ||
+                text.Contains("^") ||
+                text.Contains("&") ||
+                text.Contains("*") ||
+                text.Contains("(") ||
+                text.Contains(")") ||
+                text.Contains("=") ||
+                text.Contains(".") ||
+                text.Contains(",") ||
+                text.Contains("<") ||
+                text.Contains(">") ||
+                text.Contains("?") ||
+                text.Contains(";") ||
+                text.Contains(":")
+                )
+            {
+                var msg = string.Format("Name '{0}' contains an invalid character. Please do not use !@#$%^&*()=.,<>?;:", text);
+                MessageBox.Show(msg, "Invalid name");
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsValidPassword(string name, string password)
+        {
+            if (password.Contains(" "))
+            {
+                var msg = string.Format("Password for account '{0}' may not contain a space.", name);
+                MessageBox.Show(msg, "Invalid password.");
+                return false;
+            }
+            return true;
         }
 
         private void ThwargLauncherSimpleLaunchWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

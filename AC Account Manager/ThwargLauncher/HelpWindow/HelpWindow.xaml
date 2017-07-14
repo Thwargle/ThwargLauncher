@@ -7,7 +7,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="20"></RowDefinition>
-                <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollViewer>
             <ItemsControl>
@@ -30,6 +29,5 @@
             <Button x:Name="btnDiagnostics" Grid.Column="1" Content="Diagnostics" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnDiagnostics_Click"/>
             <Button x:Name="btnOK" Content="Ok" Grid.Column="2" HorizontalAlignment="Right" Width="50px" Margin="5 0 5 0" VerticalAlignment="Top" Click="btnOK_Click"/>
         </Grid>
-        <Button x:Name="btnSimple" Grid.Row="2" Content="Simple Launcher" HorizontalAlignment="Stretch" Margin="5 0 5 0" VerticalAlignment="Top" Click="btnSimpleLaunch_Click"/>
     </Grid>
 </Window>

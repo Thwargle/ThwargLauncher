@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
         xmlns:local="clr-namespace:ThwargLauncher"
-        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="350" Width="525" 
+        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="500" Width="830" 
         Closing="ThwargLauncherMainWindow_Closing" Loaded="MainWindow_OnLoaded" ResizeMode="CanResizeWithGrip"
-        MinHeight="300" MinWidth="600">
+        MinHeight="300" MinWidth="700">
     <Window.Background>
         <ImageBrush Stretch="UniformToFill"/>
     </Window.Background>
@@ -39,6 +39,7 @@
                 <Button x:Name="btnOpenUsers" Content="Open User File" HorizontalAlignment="Left" Margin="255,0,0,0" VerticalAlignment="Top" Width="102" Foreground="Black" Click="btnOpenUsers_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnChooseProfile" Content="Profiles" HorizontalAlignment="Left" Margin="365,0,0,0" VerticalAlignment="Top" Width="75" Foreground="Black" Click="btnChooseProfile_Click" Background="#FFF6D18F" FontWeight="Bold" />
                 <Button x:Name="btnEditCharacters" Content="Chars" Command="{Binding EditCharactersCommand}"   HorizontalAlignment="Left" Margin="450,0,0,0" VerticalAlignment="Top" Width="40" Foreground="Black" Background="#FFF6D18F" FontWeight="Bold"/>
+                <Button x:Name="btnSimple" Content="Simple View" HorizontalAlignment="Right" Margin="0,0,91,0" VerticalAlignment="Top" Width="83" Foreground="Black" Click="btnSimpleLaunch_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnHelp" Content="Help" HorizontalAlignment="Right" Margin="0,0,47,0" VerticalAlignment="Top" Width="39" Foreground="Black" Click="btnHelp_Click" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnLogWindow" Content="Log" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Top" Width="32" Foreground="Black" Click="btnLogWindow_Click" Background="#FFF6D18F" FontWeight="Bold" />
 
@@ -141,62 +142,62 @@
                                         </StackPanel>
                                     </Expander.Header>
                                     <ListBox ItemsSource="{Binding Path=VisibleServers}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch">
-                                            <ListBox.ItemContainerStyle>
-                                                <Style TargetType="{x:Type ListBoxItem}">
-                                                    <Setter Property="Focusable" Value="False"></Setter>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                                </Border>
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsSelected" Value="true">
-                                                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-                                                                    </Trigger>
-                                                                    <MultiTrigger>
-                                                                        <MultiTrigger.Conditions>
-                                                                            <Condition Property="IsSelected" Value="true"/>
-                                                                            <Condition Property="Selector.IsSelectionActive" Value="false"/>
-                                                                        </MultiTrigger.Conditions>
-                                                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
-                                                                    </MultiTrigger>
-                                                                    <Trigger Property="IsEnabled" Value="false">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </ListBox.ItemContainerStyle>
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid HorizontalAlignment="Stretch">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="15"></ColumnDefinition>
-                                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                        </Grid.ColumnDefinitions>
-                                                        <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
-                                                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
-                                                            <Label Foreground="#FFBB8000" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
-                                                            <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
-                                                            <Label Foreground="#FFBB8000" Content="{Binding Path=ServerNameAndDescription}" HorizontalAlignment="Left"></Label>
-                                                            <Label Foreground="#FFBB8000" Content="{Binding Path=ServerIpAndPort}" FontStyle="Italic" HorizontalAlignment="Left"></Label>
-                                                        </StackPanel>
-                                                        <ComboBox Grid.Column="2" HorizontalAlignment="Right"
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                <Setter Property="Focusable" Value="False"></Setter>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsSelected" Value="true">
+                                                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                                </Trigger>
+                                                                <MultiTrigger>
+                                                                    <MultiTrigger.Conditions>
+                                                                        <Condition Property="IsSelected" Value="true"/>
+                                                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                                                                </MultiTrigger>
+                                                                <Trigger Property="IsEnabled" Value="false">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="15"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox x:Name="ServerSelected" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=ServerSelected,Mode=TwoWay}" Grid.Column="0"></CheckBox>
+                                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
+                                                        <Label Foreground="#FFBB8000" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
+                                                        <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
+                                                        <Label Foreground="#FFBB8000" Content="{Binding Path=ServerNameAndDescription}" HorizontalAlignment="Left"></Label>
+                                                        <Label Foreground="#FFBB8000" Content="{Binding Path=ServerIpAndPort}" FontStyle="Italic" HorizontalAlignment="Left"></Label>
+                                                    </StackPanel>
+                                                    <ComboBox Grid.Column="2" HorizontalAlignment="Right"
                                                         ItemsSource="{Binding Path=AvailableCharacters,Mode=OneWay}"
                                                         DisplayMemberPath="Name"
                                                         SelectedValuePath="Name"
                                                         SelectedValue="{Binding Path=ChosenCharacter}"></ComboBox>
-                                                        <Separator HorizontalAlignment="Stretch" Height="10" VerticalAlignment="Top"  BorderThickness="10" BorderBrush="#FF008BBF"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
+                                                    <Separator HorizontalAlignment="Stretch" Height="10" VerticalAlignment="Top"  BorderThickness="10" BorderBrush="#FF008BBF"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
                                 </Expander>
                             </Grid>
                         </DataTemplate>

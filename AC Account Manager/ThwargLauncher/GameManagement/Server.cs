@@ -88,7 +88,7 @@ namespace ThwargLauncher
                 }
                 if (!string.IsNullOrEmpty(_myServer.ServerDescription))
                 {
-                    txt.Append(_myServer.ServerDescription);
+                    txt.Append(" - " + _myServer.ServerDescription);
                 }
                 const int MAXLEN = 64;
                 return txt.ToString().Limit(MAXLEN);

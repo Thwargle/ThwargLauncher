@@ -388,7 +388,6 @@ namespace ThwargLauncher
             if (_helpWindow == null)
             {
                 var hwvm = new HelpWindowViewModel(_configurator);
-                hwvm.OpeningSimpleLauncherEvent += OnSimpleLauncher;
                 _helpWindow = new HelpWindow(hwvm);
                 _helpWindow.Closing += (s, e) => _helpWindow = null;
             }
@@ -424,7 +423,7 @@ namespace ThwargLauncher
         {
             RequestShowMainWindow();
         }
-        private void OnSimpleLauncher()
+        public void CallSimpleLauncher()
         {
             DisplaySimpleLauncher();
         }
