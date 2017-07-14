@@ -119,7 +119,7 @@ namespace ThwargLauncher
 
                 startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
 
-                if (DecalInjection.IsDecalInstalled() && Properties.Settings.Default.InjectDecal)
+                if (DecalInjection.IsDecalInstalled() && Properties.Settings.Default.InjectDecal && DecalInjection.IsMagfilterRegistered())
                 {
                     //Start Process with Decal Injection
                     string commandLineLaunch = startInfo.FileName + " " + startInfo.Arguments;

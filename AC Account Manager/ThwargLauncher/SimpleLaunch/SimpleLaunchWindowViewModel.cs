@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows.Data;
 using CommonControls;
+using System.Windows;
 
 namespace ThwargLauncher
 {
@@ -112,6 +113,21 @@ namespace ThwargLauncher
         {
             if (RequestingMainViewEvent != null)
             {
+                if (!DecalInjection.IsDecalInstalled() || !DecalInjection.IsMagfilterRegistered())
+                {
+                    if (MessageBox.Show("Either Magfilter or Decal is not installed properly. This may cause issues in advanced. Are you sure you want to continue?", "Magfilter or Decal not installed properly", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                    {
+                        return;
+                    }
+                }
+                //Does not seem to work yet; investigate how decal saves enabled
+                //if (!DecalInjection.IsMagfilterEnabled())
+                //{
+                //    if (MessageBox.Show("Magfilter is disabled. This will cause your client to continually restart in advanced mode. Are you sure you want to continue?", "Magfilter is disabled.", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                //    {
+                //        return;
+                //    }
+                //}
                 RequestingMainViewEvent(this, new EventArgs());
             }
         }
