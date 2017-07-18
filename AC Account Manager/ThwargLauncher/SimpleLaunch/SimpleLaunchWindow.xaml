@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
-        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="200" Width="500" 
+        xmlns:ff="clr-namespace:FunctionalFun.UI"
+        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="400" Width="650" 
         ResizeMode="CanResizeWithGrip" Closing="ThwargLauncherSimpleLaunchWindow_Closing">
     <Window.Background>
         <ImageBrush ImageSource="../Images/acwallpaperwideaerbax.jpg"/>
@@ -69,9 +70,10 @@
             <TextBox x:Name="txtUserName"
                      Text="{Binding Path=AccountName, Mode=TwoWay}"
                      Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 0" />
-            <TextBox x:Name="txtUserPassword"
-                     Text="{Binding Path=Password, Mode=TwoWay}"
-                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 35 5 0" />
+            <PasswordBox x:Name="txtUserPassword" ff:PasswordBoxAssistant.BindPassword="True"
+                     ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" />
+            <CheckBox x:Name="ShowHide" Visibility="Collapsed" Grid.Row="1" HorizontalAlignment="Right" Margin="8" VerticalAlignment="Bottom" Foreground="#FFFFB619" Checked="ShowHide_Checked">Show/Hide</CheckBox>
             <TextBox x:Name="txtLauncherLocation" Grid.Row="2" Text="{Binding Path=ClientFileLocation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="6,2,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick" Background="#FFF6D18F"/>
             <Button x:Name="btnLauncherLocation" Grid.Row="2" Content="..." ToolTip="Browse" Command="{Binding ConfigureFileLocationCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,2,19,0" Foreground="Black" Height="23" Background="#FFF6D18F" FontWeight="Bold"/>
             <CheckBox x:Name="chkUserDecal"

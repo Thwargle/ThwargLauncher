@@ -81,10 +81,11 @@ namespace ThwargLauncher
                 text.Contains(">") ||
                 text.Contains("?") ||
                 text.Contains(";") ||
-                text.Contains(":")
+                text.Contains(":") ||
+                text.Contains(" ")
                 )
             {
-                var msg = string.Format("Name '{0}' contains an invalid character. Please do not use !@#$%^&*()=.,<>?;:", text);
+                var msg = string.Format("Name '{0}' contains an invalid character. Please do not use a space or !@#$%^&*()=.,<>?;:", text);
                 MessageBox.Show(msg, "Invalid name");
                 return false;
             }
@@ -110,6 +111,11 @@ namespace ThwargLauncher
         private void txtLauncherLocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             _viewModel.ConfigureFileLocationCommand.Execute(null);
+        }
+
+        private void ShowHide_Checked(object sender, RoutedEventArgs e)
+        {
+            FunctionalFun.UI.PasswordBoxAssistant.SetBindPassword(txtUserPassword, ShowHide.IsChecked.Value);
         }
     }
 }

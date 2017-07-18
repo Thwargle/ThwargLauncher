@@ -141,6 +141,7 @@
     <Compile Include="ServerMonitor\ServerMonitor.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="AppSettings\AppSettings.cs" />
+    <Compile Include="SimpleLaunch\PasswordBoxAssistant.cs" />
     <Compile Include="SimpleLaunch\SimpleLaunchWindow.xaml.cs">
       <DependentUpon>SimpleLaunchWindow.xaml</DependentUpon>
     </Compile>
