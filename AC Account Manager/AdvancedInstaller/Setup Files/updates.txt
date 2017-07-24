@@ -1,21 +1,22 @@
 ;aiu;
 
-[ThwargLauncher-4.8.0.0]
+[ThwargLauncher-4.8.2.0]
 Name = ThwargLauncher
-ProductVersion = 4.8.0.0
+ProductVersion = 4.8.2.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7871021
-ReleaseDate = 14/06/2017
-MD5 = 881c349f6fc67837c50cb066d84a8e6b
+Size = 7871035
+ReleaseDate = 18/07/2017
+MD5 = e1e6546da780f6b1b382b0c617dfc962
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 4.8.0.0
-UpdatedApplications = ThwargLauncher[1.0-4.6.8]
-Description = VERSION 4.8.0.0 (2017-07-18)
-Description1 = - Added quite a few message boxes to help the user figure out what may not be working
-Description2 = - Masked off the password on Simple Launch view
-Description3 = - Alert the user to invalid username or password entry and prompt them to retry
+Version = 4.8.2.0
+UpdatedApplications = ThwargLauncher[1.0-4.8.2]
+Description = VERSION 4.8.2.0 (2017-07-18)
+Description1 = Includes all 4.8.0.0 Fixes, plus a hotfix that allows decal injection on simple launch without magfilter.
+Description2 = - Added quite a few message boxes to help the user figure out what may not be working
+Description3 = - Masked off the password on Simple Launch view
+Description4 = - Alert the user to invalid username or password entry and prompt them to retry
 Feature = Now prompted with some info when switching to advanced when magfilter wasn't recognized in the registry
 Enhancement = Simple Launcher button is now on the Advanced view interface, not in the help menu.
 BugFix = Lots. Zorgle and I squash and create bugs in an infinite cycle of love and death.
