@@ -6,3 +6,9 @@
  // - Move simple launch button from help onto advanced interface
  // - Add space between server name and description string
  - Include server playercount
+ - Look into why simple mode decal inject box affects advanced mode.
+ - Auto-close clashed clients and relaunch them
+ - Auto-launch profile checkbox, to launch selected profile on startup
+ - command line arguments to launch queue from command line
+ - When launching a client, track it even if it's not set to log into a char
+ - UI not updating the display for active account timer
