@@ -318,7 +318,15 @@ namespace ThwargLauncher
             if (acctServer != null)
             {
                 string symbol = GetStatusSymbol(status);
-                acctServer.tServer.SetAccountServerStatus(status, symbol);
+                Server server = acctServer.tServer;
+                server.SetAccountServerStatus(status, symbol);
+                if (server.HasChosenCharacter)
+                {
+                    if (DateTime.UtcNow - server.LastStatusSummaryChangedNoticeUtc > TimeSpan.FromSeconds(2.0))
+                    {
+                        server.NotifyOfStatusSummaryChanged();
+                    }
+                }
                 acctServer.tAccount.NotifyAccountSummaryChanged();
             }
         }

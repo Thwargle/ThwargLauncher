@@ -39,7 +39,7 @@ namespace ThwargLauncher
             }
             if (e.PropertyName == "ServerName" || e.PropertyName == "ServerAlias")
             {
-                NotifyOfPropertyChange(() => StatusSummary);
+                NotifyOfStatusSummaryChanged();
             }
             NotifyOfPropertyChange(e.PropertyName);
         }
@@ -50,7 +50,7 @@ namespace ThwargLauncher
             set {
                 if (Set(value))
                 {
-                    NotifyOfPropertyChange(() => StatusSummary);
+                    NotifyOfStatusSummaryChanged();
                 }
             }
         }
@@ -76,6 +76,7 @@ namespace ThwargLauncher
         public string ConnectionStatus { get { return _myServer.ConnectionStatus; } }
         public System.Windows.Media.SolidColorBrush ConnectionColor {  get { return _myServer.ConnectionColor;  } }
         public string IsPublished {  get { return _myServer.ServerSource == ServerModel.ServerSourceEnum.Published ? "True" : "False"; } }
+        public DateTime LastStatusSummaryChangedNoticeUtc = DateTime.MinValue;
         public string ServerNameAndDescription
         { // Used in account/server detail line
             get
@@ -125,7 +126,7 @@ namespace ThwargLauncher
                 return entry;
             }
         }
-        private bool HasChosenCharacter
+        internal bool HasChosenCharacter
         {
             get
             {
@@ -157,8 +158,13 @@ namespace ThwargLauncher
 
         public void NotifyAvailableCharactersChanged()
         {
-            NotifyOfPropertyChange("AvailableCharacters");
+            NotifyOfPropertyChange(() => AvailableCharacters);
             // Do wo need to also send one for ChosenCharacter?
+        }
+        public void NotifyOfStatusSummaryChanged()
+        {
+            LastStatusSummaryChangedNoticeUtc = DateTime.UtcNow;
+            NotifyOfPropertyChange(() => StatusSummary);
         }
     }
 }
