@@ -13,12 +13,4 @@
  - When launching a client, track it even if it's not set to log into a char
      In MagFilter, heartbeat not started until enter game
 	 See LoginCompleteMessageQueueManager.cs(30)
- - UI not updating the display for active account timer
-     Server.cs - StatusSummary - SummarizeUptime
-	 MainWindow xaml bound directly to StatusSummary
-     Existing timer fires GameMonitor.UpdateUiIfNeeded => NotifyGameChange
-	   => UiGameMonitorBridge._gameMonitor_GameChangeEvent => UiHandleGameChangeEvent
-	   => viewModel.UpdateAccountStatus
-	   which calls NotifyAccountSummaryChanged
-	   so this should propagate
-
+// - UI not updating the display for active account timer
