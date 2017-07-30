@@ -119,7 +119,7 @@ namespace ThwargLauncher
 
                 startInfo.WorkingDirectory = Path.GetDirectoryName(startInfo.FileName);
 
-                if (DecalInjection.IsDecalInstalled() && Properties.Settings.Default.InjectDecal)
+                if (ShouldWeUseDecal(simpleLaunch))
                 {
                     //Start Process with Decal Injection
                     string commandLineLaunch = startInfo.FileName + " " + startInfo.Arguments;
@@ -208,6 +208,23 @@ namespace ThwargLauncher
             if (simpleLaunch)
                 result.Success = true;
             return result;
+        }
+        private static bool ShouldWeUseDecal(bool simpleLaunch)
+        {
+            if (!DecalInjection.IsDecalInstalled())
+            {
+                // decal not installed, so we obviously don't want to try to use it
+                return false;
+            }
+            if (simpleLaunch)
+            {
+                // use decal if the user chose the checkbox to use it
+                return Properties.Settings.Default.InjectDecal;
+            }
+            else
+            { // advanced mode always uses decal if possible
+                return true;
+            }
         }
 
         private void LauncherProc_Exited(object sender, EventArgs e)
