@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -160,7 +161,6 @@ namespace ThwargLauncher
         }
         /// <summary>
         /// Check all process files mod dates, to see if recent
-        /// Don't actually spend the time to read the files
         /// </summary>
         private void CheckLiveProcessFiles()
         {
@@ -289,6 +289,22 @@ namespace ThwargLauncher
                     continue;
                 }
                 var status = GetStatusFromHeartbeatFileTime(gameSession);
+                
+                if(!response.Status.IsOnline)
+                {
+                    status = ServerAccountStatusEnum.None;
+                }
+
+                if(status == ServerAccountStatusEnum.None)
+                {
+                    Process p = Process.GetProcessById(response.Status.ProcessId);
+                    if (p != null)
+                    {
+                        p.Kill();
+                        Logger.WriteDebug("Killing process: " + p.Id.ToString());
+                    }
+                }
+
                 bool newGame = false;
                 bool changedGame = false;
                 bool changedStatus = false;

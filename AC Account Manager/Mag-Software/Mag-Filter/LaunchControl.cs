@@ -193,6 +193,7 @@ namespace MagFilter
                 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 stream.WriteLine("MagFilterVersion:{0}", assembly.GetName().Version);
                 stream.WriteLine("MagFilterFilePath:{0}", assembly.Location);
+                stream.WriteLine("IsOnline:{0}", status.IsOnline);
                 var text = stream.ToString();
                 return text;
             }
@@ -237,6 +238,7 @@ namespace MagFilter
                 info.Status.TeamList = SettingHelpers.GetSingleStringValue(settings, "TeamList");
                 info.Status.MagFilterVersion = SettingHelpers.GetSingleStringValue(settings, "MagFilterVersion");
                 info.Status.MagFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "MagFilterFilePath");
+                info.Status.IsOnline = SettingHelpers.GetSingleBoolValue(settings, "IsOnline", false);
 
                 info.IsValid = true;
             }

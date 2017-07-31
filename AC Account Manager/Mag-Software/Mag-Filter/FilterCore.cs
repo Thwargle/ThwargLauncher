@@ -29,6 +29,9 @@ namespace MagFilter
         private LoginNextCharacterManager loginNextCharacterManager;
         private ThwargInventory thwargInventory;
 
+        private DateTime _lastServerDispatchUtc = DateTime.MinValue;
+        private static FilterCore theFilterCore = null;
+
 
         private string PluginName { get { return FileLocations.FilterName; } }
 
@@ -38,6 +41,7 @@ namespace MagFilter
             Debug.Init(FileLocations.PluginPersonalFolder.FullName + @"\Exceptions.txt", PluginName);
             SettingsFile.Init(FileLocations.GetFilterSettingsFilepath(), PluginName);
             LogStartup();
+            theFilterCore = this;
 
             defaultFirstCharacterManager = new DefaultFirstCharacterManager(loginCharacterTools);
             chooseCharacterManager = new LauncherChooseCharacterManager(loginCharacterTools);
@@ -53,6 +57,11 @@ namespace MagFilter
             WindowMessage += new EventHandler<WindowMessageEventArgs>(FilterCore_WindowMessage);
 
             CommandLineText += new EventHandler<ChatParserInterceptEventArgs>(FilterCore_CommandLineText);
+        }
+
+        public static DateTime GetLastServerDispatchUtc()
+        {
+            return theFilterCore._lastServerDispatchUtc;
         }
 
         private void LogStartup()
@@ -97,6 +106,7 @@ namespace MagFilter
         {
             try
             {
+                _lastServerDispatchUtc = DateTime.UtcNow;
                 autoRetryLogin.FilterCore_ServerDispatch(sender, e);
                 loginCharacterTools.FilterCore_ServerDispatch(sender, e);
 

@@ -130,6 +130,32 @@ namespace MagFilter
                 }
             }
         }
+
+        public bool IsOnline()
+        {
+            try
+            {
+                var gap = DateTime.UtcNow - FilterCore.GetLastServerDispatchUtc();
+                bool isOnline = gap.TotalSeconds < 10;
+                return isOnline;
+                // No, not this stuff
+                /*
+                var worldFilter = Decal.Adapter.CoreManager.Current.WorldFilter;
+                if (worldFilter == null) { log.WriteError("worldFilter null"); return false; }
+                var inventory = worldFilter.GetInventory();
+                if (inventory == null) { log.WriteError("inventory null"); return false; }
+                var firstObject = inventory.First;
+                if (firstObject == null) { log.WriteError("firstObject null"); return false; }
+                return Decal.Adapter.CoreManager.Current.Actions.IsValidObject(firstObject.Id);
+                */
+            }
+            catch (Exception exc)
+            {
+                log.WriteError("IsOnline exception: " + exc.ToString());
+                return false;
+            }
+        }
+
         /// <summary>
         /// This may be called on timer thread *OR* on external caller's thread
         /// </summary>
@@ -139,6 +165,7 @@ namespace MagFilter
             try
             {
                 _status.TeamList = _cmdParser.GetTeamList();
+                _status.IsOnline = IsOnline();
                 LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
             catch (Exception exc)

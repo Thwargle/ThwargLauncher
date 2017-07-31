@@ -133,6 +133,7 @@ namespace ThwargLauncher
                     //Start Process without Decal
                     launcherProc = Process.Start(startInfo);
                 }
+                Logger.WriteInfo(string.Format("PID = {0}", launcherProc.Id));
                 launcherProc.EnableRaisingEvents = true;
                 launcherProc.Exited += LauncherProc_Exited;
                 if (!gameReady)

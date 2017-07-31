@@ -29,6 +29,28 @@ namespace GenericSettingsFile
             }
             return value;
         }
+
+        public static bool GetSingleBoolValue(SettingsCollection coll, string key, bool defVal)
+        {
+            string text = GetSingleStringValue(coll, key);
+            return ObjToBool(text, defVal);
+        }
+        private static bool EqStr(string text1, string text2)
+        {
+            return (string.Compare(text1, text2, StringComparison.InvariantCultureIgnoreCase) == 0);
+        }
+
+        private static bool ObjToBool(object obj, bool defval)
+        {
+            if (obj == null) { return defval; }
+            string text = obj.ToString();
+            if (EqStr(text, "True") || EqStr(text, "Yes")) { return true; }
+            if (EqStr(text, "False") || EqStr(text, "No")) { return false; }
+            bool bval = defval;
+            bool.TryParse(text, out bval);
+            return bval;
+        }
+
         public static DateTime GetSingleDateTimeValue(SettingsCollection coll, string key)
         {
             string text = GetSingleStringValue(coll, key);

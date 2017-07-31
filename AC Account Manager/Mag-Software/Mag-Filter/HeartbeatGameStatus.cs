@@ -16,5 +16,6 @@ namespace MagFilter
         public string TeamList; // separated by commas and no spaces
         public string MagFilterVersion;
         public string MagFilterFilePath;
+        public bool IsOnline;
     }
 }
