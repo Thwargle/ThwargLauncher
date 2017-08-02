@@ -13,6 +13,7 @@ namespace MagFilter
         private Channels.Channel _myChannel = Channels.Channel.MakeGameChannel();
         private MagFilterCommandParser _cmdParser = null;
         private DateTime LastSendAndReceive;
+        private int _offlineTimeoutSeconds = 30;
         private const int TIMER_SECONDS = 3;
         private const int TIMER_SKIPSEC = 1; // Skip timer if send & received this recent
 
@@ -43,8 +44,17 @@ namespace MagFilter
         }
         private System.Timers.Timer _timer = null;
         private string _gameToLauncherFilepath;
+        private int StringToInt(string text, int defval)
+        {
+            int value = defval;
+            int.TryParse(text, out value);
+            return value;
+        }
         private void StartBeating()
         {
+            AssemblySettings settings = new AssemblySettings();
+            _offlineTimeoutSeconds = StringToInt(settings.GetValue("ServerOnlineTimeoutSeconds", "30"), 30);
+
             int dllProcessId = System.Diagnostics.Process.GetCurrentProcess().Id;
             _gameToLauncherFilepath = FileLocations.GetGameHeartbeatFilepath(dllProcessId);
 
@@ -136,7 +146,7 @@ namespace MagFilter
             try
             {
                 var gap = DateTime.UtcNow - FilterCore.GetLastServerDispatchUtc();
-                bool isOnline = gap.TotalSeconds < 10;
+                bool isOnline = gap.TotalSeconds < _offlineTimeoutSeconds;
                 return isOnline;
                 // No, not this stuff
                 /*

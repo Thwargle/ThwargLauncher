@@ -86,6 +86,16 @@ public class AssemblySettings
             return(settingValue == null ? "" : settingValue);
         }
     }
+    public bool ContainsKey(string key)
+    {
+        if (key == null || settings == null) { return false; }
+        return settings.Contains(key);
+    }
+    public string GetValue(string key, string defval)
+    {
+        if (!ContainsKey(key)) { return defval; }
+        return this[key];
+    }
 
     public static IDictionary GetConfig()
     {
