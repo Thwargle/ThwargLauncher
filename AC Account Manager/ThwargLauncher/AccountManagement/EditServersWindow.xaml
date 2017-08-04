@@ -4,8 +4,11 @@
         xmlns:wpfenumhelper="clr-namespace:WpfEnumHelper"
         xmlns:local="clr-namespace:ThwargLauncher"
         Title="Edit Servers" Height="300" Width="400">
-    <StackPanel Orientation="Vertical">
-        <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,35" VerticalAlignment="Stretch"
+    <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+               LastChildFill="True">
+        <Button x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server" 
+                DockPanel.Dock="Bottom"/>
+        <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,5.2" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=ServerList}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
@@ -53,6 +56,5 @@
                 <DataGridTextColumn Header="Alias" Binding="{Binding ServerAlias}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server" />
-    </StackPanel>
+    </DockPanel>
 </Window>
