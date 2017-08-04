@@ -21,6 +21,7 @@ namespace ThwargLauncher
             OnPropertyChanged(e.PropertyName);
         }
         public bool AccountLaunchable { get { return _account.AccountLaunchable; } set { _account.AccountLaunchable = value; } }
+        public string AccountDisplayName { get { return _account.DisplayName; } }
         public string AccountName { get { return _account.Name; } }
         public ObservableCollection<Server> Servers { get { return _account.Servers; } }
         public ObservableCollection<Server> VisibleServers { get { return _account.VisibleServers; } }
