@@ -8,6 +8,7 @@
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,35" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=ServerList}"
                   AutoGenerateColumns="False"
+                  CanUserAddRows="False"
                   AlternatingRowBackground="Wheat" BeginningEdit="DataGrid_BeginningEdit">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
