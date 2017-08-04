@@ -1,17 +1,11 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
-// - Decal Checkbox on simple mode defaults to checked without being clickable if decal is not detected. Fix default state
- // - Add a message when switching to advanced mode if magfilter.dll is not detected in decal
- // - Do not allow accounts with blanks or special chars in either the account name or password
- // - Move simple launch button from help onto advanced interface
- // - Add space between server name and description string
  - Include server playercount
- // Look into why simple mode decal inject box affects advanced mode.
- // Auto-close crashed clients
  - relaunch clients that were launched, but have crashed
  - Auto-launch profile checkbox, to launch selected profile on startup
  - command line arguments to launch queue from command line
  - When launching a client, track it even if it's not set to log into a char
      In MagFilter, heartbeat not started until enter game
 	 See LoginCompleteMessageQueueManager.cs(30)
-// - UI not updating the display for active account timer
+ - Fix username Alias
+ - fix editing servers in grid

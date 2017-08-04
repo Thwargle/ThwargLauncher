@@ -70,8 +70,21 @@ namespace ThwargLauncher
             ChangeBackgroundImageRandomly();
 
             WireUpBackgroundWorker();
+            SubscribeToGameMonitorEvents();
 
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
+        }
+
+        private void SubscribeToGameMonitorEvents()
+        {
+            _gameMonitor.GameDiedEvent += _gameMonitor_GameDiedEvent;
+        }
+
+        private void _gameMonitor_GameDiedEvent(object sender, EventArgs e)
+        {
+
+            Application.Current.Dispatcher.Invoke(() =>
+                LaunchAllClientsOnAllServersOnThread());
         }
 
         private void PopulateServerList()
@@ -673,6 +686,11 @@ namespace ThwargLauncher
         private static bool IsTrue(bool? bval, bool defval = false)
         {
             return (bval.HasValue ? bval.Value : defval);
+        }
+
+        private void CheckRelaunch()
+        {
+            
         }
     }
 }

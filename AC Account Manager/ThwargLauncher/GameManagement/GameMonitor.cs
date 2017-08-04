@@ -19,7 +19,7 @@ namespace ThwargLauncher
         private System.Timers.Timer _timer = new System.Timers.Timer();
         private readonly GameSessionMap _map;
         private readonly Configurator _configurator;
-        private TimeSpan _liveInterval; // must be written this recently to be alive
+        private TimeSpan _liveInterval; // must be wEritten this recently to be alive
         private TimeSpan _warningInterval; // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
@@ -40,6 +40,15 @@ namespace ThwargLauncher
         public event GameChangeHandler GameChangeEvent;
         public delegate void GameCommandHandler(GameSession gameSession, string command);
         public event GameCommandHandler GameCommandEvent;
+
+        public event EventHandler GameDiedEvent;
+        protected void OnGameDied(EventArgs e)
+        {
+            if (GameDiedEvent != null)
+            {
+                GameDiedEvent(this, e);
+            }
+        }
 
         public GameMonitor(GameSessionMap map, Configurator configurator)
         {
@@ -301,7 +310,10 @@ namespace ThwargLauncher
                     if (p != null)
                     {
                         p.Kill();
+                        File.Delete(heartbeatFile);
+                        _map.RemoveGameSessionByProcessId(p.Id);
                         Logger.WriteDebug("Killing process: " + p.Id.ToString());
+                        OnGameDied(new EventArgs());
                     }
                 }
 
