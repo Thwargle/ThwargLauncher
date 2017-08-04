@@ -7,4 +7,3 @@
  - When launching a client, track it even if it's not set to log into a char
      In MagFilter, heartbeat not started until enter game
 	 See LoginCompleteMessageQueueManager.cs(30)
- - fix editing servers in grid
