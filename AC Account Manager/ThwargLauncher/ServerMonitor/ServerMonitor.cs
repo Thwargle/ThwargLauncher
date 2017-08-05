@@ -11,6 +11,9 @@ using AddressParser = ThwargUtils.AddressParser;
 
 namespace ThwargLauncher
 {
+    /// <summary>
+    /// Code to routinely check status of known servers, via sending UDP packets to them
+    /// </summary>
     class ServerMonitor
     {
         public delegate void ReportSomethingDelegateMethod(string msg);

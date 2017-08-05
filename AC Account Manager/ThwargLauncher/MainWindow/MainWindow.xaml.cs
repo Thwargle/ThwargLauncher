@@ -33,6 +33,11 @@ namespace ThwargLauncher
         private readonly GameSessionMap _gameSessionMap;
         private readonly GameMonitor _gameMonitor;
         readonly SynchronizationContext _uicontext;
+        private DateTime _launchRequestedTimeUtc = DateTime.MinValue;
+        private DateTime _lastLaunchInitiatedUtc = DateTime.MinValue;
+        private bool _autoRelaunching = false;
+        private System.Timers.Timer _timer;
+        private object _launchTimingLock = new object();
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
 
@@ -71,18 +76,52 @@ namespace ThwargLauncher
 
             WireUpBackgroundWorker();
             SubscribeToGameMonitorEvents();
+            _timer = new System.Timers.Timer(5000); // every five seconds
+            _timer.Elapsed += _timer_Elapsed;
 
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
+        void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (IsLaunchDue())
+            {
+                InvokeLaunchOnAppropriateThread();
+            }
+        }
+        private bool IsLaunchDue()
+        {
+            lock (_launchTimingLock)
+            {
+                if (_launchRequestedTimeUtc > _lastLaunchInitiatedUtc)
+                {
+                    return true;
+                }
+                else
+                {
+                    var elapsed = DateTime.UtcNow - _lastLaunchInitiatedUtc;
+                    if (elapsed.TotalSeconds > ConfigSettings.GetConfigInt("RelaunchIntervalSeconds", 60))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         private void SubscribeToGameMonitorEvents()
         {
             _gameMonitor.GameDiedEvent += _gameMonitor_GameDiedEvent;
         }
-
+        private void UnsubscribeToGameMonitorEvents()
+        {
+            _gameMonitor.GameDiedEvent -= _gameMonitor_GameDiedEvent;
+        }
         private void _gameMonitor_GameDiedEvent(object sender, EventArgs e)
         {
-
+            _launchRequestedTimeUtc = DateTime.UtcNow;
+        }
+        private void InvokeLaunchOnAppropriateThread()
+        {
             Application.Current.Dispatcher.Invoke(() =>
                 LaunchAllClientsOnAllServersOnThread());
         }
@@ -475,6 +514,11 @@ namespace ThwargLauncher
         {
             WorkerArgs args = (e.Argument as WorkerArgs);
             if (args == null) { return; }
+            lock (_launchTimingLock)
+            {
+                _autoRelaunching = true; // enable automatic relaunch at first launch
+                _lastLaunchInitiatedUtc = DateTime.UtcNow;
+            }
             int serverIndex = 0;
             System.Collections.Concurrent.ConcurrentQueue<LaunchItem> globalQueue = args.ConcurrentLaunchQueue;
             int serverTotal = globalQueue.Count;
@@ -564,6 +608,10 @@ namespace ThwargLauncher
 
         private void ThwargLauncherMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // Should stop background worker, but that is not straightforward
+            UnsubscribeToGameMonitorEvents();
+            _timer.Enabled = false;
+
             _viewModel.WindowClosing();
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
