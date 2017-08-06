@@ -88,9 +88,9 @@ namespace ThwargLauncher
         }
         private async Task<bool> IsUdpServerUp(string address, int port)
         {
+            UdpClient udpClient = new UdpClient();
             try
             {
-                UdpClient udpClient = new UdpClient();
                 // udpClient.Client.ReceiveTimeout not used in Async calls
                 udpClient.Connect(address, port);
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -118,6 +118,14 @@ namespace ThwargLauncher
                 else
                 {
                     return false;
+                }
+            }
+            finally
+            {
+                if (udpClient != null)
+                {
+                    udpClient.Close();
+                    udpClient = null;
                 }
             }
         }
