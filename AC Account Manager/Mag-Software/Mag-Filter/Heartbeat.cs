@@ -52,6 +52,11 @@ namespace MagFilter
         }
         private void StartBeating()
         {
+            if (_timer != null)
+            {
+                // already started
+                return;
+            }
             AssemblySettings settings = new AssemblySettings();
             _offlineTimeoutSeconds = StringToInt(settings.GetValue("ServerOnlineTimeoutSeconds", "30"), 30);
 

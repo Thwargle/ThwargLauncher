@@ -57,6 +57,7 @@ namespace MagFilter
                     CharacterBook mgr = CharacterBook.ReadCharacters();
 			        mgr.WriteCharacters(zonename: zonename, characters: characters);
                     log.WriteInfo("Wrote our characters to file");
+                    Heartbeat.LaunchHeartbeat();
                     written = true;
 			    }
             }
