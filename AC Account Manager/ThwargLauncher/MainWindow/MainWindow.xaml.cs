@@ -408,6 +408,8 @@ namespace ThwargLauncher
         }
         private void LaunchAllClientsOnAllServersOnThread()
         {
+            _viewModel.ClientFileLocation = txtLauncherLocation.Text;
+            _launcherLocation = _viewModel.ClientFileLocation;
             if (_worker.IsBusy)
             {
                 lblWorkerProgress.Content = "Launcher In Use";
