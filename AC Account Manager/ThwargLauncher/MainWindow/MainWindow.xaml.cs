@@ -555,14 +555,6 @@ namespace ThwargLauncher
                     _gameSessionMap.StartSessionWatcher(session);
                     workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
                 }
-                else
-                {
-                    if (!launchItem.IsSimpleLaunch)
-                    {
-                        globalQueue.Enqueue(launchItem);
-                        workerReportProgress("Requeued", launchItem, serverIndex, serverTotal);
-                    }
-                }
 
                 if (_worker.CancellationPending)
                 {
