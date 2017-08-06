@@ -35,7 +35,6 @@ namespace ThwargLauncher
         readonly SynchronizationContext _uicontext;
         private DateTime _launchRequestedTimeUtc = DateTime.MinValue;
         private DateTime _lastLaunchInitiatedUtc = DateTime.MinValue;
-        private bool _autoRelaunching = false;
         private System.Timers.Timer _timer;
         private object _launchTimingLock = new object();
 
@@ -517,7 +516,6 @@ namespace ThwargLauncher
             if (args == null) { return; }
             lock (_launchTimingLock)
             {
-                _autoRelaunching = true; // enable automatic relaunch at first launch
                 _lastLaunchInitiatedUtc = DateTime.UtcNow;
             }
             int serverIndex = 0;
