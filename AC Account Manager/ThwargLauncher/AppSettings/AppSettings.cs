@@ -101,7 +101,7 @@ namespace PersistenceHelper
                 return obj.ToString();
             }
         }
-        private bool ObjToBool(object obj, bool defval)
+        public static bool ObjToBool(object obj, bool defval)
         {
             if (obj == null) { return defval; }
             string text = obj.ToString();

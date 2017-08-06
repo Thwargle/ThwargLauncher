@@ -5,6 +5,12 @@ namespace ThwargLauncher
 {
     class ConfigSettings
     {
+        public static string GetConfigString(string name, string defval)
+        {
+            string text = ConfigurationManager.AppSettings[name];
+            if (text == null) { return defval; }
+            return text;
+        }
         public static int GetConfigInt(string name, int defval)
         {
             string text = ConfigurationManager.AppSettings[name];
@@ -19,11 +25,11 @@ namespace ThwargLauncher
                 return defval;
             }
         }
-        public static string GetConfigString(string name, string defval)
+        public static bool GetConfigBool(string name, bool defval)
         {
             string text = ConfigurationManager.AppSettings[name];
-            if (text == null) { return defval; }
-            return text;
+            if (string.IsNullOrEmpty(text)) { return defval; }
+            return PersistenceHelper.AppSettings.ObjToBool(text, defval);
         }
     }
 }

@@ -78,6 +78,7 @@ namespace ThwargLauncher
             SubscribeToGameMonitorEvents();
             _timer = new System.Timers.Timer(5000); // every five seconds
             _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = ConfigSettings.GetConfigBool("AutoRelaunch", false);
 
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
