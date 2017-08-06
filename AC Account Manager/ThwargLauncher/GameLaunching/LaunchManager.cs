@@ -57,7 +57,7 @@ namespace ThwargLauncher
                 {
                     return result;
                 }
-                string context = string.Format("Waiting {0} sec for {1}:{2}", (int)delay.TotalSeconds + 1, _launchItem.ServerName, _launchItem.AccountName);
+                string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds + 1);
                 ReportStatus(context, _launchItem);
 
                 System.Threading.Thread.Sleep(1000);
