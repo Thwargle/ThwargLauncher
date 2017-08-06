@@ -72,6 +72,7 @@ namespace MagFilter
             {
                 try
                 {
+                    log.WriteInfo("WriteCharacters called with no character name, so writing launch response");
                     LaunchControl.RecordLaunchResponse(DateTime.UtcNow);
                 }
                 catch

@@ -175,6 +175,14 @@ namespace ThwargLauncher
                                 TimeSpan maxLatency = DateTime.UtcNow - startWait;
                                 launchResponse = LaunchControl.GetLaunchResponse(maxLatency);
                             }
+                            else
+                            {
+                                if (string.IsNullOrEmpty(desiredCharacter))
+                                {
+                                    Logger.WriteDebug("Game Launcher waiting for launch response and desiredCharacter is empty, file time {0} and startWait {1}",
+                                        fileInfo.LastWriteTime.ToUniversalTime(), startWait);
+                                }
+                            }
                         }
                         else
                         {
