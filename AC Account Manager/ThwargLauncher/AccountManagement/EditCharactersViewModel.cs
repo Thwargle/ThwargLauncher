@@ -96,7 +96,6 @@ namespace ThwargLauncher.AccountManagement
             {
                 MagFilter.LoginCommandsStorage.SetLoginCommands(ecvm.AccountName, ecvm.ServerName, ecvm.CharacterName, text, ecvm.WaitTimeMs);
             }
-
         }
     }
 }

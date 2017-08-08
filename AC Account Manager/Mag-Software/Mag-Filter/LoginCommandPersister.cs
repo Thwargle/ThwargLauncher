@@ -26,11 +26,9 @@ namespace MagFilter
         }
         internal LoginCommandPersister(string accountName, string serverName, string characterName)
         {
-            // TODO - sanitize these strings because they're used in filenames
             _accountName = SanityString(accountName);
             _serverName = SanityString(serverName);
             _characterName = SanityString(characterName);
-            log.WriteDebug("Account: '{0}', Server: '{1}', Character: '{2}'", _accountName, _serverName, _characterName);
         }
         private string SanityString(string text)
         {
@@ -62,7 +60,6 @@ namespace MagFilter
         {
             try
             {
-                log.WriteDebug("reading queues");
                 var gcmds = ReadQueue(true);
                 var cmds = ReadQueue(false);
                 if (!gcmds.IsWaitSpecified() && cmds.IsWaitSpecified())
@@ -73,7 +70,6 @@ namespace MagFilter
                 {
                     gcmds.Commands.Enqueue(cmd);
                 }
-                log.WriteInfo("Found {0} cmds", gcmds.Commands.Count);
                 return gcmds;
             }
             catch (Exception exc)
@@ -86,12 +82,10 @@ namespace MagFilter
         {
             var loginCommands = new LoginCommands();
             string filepath = GetFilepath(global);
-            log.WriteDebug("Reading queue {0} (global: {1})", filepath, global);
             if (File.Exists(filepath))
             {
                 string contents = File.ReadAllText(filepath);
                 var cmds = ReadQueueFromText(contents, global);
-                log.WriteDebug("Read {0} cmds", cmds.Commands.Count);
                 return cmds;
             }
             return loginCommands;

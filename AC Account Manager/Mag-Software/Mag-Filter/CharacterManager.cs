@@ -20,7 +20,6 @@ namespace MagFilter
         }
         public IEnumerable<string> GetKeys()
         {
-            log.WriteDebug("GetKeys function: " + _data.Keys);
             return _data.Keys;
         }
         public ServerCharacterListByAccount GetCharacters(string serverName, string accountName)
@@ -28,7 +27,6 @@ namespace MagFilter
             string key = GetKey(server: serverName, accountName: accountName);
             if (this._data.ContainsKey(key))
             {
-                log.WriteDebug("GetChars sN aN Function: " + this._data[key]);
                 return this._data[key];
             }
             else
@@ -50,13 +48,11 @@ namespace MagFilter
         }
         internal ServerCharacterListByAccount GetCharacters(string key)
         {
-            log.WriteDebug("GetChars key Function: {0}", _data[key]);
             return this._data[key];
         }
         private static string GetKey(string server, string accountName)
         {
             string key = string.Format("{0}-{1}", server, accountName);
-            log.WriteDebug("GetKey function: {0}", key);
             return key;
         }
 
@@ -80,7 +76,6 @@ namespace MagFilter
                     log.WriteError("WriteCharacters: Exception trying to record launch response");
                 }
             }
-            log.WriteDebug("LaunchInfo valid");
 
             // Pass info to Heartbeat
             Heartbeat.RecordServer(launchInfo.ServerName);
@@ -93,7 +88,6 @@ namespace MagFilter
                     ZoneId = zonename,
                     CharacterList = characters
                 };
-            log.WriteInfo("Writing characters: " + clist.ToString());
             this._data[key] = clist;
             string contents = JsonConvert.SerializeObject(_data, Formatting.Indented);
             string path = FileLocations.GetCharacterFilePath();
@@ -114,7 +108,6 @@ namespace MagFilter
         {
             try
             {
-                log.WriteDebug("ReadCharacterImpl: " + ReadCharactersImpl());
                 return ReadCharactersImpl();
             }
             catch (Exception exc)

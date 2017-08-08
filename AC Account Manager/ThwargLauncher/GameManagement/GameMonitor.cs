@@ -431,22 +431,18 @@ namespace ThwargLauncher
                 gameSession.LastGoodStatusUtc = writtenUtc;
             }
             TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
-            Logger.WriteDebug("Time Elapsed: " + elapsed.ToString());
             if (elapsed < _warningInterval)
             {
-                Logger.WriteDebug("elapsed is less than warning interval.");
                 return ServerAccountStatusEnum.Running;
             }
             else
             {
                 if (elapsed > _liveInterval)
                 {
-                    Logger.WriteDebug("elapsed is greater than warning interval.");
                     return ServerAccountStatusEnum.None;
                 }
                 else
                 {
-                    Logger.WriteDebug("Ya done messed up.");
                     return ServerAccountStatusEnum.Warning;
                 }
             }
@@ -476,8 +472,6 @@ namespace ThwargLauncher
                     }
                     else
                     {
-                        Logger.WriteDebug("Killing game because elapsed {0:0} not less than liveInterval {1:0} - file {2}",
-                            elapsed.TotalSeconds, _liveInterval.TotalSeconds, fileInfo.Name);
                         RemoveDeadSessionByPid(processId);
                         processId = 0;
                     }
@@ -563,7 +557,6 @@ namespace ThwargLauncher
                 string gamePath = gameSession.ProcessStatusFilepath;
                 if (File.Exists(gamePath))
                 {
-                    Logger.WriteDebug("Deleting game {0}", gameSession.Description);
                     File.Delete(gamePath);
                 }
             }

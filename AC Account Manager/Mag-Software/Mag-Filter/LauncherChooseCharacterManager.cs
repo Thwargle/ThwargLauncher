@@ -6,28 +6,28 @@ using Decal.Adapter;
 
 namespace MagFilter
 {
-	class LauncherChooseCharacterManager
-	{
-		readonly LoginCharacterTools loginCharacterTools;
+    class LauncherChooseCharacterManager
+    {
+        readonly LoginCharacterTools loginCharacterTools;
 
-		readonly System.Windows.Forms.Timer launcherChooseCharTimer = new System.Windows.Forms.Timer();
+        readonly System.Windows.Forms.Timer launcherChooseCharTimer = new System.Windows.Forms.Timer();
 
-		int state;
+        int state;
 
-		string zonename;
-		string server;
+        string zonename;
+        string server;
 
         public LauncherChooseCharacterManager(LoginCharacterTools loginCharacterTools)
-		{
-			this.loginCharacterTools = loginCharacterTools;
+        {
+            this.loginCharacterTools = loginCharacterTools;
 
             launcherChooseCharTimer.Tick += new EventHandler(launcherChooseCharTimer_Tick);
             launcherChooseCharTimer.Interval = 1000;
-		}
+        }
 
-		public void FilterCore_ServerDispatch(object sender, NetworkMessageEventArgs e)
-		{
-			// When we login for the first time we get the following for messages in the following order
+        public void FilterCore_ServerDispatch(object sender, NetworkMessageEventArgs e)
+        {
+            // When we login for the first time we get the following for messages in the following order
 
             if (e.Message.Type == 0xF658) // Character List (we get this when we log out a character as well)
             {
@@ -46,35 +46,35 @@ namespace MagFilter
             // F7E5 - Unknown? (we only get this the first time we connect), E5 F7 00 00 01 00 00 00 01 00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 
 
             if (e.Message.Type == 0xF7EA) // Unknown? (we only get this the first time we connect), EA F7 00 0
-			{
+            {
                 launcherChooseCharTimer.Start();
-			}
-		}
+            }
+        }
 
-		public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
-		{
-			string lower = e.Text.ToLower();
+        public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
+        {
+            string lower = e.Text.ToLower();
 
-			if (lower.StartsWith("/mf dlc set"))
-			{
-				DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
-				Debug.WriteToChat("Default Login Character set to: " + CoreManager.Current.CharacterFilter.Name);
+            if (lower.StartsWith("/mf dlc set"))
+            {
+                DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
+                Debug.WriteToChat("Default Login Character set to: " + CoreManager.Current.CharacterFilter.Name);
 
-				e.Eat = true;
-			}
-			else if (lower == "/mf dlc clear")
-			{
-				DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
-				Debug.WriteToChat("Default Login Character cleared");
+                e.Eat = true;
+            }
+            else if (lower == "/mf dlc clear")
+            {
+                DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
+                Debug.WriteToChat("Default Login Character cleared");
 
-				e.Eat = true;
-			}
-		}
+                e.Eat = true;
+            }
+        }
 
         void launcherChooseCharTimer_Tick(object sender, EventArgs e)
-		{
-			try
-			{
+        {
+            try
+            {
                 // Override - instead of using the plugin xml, use the launch file
                 var launchInfo = LaunchControl.GetLaunchInfo();
                 if (launchInfo.IsValid)
@@ -83,7 +83,6 @@ namespace MagFilter
                     if (DateTime.UtcNow - launchInfo.LaunchTime < FiveMinutes)
                     {
                         var ourCharacter = new DefaultFirstCharacter(launchInfo.ServerName, zonename, launchInfo.CharacterName);
-                        log.WriteInfo("Character login requested: " + launchInfo.CharacterName);
 
                         if (ourCharacter.ZoneId == zonename && ourCharacter.Server == server)
                         {
@@ -111,12 +110,12 @@ namespace MagFilter
                     log.WriteInfo("launcherChooseCharTimer_Tick: LaunchInfo not valid");
                 }
 
-				if (state >= 3)
+                if (state >= 3)
                     launcherChooseCharTimer.Stop();
 
-				state++;
-			}
-			catch (Exception ex) { Debug.LogException(ex); }
-		}
-	}
+                state++;
+            }
+            catch (Exception ex) { Debug.LogException(ex); }
+        }
+    }
 }

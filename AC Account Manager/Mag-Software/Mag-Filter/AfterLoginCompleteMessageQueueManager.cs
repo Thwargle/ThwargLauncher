@@ -70,7 +70,6 @@ namespace MagFilter
                 if (useMagToolsStyle)
                 {
                     string cmd = _loginCmds.Commands.Dequeue();
-                    log.WriteInfo("Dequeued a login message to send to DecalProxy: {0}", cmd);
                     DecalProxy.DispatchChatToBoxWithPluginIntercept(cmd);
                 }
                 else
@@ -90,7 +89,6 @@ namespace MagFilter
                         {
                             cmd = " " + cmd;
                         }
-                        log.WriteInfo("Dequeued a login message to send char-by-char to chat: '{0}'", cmd);
                         PostMessageTools.SendCharString(cmd);
                         sendingLastEnter = true;
                     }
@@ -116,7 +114,6 @@ namespace MagFilter
                 cmdtext = cmdtext.Replace("/mfglobal", "/mf");
                 global = true;
             }
-            log.WriteDebug("FilterCore_CommandLineText: '{0}'", cmdtext);
             if (cmdtext.StartsWith("/mf log "))
             {
                 string logmsg = TextRemainder(cmdtext, "/mf log ");

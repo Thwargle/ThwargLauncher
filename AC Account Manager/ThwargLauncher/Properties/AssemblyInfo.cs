@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("ThwargLauncher")]
 [assembly: AssemblyDescription("A Thwargle and Zorgle application. In association with ThwargleGames.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Thwargle Games")]
 [assembly: AssemblyProduct("ThwargLauncher")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.8.3.0")]
-[assembly: AssemblyFileVersion("4.8.3.0")]
+[assembly: AssemblyVersion("5.0.0.0")]
+[assembly: AssemblyFileVersion("5.0.0.0")]
