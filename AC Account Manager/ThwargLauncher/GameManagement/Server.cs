@@ -105,7 +105,7 @@ namespace ThwargLauncher
             get
             {
                 string entry = ServerDisplayAlias;
-                if (HasChosenCharacter)
+                if (ServerSelected)
                 {
                     entry = string.Format("{0}{1}", ServerStatusSymbol, ServerDisplayAlias);
                     entry += string.Format("->{0}", ChosenCharacter);

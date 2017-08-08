@@ -77,9 +77,15 @@ namespace ThwargLauncher
             SubscribeToGameMonitorEvents();
             _timer = new System.Timers.Timer(5000); // every five seconds
             _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = ConfigSettings.GetConfigBool("AutoRelaunch", false);
+            StartStopTimerIfAutoChecked();
+            
 
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
+        }
+
+        void StartStopTimerIfAutoChecked()
+        {
+            _timer.Enabled = Properties.Settings.Default.AutoRelaunch;
         }
 
         void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -162,6 +168,10 @@ namespace ThwargLauncher
             {
                 this.lstUsername.ItemsSource = null;
                 this.lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
+            }
+            if (e.PropertyName == "AutoRelaunch")
+            {
+                StartStopTimerIfAutoChecked();
             }
         }
         private void MigrateSettingsIfNeeded()

@@ -35,6 +35,20 @@ namespace ThwargLauncher
             }
         }
 
+        public bool AutoRelaunch
+        {
+            get { return Properties.Settings.Default.AutoRelaunch; }
+            set
+            {
+                if (Properties.Settings.Default.AutoRelaunch != value)
+                {
+                    Properties.Settings.Default.AutoRelaunch = value;
+                    Properties.Settings.Default.Save();
+                    OnPropertyChanged("AutoRelaunch");
+                }
+            }
+        }
+
         private AccountManager _accountManager;
         private GameSessionMap _gameSessionMap;
         private Configurator _configurator;
@@ -320,12 +334,9 @@ namespace ThwargLauncher
                 string symbol = GetStatusSymbol(status);
                 Server server = acctServer.tServer;
                 server.SetAccountServerStatus(status, symbol);
-                if (server.HasChosenCharacter)
+                if (DateTime.UtcNow - server.LastStatusSummaryChangedNoticeUtc > TimeSpan.FromSeconds(2.0))
                 {
-                    if (DateTime.UtcNow - server.LastStatusSummaryChangedNoticeUtc > TimeSpan.FromSeconds(2.0))
-                    {
-                        server.NotifyOfStatusSummaryChanged();
-                    }
+                    server.NotifyOfStatusSummaryChanged();
                 }
                 acctServer.tAccount.NotifyAccountSummaryChanged();
             }

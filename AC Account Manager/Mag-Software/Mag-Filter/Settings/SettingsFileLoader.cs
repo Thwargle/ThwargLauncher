@@ -16,11 +16,15 @@ namespace GenericSettingsFile
             using (var file = new StreamReader(filepath))
             {
                 var contents = file.ReadToEnd();
-                var stringSeps = new string[] { "\r\n" };
-                var lines = contents.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
-                var settings = ParseSettings(lines);
-                return settings;
+                return ReadSettingsFromText(contents);
             }
+        }
+        public SettingsCollection ReadSettingsFromText(string text)
+        {
+            var stringSeps = new string[] { "\r\n" };
+            var lines = text.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
+            var settings = ParseSettings(lines);
+            return settings;
         }
         public SettingsCollection ParseSettings(IEnumerable<string> lines)
         {

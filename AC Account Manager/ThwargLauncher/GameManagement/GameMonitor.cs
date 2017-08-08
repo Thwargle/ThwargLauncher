@@ -34,6 +34,7 @@ namespace ThwargLauncher
         public event Action CharacterFileChanged;
         private DateTime _lastCheckedCharacterFileUtc = DateTime.MinValue;
         private DateTime _characterFileTimeUtc = DateTime.MinValue;
+        private DateTime _lastOnlineTimeUtc = DateTime.MinValue;
 
         public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeTeam, ChangeNone };
         public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
@@ -298,15 +299,26 @@ namespace ThwargLauncher
                     continue;
                 }
                 var status = GetStatusFromHeartbeatFileTime(gameSession);
-                
-                if(!response.Status.IsOnline)
+
+                if (!response.Status.IsOnline)
                 {
-                    status = ServerAccountStatusEnum.None;
+                    int gameInteractionTimeoutSeconds = ConfigSettings.GetConfigInt("GameInteractionTimeoutSeconds", 120);
+                    // MagFilter reports !IsOnline if server dispatch quits firing
+                    // but that isn't reliable, as it doesn't fire when not logged in to a character
+                    if ((DateTime.UtcNow - _lastOnlineTimeUtc).TotalSeconds > gameInteractionTimeoutSeconds)
+                    {
+                        status = ServerAccountStatusEnum.None;
+                        Logger.WriteInfo("Killing offline/character screen game");
+                    }
+                }
+                else
+                {
+                    _lastOnlineTimeUtc = DateTime.UtcNow;
                 }
 
-                if(status == ServerAccountStatusEnum.None)
+                if (status == ServerAccountStatusEnum.None)
                 {
-                    Process p = Process.GetProcessById(response.Status.ProcessId);
+                    Process p = TryGetProcessFromId(response.Status.ProcessId);
                     if (p != null)
                     {
                         p.Kill();
@@ -357,8 +369,20 @@ namespace ThwargLauncher
             }
             _lastReadProcesFilesUtc = DateTime.UtcNow;
         }
-        private void UpdateGameSessionFromHeartbeatStatus(GameSession gameSession, 
-            string filepath, MagFilter.LaunchControl.HeartbeatResponse response)
+        private static Process TryGetProcessFromId(int pid)
+        {
+            try
+            {
+                Process p = Process.GetProcessById(pid);
+                return p;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private void UpdateGameSessionFromHeartbeatStatus(GameSession gameSession,
+        string filepath, MagFilter.LaunchControl.HeartbeatResponse response)
         {
             gameSession.ProcessStatusFilepath = filepath;
             if (!response.IsValid) { return; }
@@ -400,25 +424,29 @@ namespace ThwargLauncher
                     return gameSession.Status;
                 }
             }
-            string heartbeatFile = gameSession.ProcessStatusFilepath;   
+            string heartbeatFile = gameSession.ProcessStatusFilepath;
             DateTime writtenUtc = File.GetLastWriteTimeUtc(heartbeatFile);
             if (writtenUtc > gameSession.LastGoodStatusUtc)
             {
                 gameSession.LastGoodStatusUtc = writtenUtc;
             }
             TimeSpan elapsed = (DateTime.UtcNow - writtenUtc);
+            Logger.WriteDebug("Time Elapsed: " + elapsed.ToString());
             if (elapsed < _warningInterval)
             {
+                Logger.WriteDebug("elapsed is less than warning interval.");
                 return ServerAccountStatusEnum.Running;
             }
             else
             {
                 if (elapsed > _liveInterval)
                 {
+                    Logger.WriteDebug("elapsed is greater than warning interval.");
                     return ServerAccountStatusEnum.None;
                 }
                 else
                 {
+                    Logger.WriteDebug("Ya done messed up.");
                     return ServerAccountStatusEnum.Warning;
                 }
             }
@@ -506,10 +534,10 @@ namespace ThwargLauncher
                 if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
                 {
                     var gameConfig = new Configurator.GameConfig()
-                        {
-                            MagFilterPath = response.Status.MagFilterFilePath,
-                            MagFilterVersion = response.Status.MagFilterVersion
-                        };
+                    {
+                        MagFilterPath = response.Status.MagFilterFilePath,
+                        MagFilterVersion = response.Status.MagFilterVersion
+                    };
                     _configurator.AddGameConfig(gameConfig);
                     Logger.WriteInfo(string.Format(
                         "MagFilter#{0} found: {1}",
@@ -533,7 +561,7 @@ namespace ThwargLauncher
                 gameSession.Status = ServerAccountStatusEnum.None;
                 NotifyGameChange(gameSession, GameChangeType.EndGame);
                 string gamePath = gameSession.ProcessStatusFilepath;
-                if(File.Exists(gamePath))
+                if (File.Exists(gamePath))
                 {
                     Logger.WriteDebug("Deleting game {0}", gameSession.Description);
                     File.Delete(gamePath);
@@ -559,7 +587,7 @@ namespace ThwargLauncher
                 GameChangeEvent(gameSession, changeType);
             }
         }
-        private void NotifyGameCommand( GameSession gameSession, string command)
+        private void NotifyGameCommand(GameSession gameSession, string command)
         {
             if (GameCommandEvent != null)
             {

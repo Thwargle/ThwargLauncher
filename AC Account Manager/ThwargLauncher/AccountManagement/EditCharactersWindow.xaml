@@ -25,10 +25,11 @@
             <DataGrid Name="grdCharacters" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding}"
                       IsSynchronizedWithCurrentItem="True"
+                      SelectedItem="{Binding SelectedCharacterx,Mode=TwoWay}"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       AutoGenerateColumns="False"
-                      AlternatingRowBackground="LightCyan"
+                      AlternatingRowBackground="LightCyan" VerticalScrollBarVisibility="Auto"
                       >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Account" Binding="{Binding AccountName}"></DataGridTextColumn>
@@ -52,7 +53,8 @@
                 <Label Content="Wait (ms)"/>
                 <Label Content="{Binding WaitTimeMs}"/>
             </StackPanel>
-            <TextBox AcceptsReturn="True" Text="{Binding CharacterLoginCommandListString}" />
+            <TextBox AcceptsReturn="True" Text="{Binding CharacterLoginCommandListString}" Height="300" />
+            <Button Command="{Binding SaveCurrentLoginCmdsCommand}" Content="Save"/>
         </StackPanel>
     </Grid>
 </Window>

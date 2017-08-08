@@ -26,9 +26,22 @@ namespace MagFilter
         }
         internal LoginCommandPersister(string accountName, string serverName, string characterName)
         {
-            _accountName = accountName;
-            _serverName = serverName;
-            _characterName = characterName;
+            // TODO - sanitize these strings because they're used in filenames
+            _accountName = SanityString(accountName);
+            _serverName = SanityString(serverName);
+            _characterName = SanityString(characterName);
+            log.WriteDebug("Account: '{0}', Server: '{1}', Character: '{2}'", _accountName, _serverName, _characterName);
+        }
+        private string SanityString(string text)
+        {
+            text = text.Replace("/", "");
+            text = text.Replace("\\", "");
+            text = text.Replace(":", "");
+            text = text.Replace("!", "");
+            text = text.Replace("'", "");
+            text = text.Replace("?", "");
+            // TODO - etc
+            return text;
         }
         internal void WriteQueue(LoginCommands loginCommands, bool global)
         {
@@ -73,20 +86,45 @@ namespace MagFilter
         {
             var loginCommands = new LoginCommands();
             string filepath = GetFilepath(global);
+            log.WriteDebug("Reading queue {0} (global: {1})", filepath, global);
             if (File.Exists(filepath))
             {
-                var settings = (new SettingsFileLoader()).ReadSettingsFile(filepath);
+                string contents = File.ReadAllText(filepath);
+                var cmds = ReadQueueFromText(contents, global);
+                log.WriteDebug("Read {0} cmds", cmds.Commands.Count);
+                return cmds;
+            }
+            return loginCommands;
+        }
+        internal LoginCommands ReadQueueFromText(string text, bool global, int optionalWaitTimeMs = -1)
+        {
+            var loginCommands = new LoginCommands();
+            var settings = (new SettingsFileLoader()).ReadSettingsFromText(text);
+            if (optionalWaitTimeMs != -1)
+            {
+                loginCommands.WaitMillisencds = optionalWaitTimeMs;
+            }
+            else
+            {
                 loginCommands.WaitMillisencds = int.Parse(settings.GetValue("WaitMilliseconds").SingleValue);
-                int count = int.Parse(settings.GetValue("CommandCount").SingleValue);
-                for (int i = 0; i < count; ++i)
+            }
+            int count = -1;
+            if (settings.ContainsKey("CommandCount"))
+            {
+                count = int.Parse(settings.GetValue("CommandCount").SingleValue);
+            }
+            else
+            {
+                count = settings.Count;
+            }
+            for (int i = 0; i < count; ++i)
+            {
+                string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleValue;
+                if (!string.IsNullOrEmpty(cmd))
                 {
-                    string cmd = settings.GetValue(string.Format("Command{0}", i)).SingleValue;
-                    if (!string.IsNullOrEmpty(cmd))
-                    {
-                        log.WriteInfo("cmd: '" + cmd + "'");
-                    }
-                    loginCommands.Commands.Enqueue(cmd);
+                    log.WriteInfo("cmd: '" + cmd + "'");
                 }
+                loginCommands.Commands.Enqueue(cmd);
             }
             return loginCommands;
         }
@@ -122,6 +160,33 @@ namespace MagFilter
             var persister = new LoginCommandPersister(accountName: accountName, serverName: serverName, characterName: characterName);
             var cmds = persister.ReadQueue(global: false);
             return cmds;
+        }
+        public static void SetGlobalLoginCommands(string text, int waitTimeMs)
+        {
+            var persister = new LoginCommandPersister();
+            var cmds = ParseCommandsFromText(text);
+            persister.WriteQueue(cmds, global: true);
+        }
+        public static void SetLoginCommands(string accountName, string serverName, string characterName, string text, int waitTimeMs)
+        {
+            var persister = new LoginCommandPersister(accountName: accountName, serverName: serverName, characterName: characterName);
+            var cmds = ParseCommandsFromText(text);
+            persister.WriteQueue(cmds, global: false);
+        }
+        private static LoginCommands ParseCommandsFromText(string text)
+        {
+            var cmds = new LoginCommands();
+            foreach (var line in SplitLines(text))
+            {
+                cmds.Commands.Enqueue(line);
+            }
+            return cmds;
+        }
+        private static string[] SplitLines(string text)
+        {
+            var stringSeps = new string[] { "\r\n" };
+            var lines = text.Split(stringSeps, StringSplitOptions.RemoveEmptyEntries);
+            return lines;
         }
     }
 }

@@ -22,6 +22,8 @@ namespace ThwargLauncher.AccountManagement
             InitializeComponent();
 
             this.DataContext = viewModel.CharacterList;
+
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
     }
 }

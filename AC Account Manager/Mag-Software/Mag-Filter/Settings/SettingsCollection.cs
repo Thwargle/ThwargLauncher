@@ -21,5 +21,6 @@ namespace GenericSettingsFile
             if (!_settings.ContainsKey(key)) { throw new Exception(string.Format("Missing key '{0}'", key)); }
             return _settings[key];
         }
+        public int Count { get { return _settings.Count; } }
     }
 }

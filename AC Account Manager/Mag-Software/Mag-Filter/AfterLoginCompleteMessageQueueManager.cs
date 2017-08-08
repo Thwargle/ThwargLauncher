@@ -25,7 +25,20 @@ namespace MagFilter
             {
                 freshLogin = false;
 
-                var persister = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, GameRepo.Game.Character);
+                string characterName = GameRepo.Game.Character;
+                if (string.IsNullOrEmpty(characterName))
+                {
+                    // Do not know why GameRepo.Game.Character is not yet populated, but it isn't
+                    var launchInfo = LaunchControl.GetLaunchInfo();
+                    if (launchInfo.IsValid)
+                    {
+                        characterName = launchInfo.CharacterName;
+                    }
+                }
+
+                var persister = new LoginCommandPersister(GameRepo.Game.Account, GameRepo.Game.Server, characterName);
+
+                log.WriteDebug("FilterCore_ClientDispatch: Character: '{0}'", GameRepo.Game.Character);
 
                 _loginCmds = persister.ReadAndCombineQueues();
 
@@ -98,9 +111,9 @@ namespace MagFilter
             string cmdtext = e.Text;
             if (cmdtext.Contains("/mfglobal"))
             {
-                cmdtext = cmdtext.Replace(" /mfglobal", "");
-                cmdtext = cmdtext.Replace("/mfglobal ", "");
-                cmdtext = cmdtext.Replace("/mfglobal", "");
+                cmdtext = cmdtext.Replace(" /mfglobal", " /mf");
+                cmdtext = cmdtext.Replace("/mfglobal ", "/mf ");
+                cmdtext = cmdtext.Replace("/mfglobal", "/mf");
                 global = true;
             }
             log.WriteDebug("FilterCore_CommandLineText: '{0}'", cmdtext);

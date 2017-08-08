@@ -174,6 +174,7 @@ namespace ThwargLauncher
                                 loginTime = DateTime.UtcNow;
                                 TimeSpan maxLatency = DateTime.UtcNow - startWait;
                                 launchResponse = LaunchControl.GetLaunchResponse(maxLatency);
+                                Logger.WriteDebug("GotLaunchResponse. Validity: " + launchResponse.IsValid.ToString());
                             }
                             else
                             {
@@ -186,10 +187,13 @@ namespace ThwargLauncher
                         }
                         else
                         {
+                            Logger.WriteDebug("Got into the final else in LaunchResponse thing.");
                             // Then we give it 6 more seconds to complete login
                             int loginTimeSeconds = ConfigSettings.GetConfigInt("LauncherGameLoginTime", 0);
+                            Logger.WriteDebug("characterFileWrittenTime: " + characterFileWrittenTime.ToString());
                             if (DateTime.UtcNow >= characterFileWrittenTime.AddSeconds(loginTimeSeconds))
                             {
+                                Logger.WriteDebug("Late enough to set gameReady.");
                                 gameReady = true;
                             }
                         }
@@ -202,11 +206,14 @@ namespace ThwargLauncher
                     "Failed to launch program. Check path '{0}': {1}",
                     exelocation, exc.Message));
             }
+            Logger.WriteDebug("gameReady State: " + gameReady);
             if (!gameReady)
             {
                 if (launcherProc != null && !launcherProc.HasExited)
                 {
+                    Logger.WriteDebug("About to kill game.");
                     launcherProc.Kill();
+                    Logger.WriteDebug("Game got killed.");
                 }
             }
             if (launchResponse != null && launchResponse.IsValid)
