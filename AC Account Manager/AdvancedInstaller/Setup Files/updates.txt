@@ -1,23 +1,23 @@
 ;aiu;
 
-[ThwargLauncher-4.8.2.0]
+[ThwargLauncher-5.0.0.0]
 Name = ThwargLauncher
-ProductVersion = 4.8.2.0
+ProductVersion = 5.0.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7871035
+Size = 7874495
 ReleaseDate = 18/07/2017
-MD5 = e1e6546da780f6b1b382b0c617dfc962
+MD5 = d4ae5b6aa30320cc1a473a030f9ff873
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 4.8.2.0
+Version = 5.0.0.0
 UpdatedApplications = ThwargLauncher[1.0-4.8.2]
-Description = VERSION 4.8.2.0 (2017-07-18)
-Description1 = Includes all 4.8.0.0 Fixes, plus a hotfix that allows decal injection on simple launch without magfilter.
-Description2 = - Added quite a few message boxes to help the user figure out what may not be working
-Description3 = - Masked off the password on Simple Launch view
-Description4 = - Alert the user to invalid username or password entry and prompt them to retry
-Feature = Now prompted with some info when switching to advanced when magfilter wasn't recognized in the registry
-Enhancement = Simple Launcher button is now on the Advanced view interface, not in the help menu.
-BugFix = Lots. Zorgle and I squash and create bugs in an infinite cycle of love and death.
+Description = VERSION 5.0.0.0 (2017-08-08)
+Description1 = Zorgle and I have fulfilled your wildest dreams. The launcher will now automatically restart crashed games! There's a new UI to add login commands. Each command will go on a new line, and will be issued after your character has logged in. Macro like never before!
+Feature = Auto-Relaunch!
+Feature1 = Onlogin Command UI for adding Login Commands!
+Enhancement = Added a nice checkbox to enable/disable automatic relaunches
+Enhancement1 = Fixed some magfilter logic to detect game status a little more properly and kill crashed games more effectively
+BugFix = Numerous and unknown.
+BugFix1 = Zorgle got rid of the rampant Mountain Dew leak.
 AutoCloseApplication = [APPDIR]YourApplication.exe

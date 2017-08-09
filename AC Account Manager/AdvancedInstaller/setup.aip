@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{C6B1F600-4A1F-4D11-8FA2-D2CC84E349A1} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{923986D2-E8F8-47DD-A406-BBB354392F18} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="4.8.2.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="5.0.0.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
