@@ -56,6 +56,9 @@
     <ApplicationIcon>Images\Logo_circleonly.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSharpCLI">
+      <HintPath>Externals\CSharpCLI.dll</HintPath>
+    </Reference>
     <Reference Include="MagFilter, Version=4.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Mag-Software\Mag-Filter\bin\Debug\MagFilter.dll</HintPath>

@@ -28,11 +28,47 @@ namespace ThwargLauncher
         {
             theAppCoordinator = this;
 
+            ParseCommandLine();
+
             BeginMonitoringGame();
 
             ShowMainWindow();
 
             BeginMonitoringServers();
+        }
+        private void ParseCommandLine()
+        {
+            try
+            {
+                var switches = new CSharpCLI.Argument.SwitchCollection();
+                switches.Add(new CSharpCLI.Argument.Switch("Profile", numberArguments: 1, isRequired: false));
+                switches.Add(new CSharpCLI.Argument.Switch("AutoRelaunch", hasArguments: true, isRequired: false));
+                var args = System.Environment.GetCommandLineArgs();
+                var parser = new CSharpCLI.Parse.ArgumentParser(args, switches);
+                parser.Parse();
+                if (parser.IsParsed("Profile"))
+                {
+                    string profileName = parser.GetValue("Profile");
+                    Properties.Settings.Default.LastProfileName = profileName;
+                    Properties.Settings.Default.Save();
+                }
+                if (parser.IsParsed("AutoRelaunch"))
+                {
+                    bool relaunchChoice = true;
+                    var setting = parser.GetValues("AutoRelaunch");
+                    if (setting.Length > 0)
+                    {
+                        string value = parser.GetValue("AutoRelaunch", 1);
+                        relaunchChoice = PersistenceHelper.AppSettings.ObjToBool(value, true);
+                    }
+                    Properties.Settings.Default.AutoRelaunch = relaunchChoice;
+                    Properties.Settings.Default.Save();
+                }
+            }
+            catch (Exception exc)
+            {
+                throw new Exception("Error reading command line arguments", exc);
+            }
         }
         public static void RemoveObsoleteProcess(int processId)
         {
