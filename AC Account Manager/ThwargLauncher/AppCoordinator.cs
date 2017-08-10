@@ -28,6 +28,8 @@ namespace ThwargLauncher
         {
             theAppCoordinator = this;
 
+            MigrateSettingsIfNeeded();
+
             ParseCommandLine();
 
             BeginMonitoringGame();
@@ -35,6 +37,15 @@ namespace ThwargLauncher
             ShowMainWindow();
 
             BeginMonitoringServers();
+        }
+        private void MigrateSettingsIfNeeded()
+        {
+            if (Properties.Settings.Default.NeedsUpgrade)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.NeedsUpgrade = false;
+                Properties.Settings.Default.Save();
+            }
         }
         private void ParseCommandLine()
         {

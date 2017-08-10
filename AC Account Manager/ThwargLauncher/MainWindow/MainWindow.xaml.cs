@@ -64,7 +64,6 @@ namespace ThwargLauncher
             DataContext = _viewModel;
             mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
 
-            MigrateSettingsIfNeeded();
             EnsureDataFoldersExist();
 
             PopulateServerList();
@@ -172,15 +171,6 @@ namespace ThwargLauncher
             if (e.PropertyName == "AutoRelaunch")
             {
                 StartStopTimerIfAutoChecked();
-            }
-        }
-        private void MigrateSettingsIfNeeded()
-        {
-            if (Properties.Settings.Default.NeedsUpgrade)
-            {
-                Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.NeedsUpgrade = false;
-                Properties.Settings.Default.Save();
             }
         }
         private void LoadImages()
