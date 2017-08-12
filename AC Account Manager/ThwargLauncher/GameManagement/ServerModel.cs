@@ -31,7 +31,7 @@ namespace ThwargLauncher
             if (ServerName != ob2.ServerName) { return false; }
             if (ServerIpAndPort != ob2.ServerIpAndPort) { return false; }
              * */
-            return true;
+            return false;
         }
         public override int GetHashCode()
         {

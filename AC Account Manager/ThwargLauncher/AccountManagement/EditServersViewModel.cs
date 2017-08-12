@@ -23,6 +23,32 @@ namespace ThwargLauncher
                 ServerList.Add(server);
             }
             AddServerCommand = new DelegateCommand(AddNewServer);
+            ServerList.CollectionChanged += ServerList_CollectionChanged;
+        }
+        void ServerList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var deletedServers = new List<ServerModel>();
+            var idsToDelete = new Dictionary<Guid, int>();
+            foreach (var item in e.OldItems)
+            {
+                var server = item as ServerModel;
+                idsToDelete[server.ServerId] = 1;
+            }
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    var server = item as ServerModel;
+                    if (idsToDelete.ContainsKey(server.ServerId))
+                    {
+                        idsToDelete.Remove(server.ServerId);
+                    }
+                }
+            }
+            foreach (var id in idsToDelete.Keys)
+            {
+                ServerManager.DeleteServerById(id);
+            }
         }
         private void AddNewServer()
         {
