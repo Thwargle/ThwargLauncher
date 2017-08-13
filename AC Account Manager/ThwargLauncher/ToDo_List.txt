@@ -1,4 +1,4 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
- - Include server playercount
+ - Include server playercount (see IsUdpServerUp)
  

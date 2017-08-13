@@ -101,6 +101,8 @@ namespace ThwargLauncher
                 var tsk = await Task.WhenAny(receiveTask, Task.Delay(TimeSpan.FromSeconds(TIMEOUTSEC)));
                 if (tsk == receiveTask)
                 {
+                    var result = await receiveTask;
+                    // TODO - extract number of players from buffer
                     return true;
                 }
                 else
