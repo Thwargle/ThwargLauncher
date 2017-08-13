@@ -54,7 +54,7 @@ namespace ThwargLauncher
                 this.Size = (ushort)HeaderSize;
                 this.Flags = flags;
             }
-
+            public PacketHeader() { }
             public byte[] GetRaw()
             {
                 var headerHandle = GCHandle.Alloc(this, GCHandleType.Pinned);
