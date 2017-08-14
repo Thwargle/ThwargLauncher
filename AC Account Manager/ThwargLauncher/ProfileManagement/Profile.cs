@@ -183,6 +183,7 @@ namespace ThwargLauncher
         }
         /// <summary>
         /// Read a string of json and build from it an object of type T
+        /// To avoid JSON attack vulnerability, do not allow this type to be variable and under external control
         /// </summary>
         private static T Deserialize<T>(string json)
         {

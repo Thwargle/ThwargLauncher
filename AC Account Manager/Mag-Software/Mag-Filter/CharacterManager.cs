@@ -129,6 +129,7 @@ namespace MagFilter
             using (var file = new StreamReader(path))
             {
                 string contents = file.ReadToEnd();
+                // to avoid json vulnerability, do not use TypeNameHandling.All
                 var data = JsonConvert.DeserializeObject<Dictionary<string, ServerCharacterListByAccount>>(contents);
                 CharacterBook charMgr = new CharacterBook(data);
                 return charMgr;
