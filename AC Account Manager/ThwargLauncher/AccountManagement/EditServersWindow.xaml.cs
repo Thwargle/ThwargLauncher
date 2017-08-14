@@ -30,7 +30,6 @@ namespace ThwargLauncher.AccountManagement
             InitializeComponent();
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
-
         private void DataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             var server = e.Row.Item as ServerModel;
@@ -39,6 +38,24 @@ namespace ThwargLauncher.AccountManagement
                 // Disallow editing of published servers
                 //e.Cancel = true;
             }
+        }
+        private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Delete) { return; }
+            var grid = sender as DataGrid;
+            if (grid == null) { return; }
+            if (grid.SelectedItems.Count == 0) { return; }
+            var row = grid.ItemContainerGenerator.ContainerFromIndex(grid.SelectedIndex) as DataGridRow;
+            if (row.IsEditing) { return; }
+            var serverNames = new List<string>();
+            foreach (var item in grid.SelectedItems)
+            {
+                var server = item as ServerModel;
+                serverNames.Add(server.ServerDisplayAlias);
+            }
+            string msg = string.Format("Delete {0} servers: {1}?", serverNames.Count, string.Join(", ", serverNames));
+            var choice = MessageBox.Show(msg, "Delete Server", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+            if (choice != MessageBoxResult.OK) { e.Handled = true; }
         }
     }
 }

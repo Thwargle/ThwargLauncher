@@ -95,12 +95,14 @@ namespace ThwargLauncher
                 udpClient.Connect(address, port);
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 byte[] sendBytes = Packet.MakeLoginPacket();
-                //Byte[] sendBytes = ConstructPacket();
                 udpClient.Send(sendBytes, sendBytes.Length);
                 var receiveTask = udpClient.ReceiveAsync();
                 var tsk = await Task.WhenAny(receiveTask, Task.Delay(TimeSpan.FromSeconds(TIMEOUTSEC)));
                 if (tsk == receiveTask)
                 {
+                    var result = await receiveTask;
+                    var header = ByteArrayToNewStuff(result.Buffer);
+                    // TODO - extract number of players from buffer
                     return true;
                 }
                 else
@@ -128,6 +130,13 @@ namespace ThwargLauncher
                     udpClient = null;
                 }
             }
+        }
+        public Packet.PacketHeader ByteArrayToNewStuff(byte[] bytes)
+        {
+            System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(bytes, System.Runtime.InteropServices.GCHandleType.Pinned);
+            Packet.PacketHeader stuff = (Packet.PacketHeader)System.Runtime.InteropServices.Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(Packet.PacketHeader));
+            handle.Free();
+            return stuff;
         }
         private byte[] ConstructPacket()
         {

@@ -61,6 +61,13 @@ namespace ThwargLauncher
             AddOrUpdateServer(servdata);
             SaveServerListToDisk();
         }
+        internal static void DeleteServerById(Guid id)
+        {
+            var existing = ServerList.FirstOrDefault(s => s.ServerId == id);
+            if (existing == null) { return; }
+            ServerList.Remove(existing);
+            SaveServerListToDisk();
+        }
         internal static void SaveServerListToDisk()
         {
             var userServers = ServerList.Where(s => s.ServerSource != ServerModel.ServerSourceEnum.Published);
