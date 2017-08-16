@@ -1,23 +1,21 @@
 ;aiu;
 
-[ThwargLauncher-5.0.0.0]
+[ThwargLauncher-5.0.4.0]
 Name = ThwargLauncher
-ProductVersion = 5.0.0.0
+ProductVersion = 5.0.4.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7874495
-ReleaseDate = 18/07/2017
-MD5 = d4ae5b6aa30320cc1a473a030f9ff873
+Size = 7890539
+ReleaseDate = 15/08/2017
+MD5 = caa853bfb929eb9d8cb1a92e324b8626
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 5.0.0.0
-UpdatedApplications = ThwargLauncher[1.0-4.8.2]
-Description = VERSION 5.0.0.0 (2017-08-08)
-Description1 = Zorgle and I have fulfilled your wildest dreams. The launcher will now automatically restart crashed games! There's a new UI to add login commands. Each command will go on a new line, and will be issued after your character has logged in. Macro like never before!
-Feature = Auto-Relaunch!
-Feature1 = Onlogin Command UI for adding Login Commands!
-Enhancement = Added a nice checkbox to enable/disable automatic relaunches
-Enhancement1 = Fixed some magfilter logic to detect game status a little more properly and kill crashed games more effectively
-BugFix = Numerous and unknown.
-BugFix1 = Zorgle got rid of the rampant Mountain Dew leak.
+Version = 5.0.4.0
+UpdatedApplications = ThwargLauncher[1.0-5.0.4]
+Description = VERSION 5.0.2.0 (2017-08-15)
+Description1 = Zorgle drizzled some Diet Coke over the interface and things sparkle more.
+Feature = OnLogin Command interface now selects a default, and updates when you click save.
+Enhancement = Zebras all now come with a unicorn horn. Enjoy.
+BugFix = Fixed a grevious error that seemed real fatal. Especially when it said fatal error and quit working.
+BugFix1 = Added a missing DLL that was missing and causing the entire app to never work ever, ever; no seriously it was just jacked up.
 AutoCloseApplication = [APPDIR]YourApplication.exe

@@ -29,6 +29,8 @@ namespace ThwargLauncher
         {
             theAppCoordinator = this;
 
+            ConfigureLogger();
+
             MigrateSettingsIfNeeded();
 
             ParseCommandLine();
@@ -57,6 +59,7 @@ namespace ThwargLauncher
                 //   but it throws exception
                 // Too early to have configured logging
                 // so we don't try to log this
+                Logger.WriteError("Failed to read configuration settings: " + exc.ToString());
                 DeleteAllOurUserConfigs();
                 System.Windows.MessageBox.Show("User settings failed to upgrade. Please run ThwargLauncher again.",
                     "Settings Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Hand);
@@ -72,10 +75,17 @@ namespace ThwargLauncher
         }
         private void DeleteDirectory(string parent, string child)
         {
-            if (parent.Length < 20) { return; }
-            if (!parent.Contains("AppData")) { return; }
-            string path = System.IO.Path.Combine(parent, child);
-            System.IO.Directory.Delete(path, recursive: true);
+            try
+            {
+                if (parent.Length < 20) { return; }
+                if (!parent.Contains("AppData")) { return; }
+                string path = System.IO.Path.Combine(parent, child);
+                System.IO.Directory.Delete(path, recursive: true);
+            }
+            catch
+            {
+
+            }
         }
         private void ParseCommandLine()
         {
@@ -117,9 +127,6 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringGame()
         {
-            // Logger is a static object, so it already exists
-            string logfilepath = GetLauncherLogPath();
-            _logWriter = new LogWriter(logfilepath);
             _configurator = new Configurator();
             RecordGameDll();
             _gameSessionMap = new GameSessionMap();
@@ -136,6 +143,13 @@ namespace ThwargLauncher
             _uiGameMonitorBridge = new UiGameMonitorBridge(_gameMonitor, _mainViewModel);
             _uiGameMonitorBridge.Start();
             _gameMonitor.Start();
+        }
+
+        private void ConfigureLogger()
+        {
+            // Logger is a static object, so it already exists
+            string logfilepath = GetLauncherLogPath();
+            _logWriter = new LogWriter(logfilepath);
         }
         private void BeginMonitoringServers()
         {
@@ -179,7 +193,7 @@ namespace ThwargLauncher
         }
         internal string GetLauncherLogPath()
         {
-            string filepath = System.IO.Path.Combine(MagFilter.FileLocations.AppLogsFolder,  "ThwargLauncher-%PID%_log.txt");
+            string filepath = System.IO.Path.Combine(MagFilter.FileLocations.AppLogsFolder, "ThwargLauncher-%PID%_log.txt");
             filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
             MagFilter.FileLocations.CreateAnyNeededFoldersOfFile(filepath);
             return filepath;
