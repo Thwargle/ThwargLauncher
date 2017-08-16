@@ -24,26 +24,26 @@
         <DataGrid Name="grdCharacters" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding}"
                       IsSynchronizedWithCurrentItem="True"
-                      SelectedItem="{Binding SelectedCharacterx,Mode=TwoWay}"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       AutoGenerateColumns="False"
+                      IsReadOnly="True"
                       AlternatingRowBackground="LightCyan" VerticalScrollBarVisibility="Visible"
                       Grid.Row="0"
                       >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Account" Binding="{Binding AccountName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Server" Binding="{Binding ServerName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Character" Binding="{Binding CharacterName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="LoginCmds" Binding="{Binding CharacterLoginCommandsCount}">
-                        <DataGridTextColumn.CellStyle>
-                            <Style TargetType="DataGridCell">
-                                <Setter Property="ToolTip" Value="{Binding CharacterLoginCommandListString}" />
-                            </Style>
-                        </DataGridTextColumn.CellStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Account" Binding="{Binding AccountName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Server" Binding="{Binding ServerName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Character" Binding="{Binding CharacterName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="LoginCmds" Binding="{Binding CharacterLoginCommandsCount}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding CharacterLoginCommandListString}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Width="Auto" Background="#bd783e" />
         <Grid VerticalAlignment="Stretch" DataContext="{Binding CurrentItem}" Grid.Row="2">
             <Grid.RowDefinitions>

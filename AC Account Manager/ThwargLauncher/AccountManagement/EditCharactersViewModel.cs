@@ -30,11 +30,19 @@ namespace ThwargLauncher.AccountManagement
         public string DetailText { get; private set; }
         public EditableCharacterViewModel SelectedCharacter { get; set; }
         private ObservableCollection<EditableCharacterViewModel> _characters = new ObservableCollection<EditableCharacterViewModel>();
+        private AccountManager _accountManager;
 
         private string CmdQueueToString(Queue<string> cmds) { return string.Join("\r\n", cmds); }
         internal EditCharactersViewModel(AccountManager accountManager)
         {
+            _accountManager = accountManager;
+            LoadCharacterConfiguration();
+        }
+
+        private void LoadCharacterConfiguration()
+        {
             var globalCmds = MagFilter.LoginCommandsStorage.GetGlobalLoginCommands();
+            _characters.Clear();
             _characters.Add(
                 new EditableCharacterViewModel()
                 {
@@ -48,7 +56,7 @@ namespace ThwargLauncher.AccountManagement
                     SaveCurrentLoginCmdsCommand = new DelegateCommand(PerformSaveCurrentLoginCmds)
                 });
 
-            foreach (var account in accountManager.UserAccounts)
+            foreach (var account in _accountManager.UserAccounts)
             {
                 foreach (var server in account.Servers)
                 {
@@ -58,7 +66,7 @@ namespace ThwargLauncher.AccountManagement
                         var cmds = MagFilter.LoginCommandsStorage.GetLoginCommands(account.Name, server.ServerName, character.Name);
                         _characters.Add(
                             new EditableCharacterViewModel()
-                                {
+                            {
                                 IsGlobal = false,
                                 AccountName = account.Name,
                                 ServerName = server.ServerName,
@@ -67,7 +75,7 @@ namespace ThwargLauncher.AccountManagement
                                 CharacterLoginCommandListString = CmdQueueToString(cmds.Commands),
                                 WaitTimeMs = cmds.WaitMillisencds,
                                 SaveCurrentLoginCmdsCommand = new DelegateCommand(PerformSaveCurrentLoginCmds)
-                    }
+                            }
                             );
                     }
                 }
@@ -81,6 +89,7 @@ namespace ThwargLauncher.AccountManagement
             {
                 SaveLoginCommands(charact);
             }
+            LoadCharacterConfiguration();
             // doesn't work
             if (SelectedCharacter == null) { return; }
             SaveLoginCommands(SelectedCharacter);
