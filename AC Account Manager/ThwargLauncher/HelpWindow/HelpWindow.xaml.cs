@@ -22,12 +22,23 @@ namespace ThwargLauncher
         {
             InitializeComponent();
             _viewModel = viewModel;
-            chkShowStartup.IsChecked = Properties.Settings.Default.ShowHelpAtStart;
+            chkShowStartup.IsChecked = TryGetShowHelpAtStart();
             var assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
             var version = assemblyName.Version;
             var assemblyTitle = assemblyName.Name;
             this.Title = string.Format("Help - {0} {1}", assemblyTitle, version);
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
+        }
+        private bool TryGetShowHelpAtStart()
+        {
+            try
+            {
+                return Properties.Settings.Default.ShowHelpAtStart;
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         private void btnDefaultPreferences_Click(object sender, RoutedEventArgs e)

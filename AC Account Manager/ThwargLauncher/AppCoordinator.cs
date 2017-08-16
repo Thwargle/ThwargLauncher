@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,12 +41,41 @@ namespace ThwargLauncher
         }
         private void MigrateSettingsIfNeeded()
         {
-            if (Properties.Settings.Default.NeedsUpgrade)
+            try
             {
-                Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.NeedsUpgrade = false;
-                Properties.Settings.Default.Save();
+                if (Properties.Settings.Default.NeedsUpgrade)
+                {
+                    Properties.Settings.Default.Upgrade();
+                    Properties.Settings.Default.NeedsUpgrade = false;
+                    Properties.Settings.Default.Save();
+                }
             }
+            catch (Exception exc)
+            {
+                string debug = exc.ToString();
+                // Tried to get path from ConfigurationManager.OpenExeConfiguration... 
+                //   but it throws exception
+                // Too early to have configured logging
+                // so we don't try to log this
+                DeleteAllOurUserConfigs();
+                System.Windows.MessageBox.Show("User settings failed to upgrade. Please run ThwargLauncher again.",
+                    "Settings Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Hand);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+        }
+        private void DeleteAllOurUserConfigs()
+        {
+            string localData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            DeleteDirectory(localData, "Thwargle_Games");
+            DeleteDirectory(localData, "ThwargLauncher");
+            DeleteDirectory(localData, "ThwargleGames");
+        }
+        private void DeleteDirectory(string parent, string child)
+        {
+            if (parent.Length < 20) { return; }
+            if (!parent.Contains("AppData")) { return; }
+            string path = System.IO.Path.Combine(parent, child);
+            System.IO.Directory.Delete(path, recursive: true);
         }
         private void ParseCommandLine()
         {
@@ -109,10 +139,21 @@ namespace ThwargLauncher
         }
         private void BeginMonitoringServers()
         {
-            if (Properties.Settings.Default.ServerMonitorEnabled)
+            if (TryGetServerMonitorEnabled())
             {
                 _monitor = new ServerMonitor();
                 _monitor.StartMonitor(() => { return ServerManager.ServerList; });
+            }
+        }
+        private bool TryGetServerMonitorEnabled()
+        {
+            try
+            {
+                return Properties.Settings.Default.ServerMonitorEnabled;
+            }
+            catch
+            {
+                return true;
             }
         }
         private void ShowMainWindow()
@@ -120,9 +161,20 @@ namespace ThwargLauncher
             _mainWindow = new MainWindow(_mainViewModel, _gameSessionMap, _gameMonitor);
             _mainWindow.Closing += mainWindow_Closing;
             _mainWindow.Show();
-            if (Properties.Settings.Default.LastUsedSimpleLaunch)
+            if (TryGetLastUsedSimpleLaunch())
             {
                 _mainViewModel.DisplaySimpleLauncher();
+            }
+        }
+        private bool TryGetLastUsedSimpleLaunch()
+        {
+            try
+            {
+                return Properties.Settings.Default.LastUsedSimpleLaunch;
+            }
+            catch
+            {
+                return true;
             }
         }
         internal string GetLauncherLogPath()

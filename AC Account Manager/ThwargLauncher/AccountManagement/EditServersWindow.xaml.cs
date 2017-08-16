@@ -51,6 +51,9 @@ namespace ThwargLauncher.AccountManagement
             foreach (var item in grid.SelectedItems)
             {
                 var server = item as ServerModel;
+                if (!server.IsUserServer)
+                {
+                }
                 serverNames.Add(server.ServerDisplayAlias);
             }
             string msg = string.Format("Delete {0} servers: {1}?", serverNames.Count, string.Join(", ", serverNames));

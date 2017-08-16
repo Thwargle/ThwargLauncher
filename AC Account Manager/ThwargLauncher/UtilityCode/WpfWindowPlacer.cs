@@ -8,7 +8,13 @@ namespace WindowPlacementUtil
     {
         public static void SetPlacement(this Window window, string placementXml)
         {
-            WindowPlacement.SetPlacement(new WindowInteropHelper(window).Handle, placementXml);
+            try
+            {
+                WindowPlacement.SetPlacement(new WindowInteropHelper(window).Handle, placementXml);
+            }
+            catch
+            {
+            }
         }
 
         public static string GetPlacement(this Window window)

@@ -22,7 +22,7 @@ namespace ThwargLauncher
         {
             get
             {
-                return Properties.Settings.Default.ACLocation;
+                return TryGetClientFileLocation();
             }
             set
             {
@@ -32,6 +32,17 @@ namespace ThwargLauncher
                     Properties.Settings.Default.Save();
                     OnPropertyChanged("ClientFileLocation");
                 }
+            }
+        }
+        private string TryGetClientFileLocation()
+        {
+            try
+            {
+                return Properties.Settings.Default.ACLocation;
+            }
+            catch
+            {
+                return @"C:\Turbine\Asheron's Call\acclient.exe";
             }
         }
 
@@ -58,11 +69,18 @@ namespace ThwargLauncher
         }
         public void LoadFromSettings()
         {
-            UseDecal = Properties.Settings.Default.InjectDecal;
-            AccountName = Properties.Settings.Default.SimpleLaunch_Username;
-            Password = Properties.Settings.Default.SimpleLaunch_Password;
-            var initialServer = _servers.SourceCollection.OfType<SimpleServerItem>().FirstOrDefault(
-                x => x.GetHashCode() == Properties.Settings.Default.SimpleLaunch_ServerHashCode);
+            SimpleServerItem initialServer = null;
+            try
+            {
+                UseDecal = Properties.Settings.Default.InjectDecal;
+                AccountName = Properties.Settings.Default.SimpleLaunch_Username;
+                Password = Properties.Settings.Default.SimpleLaunch_Password;
+                initialServer = _servers.SourceCollection.OfType<SimpleServerItem>().FirstOrDefault(
+                    x => x.GetHashCode() == Properties.Settings.Default.SimpleLaunch_ServerHashCode);
+            }
+            catch
+            {
+            }
             SelectedServer = initialServer;
         }
         public void SaveToSettings()

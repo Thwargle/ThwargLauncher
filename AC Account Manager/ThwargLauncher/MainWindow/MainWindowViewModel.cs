@@ -22,7 +22,7 @@ namespace ThwargLauncher
         {
             get
             {
-                return Properties.Settings.Default.ACLocation;
+                return GetACLocation();
             }
             set
             {
@@ -34,10 +34,21 @@ namespace ThwargLauncher
                 }
             }
         }
+        private string GetACLocation()
+        {
+            try
+            {
+                return Properties.Settings.Default.ACLocation;
+            }
+            catch
+            {
+                return @"C:\Turbine\Asheron's Call\acclient.exe";
+            }
+        }
 
         public bool AutoRelaunch
         {
-            get { return Properties.Settings.Default.AutoRelaunch; }
+            get { return GetAutoRelaunch(); }
             set
             {
                 if (Properties.Settings.Default.AutoRelaunch != value)
@@ -46,6 +57,17 @@ namespace ThwargLauncher
                     Properties.Settings.Default.Save();
                     OnPropertyChanged("AutoRelaunch");
                 }
+            }
+        }
+        private bool GetAutoRelaunch()
+        {
+            try
+            {
+                return Properties.Settings.Default.AutoRelaunch;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -262,8 +284,20 @@ namespace ThwargLauncher
         }
         public void LoadMostRecentProfile()
         {
-            string profileName = Properties.Settings.Default.LastProfileName;
+            string profileName = GetLastProfileName();
             LoadProfile(profileName);
+        }
+        private string GetLastProfileName()
+        {
+            try
+            {
+                string profileName = Properties.Settings.Default.LastProfileName;
+                return profileName;
+            }
+            catch
+            {
+                return null;
+            }
         }
         private void LoadProfile(string profileName)
         {
@@ -271,7 +305,7 @@ namespace ThwargLauncher
             ProfileManager mgr = new ProfileManager();
             try
             {
-                if (profileName == null)
+                if (string.IsNullOrEmpty(profileName))
                 {
                     profileName = "Default";
                 }
@@ -282,6 +316,13 @@ namespace ThwargLauncher
                     CurrentProfile = mgr.Load(profileName);
                 }
                 CurrentProfile.ActivateProfile();
+            }
+            catch
+            {
+                if (CurrentProfile == null)
+                {
+                    CurrentProfile = new Profile();
+                }
             }
             finally
             {
@@ -404,14 +445,21 @@ namespace ThwargLauncher
         }
         public void DisplayHelpWindow()
         {
-            if (_helpWindow == null)
+            try
             {
-                var hwvm = new HelpWindowViewModel(_configurator);
-                _helpWindow = new HelpWindow(hwvm);
-                _helpWindow.Closing += (s, e) => _helpWindow = null;
+                if (_helpWindow == null)
+                {
+                    var hwvm = new HelpWindowViewModel(_configurator);
+                    _helpWindow = new HelpWindow(hwvm);
+                    _helpWindow.Closing += (s, e) => _helpWindow = null;
+                }
+                _helpWindow.Activate();
+                _helpWindow.Show();
             }
-            _helpWindow.Activate();
-            _helpWindow.Show();
+            catch (Exception exc)
+            {
+                Logger.WriteError("DisplayHelpWindow exception: {0}", exc);
+            }
         }
         public void DisplaySimpleLauncher()
         {
@@ -427,7 +475,13 @@ namespace ThwargLauncher
                 _simpleLaunchWindow = new SimpleLaunchWindow(_simpleLaunchViewModel);
                 _simpleLaunchWindow.Closing += OnSimpleLaunchWindowClosing;
             }
-            Properties.Settings.Default.LastUsedSimpleLaunch = true;
+            try
+            {
+                Properties.Settings.Default.LastUsedSimpleLaunch = true;
+            }
+            catch
+            {
+            }
             _simpleLaunchWindow.Show();
             if (OpeningSimpleLauncherEvent != null)
                 OpeningSimpleLauncherEvent();

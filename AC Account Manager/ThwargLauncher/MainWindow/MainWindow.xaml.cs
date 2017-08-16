@@ -84,7 +84,18 @@ namespace ThwargLauncher
 
         void StartStopTimerIfAutoChecked()
         {
-            _timer.Enabled = Properties.Settings.Default.AutoRelaunch;
+            _timer.Enabled = TryGetAutoRelaunch();
+        }
+        private bool TryGetAutoRelaunch()
+        {
+            try
+            {
+                return Properties.Settings.Default.AutoRelaunch;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -138,9 +149,20 @@ namespace ThwargLauncher
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (Properties.Settings.Default.ShowHelpAtStart)
+            if (TryGetShowHelpAtStart())
             {
                 DisplayHelpWindow();
+            }
+        }
+        private bool TryGetShowHelpAtStart()
+        {
+            try
+            {
+                return Properties.Settings.Default.ShowHelpAtStart;
+            }
+            catch
+            {
+                return true;
             }
         }
         private void CheckForProgramUpdate()
