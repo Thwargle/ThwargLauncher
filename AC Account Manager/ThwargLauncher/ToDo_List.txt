@@ -1,4 +1,5 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
  - Include server playercount (see IsUdpServerUp)
- 
+ - Verify that "global" commands are issued before the player commands
+ - Add "Description" to the edit servers UI
