@@ -102,6 +102,24 @@ namespace ThwargLauncher
                 {
                     var result = await receiveTask;
                     var header = ByteArrayToNewStuff(result.Buffer);
+                    if (((uint)header.Flags & 0x800000u) != 0 && result.Buffer.Length >= 24)
+                    {
+                        byte[] newBytes = new byte[4];
+                        Buffer.BlockCopy(result.Buffer, 20, newBytes, 0, 4);
+                        var n = BitConverter.ToUInt32(newBytes, 0);
+                        var debug = string.Format("Got {0}: ", n);
+                        for (int i = 0; i < result.Buffer.Length; ++i)
+                        {
+                            var bytn = result.Buffer[i];
+                            debug += bytn.ToString("X2");
+                            if (i == 4 || i == 8 || i == 12 || i == 14 || i == 16 || i == 18 || i == 20)
+                            {
+                                debug += " ";
+                            }
+                        }
+                        System.Diagnostics.Debug.WriteLine(debug);
+
+                    }
                     // TODO - extract number of players from buffer
                     return true;
                 }
