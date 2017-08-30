@@ -2,4 +2,3 @@
 
  - Include server playercount (see IsUdpServerUp)
  - Verify that "global" commands are issued before the player commands
- - Add "Description" to the edit servers UI

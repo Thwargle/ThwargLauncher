@@ -44,6 +44,13 @@
                         </Style>
                     </DataGridComboBoxColumn.CellStyle>
                 </DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding ServerDescription,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridComboBoxColumn Header="Rodat" SelectedItemBinding="{Binding RodatSetting}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+RodatEnum}">
                     <DataGridComboBoxColumn.CellStyle>
                         <Style TargetType="DataGridCell">
