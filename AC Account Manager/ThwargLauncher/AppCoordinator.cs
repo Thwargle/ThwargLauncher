@@ -35,6 +35,9 @@ namespace ThwargLauncher
 
             ParseCommandLine();
 
+            var dwMode = UtilityCode.WinSetErrorMode.SetErrorMode(UtilityCode.WinSetErrorMode.ErrorModes.SEM_NOGPFAULTERRORBOX);
+            UtilityCode.WinSetErrorMode.SetErrorMode(dwMode | UtilityCode.WinSetErrorMode.ErrorModes.SEM_NOGPFAULTERRORBOX);
+
             BeginMonitoringGame();
 
             ShowMainWindow();
