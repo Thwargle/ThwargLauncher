@@ -6,6 +6,8 @@ using System.Text;
 using MagFilter;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using RestSharp;
+using Newtonsoft.Json.Linq;
 
 namespace ThwargLauncher
 {
@@ -14,7 +16,7 @@ namespace ThwargLauncher
         public bool Success;
         public int ProcessId;
     }
-    
+
     public delegate bool ShouldStopLaunching(object sender, EventArgs e);
     /// <summary>
     /// Called by Launch Manager to actually fire off a process for one game
@@ -52,7 +54,7 @@ namespace ThwargLauncher
         public GameLaunchResult LaunchGameClient(string exelocation,
             string serverName, string accountName, string password,
             string ipAddress, ServerModel.ServerEmuEnum emu, string desiredCharacter,
-            ServerModel.RodatEnum rodatSetting, bool simpleLaunch)
+            ServerModel.RodatEnum rodatSetting, ServerModel.SecureEnum secureSetting, bool simpleLaunch)
         {
             var result = new GameLaunchResult();
             //-username "MyUsername" -password "MyPassword" -w "ServerName" -2 -3
@@ -60,13 +62,11 @@ namespace ThwargLauncher
             if (!File.Exists(exelocation)) { throw new Exception("Missing exe: " + exelocation); }
             if (string.IsNullOrWhiteSpace(serverName)) { throw new Exception("Empty serverName"); }
             if (string.IsNullOrWhiteSpace(accountName)) { throw new Exception("Empty accountName"); }
-            string arg1 = accountName;
-            string arg2 = password;
 
             string genArgs = "TODO-below";
 
             bool isPhat = (emu == ServerModel.ServerEmuEnum.Phat);
-            
+
             if (isPhat)
             {
                 //PHATAC
@@ -78,20 +78,26 @@ namespace ThwargLauncher
                 string genArgsPhatServer;
                 if (rodatSetting == ServerModel.RodatEnum.On)
                 {
-                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat on";
+                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat on";
                 }
                 else
                 {
-                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + arg1 + ":" + arg2 + " -rodat off";
+                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat off";
                 }
-                
+
                 genArgs = genArgsPhatServer;
             }
             else
             {
+                if (secureSetting == ServerModel.SecureEnum.On)
+                {
+                    password = SecureLogin(accountName, ipAddress, password);
+                    accountName = "C878ED60337AD247B71EDD56A7543395";
+
+                }
                 //ACE
                 //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
-                string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + arg2;
+                string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + password;
                 genArgs = genArgsACEServer;
             }
 
@@ -151,7 +157,7 @@ namespace ThwargLauncher
                                 launcherProc.Kill();
                             }
                             return result;
-                                
+
                         }
                         ReportGameStatus(string.Format("Waiting for game: {0}/{1} sec",
                             (int)((DateTime.UtcNow - startWait).TotalSeconds), secondsTimeout));
@@ -210,6 +216,25 @@ namespace ThwargLauncher
                 result.Success = true;
             return result;
         }
+
+        private string SecureLogin(string accountName, string ipAddress, string password)
+        {
+            ipAddress = "http://127.0.0.1:9001";
+            RestClient authClient = new RestClient(ipAddress);
+            var authRequest = new RestRequest("/Account/Authenticate", Method.POST);
+            authRequest.AddJsonBody(new { Username = accountName, Password = password });
+            var authResponse = authClient.Execute(authRequest);
+            if (authResponse.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("Authentication Failed, no auth token.");
+            }
+            string authToken;
+            JObject response = JObject.Parse(authResponse.Content);
+            authToken = (string)response.SelectToken("authToken");
+
+            return authToken;
+        }
+
         private static bool ShouldWeUseDecal(bool simpleLaunch)
         {
             if (!DecalInjection.IsDecalInstalled())
@@ -254,7 +279,7 @@ namespace ThwargLauncher
             {
                 while (!launcherProc.HasExited)
                 {
-                    if(CheckForStop())
+                    if (CheckForStop())
                         return;
                     launcherProc.Refresh();
                     if (launcherProc.Responding)

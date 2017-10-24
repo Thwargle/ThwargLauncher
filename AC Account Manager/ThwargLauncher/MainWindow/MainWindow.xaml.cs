@@ -498,7 +498,8 @@ namespace ThwargLauncher
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,
                                     CustomPreferencePath = account.CustomPreferencePath,
-                                    RodatSetting = server.RodatSetting
+                                    RodatSetting = server.RodatSetting,
+                                    SecureSetting = server.SecureSetting
                                 };
                             launchList.Add(launchItem);
                         }

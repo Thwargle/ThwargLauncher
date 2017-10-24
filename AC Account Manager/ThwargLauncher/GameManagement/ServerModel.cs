@@ -18,6 +18,7 @@ namespace ThwargLauncher
         public enum ServerSourceEnum { User, Published };
         public enum ServerEmuEnum { Phat, Ace };
         public enum RodatEnum { On, Off };
+        public enum SecureEnum { On, Off };
         public enum VisibilityEnum { Visible, Invisible };
 
         public override bool Equals(object obj)
@@ -49,6 +50,7 @@ namespace ThwargLauncher
             server.ServerIpAndPort = data.ConnectionString;
             server.EMU = data.EMU;
             server.RodatSetting = data.RodatSetting;
+            server.SecureSetting = data.SecureSetting;
             server.VisibilitySetting = data.VisibilitySetting;
             server.ServerSource = data.ServerSource;
             server.ConnectionStatus = "?";
@@ -82,6 +84,7 @@ namespace ThwargLauncher
         public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
         public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
         public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
+        public SecureEnum SecureSetting { get { return Get<SecureEnum>(); } set { Set(value); } }
         public VisibilityEnum VisibilitySetting { get { return Get<VisibilityEnum>(); } set { Set(value); } }
         public string ConnectionStatus { get { return Get<string>(); } set { Set(value); } }
         public System.Windows.Media.SolidColorBrush ConnectionColor { get { return Get<System.Windows.Media.SolidColorBrush>(); } set { Set(value); } }

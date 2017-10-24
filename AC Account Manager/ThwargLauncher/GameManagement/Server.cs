@@ -70,6 +70,7 @@ namespace ThwargLauncher
         public string ServerDisplayAlias { get { return _myServer.ServerDisplayAlias; } }
         public ServerModel.ServerEmuEnum EMU { get { return _myServer.EMU; } }
         public ServerModel.RodatEnum RodatSetting { get { return _myServer.RodatSetting; } }
+        public ServerModel.SecureEnum SecureSetting { get { return _myServer.SecureSetting; } }
         public ServerModel.VisibilityEnum VisibilitySetting { get { return _myServer.VisibilitySetting; } }
         public ServerModel.ServerUpStatusEnum UpStatus { get { return _myServer.UpStatus; } }
         public string UpStatusString { get { return _myServer.UpStatus.ToString(); } }

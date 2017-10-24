@@ -122,6 +122,7 @@ namespace ThwargLauncher
             launchItem.EMU = server.EMU;
             launchItem.CharacterSelected = null; // no character choices for SimpleLaunch, b/c that requires MagFilter
             launchItem.RodatSetting = server.RodatSetting;
+            launchItem.SecureSetting = server.SecureSetting;
             launchItem.IsSimpleLaunch = true;
 
             if (LaunchingEvent == null) { throw new Exception("SimpleLaunchWindowViewModel.LaunchingEvent null"); }

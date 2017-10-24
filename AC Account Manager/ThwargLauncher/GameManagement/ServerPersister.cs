@@ -26,6 +26,7 @@ namespace ThwargLauncher.GameManagement
             public string ConnectionString;
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
+            public ServerModel.SecureEnum SecureSetting;
             public ServerModel.VisibilityEnum VisibilitySetting;
             public ServerModel.ServerSourceEnum ServerSource;
             public bool LoginEnabled; // TODO - what is this?
@@ -73,6 +74,7 @@ namespace ThwargLauncher.GameManagement
                             new XElement("custom_credentials", "true"),
                             new XElement("emu", server.EMU),
                             new XElement("default_rodat", server.RodatSetting),
+                            new XElement("default_secure", server.SecureSetting),
                             new XElement("visibility", server.VisibilitySetting),
                             new XElement("default_username", "username"),
                             new XElement("default_password", "password"),
@@ -109,6 +111,8 @@ namespace ThwargLauncher.GameManagement
                         si.ServerSource = source;
                         string rodatstr = GetSubvalue(node, "default_rodat");
                         si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
+                        string securestr = GetSubvalue(node, "default_secure");
+                        si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);
                         string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
                         si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
                         list.Add(si);
@@ -345,6 +349,21 @@ namespace ThwargLauncher.GameManagement
             else if (string.Compare(text, "Off", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.RodatEnum.Off;
+            }
+            else
+            {
+                return defval;
+            }
+        }
+        private ServerModel.SecureEnum ParseSecure(string text, ServerModel.SecureEnum defval)
+        {
+            if (string.Compare(text, "On", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.SecureEnum.On;
+            }
+            else if (string.Compare(text, "Off", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.SecureEnum.Off;
             }
             else
             {

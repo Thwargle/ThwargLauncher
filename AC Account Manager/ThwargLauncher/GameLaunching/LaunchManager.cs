@@ -85,6 +85,7 @@ namespace ThwargLauncher
                     emu: _launchItem.EMU,
                     desiredCharacter: _launchItem.CharacterSelected,
                     rodatSetting: _launchItem.RodatSetting,
+                    secureSetting: _launchItem.SecureSetting,
                     simpleLaunch: _launchItem.IsSimpleLaunch
                     );
                 if (!gameLaunchResult.Success)
