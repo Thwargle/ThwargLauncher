@@ -32,12 +32,14 @@ namespace ThwargLauncher
         public delegate IEnumerable<ServerModel> GetServerAction();
         public void StartMonitor(GetServerAction serverFetcher)
         {
-            //TODO: Remove the return, and add a setting for this
+            if (Properties.Settings.Default.CheckServerStatus)
+            {
+                StopMonitor();
+                _thread = new Thread(new ThreadStart(MonitorLoop));
+                _serverFetcher = serverFetcher;
+                _thread.Start();
+            }
             return;
-            StopMonitor();
-            _thread = new Thread(new ThreadStart(MonitorLoop));
-            _serverFetcher = serverFetcher;
-            _thread.Start();
         }
         public void StopMonitor()
         {
