@@ -93,6 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AccountManagement\AccessLevel.cs" />
     <Compile Include="AccountManagement\AccountCharacter.cs" />
     <Compile Include="AccountManagement\AccountEditor.xaml.cs">
       <DependentUpon>AccountEditor.xaml</DependentUpon>
@@ -112,6 +113,7 @@
     <Compile Include="AccountManagement\EditServersWindow.xaml.cs">
       <DependentUpon>EditServersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AccountManagement\Subscription.cs" />
     <Compile Include="AccountManagement\UserAcctViewModel.cs" />
     <Compile Include="AppCoordinator.cs" />
     <Compile Include="AppSettings\JSON.cs" />

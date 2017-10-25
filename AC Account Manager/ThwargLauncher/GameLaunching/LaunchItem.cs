@@ -12,6 +12,8 @@ namespace ThwargLauncher
         public string Password;
         public string IpAndPort;
         public string ServerName;
+        public string GameApiUrl;
+        public string LoginServerUrl;
         public ServerModel.ServerEmuEnum EMU;
         public string CharacterSelected;
         public ServerModel.RodatEnum RodatSetting;

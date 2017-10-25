@@ -8,6 +8,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using RestSharp;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using ThwargLauncher.AccountManagement;
 
 namespace ThwargLauncher
 {
@@ -53,7 +56,8 @@ namespace ThwargLauncher
 
         public GameLaunchResult LaunchGameClient(string exelocation,
             string serverName, string accountName, string password,
-            string ipAddress, ServerModel.ServerEmuEnum emu, string desiredCharacter,
+            string ipAddress,string gameApiUrl, string loginServerUrl,
+            ServerModel.ServerEmuEnum emu, string desiredCharacter,
             ServerModel.RodatEnum rodatSetting, ServerModel.SecureEnum secureSetting, bool simpleLaunch)
         {
             var result = new GameLaunchResult();
@@ -91,8 +95,9 @@ namespace ThwargLauncher
             {
                 if (secureSetting == ServerModel.SecureEnum.On)
                 {
-                    password = SecureLogin(accountName, ipAddress, password);
-                    accountName = "C878ED60337AD247B71EDD56A7543395";
+                    var loginInfo = SecureLogin(accountName: accountName, password: password, gameApiUrl: gameApiUrl, loginServerUrl: loginServerUrl);
+                    password = loginInfo.JwtToken;
+                    accountName = loginInfo.SubscriptionId;
 
                 }
                 //ACE
@@ -217,9 +222,26 @@ namespace ThwargLauncher
             return result;
         }
 
-        private string SecureLogin(string accountName, string ipAddress, string password)
+        private class SecureLoginInfo { public string JwtToken; public string SubscriptionId; }
+        private SecureLoginInfo SecureLogin(string accountName, string password, string gameApiUrl, string loginServerUrl)
         {
-            ipAddress = "http://127.0.0.1:9001";
+
+            var subInfo = GetSubscriptionsForAccount(accountName, password: password, ipAddress: loginServerUrl, gameApi: gameApiUrl);
+
+
+            if (subInfo.Subscriptions.Count < 1) { throw new Exception("No subscriptions"); }
+
+            SecureLoginInfo secureLoginInfo = new SecureLoginInfo();
+            secureLoginInfo.JwtToken = subInfo.AuthToken;
+            secureLoginInfo.SubscriptionId = subInfo.Subscriptions[0].SubscriptionGuid.ToString();
+            return secureLoginInfo;
+        }
+
+        private class SubscriptionListInfo { public string AuthToken; public List<Subscription> Subscriptions = new List<Subscription>(); }
+        private SubscriptionListInfo GetSubscriptionsForAccount(string accountName, string password, string ipAddress, string gameApi)
+        {
+            SubscriptionListInfo info = new SubscriptionListInfo();
+
             RestClient authClient = new RestClient(ipAddress);
             var authRequest = new RestRequest("/Account/Authenticate", Method.POST);
             authRequest.AddJsonBody(new { Username = accountName, Password = password });
@@ -228,11 +250,22 @@ namespace ThwargLauncher
             {
                 throw new Exception("Authentication Failed, no auth token.");
             }
-            string authToken;
             JObject response = JObject.Parse(authResponse.Content);
-            authToken = (string)response.SelectToken("authToken");
+            info.AuthToken = (string)response.SelectToken("authToken");
 
-            return authToken;
+            RestClient subClient = new RestClient(gameApi);
+            var subsRequest = new RestRequest("/Subscription/Get", Method.GET);
+            subsRequest.AddHeader("Authorization", "Bearer " + info.AuthToken);
+            var subsResponse = subClient.Execute(subsRequest);
+
+            if (subsResponse.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                // show the error
+                throw new Exception("HttpStatusCode from subscription call not OK.");
+            }
+
+            info.Subscriptions = JsonConvert.DeserializeObject<List<Subscription>>(subsResponse.Content);
+            return info;
         }
 
         private static bool ShouldWeUseDecal(bool simpleLaunch)

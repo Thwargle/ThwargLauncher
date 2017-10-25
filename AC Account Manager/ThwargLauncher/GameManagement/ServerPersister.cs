@@ -24,6 +24,8 @@ namespace ThwargLauncher.GameManagement
             public string ServerAlias;
             public string ServerDesc;
             public string ConnectionString;
+            public string GameApiUrl;
+            public string LoginServerUrl;
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
             public ServerModel.SecureEnum SecureSetting;
@@ -70,6 +72,8 @@ namespace ThwargLauncher.GameManagement
                             new XElement("description", server.ServerDescription),
                             new XElement("emu", server.EMU),
                             new XElement("connect_string", server.ServerIpAndPort),
+                            new XElement("GameApiUrlKey", server.GameApiUrl),
+                            new XElement("LoginServerUrlKey", server.LoginServerUrl),
                             new XElement("enable_login", "true"),
                             new XElement("custom_credentials", "true"),
                             new XElement("emu", server.EMU),
@@ -82,6 +86,7 @@ namespace ThwargLauncher.GameManagement
                             );
             return xelem;
         }
+
         private IEnumerable<ServerData> ReadServerList(ServerModel.ServerSourceEnum source, ServerModel.ServerEmuEnum emudef, string filepath)
         {
             var list = new List<ServerData>();
@@ -106,6 +111,8 @@ namespace ThwargLauncher.GameManagement
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
+                        si.GameApiUrl = GetOptionalSubvalue(node, "GameApiUrlKey", "");
+                        si.LoginServerUrl = GetOptionalSubvalue(node, "LoginServerUrlKey", "");
                         string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
                         si.EMU = ParseEmu(emustr, emudef);
                         si.ServerSource = source;

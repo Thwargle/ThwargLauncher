@@ -82,6 +82,8 @@ namespace ThwargLauncher
                     accountName: _launchItem.AccountName,
                     password: _launchItem.Password,
                     ipAddress: _launchItem.IpAndPort,
+                    gameApiUrl: _launchItem.GameApiUrl,
+                    loginServerUrl: _launchItem.LoginServerUrl,
                     emu: _launchItem.EMU,
                     desiredCharacter: _launchItem.CharacterSelected,
                     rodatSetting: _launchItem.RodatSetting,

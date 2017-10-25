@@ -65,6 +65,8 @@ namespace ThwargLauncher
             ServerStatusSymbol = symbol;
         }
         public string ServerIpAndPort { get { return _myServer.ServerIpAndPort; } }
+        public string GameApiUrl { get { return _myServer.GameApiUrl; } }
+        public string LoginServerUrl { get { return _myServer.LoginServerUrl; } }
         public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }
         public string ServerDisplayAlias { get { return _myServer.ServerDisplayAlias; } }

@@ -494,6 +494,8 @@ namespace ThwargLauncher
                                     Password = account.Password,
                                     ServerName = server.ServerName,
                                     IpAndPort = server.ServerIpAndPort,
+                                    GameApiUrl = server.GameApiUrl,
+                                    LoginServerUrl = server.LoginServerUrl,
                                     EMU = server.EMU,
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,

@@ -48,6 +48,8 @@ namespace ThwargLauncher
             server.ServerAlias = data.ServerAlias;
             server.ServerDescription = data.ServerDesc;
             server.ServerIpAndPort = data.ConnectionString;
+            server.GameApiUrl = data.GameApiUrl;
+            server.LoginServerUrl = data.LoginServerUrl;
             server.EMU = data.EMU;
             server.RodatSetting = data.RodatSetting;
             server.SecureSetting = data.SecureSetting;
@@ -82,6 +84,8 @@ namespace ThwargLauncher
         public string ServerDescription { get { return Get<string>(); } set { Set(value); } }
         public bool ServerLoginEnabled { get { return Get<bool>(); } set { Set(value); } }
         public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
+        public string GameApiUrl { get { return Get<string>(); } set { Set(value); } }
+        public string LoginServerUrl { get { return Get<string>(); } set { Set(value); } }
         public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
         public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
         public SecureEnum SecureSetting { get { return Get<SecureEnum>(); } set { Set(value); } }
