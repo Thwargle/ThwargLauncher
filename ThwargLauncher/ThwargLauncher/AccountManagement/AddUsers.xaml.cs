@@ -119,7 +119,7 @@ namespace ThwargLauncher
 
         private bool IsValidPassword(string name, string password)
         {
-            if (password.Contains(" ") || String.IsNullOrWhiteSpace(password))
+            if (String.IsNullOrWhiteSpace(password))
             {
                 var msg = string.Format("Password for account '{0}' may not contain a space.", name);
                 MessageBox.Show(msg, "Invalid password.");
