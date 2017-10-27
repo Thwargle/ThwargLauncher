@@ -118,7 +118,7 @@ namespace ThwargLauncher.GameManagement
                         si.ServerSource = source;
                         string rodatstr = GetSubvalue(node, "default_rodat");
                         si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
-                        string securestr = GetSubvalue(node, "default_secure");
+                        string securestr = GetOptionalSubvalue(node, "default_secure", "false");
                         si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);
                         string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
                         si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
