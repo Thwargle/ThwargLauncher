@@ -106,7 +106,8 @@ namespace ThwargLauncher
                 text.Contains(">") ||
                 text.Contains("?") ||
                 text.Contains(";") ||
-                text.Contains(":")
+                text.Contains(":") ||
+                String.IsNullOrWhiteSpace(text)
                 )
             {
                 var msg = string.Format("Name '{0}' contains an invalid character. Please do not use !@#$%^&*()=.,<>?;:", text);
@@ -118,7 +119,7 @@ namespace ThwargLauncher
 
         private bool IsValidPassword(string name, string password)
         {
-            if (password.Contains(" "))
+            if (password.Contains(" ") || String.IsNullOrWhiteSpace(password))
             {
                 var msg = string.Format("Password for account '{0}' may not contain a space.", name);
                 MessageBox.Show(msg, "Invalid password.");
