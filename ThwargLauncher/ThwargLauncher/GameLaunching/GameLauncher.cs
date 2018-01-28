@@ -102,7 +102,10 @@ namespace ThwargLauncher
                 }
                 //ACE
                 //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
-                string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + password;
+                //string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + password;
+                //ACE has now gotten rid of glstickets and changed their command line arguments
+                //string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -v" + password;
+                string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -v" + password;
                 genArgs = genArgsACEServer;
             }
 
