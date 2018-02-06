@@ -1,21 +1,20 @@
 ;aiu;
 
-[ThwargLauncher-5.0.4.0]
+[ThwargLauncher-5.0.6.0]
 Name = ThwargLauncher
-ProductVersion = 5.0.4.0
+ProductVersion = 5.0.6.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7890539
-ReleaseDate = 15/08/2017
-MD5 = caa853bfb929eb9d8cb1a92e324b8626
+Size = 7893792
+ReleaseDate = 05/02/2018
+MD5 = ea4c821edaf6b0b7c35c674d7f205946
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 5.0.4.0
-UpdatedApplications = ThwargLauncher[1.0-5.0.4]
-Description = VERSION 5.0.4.0 (2017-08-15)
-Description1 = Zorgle drizzled some Diet Coke over the interface and things sparkle more.
-Feature = OnLogin Command interface now selects a default, and updates when you click save.
-Enhancement = Zebras all now come with a unicorn horn. Enjoy.
-BugFix = Fixed a grevious error that seemed real fatal. Especially when it said fatal error and quit working.
-BugFix1 = Added a missing DLL that was missing and causing the entire app to never work ever, ever; no seriously it was just jacked up.
+Version = 5.0.6.0
+UpdatedApplications = ThwargLauncher[1.0-5.0.6]
+Description = VERSION 5.0.6.0 (2017-08-15)
+Description1 = Update to fix server list among other bug fixes.
+Feature = Moved published server list onto thwargle.com. 
+Enhancement = Removed any extra flapping dinguses (dingi?). Nobody wants those flopping around.
+BugFix = Fixed a UI bug in the add server window where it looked janky.
 AutoCloseApplication = [APPDIR]YourApplication.exe

@@ -97,8 +97,7 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/cmoski/pac_launcher_config/master/servers_v2.xm" +
-            "l")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://thwargle.com/thwarglauncher/PhatACPublishedServerInfo.xml")]
         public string PhatServerListUrl {
             get {
                 return ((string)(this["PhatServerListUrl"]));
@@ -195,6 +194,15 @@ namespace ThwargLauncher.Properties {
             }
             set {
                 this["CheckServerStatus"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://thwargle.com/thwarglauncher/ACEPublishedServerInfo.xml")]
+        public string ACEServerListUrl {
+            get {
+                return ((string)(this["ACEServerListUrl"]));
             }
         }
     }

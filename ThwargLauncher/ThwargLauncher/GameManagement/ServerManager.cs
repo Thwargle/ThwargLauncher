@@ -15,21 +15,30 @@ namespace ThwargLauncher
 
         public static void LoadServerLists()
         {
-            string folder = GetServerDataFolder();
-            var persister = new GameManagement.ServerPersister(folder);
-            var publishedPhatServers = persister.GetPublishedPhatServerList();
-            var userServers = persister.ReadUserServers();
-
-            var servers = new List<GameManagement.ServerPersister.ServerData>();
-            servers.AddRange(publishedPhatServers);
-            servers.AddRange(userServers);
-            var distinctServers = servers.Distinct().ToList();
-            foreach (var sdata in distinctServers)
+            try
             {
-                AddOrUpdateServer(sdata);
+                string folder = GetServerDataFolder();
+                var persister = new GameManagement.ServerPersister(folder);
+                var publishedPhatServers = persister.GetPublishedPhatServerList();
+                var publishedAceServers = persister.GetPublishedACEServerList();
+                var userServers = persister.ReadUserServers();
 
+                var servers = new List<GameManagement.ServerPersister.ServerData>();
+                servers.AddRange(publishedPhatServers);
+                servers.AddRange(publishedAceServers);
+                servers.AddRange(userServers);
+                var distinctServers = servers.Distinct().ToList();
+                foreach (var sdata in distinctServers)
+                {
+                    AddOrUpdateServer(sdata);
+
+                }
+                IsLoaded = true;
             }
-            IsLoaded = true;
+            catch(Exception exc)
+            {
+                Logger.WriteError("Unable to Load server list: " + exc.ToString());
+            }
         }
         private static string GetServerDataFolder()
         {

@@ -41,10 +41,12 @@ namespace ThwargLauncher.GameManagement
             public ServerModel.VisibilityEnum VisibilitySetting;
         }
         private const string PublishedPhatServerListFilename = "PublishedPhatACServerList.xml";
+        private const string PublishedACEServerListFilename = "PublishedACEACServerList.xml";
         private const string LocalPublishedPhatServerInfosFilename = "PublishedServerInfo.xml";
         private const string UserServerListFilename = "UserServerList.xml";
         private string _serverDataFolder;
         private string _publishedPhatServersFilepath;
+        private string _publishedACEServersFilepath;
         private string _localPublishedPhatServersInfoFilepath;
         private string _userServersFilepath;
 
@@ -52,6 +54,7 @@ namespace ThwargLauncher.GameManagement
         {
             _serverDataFolder = serverDataFolder;
             _publishedPhatServersFilepath = Path.Combine(_serverDataFolder, PublishedPhatServerListFilename);
+            _publishedACEServersFilepath = Path.Combine(_serverDataFolder, PublishedACEServerListFilename);
             _localPublishedPhatServersInfoFilepath = Path.Combine(_serverDataFolder, LocalPublishedPhatServerInfosFilename);
             _userServersFilepath = Path.Combine(_serverDataFolder, UserServerListFilename);
         }
@@ -176,6 +179,54 @@ namespace ThwargLauncher.GameManagement
             return list;
         }
 
+        private IEnumerable<ServerData> ReadPublishedACEServerList(PublishedServerInfoMap publishedInfos)
+        {
+            var list = new List<ServerData>();
+            string filepath = _publishedACEServersFilepath;
+            if (File.Exists(filepath))
+            {
+                using (XmlTextReader reader = new XmlTextReader(filepath))
+                {
+
+                    var xmlDoc2 = new XmlDocument();
+                    xmlDoc2.Load(reader);
+                    foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                    {
+                        ServerData si = new ServerData();
+
+                        si.ServerName = GetSubvalue(node, "name");
+                        PublishedServerLocalInfo info = null;
+                        if (!publishedInfos.ContainsKey(si.ServerName))
+                        {
+                            info = new PublishedServerLocalInfo();
+                            info.Name = si.ServerName;
+                            info.Id = Guid.NewGuid();
+                            info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
+                            info.Alias = null;
+                            publishedInfos[si.ServerName] = info;
+                        }
+                        else
+                        {
+                            info = publishedInfos[si.ServerName];
+                        }
+                        si.ServerId = info.Id;
+                        si.ServerAlias = info.Alias;
+                        si.ServerDesc = GetSubvalue(node, "description");
+                        si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
+                        si.ConnectionString = GetSubvalue(node, "connect_string");
+                        si.EMU = ServerModel.ServerEmuEnum.Ace;
+                        si.ServerSource = ServerModel.ServerSourceEnum.Published;
+                        string rodatstr = GetSubvalue(node, "default_rodat");
+                        si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
+                        si.VisibilitySetting = info.VisibilitySetting;
+
+                        list.Add(si);
+                    }
+                }
+            }
+            return list;
+        }
+
         public IEnumerable<ServerData> GetPublishedPhatServerList()
         {
             var publishedServerInfos = LoadPublishedServerInfos();
@@ -187,6 +238,19 @@ namespace ThwargLauncher.GameManagement
 
             return publishedServers;
         }
+
+        public IEnumerable<ServerData> GetPublishedACEServerList()
+        {
+            var publishedServerInfos = LoadPublishedServerInfos();
+
+            DownloadPublishedACEServersToCacheIfPossible();
+            var publishedServers = ReadPublishedACEServerList(publishedServerInfos);
+
+            SavePublishedServerInfos(publishedServerInfos);
+
+            return publishedServers;
+        }
+
         private PublishedServerInfoMap LoadPublishedServerInfos()
         {
             string serverFolder = Path.GetDirectoryName(_userServersFilepath);
@@ -253,6 +317,48 @@ namespace ThwargLauncher.GameManagement
             catch (Exception exc)
             {
                 Logger.WriteInfo("Unable to download Published Phat Server List: " + exc.ToString());
+            }
+        }
+
+        private void DownloadPublishedACEServersToCacheIfPossible()
+        {
+            try
+            {
+                string filepath = _publishedACEServersFilepath;
+                var url = Properties.Settings.Default.ACEServerListUrl;
+                string xmlStr;
+                using (var wc = new WebClient())
+                {
+                    xmlStr = wc.DownloadString(url);
+                }
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlStr);
+                xmlDoc.Save(filepath);
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteInfo("Unable to download Published ACE Server List: " + exc.ToString());
+            }
+        }
+
+        private void DownloadACEServersToCacheIfPossible()
+        {
+            try
+            {
+                string filepath = _publishedACEServersFilepath;
+                var url = Properties.Settings.Default.ACEServerListUrl;
+                string xmlStr;
+                using (var wc = new WebClient())
+                {
+                    xmlStr = wc.DownloadString(url);
+                }
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlStr);
+                xmlDoc.Save(filepath);
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteInfo("Unable to download Published ACE Server List: " + exc.ToString());
             }
         }
         public void WriteServerListToFile(IEnumerable<ServerModel> servers)
