@@ -107,7 +107,7 @@ namespace ThwargLauncher
 
                 //change to command line arguments for ace: -a accountName -v password -h ipaddress
                 // no longer use glstickets
-                string genArgsACEServer = "-a " + accountName + "-v" + password + " -h " + ipAddress;
+                string genArgsACEServer = "-a " + accountName + " -v " + password + " -h " + ipAddress;
                 genArgs = genArgsACEServer;
             }
 
