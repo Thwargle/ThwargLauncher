@@ -1,20 +1,23 @@
 ;aiu;
 
-[ThwargLauncher-5.0.6.0]
+[ThwargLauncher-5.0.8.0]
 Name = ThwargLauncher
-ProductVersion = 5.0.6.0
+ProductVersion = 5.0.8.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7893792
-ReleaseDate = 05/02/2018
-MD5 = ea4c821edaf6b0b7c35c674d7f205946
+Size = 7890737
+ReleaseDate = 12/03/2018
+MD5 = ed803a1a2381c7e3c3e29f354e1f8ceb
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 5.0.6.0
-UpdatedApplications = ThwargLauncher[1.0-5.0.6]
-Description = VERSION 5.0.6.0 (2018-02-6)
-Description1 = Update to fix server list among other bug fixes.
-Feature = Moved published server list onto thwargle.com. 
-Enhancement = Removed any extra flapping dinguses (dingi?). Nobody wants those flopping around.
-BugFix = Fixed a UI bug in the add server window where it looked janky.
+Version = 5.0.8.0
+UpdatedApplications = ThwargLauncher[1.0-5.0.8]
+Description = VERSION 5.0.8.0 (2017-08-15)
+Description1 = Updated the Add Server UI
+Description2 = Added a new option for DF Server type to the Add Servers
+Description3 = Now Support DF server launching with secure launches.
+Description4 = Removed secure launching from ACE since they don't use that anymore
+Feature = DF Server support.
+Enhancement = Danguses have been optimized.
+BugFix = Zorgle's Unicorns are now very clean. Nothing like a freshly waxed unicorn. They smell nice.
 AutoCloseApplication = [APPDIR]YourApplication.exe
