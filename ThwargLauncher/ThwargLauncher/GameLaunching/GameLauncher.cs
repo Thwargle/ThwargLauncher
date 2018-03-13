@@ -70,6 +70,8 @@ namespace ThwargLauncher
             string genArgs = "TODO-below";
 
             bool isPhat = (emu == ServerModel.ServerEmuEnum.Phat);
+            bool isACE = (emu == ServerModel.ServerEmuEnum.Ace);
+            bool isDF = (emu == ServerModel.ServerEmuEnum.DF);
 
             if (isPhat)
             {
@@ -91,7 +93,15 @@ namespace ThwargLauncher
 
                 genArgs = genArgsPhatServer;
             }
-            else
+            else if(isACE)
+            {
+                //ACE
+                //acclient.exe -a testaccount -v testpassword -h 127.0.0.1:9000
+                //-a accountName -v password -h ipaddress
+                string genArgsACEServer = "-a " + accountName + " -v " + password + " -h " + ipAddress;
+                genArgs = genArgsACEServer;
+            }
+            else if(isDF)
             {
                 if (secureSetting == ServerModel.SecureEnum.On)
                 {
@@ -100,14 +110,9 @@ namespace ThwargLauncher
                     accountName = loginInfo.SubscriptionId;
 
                 }
-                //ACE
+                //DF
                 //acclient.exe -a testaccount -h 127.0.0.1:9000 -glsticketdirect testpassword
-                //string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + password;
-
-
-                //change to command line arguments for ace: -a accountName -v password -h ipaddress
-                // no longer use glstickets
-                string genArgsACEServer = "-a " + accountName + "-v" + password + " -h " + ipAddress;
+                string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + password;
                 genArgs = genArgsACEServer;
             }
 

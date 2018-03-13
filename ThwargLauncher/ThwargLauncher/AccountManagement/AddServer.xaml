@@ -7,27 +7,28 @@
         mc:Ignorable="d"
         Title="Add a Server" Height="388.5" Width="300" ResizeMode="NoResize" >
     <Grid>
-        <RadioButton x:Name="rdACEServer" Content="ACE Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True" />
-        <RadioButton x:Name="rdPhatACServer" Content="PhatAC Server" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblServerName" Content="Server Name:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="txtServerName" HorizontalAlignment="Left" Height="23" Margin="100,69,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's name (to be shown in the launcher, can be whatever you'd like here)."/>
-        <Label x:Name="lblServerDescription" Content="Server Desc:" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="txtServeDesc" HorizontalAlignment="Left" Height="23" Margin="100,103,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's description."/>
-        <Label x:Name="lblServerIP" Content="Server IP:" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="txtServerIP" HorizontalAlignment="Left" Height="23" Margin="100,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's api url."/>
-        <Label x:Name="lblGameApiUrl" Content="GameApi Url:" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="txtGameApiUrl" HorizontalAlignment="Left" Height="23" Margin="100,163,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The login server's url."/>
-        <Label x:Name="lblLoginServerUrl" Content="LoginServer Url:" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="txtLoginServerUrl" HorizontalAlignment="Left" Height="23" Margin="100,191,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The login server's url."/>
-        <Label x:Name="lblServerPort" Content="Server Port:" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" Width="85"/>
-        <TextBox x:Name="txtServerPort" HorizontalAlignment="Left" Height="23" Margin="100,243,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's port."/>
-        <Label x:Name="lblServerDefaultRodat" Content="Server Default Rodat:" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="127"/>
-        <ComboBox x:Name="cmbDefaultRodat" HorizontalAlignment="Right" Margin="0,275,10,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content" SelectedIndex="0">
+        <RadioButton x:Name="rdACEServer" Content="ACE Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True" Click="rdACEServer_Click" />
+        <RadioButton x:Name="rdDFServer" Content="DF Server" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Click="rdDFServer_Click" />
+        <RadioButton x:Name="rdPhatACServer" Content="PhatAC Server" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="rdPhatACServer_Click" />
+        <Label x:Name="lblServerName" Content="Server Name:" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtServerName" HorizontalAlignment="Left" Height="23" Margin="100,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's name (to be shown in the launcher, can be whatever you'd like here)."/>
+        <Label x:Name="lblServerDescription" Content="Server Desc:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtServeDesc" HorizontalAlignment="Left" Height="23" Margin="100,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's description."/>
+        <Label x:Name="lblServerIP" Content="Server IP:" HorizontalAlignment="Left" Margin="10,108,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtServerIP" HorizontalAlignment="Left" Height="23" Margin="100,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's api url."/>
+        <Label x:Name="lblServerPort" Content="Server Port:" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtServerPort" HorizontalAlignment="Left" Height="23" Margin="100,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's port."/>
+        <Label x:Name="lblGameApiUrl" Content="GameApi Url:" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtGameApiUrl" HorizontalAlignment="Left" Height="23" Margin="100,171,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The login server's url."/>
+        <Label x:Name="lblLoginServerUrl" Content="Login Url:" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtLoginServerUrl" HorizontalAlignment="Left" Height="23" Margin="100,199,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The login server's url."/>
+        <Label x:Name="lblServerDefaultRodat" Content="Server Default Rodat:" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" Width="127"/>
+        <ComboBox x:Name="cmbDefaultRodat" HorizontalAlignment="Right" Margin="0,252,10,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content" SelectedIndex="0">
             <ComboBoxItem Name='RodatFalse'>false</ComboBoxItem>
             <ComboBoxItem Name='RodatTrue'>true</ComboBoxItem>
         </ComboBox>
-        <Label x:Name="lblSecureLogin" Content="Secure Login:" HorizontalAlignment="Left" Margin="10,298,0,0" VerticalAlignment="Top" Width="127"/>
-        <ComboBox x:Name="cmbSecureLogin" HorizontalAlignment="Right" Margin="0,302,10,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content" SelectedIndex="0">
+        <Label x:Name="lblSecureLogin" Content="Secure Login:" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" Width="127"/>
+        <ComboBox x:Name="cmbSecureLogin" HorizontalAlignment="Right" Margin="0,279,10,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content" SelectedIndex="0">
             <ComboBoxItem Name='SecureFalse'>false</ComboBoxItem>
             <ComboBoxItem Name='SecureTrue'>true</ComboBoxItem>
         </ComboBox>

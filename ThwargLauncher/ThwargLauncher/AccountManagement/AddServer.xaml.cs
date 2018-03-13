@@ -25,6 +25,7 @@ namespace ThwargLauncher.AccountManagement
         public AddServer()
         {
             InitializeComponent();
+            UpdateUi();
             AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
@@ -48,9 +49,16 @@ namespace ThwargLauncher.AccountManagement
             var sdata = GetServerDataFromUi();
             ServerManager.AddNewServer(sdata);
         }
+        private ServerModel.ServerEmuEnum GetServerEmuluation()
+        {
+            if (IsTrue(rdPhatACServer.IsChecked)) { return ServerModel.ServerEmuEnum.Phat; }
+            if (IsTrue(rdACEServer.IsChecked)) { return ServerModel.ServerEmuEnum.Ace; }
+            if (IsTrue(rdDFServer.IsChecked)) { return ServerModel.ServerEmuEnum.DF; }
+            return ServerModel.ServerEmuEnum.Ace; // shouldn't happen but in case
+        }
         private GameManagement.ServerPersister.ServerData GetServerDataFromUi()
         {
-            var emu = (IsTrue(rdPhatACServer.IsChecked) ? ServerModel.ServerEmuEnum.Phat : ServerModel.ServerEmuEnum.Ace);
+            var emu = GetServerEmuluation();
             var rodat = (cmbDefaultRodat.SelectedValue.ToString() == "false" ? ServerModel.RodatEnum.Off : ServerModel.RodatEnum.On);
             var secure = (cmbSecureLogin.SelectedValue.ToString() == "false" ? ServerModel.SecureEnum.Off : ServerModel.SecureEnum.On);
 
@@ -121,6 +129,31 @@ namespace ThwargLauncher.AccountManagement
                 return false;
             }
             return true;
+        }
+        private void rdACEServer_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateUi();
+        }
+        private void rdDFServer_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateUi();
+        }
+        private void rdPhatACServer_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateUi();
+        }
+        private void UpdateUi()
+        {
+            bool showDfControls = IsTrue(rdDFServer.IsChecked);
+            Visibility dfControlVisibility = (showDfControls ? Visibility.Visible : Visibility.Hidden);
+            this.lblLoginServerUrl.Visibility = dfControlVisibility;
+            this.txtLoginServerUrl.Visibility = dfControlVisibility;
+            this.lblSecureLogin.Visibility = dfControlVisibility;
+            this.cmbSecureLogin.Visibility = dfControlVisibility;
+            this.lblLoginServerUrl.Visibility = dfControlVisibility;
+            this.txtLoginServerUrl.Visibility = dfControlVisibility;
+            this.lblGameApiUrl.Visibility = dfControlVisibility;
+            this.txtGameApiUrl.Visibility = dfControlVisibility;
         }
     }
 }

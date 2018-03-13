@@ -205,5 +205,14 @@ namespace ThwargLauncher.Properties {
                 return ((string)(this["ACEServerListUrl"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://thwargle.com/thwarglauncher/DFPublishedServerInfo.xml")]
+        public string DFServerListUrl {
+            get {
+                return ((string)(this["DFServerListUrl"]));
+            }
+        }
     }
 }

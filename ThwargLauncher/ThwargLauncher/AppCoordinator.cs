@@ -51,6 +51,13 @@ namespace ThwargLauncher
                 if (Properties.Settings.Default.NeedsUpgrade)
                 {
                     Properties.Settings.Default.Upgrade();
+
+                    // In case the window layout changed, do not persist this window
+                    // because it is not resizable, so user cannot fix it if the size is wrong
+                    var settings = PersistenceHelper.SettingsFactory.Get();
+                    string key = "AddServerPlacement";
+                    settings.SetString(key, null);
+
                     Properties.Settings.Default.NeedsUpgrade = false;
                     Properties.Settings.Default.Save();
                 }

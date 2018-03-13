@@ -50,5 +50,8 @@
     <Setting Name="ACEServerListUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://thwargle.com/thwarglauncher/ACEPublishedServerInfo.xml</Value>
     </Setting>
+    <Setting Name="DFServerListUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://thwargle.com/thwarglauncher/DFPublishedServerInfo.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
