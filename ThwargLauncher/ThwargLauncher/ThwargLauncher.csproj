@@ -53,7 +53,7 @@
     <StartupObject>ThwargLauncher.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\Logo_circleonly.ico</ApplicationIcon>
+    <ApplicationIcon>ThwargLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSharpCLI">
@@ -288,6 +288,7 @@
     <Content Include="Images\acwallpaperwideaerbax.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="ThwargLogo.ico" />
     <Resource Include="ToDo_List.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +319,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\ThwargLogo.ico" />
     <Content Include="Images\UserPreferences.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

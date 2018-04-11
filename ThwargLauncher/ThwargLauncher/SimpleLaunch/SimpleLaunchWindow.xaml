@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
         xmlns:ff="clr-namespace:FunctionalFun.UI"
-        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/Logo_circleonly.ico" Height="400" Width="650" 
+        Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/ThwargLogo.ico" Height="400" Width="650" 
         ResizeMode="CanResizeWithGrip" Closing="ThwargLauncherSimpleLaunchWindow_Closing">
     <Window.Background>
         <ImageBrush ImageSource="../Images/acwallpaperwideaerbax.jpg"/>

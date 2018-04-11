@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ThwargLauncher.ChooseProfile"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Choose Profile" Height="300" Width="500" Icon="..\Images\Logo_circleonly.ico">
+        Title="Choose Profile" Height="300" Width="500" Icon="..\Images\ThwargLogo.ico">
     <Grid>
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllProfiles}"
