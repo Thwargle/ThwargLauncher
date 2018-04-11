@@ -97,10 +97,10 @@ namespace ThwargLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://thwargle.com/thwarglauncher/PhatACPublishedServerInfo.xml")]
-        public string PhatServerListUrl {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://thwargle.com/thwarglauncher/GDLPublishedServerInfo.xml")]
+        public string GDLServerListUrl {
             get {
-                return ((string)(this["PhatServerListUrl"]));
+                return ((string)(this["GDLServerListUrl"]));
             }
         }
         

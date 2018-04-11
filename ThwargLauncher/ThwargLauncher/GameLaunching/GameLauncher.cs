@@ -69,29 +69,29 @@ namespace ThwargLauncher
 
             string genArgs = "TODO-below";
 
-            bool isPhat = (emu == ServerModel.ServerEmuEnum.Phat);
+            bool isGDL = (emu == ServerModel.ServerEmuEnum.GDL);
             bool isACE = (emu == ServerModel.ServerEmuEnum.Ace);
             bool isDF = (emu == ServerModel.ServerEmuEnum.DF);
 
-            if (isPhat)
+            if (isGDL)
             {
-                //PHATAC
+                //GDL
                 //-h [server ip] -p [server port] -a username:password -rodat off
                 int tok = ipAddress.IndexOf(':');
-                if (tok < 0) { throw new Exception("Phat address missing colon in username:password specification"); }
+                if (tok < 0) { throw new Exception("GDL address missing colon in username:password specification"); }
                 string ip = ipAddress.Substring(0, tok);
                 string port = ipAddress.Substring(tok + 1);
-                string genArgsPhatServer;
+                string genArgsGDLServer;
                 if (rodatSetting == ServerModel.RodatEnum.On)
                 {
-                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat on";
+                    genArgsGDLServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat on";
                 }
                 else
                 {
-                    genArgsPhatServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat off";
+                    genArgsGDLServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat off";
                 }
 
-                genArgs = genArgsPhatServer;
+                genArgs = genArgsGDLServer;
             }
             else if(isACE)
             {

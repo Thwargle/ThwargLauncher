@@ -16,7 +16,7 @@ namespace ThwargLauncher
     {
         public enum ServerUpStatusEnum { Unknown, Down, Up };
         public enum ServerSourceEnum { User, Published };
-        public enum ServerEmuEnum { Phat, Ace, DF };
+        public enum ServerEmuEnum { GDL, Ace, DF };
         public enum RodatEnum { On, Off };
         public enum SecureEnum { On, Off };
         public enum VisibilityEnum { Visible, Invisible };

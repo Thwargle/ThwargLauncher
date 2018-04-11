@@ -40,32 +40,32 @@ namespace ThwargLauncher.GameManagement
             public Guid Id;
             public ServerModel.VisibilityEnum VisibilitySetting;
         }
-        private const string PublishedPhatServerListFilename = "PublishedPhatACServerList.xml";
+        private const string PublishedGDLServerListFilename = "PublishedGDLServerList.xml";
         private const string PublishedACEServerListFilename = "PublishedACEACServerList.xml";
         private const string PublishedDFServerListFilename = "PublishedDFACServerList.xml";
-        private const string LocalPublishedPhatServerInfosFilename = "PublishedServerInfo.xml";
+        private const string LocalPublishedGDLServerInfosFilename = "PublishedServerInfo.xml";
         private const string UserServerListFilename = "UserServerList.xml";
         private string _serverDataFolder;
-        private string _publishedPhatServersFilepath;
+        private string _publishedGDLServersFilepath;
         private string _publishedACEServersFilepath;
         private string _publishedDFServersFilepath;
-        private string _localPublishedPhatServersInfoFilepath;
+        private string _localPublishedGDLServersInfoFilepath;
         private string _userServersFilepath;
 
         public ServerPersister(string serverDataFolder)
         {
             _serverDataFolder = serverDataFolder;
-            _publishedPhatServersFilepath = Path.Combine(_serverDataFolder, PublishedPhatServerListFilename);
+            _publishedGDLServersFilepath = Path.Combine(_serverDataFolder, PublishedGDLServerListFilename);
             _publishedACEServersFilepath = Path.Combine(_serverDataFolder, PublishedACEServerListFilename);
             _publishedDFServersFilepath = Path.Combine(_serverDataFolder, PublishedDFServerListFilename);
-            _localPublishedPhatServersInfoFilepath = Path.Combine(_serverDataFolder, LocalPublishedPhatServerInfosFilename);
+            _localPublishedGDLServersInfoFilepath = Path.Combine(_serverDataFolder, LocalPublishedGDLServerInfosFilename);
             _userServersFilepath = Path.Combine(_serverDataFolder, UserServerListFilename);
         }
 
         internal IEnumerable<ServerData> ReadUserServers()
         {
             string filepath = _userServersFilepath;
-            ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.Phat;
+            ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.GDL;
             var servers = ReadServerList(ServerModel.ServerSourceEnum.User, emu, filepath);
             return servers;
         }
@@ -134,10 +134,10 @@ namespace ThwargLauncher.GameManagement
             }
             return list;
         }
-        private IEnumerable<ServerData> ReadPublishedPhatServerList(PublishedServerInfoMap publishedInfos)
+        private IEnumerable<ServerData> ReadPublishedGDLServerList(PublishedServerInfoMap publishedInfos)
         {
             var list = new List<ServerData>();
-            string filepath = _publishedPhatServersFilepath;
+            string filepath = _publishedGDLServersFilepath;
             if (File.Exists(filepath))
             {
                 using (XmlTextReader reader = new XmlTextReader(filepath))
@@ -169,7 +169,7 @@ namespace ThwargLauncher.GameManagement
                         si.ServerDesc = GetSubvalue(node, "description");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.EMU = ServerModel.ServerEmuEnum.Phat;
+                        si.EMU = ServerModel.ServerEmuEnum.GDL;
                         si.ServerSource = ServerModel.ServerSourceEnum.Published;
                         string rodatstr = GetSubvalue(node, "default_rodat");
                         si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
@@ -278,12 +278,12 @@ namespace ThwargLauncher.GameManagement
             return list;
         }
 
-        public IEnumerable<ServerData> GetPublishedPhatServerList()
+        public IEnumerable<ServerData> GetPublishedGDLServerList()
         {
             var publishedServerInfos = LoadPublishedServerInfos();
 
-            DownloadPublishedPhatServersToCacheIfPossible();
-            var publishedServers = ReadPublishedPhatServerList(publishedServerInfos);
+            DownloadPublishedGDLServersToCacheIfPossible();
+            var publishedServers = ReadPublishedGDLServerList(publishedServerInfos);
 
             SavePublishedServerInfos(publishedServerInfos);
 
@@ -320,7 +320,7 @@ namespace ThwargLauncher.GameManagement
             CleanupObsoleteFiles(serverFolder); // TODO - get rid of this later
 
             var publishedServerInfos = new PublishedServerInfoMap();
-            string filepath = _localPublishedPhatServersInfoFilepath;
+            string filepath = _localPublishedGDLServersInfoFilepath;
             if (File.Exists(filepath))
             {
                 using (XmlTextReader reader = new XmlTextReader(filepath))
@@ -360,14 +360,14 @@ namespace ThwargLauncher.GameManagement
                                 new XElement("visibility", info.VisibilitySetting));
                 root.Add(xelem);
             }
-            doc.Save(_localPublishedPhatServersInfoFilepath);
+            doc.Save(_localPublishedGDLServersInfoFilepath);
         }
-        private void DownloadPublishedPhatServersToCacheIfPossible()
+        private void DownloadPublishedGDLServersToCacheIfPossible()
         {
             try
             {
-                string filepath = _publishedPhatServersFilepath;
-                var url = Properties.Settings.Default.PhatServerListUrl;
+                string filepath = _publishedGDLServersFilepath;
+                var url = Properties.Settings.Default.GDLServerListUrl;
                 string xmlStr;
                 using (var wc = new WebClient())
                 {
@@ -379,7 +379,7 @@ namespace ThwargLauncher.GameManagement
             }
             catch (Exception exc)
             {
-                Logger.WriteInfo("Unable to download Published Phat Server List: " + exc.ToString());
+                Logger.WriteInfo("Unable to download Published GDL Server List: " + exc.ToString());
             }
         }
 
@@ -508,8 +508,8 @@ namespace ThwargLauncher.GameManagement
         private void CleanupObsoleteFiles(string folder)
         {
             CleanupFile(folder, "ACEServerList.xml");
-            CleanupFile(folder, "PhatACServerList.xml");
-            CleanupFile(folder, "PublishedPhatACServerList");
+            CleanupFile(folder, "GDLServerList.xml");
+            CleanupFile(folder, "PublishedGDLServerList");
         }
         private void CleanupFile(string folder, string file)
         {

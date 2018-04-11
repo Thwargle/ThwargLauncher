@@ -19,13 +19,13 @@ namespace ThwargLauncher
             {
                 string folder = GetServerDataFolder();
                 var persister = new GameManagement.ServerPersister(folder);
-                var publishedPhatServers = persister.GetPublishedPhatServerList();
+                var publishedGDLServers = persister.GetPublishedGDLServerList();
                 var publishedAceServers = persister.GetPublishedACEServerList();
                 var publishedDFServers = persister.GetPublishedDFServerList();
                 var userServers = persister.ReadUserServers();
 
                 var servers = new List<GameManagement.ServerPersister.ServerData>();
-                servers.AddRange(publishedPhatServers);
+                servers.AddRange(publishedGDLServers);
                 servers.AddRange(publishedAceServers);
                 servers.AddRange(publishedDFServers);
                 servers.AddRange(userServers);

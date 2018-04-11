@@ -20,8 +20,8 @@
     <Setting Name="ShowSimpleLaunch" Type="System.String" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="PhatServerListUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://thwargle.com/thwarglauncher/PhatACPublishedServerInfo.xml</Value>
+    <Setting Name="GDLServerListUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://thwargle.com/thwarglauncher/GDLPublishedServerInfo.xml</Value>
     </Setting>
     <Setting Name="SimpleLaunch_Username" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

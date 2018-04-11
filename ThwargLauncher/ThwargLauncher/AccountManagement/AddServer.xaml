@@ -9,7 +9,7 @@
     <Grid>
         <RadioButton x:Name="rdACEServer" Content="ACE Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True" Click="rdACEServer_Click" />
         <RadioButton x:Name="rdDFServer" Content="DF Server" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Click="rdDFServer_Click" />
-        <RadioButton x:Name="rdPhatACServer" Content="PhatAC Server" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="rdPhatACServer_Click" />
+        <RadioButton x:Name="rdGDLServer" Content="GDL Server" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="rdGDLServer_Click" />
         <Label x:Name="lblServerName" Content="Server Name:" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="85"/>
         <TextBox x:Name="txtServerName" HorizontalAlignment="Left" Height="23" Margin="100,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's name (to be shown in the launcher, can be whatever you'd like here)."/>
         <Label x:Name="lblServerDescription" Content="Server Desc:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="85"/>

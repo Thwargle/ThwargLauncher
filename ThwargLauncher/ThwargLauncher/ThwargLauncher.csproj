@@ -309,11 +309,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Logo_circleonly.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Images\DecalSetting.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

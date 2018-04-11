@@ -51,7 +51,7 @@ namespace ThwargLauncher.AccountManagement
         }
         private ServerModel.ServerEmuEnum GetServerEmuluation()
         {
-            if (IsTrue(rdPhatACServer.IsChecked)) { return ServerModel.ServerEmuEnum.Phat; }
+            if (IsTrue(rdGDLServer.IsChecked)) { return ServerModel.ServerEmuEnum.GDL; }
             if (IsTrue(rdACEServer.IsChecked)) { return ServerModel.ServerEmuEnum.Ace; }
             if (IsTrue(rdDFServer.IsChecked)) { return ServerModel.ServerEmuEnum.DF; }
             return ServerModel.ServerEmuEnum.Ace; // shouldn't happen but in case
@@ -138,7 +138,7 @@ namespace ThwargLauncher.AccountManagement
         {
             UpdateUi();
         }
-        private void rdPhatACServer_Click(object sender, RoutedEventArgs e)
+        private void rdGDLServer_Click(object sender, RoutedEventArgs e)
         {
             UpdateUi();
         }
