@@ -37,14 +37,7 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="GameApiUrl" Binding="{Binding GameApiUrl,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="LoginServerUrl" Binding="{Binding LoginServerUrl,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
+                <DataGridTextColumn Header="DiscordUrl" Binding="{Binding DiscordUrl,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />

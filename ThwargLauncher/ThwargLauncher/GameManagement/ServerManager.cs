@@ -21,13 +21,11 @@ namespace ThwargLauncher
                 var persister = new GameManagement.ServerPersister(folder);
                 var publishedGDLServers = persister.GetPublishedGDLServerList();
                 var publishedAceServers = persister.GetPublishedACEServerList();
-                var publishedDFServers = persister.GetPublishedDFServerList();
                 var userServers = persister.ReadUserServers();
 
                 var servers = new List<GameManagement.ServerPersister.ServerData>();
                 servers.AddRange(publishedGDLServers);
                 servers.AddRange(publishedAceServers);
-                servers.AddRange(publishedDFServers);
                 servers.AddRange(userServers);
                 var distinctServers = servers.Distinct().ToList();
                 foreach (var sdata in distinctServers)

@@ -14,7 +14,7 @@
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="ARPCONTACT" Value="thwargle.newberry@gmail.com"/>
-    <ROW Property="ARPPRODUCTICON" Value="Logo_circleonly.exe" Type="8"/>
+    <ROW Property="ARPPRODUCTICON" Value="ThwargLogo.exe" Type="8"/>
     <ROW Property="ARPURLINFOABOUT" Value="http://www.thwargle.com"/>
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
@@ -65,17 +65,17 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="ACCoverArt.jpg" Component_="ACCoverArt.jpg" FileName="ACCOVE~1.JPG|ACCoverArt.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\ACCoverArt.jpg" SelfReg="false" NextFile="acwallpaperwide10yrs.jpg"/>
     <ROW File="App.config" Component_="VirindiViewService.xml" FileName="APP~1.CON|App.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\App.config" SelfReg="false" NextFile="MagFilter.dll.config"/>
-    <ROW File="CSharpCLI.dll" Component_="CSharpCLI.dll" FileName="CSHARP~1.DLL|CSharpCLI.dll" Attributes="0" SourcePath="..\ThwargLauncher\Externals\CSharpCLI.dll" SelfReg="false"/>
+    <ROW File="CSharpCLI.dll" Component_="CSharpCLI.dll" FileName="CSHARP~1.DLL|CSharpCLI.dll" Attributes="0" SourcePath="..\ThwargLauncher\Externals\CSharpCLI.dll" SelfReg="false" NextFile="ThwargLogo.ico"/>
     <ROW File="Credit.PNG" Component_="ACCoverArt.jpg" FileName="Credit.PNG" Attributes="0" SourcePath="..\ThwargLauncher\Images\Credit.PNG" SelfReg="false" NextFile="DecalSetting.png"/>
     <ROW File="Decal.Adapter.dll" Component_="Decal.Adapter.dll" FileName="DECALA~1.DLL|Decal.Adapter.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Decal.Adapter.dll" SelfReg="false" NextFile="Newtonsoft.Json.dll"/>
-    <ROW File="DecalSetting.png" Component_="ACCoverArt.jpg" FileName="DECALS~1.PNG|DecalSetting.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\DecalSetting.png" SelfReg="false" NextFile="Logo_circleonly.ico"/>
-    <ROW File="Logo_circleonly.ico" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.ICO|Logo_circleonly.ico" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.ico" SelfReg="false" NextFile="Logo_circleonly.png"/>
-    <ROW File="Logo_circleonly.png" Component_="ACCoverArt.jpg" FileName="LOGO_C~1.PNG|Logo_circleonly.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.png" SelfReg="false" NextFile="UserPreferences.png"/>
+    <ROW File="DecalSetting.png" Component_="ACCoverArt.jpg" FileName="DECALS~1.PNG|DecalSetting.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\DecalSetting.png" SelfReg="false" NextFile="UserPreferences.png"/>
     <ROW File="MagFilter.dll" Component_="MagFilter.dll" FileName="MAGFIL~1.DLL|MagFilter.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\MagFilter.dll" SelfReg="false" NextFile="injector.dll"/>
     <ROW File="MagFilter.dll.config" Component_="VirindiViewService.xml" FileName="MAGFIL~1.CON|MagFilter.dll.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\MagFilter.dll.config" SelfReg="false" NextFile="CSharpCLI.dll"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
     <ROW File="ThwargLauncher.exe" Component_="ThwargLauncher.exe" FileName="THWARG~2.EXE|ThwargLauncher.exe" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\ThwargLauncher.exe" SelfReg="false" NextFile="updater.exe" DigSign="true"/>
     <ROW File="ThwargLauncher.exe.config" Component_="VirindiViewService.xml" FileName="THWARG~2.CON|ThwargLauncher.exe.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\ThwargLauncher.exe.config" SelfReg="false" NextFile="MagFilter.dll"/>
+    <ROW File="ThwargLogo.ico" Component_="ACCoverArt.jpg" FileName="THWARG~1.ICO|ThwargLogo.ico" Attributes="0" SourcePath="..\ThwargLauncher\Images\ThwargLogo.ico" SelfReg="false" NextFile="ThwargLogo.png"/>
+    <ROW File="ThwargLogo.png" Component_="ACCoverArt.jpg" FileName="THWARG~1.PNG|ThwargLogo.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\ThwargLogo.png" SelfReg="false"/>
     <ROW File="UserPreferences.png" Component_="ACCoverArt.jpg" FileName="USERPR~1.PNG|UserPreferences.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\UserPreferences.png" SelfReg="false" NextFile="Decal.Adapter.dll"/>
     <ROW File="VCS5.dll" Component_="VCS5.dll" FileName="VCS5.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VCS5.dll" SelfReg="false" NextFile="VirindiViewService.dll"/>
     <ROW File="VirindiViewService.dll" Component_="VirindiViewService.dll" FileName="VIRIND~1.DLL|VirindiViewService.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.dll" SelfReg="false" NextFile="ThwargLauncher.exe.config"/>
@@ -188,7 +188,7 @@
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
-    <ROW Name="Logo_circleonly.exe" SourcePath="..\ThwargLauncher\Images\Logo_circleonly.ico" Index="0"/>
+    <ROW Name="ThwargLogo.exe" SourcePath="..\ThwargLauncher\Images\ThwargLogo.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIniFileComponent">
     <ROW IniFile="AppDir" FileName="updater.ini" DirProperty="APPDIR" Section="General" Key="AppDir" Value="[APPDIR]" Action="0" Component_="updater.exe"/>
@@ -257,6 +257,6 @@
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.UpdaterComponent">
-    <ROW Updater="updater.exe" URL="URL" SearchFreq="CheckFrequency" DownloadsFolder="DownloadsFolder" ID="ID" TargetDir="AppDir" AppName="ApplicationName" AppVersion="ApplicationVersion" CompanyName="CompanyName" DefCommandLine="DefaultCommandLine" Flags="Flags" IconPath="..\ThwargLauncher\Images\Logo_circleonly.ico" IconIndex="0" UnistallCASeq="AI_UPDATER_UNINSTALL" Description="[|UpdaterName] [|ProductVersion] © [|Manufacturer], Inc, 2018"/>
+    <ROW Updater="updater.exe" URL="URL" SearchFreq="CheckFrequency" DownloadsFolder="DownloadsFolder" ID="ID" TargetDir="AppDir" AppName="ApplicationName" AppVersion="ApplicationVersion" CompanyName="CompanyName" DefCommandLine="DefaultCommandLine" Flags="Flags" IconPath="..\ThwargLauncher\Images\ThwargLogo.ico" IconIndex="0" UnistallCASeq="AI_UPDATER_UNINSTALL" Description="[|UpdaterName] [|ProductVersion] © [|Manufacturer], Inc, 2018"/>
   </COMPONENT>
 </DOCUMENT>

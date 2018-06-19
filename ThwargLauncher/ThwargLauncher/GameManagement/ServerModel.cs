@@ -16,7 +16,7 @@ namespace ThwargLauncher
     {
         public enum ServerUpStatusEnum { Unknown, Down, Up };
         public enum ServerSourceEnum { User, Published };
-        public enum ServerEmuEnum { GDL, Ace, DF };
+        public enum ServerEmuEnum { GDL, Ace };
         public enum RodatEnum { On, Off };
         public enum SecureEnum { On, Off };
         public enum VisibilityEnum { Visible, Invisible };
@@ -50,6 +50,7 @@ namespace ThwargLauncher
             server.ServerIpAndPort = data.ConnectionString;
             server.GameApiUrl = data.GameApiUrl;
             server.LoginServerUrl = data.LoginServerUrl;
+            server.DiscordUrl = data.DiscordUrl;
             server.EMU = data.EMU;
             server.RodatSetting = data.RodatSetting;
             server.SecureSetting = data.SecureSetting;
@@ -86,6 +87,7 @@ namespace ThwargLauncher
         public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
         public string GameApiUrl { get { return Get<string>(); } set { Set(value); } }
         public string LoginServerUrl { get { return Get<string>(); } set { Set(value); } }
+        public string DiscordUrl { get { return Get<string>(); } set { Set(value); } }
         public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
         public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
         public SecureEnum SecureSetting { get { return Get<SecureEnum>(); } set { Set(value); } }

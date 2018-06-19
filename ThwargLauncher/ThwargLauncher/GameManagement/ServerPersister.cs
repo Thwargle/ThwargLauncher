@@ -26,6 +26,7 @@ namespace ThwargLauncher.GameManagement
             public string ConnectionString;
             public string GameApiUrl;
             public string LoginServerUrl;
+            public string DiscordUrl;
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
             public ServerModel.SecureEnum SecureSetting;
@@ -78,6 +79,7 @@ namespace ThwargLauncher.GameManagement
                             new XElement("description", server.ServerDescription),
                             new XElement("emu", server.EMU),
                             new XElement("connect_string", server.ServerIpAndPort),
+                            new XElement("DiscordUrl", server.DiscordUrl),
                             new XElement("GameApiUrlKey", server.GameApiUrl),
                             new XElement("LoginServerUrlKey", server.LoginServerUrl),
                             new XElement("enable_login", "true"),
@@ -119,6 +121,7 @@ namespace ThwargLauncher.GameManagement
                         si.ConnectionString = GetSubvalue(node, "connect_string");
                         si.GameApiUrl = GetOptionalSubvalue(node, "GameApiUrlKey", "");
                         si.LoginServerUrl = GetOptionalSubvalue(node, "LoginServerUrlKey", "");
+                        si.DiscordUrl = GetOptionalSubvalue(node, "DiscordUrl", "");
                         string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
                         si.EMU = ParseEmu(emustr, emudef);
                         si.ServerSource = source;
@@ -167,6 +170,7 @@ namespace ThwargLauncher.GameManagement
                         si.ServerId = info.Id;
                         si.ServerAlias = info.Alias;
                         si.ServerDesc = GetSubvalue(node, "description");
+                        si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
                         si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                         si.ConnectionString = GetSubvalue(node, "connect_string");
                         si.EMU = ServerModel.ServerEmuEnum.GDL;
@@ -230,54 +234,6 @@ namespace ThwargLauncher.GameManagement
             return list;
         }
 
-        private IEnumerable<ServerData> ReadPublishedDFServerList(PublishedServerInfoMap publishedInfos)
-        {
-            var list = new List<ServerData>();
-            string filepath = _publishedDFServersFilepath;
-            if (File.Exists(filepath))
-            {
-                using (XmlTextReader reader = new XmlTextReader(filepath))
-                {
-
-                    var xmlDoc2 = new XmlDocument();
-                    xmlDoc2.Load(reader);
-                    foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
-                    {
-                        ServerData si = new ServerData();
-
-                        si.ServerName = GetSubvalue(node, "name");
-                        PublishedServerLocalInfo info = null;
-                        if (!publishedInfos.ContainsKey(si.ServerName))
-                        {
-                            info = new PublishedServerLocalInfo();
-                            info.Name = si.ServerName;
-                            info.Id = Guid.NewGuid();
-                            info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
-                            info.Alias = null;
-                            publishedInfos[si.ServerName] = info;
-                        }
-                        else
-                        {
-                            info = publishedInfos[si.ServerName];
-                        }
-                        si.ServerId = info.Id;
-                        si.ServerAlias = info.Alias;
-                        si.ServerDesc = GetSubvalue(node, "description");
-                        si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
-                        si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.EMU = ServerModel.ServerEmuEnum.DF;
-                        si.ServerSource = ServerModel.ServerSourceEnum.Published;
-                        string rodatstr = GetSubvalue(node, "default_rodat");
-                        si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
-                        si.VisibilitySetting = info.VisibilitySetting;
-
-                        list.Add(si);
-                    }
-                }
-            }
-            return list;
-        }
-
         public IEnumerable<ServerData> GetPublishedGDLServerList()
         {
             var publishedServerInfos = LoadPublishedServerInfos();
@@ -296,18 +252,6 @@ namespace ThwargLauncher.GameManagement
 
             DownloadPublishedACEServersToCacheIfPossible();
             var publishedServers = ReadPublishedACEServerList(publishedServerInfos);
-
-            SavePublishedServerInfos(publishedServerInfos);
-
-            return publishedServers;
-        }
-
-        public IEnumerable<ServerData> GetPublishedDFServerList()
-        {
-            var publishedServerInfos = LoadPublishedServerInfos();
-
-            DownloadPublishedDFServersToCacheIfPossible();
-            var publishedServers = ReadPublishedDFServerList(publishedServerInfos);
 
             SavePublishedServerInfos(publishedServerInfos);
 
@@ -422,27 +366,6 @@ namespace ThwargLauncher.GameManagement
             catch (Exception exc)
             {
                 Logger.WriteInfo("Unable to download Published ACE Server List: " + exc.ToString());
-            }
-        }
-
-        private void DownloadPublishedDFServersToCacheIfPossible()
-        {
-            try
-            {
-                string filepath = _publishedDFServersFilepath;
-                var url = Properties.Settings.Default.DFServerListUrl;
-                string xmlStr;
-                using (var wc = new WebClient())
-                {
-                    xmlStr = wc.DownloadString(url);
-                }
-                var xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(xmlStr);
-                xmlDoc.Save(filepath);
-            }
-            catch (Exception exc)
-            {
-                Logger.WriteInfo("Unable to download Published DF Server List: " + exc.ToString());
             }
         }
 

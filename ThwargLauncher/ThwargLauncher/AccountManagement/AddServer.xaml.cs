@@ -25,7 +25,6 @@ namespace ThwargLauncher.AccountManagement
         public AddServer()
         {
             InitializeComponent();
-            UpdateUi();
             AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
 
@@ -53,7 +52,7 @@ namespace ThwargLauncher.AccountManagement
         {
             if (IsTrue(rdGDLServer.IsChecked)) { return ServerModel.ServerEmuEnum.GDL; }
             if (IsTrue(rdACEServer.IsChecked)) { return ServerModel.ServerEmuEnum.Ace; }
-            if (IsTrue(rdDFServer.IsChecked)) { return ServerModel.ServerEmuEnum.DF; }
+
             return ServerModel.ServerEmuEnum.Ace; // shouldn't happen but in case
         }
         private GameManagement.ServerPersister.ServerData GetServerDataFromUi()
@@ -71,8 +70,7 @@ namespace ThwargLauncher.AccountManagement
                 RodatSetting = rodat,
                 SecureSetting = secure,
                 EMU = emu,
-                GameApiUrl = txtGameApiUrl.Text,
-                LoginServerUrl = txtLoginServerUrl.Text,
+                DiscordUrl = txtDiscordUrl.Text,
                 LoginEnabled = true, // ??
                 ServerSource = ServerModel.ServerSourceEnum.User
             };
@@ -129,31 +127,6 @@ namespace ThwargLauncher.AccountManagement
                 return false;
             }
             return true;
-        }
-        private void rdACEServer_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateUi();
-        }
-        private void rdDFServer_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateUi();
-        }
-        private void rdGDLServer_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateUi();
-        }
-        private void UpdateUi()
-        {
-            bool showDfControls = IsTrue(rdDFServer.IsChecked);
-            Visibility dfControlVisibility = (showDfControls ? Visibility.Visible : Visibility.Hidden);
-            this.lblLoginServerUrl.Visibility = dfControlVisibility;
-            this.txtLoginServerUrl.Visibility = dfControlVisibility;
-            this.lblSecureLogin.Visibility = dfControlVisibility;
-            this.cmbSecureLogin.Visibility = dfControlVisibility;
-            this.lblLoginServerUrl.Visibility = dfControlVisibility;
-            this.txtLoginServerUrl.Visibility = dfControlVisibility;
-            this.lblGameApiUrl.Visibility = dfControlVisibility;
-            this.txtGameApiUrl.Visibility = dfControlVisibility;
         }
     }
 }

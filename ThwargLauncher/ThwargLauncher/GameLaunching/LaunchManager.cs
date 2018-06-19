@@ -84,6 +84,7 @@ namespace ThwargLauncher
                     ipAddress: _launchItem.IpAndPort,
                     gameApiUrl: _launchItem.GameApiUrl,
                     loginServerUrl: _launchItem.LoginServerUrl,
+                    discordurl: _launchItem.DiscordUrl,
                     emu: _launchItem.EMU,
                     desiredCharacter: _launchItem.CharacterSelected,
                     rodatSetting: _launchItem.RodatSetting,

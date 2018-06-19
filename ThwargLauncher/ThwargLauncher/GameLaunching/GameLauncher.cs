@@ -56,7 +56,7 @@ namespace ThwargLauncher
 
         public GameLaunchResult LaunchGameClient(string exelocation,
             string serverName, string accountName, string password,
-            string ipAddress,string gameApiUrl, string loginServerUrl,
+            string ipAddress,string gameApiUrl, string loginServerUrl, string discordurl,
             ServerModel.ServerEmuEnum emu, string desiredCharacter,
             ServerModel.RodatEnum rodatSetting, ServerModel.SecureEnum secureSetting, bool simpleLaunch)
         {
@@ -71,7 +71,6 @@ namespace ThwargLauncher
 
             bool isGDL = (emu == ServerModel.ServerEmuEnum.GDL);
             bool isACE = (emu == ServerModel.ServerEmuEnum.Ace);
-            bool isDF = (emu == ServerModel.ServerEmuEnum.DF);
 
             if (isGDL)
             {
@@ -101,6 +100,7 @@ namespace ThwargLauncher
                 string genArgsACEServer = "-a " + accountName + " -v " + password + " -h " + ipAddress;
                 genArgs = genArgsACEServer;
             }
+            /* This is currently removed, and DF is gone. Leaving this in case anyone else decides to use the secure login from DF
             else if(isDF)
             {
                 if (secureSetting == ServerModel.SecureEnum.On)
@@ -115,6 +115,7 @@ namespace ThwargLauncher
                 string genArgsACEServer = "-a " + accountName + " -h " + ipAddress + " -glsticketdirect " + password;
                 genArgs = genArgsACEServer;
             }
+            */
 
             string pathToFile = exelocation;
             //check if we're doing a simple launch. If we are, ignore the fancy management stuff

@@ -14,6 +14,7 @@ namespace ThwargLauncher
         public string ServerName;
         public string GameApiUrl;
         public string LoginServerUrl;
+        public string DiscordUrl;
         public ServerModel.ServerEmuEnum EMU;
         public string CharacterSelected;
         public ServerModel.RodatEnum RodatSetting;

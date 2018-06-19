@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using ThwargLauncher.AccountManagement;
 using ThwargLauncher.UtilityCode;
+using System.Windows.Navigation;
 
 namespace ThwargLauncher
 {
@@ -496,6 +497,7 @@ namespace ThwargLauncher
                                     IpAndPort = server.ServerIpAndPort,
                                     GameApiUrl = server.GameApiUrl,
                                     LoginServerUrl = server.LoginServerUrl,
+                                    DiscordUrl = server.DiscordUrl,
                                     EMU = server.EMU,
                                     CharacterSelected = server.ChosenCharacter,
                                     CustomLaunchPath = account.CustomLaunchPath,
@@ -757,6 +759,11 @@ namespace ThwargLauncher
         private void CheckRelaunch()
         {
             
+        }
+        private void RequestNavigateHandler(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }

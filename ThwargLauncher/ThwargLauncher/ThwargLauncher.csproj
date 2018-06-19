@@ -106,8 +106,8 @@
     </Compile>
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="AccountManagement\EditCharactersViewModel.cs" />
-    <Compile Include="AccountManagement\EditCharactersWindow.xaml.cs">
-      <DependentUpon>EditCharactersWindow.xaml</DependentUpon>
+    <Compile Include="AccountManagement\LoginCommands.xaml.cs">
+      <DependentUpon>LoginCommands.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountManagement\EditServersViewModel.cs" />
     <Compile Include="AccountManagement\EditServersWindow.xaml.cs">
@@ -206,7 +206,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountManagement\EditCharactersWindow.xaml">
+    <Page Include="AccountManagement\LoginCommands.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -285,6 +285,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\32pxDiscord.png" />
     <Content Include="Images\acwallpaperwideaerbax.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
