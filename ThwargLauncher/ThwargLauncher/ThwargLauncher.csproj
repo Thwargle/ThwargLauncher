@@ -140,6 +140,7 @@
     <Compile Include="LogViewer\LogViewerWindow.xaml.cs">
       <DependentUpon>LogViewerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindow\BoolToVisibilityConverter.cs" />
     <Compile Include="ProfileManagement\ChooseProfile.xaml.cs">
       <DependentUpon>ChooseProfile.xaml</DependentUpon>
     </Compile>

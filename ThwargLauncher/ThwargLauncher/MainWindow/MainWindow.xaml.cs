@@ -762,8 +762,15 @@ namespace ThwargLauncher
         }
         private void RequestNavigateHandler(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-            e.Handled = true;
+            try
+            {
+                Process.Start(new ProcessStartInfo(e.Uri.OriginalString));
+                e.Handled = true;
+            }
+            catch(Exception exc)
+            {
+                MessageBox.Show("Url is not valid. Click the 'Edit Servers' button, and verify your DiscordUrl.", "Invalid URL");
+            }
         }
     }
 }

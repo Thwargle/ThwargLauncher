@@ -20,6 +20,7 @@ namespace ThwargLauncher
         public enum RodatEnum { On, Off };
         public enum SecureEnum { On, Off };
         public enum VisibilityEnum { Visible, Invisible };
+        public bool HasDiscordURL { get { return DiscordUrl != ""; } }
 
         public override bool Equals(object obj)
         {

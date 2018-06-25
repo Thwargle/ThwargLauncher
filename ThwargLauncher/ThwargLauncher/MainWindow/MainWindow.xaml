@@ -11,6 +11,9 @@
     </Window.Background>
     <Window.Resources>
         <RoutedUICommand x:Key="LaunchGameCommand" />
+        <local:BoolToVisibilityConverter
+            x:Key="BoolToVisConverter"
+            TrueValue="Visible" FalseValue="Hidden" />
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource LaunchGameCommand}" Executed="LaunchGameCommand" />
@@ -189,7 +192,7 @@
                                                     <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left">
                                                         <Label Foreground="#FFBB8000" Content="{Binding Path=EMU}" HorizontalAlignment="Left"></Label>
                                                         <Label Foreground="{Binding Path=ConnectionColor}" Content="{Binding Path=ConnectionStatus}" FontWeight="Bold" HorizontalAlignment="Left"/>
-                                                        <TextBlock>
+                                                        <TextBlock Visibility="{Binding HasDiscordURL, Converter={StaticResource BoolToVisConverter}}">
                                                             <Hyperlink ToolTip="{Binding Path=DiscordUrl}" NavigateUri="{Binding Path=DiscordUrl}" RequestNavigate="RequestNavigateHandler">
                                                                 <Image Width="24px" Height="24px" Source="../Images/32pxDiscord.png" />
                                                             </Hyperlink>
