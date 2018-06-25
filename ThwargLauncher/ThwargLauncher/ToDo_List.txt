@@ -1,10 +1,6 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
  - Figure out why crashed clients aren't closed and re-launched.
- - Include server playercount (see IsUdpServerUp)
  - Make the Onlogin Commands work on a per-profile basis. So you can set up a profile and have different launch options.
  - Allow hiding and showing of accounts in the account list on a per-profile basis
  - Handle invalid json in the server list better
- - Do not allow spaces in username or password
- - Add in discord link
- - remove DF

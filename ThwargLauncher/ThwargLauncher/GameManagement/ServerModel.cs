@@ -21,6 +21,31 @@ namespace ThwargLauncher
         public enum SecureEnum { On, Off };
         public enum VisibilityEnum { Visible, Invisible };
         public bool HasDiscordURL { get { return DiscordUrl != ""; } }
+        public bool HasPlayerCountToolTip { get { return PlayerCountToolTip != ""; } }
+        private int _playerCount = -1;
+        public string Age { get; set; }
+        public string PlayerCountToolTip {
+            get
+            {
+                if (PlayerCount < 0) return "";
+                return string.Format("Player Count: {0} retrieved {1}", PlayerCount, Age);
+            }
+        }
+        public int PlayerCount
+        {
+            get { return _playerCount;  }
+            set
+            {
+                if (_playerCount != value)
+                {
+                    _playerCount = value;
+                    NotifyOfPropertyChange(() => PlayerCount);
+                    NotifyOfPropertyChange(() => PlayerCountToolTip);
+                    NotifyOfPropertyChange(() => HasPlayerCountToolTip);
+                }
+
+            }
+        }
 
         public override bool Equals(object obj)
         {

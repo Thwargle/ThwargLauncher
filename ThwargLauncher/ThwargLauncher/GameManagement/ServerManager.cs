@@ -84,5 +84,15 @@ namespace ThwargLauncher
             var persister = new GameManagement.ServerPersister(GetServerDataFolder());
             persister.WriteServerListToFile(userServers);
         }
+        internal static void UpdatePlayerCount(string serverName, int count, string age)
+        {
+            var server = ServerList.FirstOrDefault(v => v.ServerName == serverName);
+            if (server != null)
+            {
+                server.PlayerCount = count;
+                server.Age = age;
+            }
+
+        }
     }
 }

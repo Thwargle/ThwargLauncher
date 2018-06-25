@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +21,7 @@ namespace ThwargLauncher
         private System.Timers.Timer _timer = new System.Timers.Timer();
         private readonly GameSessionMap _map;
         private readonly Configurator _configurator;
-        private TimeSpan _liveInterval; // must be wEritten this recently to be alive
+        private TimeSpan _liveInterval; // must be written this recently to be alive
         private TimeSpan _warningInterval; // must be written this recently to be alive
         private DateTime _lastCleanupUtc = DateTime.MinValue;
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
@@ -27,6 +29,8 @@ namespace ThwargLauncher
         private const int CHARACTERFILE_CHECK_SECONDS = 30;
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
+        private DateTime _lastReadServerStatsUtc = DateTime.MinValue;
+        private TimeSpan _rereadServerStatsInterval = new TimeSpan(0, 10, 0); // 10 minutes
         private DateTime _lastUpdateUi = DateTime.MinValue;
         private bool _rereadRequested = false; // cross-thread access
         private bool _isWorking = false; // reentrancy guard
@@ -112,6 +116,10 @@ namespace ThwargLauncher
                 {
                     ReadProcessFiles();
                 }
+                if (ShouldWeReadServerStats())
+                {
+                    ReadServerStats();
+                }
                 if (ShouldWeCheckCharacterFile())
                 {
                     CheckCharacterFile();
@@ -166,6 +174,20 @@ namespace ThwargLauncher
                 {
                     return true;
                 }
+            }
+            return false;
+        }
+        private bool ShouldWeReadServerStats()
+        {
+            bool forceRead = false; // for debugging
+            if (forceRead || _lastReadServerStatsUtc == DateTime.MinValue)
+            {
+                return true;
+            }
+            TimeSpan elapsed = DateTime.UtcNow - _lastReadServerStatsUtc;
+            if (elapsed > _rereadServerStatsInterval)
+            {
+                return true;
             }
             return false;
         }
@@ -368,6 +390,35 @@ namespace ThwargLauncher
                 }
             }
             _lastReadProcesFilesUtc = DateTime.UtcNow;
+        }
+        class ServerPlayerCount { public string server; public string date; public int count; public string age; }
+        private void ReadServerStats()
+        {
+            try
+            {
+                string res;
+                string url = "http://treestats.net/player_counts-latest.json";
+                using (var wc = new WebClient())
+                {
+                    string datastr = wc.DownloadString(url);
+                    dynamic dyn = JsonConvert.DeserializeObject(datastr);
+                    foreach (var obj in dyn)
+                    {
+                        var data = new ServerPlayerCount();
+                        data.count = int.Parse(obj["count"].ToString());
+                        data.age = obj["age"].ToString();
+                        data.server = obj["server"].ToString();
+                        data.date = obj["date"].ToString();
+
+                        // TODO - think about this cross-thread call
+                        ServerManager.UpdatePlayerCount(data.server, data.count, data.age);
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                // hmm
+            }
         }
         private static Process TryGetProcessFromId(int pid)
         {

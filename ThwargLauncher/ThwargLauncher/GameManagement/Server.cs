@@ -68,7 +68,17 @@ namespace ThwargLauncher
         public string GameApiUrl { get { return _myServer.GameApiUrl; } }
         public string LoginServerUrl { get { return _myServer.LoginServerUrl; } }
         public string DiscordUrl { get { return _myServer.DiscordUrl; } }
+        public string PlayerCountToolTip { get { return _myServer.PlayerCountToolTip; } }
+        public string Age { get { return _myServer.Age; } }
+        public string PlayerCount
+        {
+            get {
+                if (_myServer.PlayerCount < 0) { return ""; }
+                return string.Format("({0})", _myServer.PlayerCount);
+            }
+        }
         public bool HasDiscordURL { get { return DiscordUrl != ""; } }
+        public bool HasPlayerCountToolTip {  get { return PlayerCountToolTip != ""; } }
         public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }
         public string ServerDisplayAlias { get { return _myServer.ServerDisplayAlias; } }
