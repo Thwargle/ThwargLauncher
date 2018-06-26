@@ -28,7 +28,7 @@ namespace ThwargLauncher
             get
             {
                 if (PlayerCount < 0) return "";
-                return string.Format("Player Count: {0} retrieved {1}", PlayerCount, Age);
+                return string.Format("Player Count: {0} (as of {1}) courtesy of TreeStats.net", PlayerCount, Age);
             }
         }
         public int PlayerCount
