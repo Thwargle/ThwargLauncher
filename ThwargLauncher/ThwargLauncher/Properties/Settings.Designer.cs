@@ -214,5 +214,17 @@ namespace ThwargLauncher.Properties {
                 return ((string)(this["DFServerListUrl"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://treestats.net/player_counts-latest.json")]
+        public string ServerCountUrl {
+            get {
+                return ((string)(this["ServerCountUrl"]));
+            }
+            set {
+                this["ServerCountUrl"] = value;
+            }
+        }
     }
 }

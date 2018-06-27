@@ -53,5 +53,8 @@
     <Setting Name="DFServerListUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://thwargle.com/thwarglauncher/DFPublishedServerInfo.xml</Value>
     </Setting>
+    <Setting Name="ServerCountUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://treestats.net/player_counts-latest.json</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

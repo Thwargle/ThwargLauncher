@@ -182,6 +182,7 @@ namespace ThwargLauncher
             bool forceRead = false; // for debugging
             if (forceRead || _lastReadServerStatsUtc == DateTime.MinValue)
             {
+                _lastReadServerStatsUtc = DateTime.UtcNow;
                 return true;
             }
             TimeSpan elapsed = DateTime.UtcNow - _lastReadServerStatsUtc;
@@ -397,7 +398,7 @@ namespace ThwargLauncher
             try
             {
                 string res;
-                string url = "http://treestats.net/player_counts-latest.json";
+                string url = Properties.Settings.Default.ServerCountUrl;
                 using (var wc = new WebClient())
                 {
                     string datastr = wc.DownloadString(url);
