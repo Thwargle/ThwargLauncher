@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{934FAB05-F8D0-478A-9139-371B0E31A353} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{9BAD7BA5-BC18-4A33-B11C-AA1778D1A4CF} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="5.0.8.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="5.2.2.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -91,7 +91,7 @@
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="4" UpdatesUrl="http://www.thwargle.com/thwarglauncher/updates/updates.txt" EulaPathLocId="*" IntroTextPathLocId="*"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="AnyCPU_Release" BuildName="AnyCPU_Release" BuildOrder="1" BuildType="1" PackageFolder="Setup Files" PackageFileName="ThwargLauncherInstaller" Languages="en" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\ThwargLauncher\Images\Logo_circleonly.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" UseLargeSchema="true" ExeName="ThwargLauncherInstaller"/>
+    <ROW BuildKey="AnyCPU_Release" BuildName="AnyCPU_Release" BuildOrder="1" BuildType="1" PackageFolder="Setup Files" PackageFileName="ThwargLauncherInstaller" Languages="en" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\ThwargLauncher\Images\ThwargLogo.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" UseLargeSchema="true" ExeName="ThwargLauncherInstaller"/>
     <ATTRIBUTE name="CurrentBuild" value="AnyCPU_Release"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
