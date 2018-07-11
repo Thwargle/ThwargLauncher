@@ -188,6 +188,7 @@ namespace ThwargLauncher
             TimeSpan elapsed = DateTime.UtcNow - _lastReadServerStatsUtc;
             if (elapsed > _rereadServerStatsInterval)
             {
+                _lastReadServerStatsUtc = DateTime.UtcNow;
                 return true;
             }
             return false;
@@ -236,7 +237,7 @@ namespace ThwargLauncher
         }
         private void CheckCharacterFile()
         {
-            string filepath = MagFilter.FileLocations.GetCharacterFilePath();
+            string filepath = ThwargFilter.FileLocations.GetCharacterFilePath();
             if (File.Exists(filepath))
             {
                 DateTime fileTimeUtc = File.GetLastWriteTimeUtc(filepath);
@@ -260,12 +261,12 @@ namespace ThwargLauncher
                 {
                     if (gameSession.GameChannel.NeedsToWrite)
                     {
-                        var writer = new MagFilter.Channels.ChannelWriter();
+                        var writer = new ThwargFilter.Channels.ChannelWriter();
                         writer.WriteCommandsToFile(gameSession.GameChannel);
                     }
                     if (true)
                     {
-                        var writer = new MagFilter.Channels.ChannelWriter();
+                        var writer = new ThwargFilter.Channels.ChannelWriter();
                         writer.ReadCommandsFromFile(gameSession.GameChannel);
                     }
                 }
@@ -315,7 +316,7 @@ namespace ThwargLauncher
                     // This occurs when launching game session
                     continue;
                 }
-                var response = MagFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
+                var response = ThwargFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
                 if (!response.IsValid)
                 {
                     Logger.WriteError(string.Format("Invalid contents in heartbeat file: {0}", heartbeatFile));
@@ -326,7 +327,7 @@ namespace ThwargLauncher
                 if (!response.Status.IsOnline)
                 {
                     int gameInteractionTimeoutSeconds = ConfigSettings.GetConfigInt("GameInteractionTimeoutSeconds", 120);
-                    // MagFilter reports !IsOnline if server dispatch quits firing
+                    // ThwargFilter reports !IsOnline if server dispatch quits firing
                     // but that isn't reliable, as it doesn't fire when not logged in to a character
                     if ((DateTime.UtcNow - _lastOnlineTimeUtc).TotalSeconds > gameInteractionTimeoutSeconds)
                     {
@@ -434,7 +435,7 @@ namespace ThwargLauncher
             }
         }
         private void UpdateGameSessionFromHeartbeatStatus(GameSession gameSession,
-        string filepath, MagFilter.LaunchControl.HeartbeatResponse response)
+        string filepath, ThwargFilter.LaunchControl.HeartbeatResponse response)
         {
             gameSession.ProcessStatusFilepath = filepath;
             if (!response.IsValid) { return; }
@@ -459,7 +460,7 @@ namespace ThwargLauncher
         }
         private void CreateGameChannel(int processId, GameSession gameSession)
         {
-            gameSession.GameChannel = MagFilter.Channels.Channel.MakeLauncherChannel(processId);
+            gameSession.GameChannel = ThwargFilter.Channels.Channel.MakeLauncherChannel(processId);
             _map.StartSessionWatcher(gameSession);
         }
         private ServerAccountStatusEnum GetStatusFromHeartbeatFileTime(GameSession gameSession)
@@ -501,14 +502,14 @@ namespace ThwargLauncher
         }
         private void CleanupOldProcessFiles()
         {
-            DirectoryInfo dir = new DirectoryInfo(MagFilter.FileLocations.GetRunningFolder());
+            DirectoryInfo dir = new DirectoryInfo(ThwargFilter.FileLocations.GetRunningFolder());
             var filepathsToDelete = new List<string>();
             foreach (var fileInfo in dir.EnumerateFiles("game_*.txt"))
             {
                 int processId = 0;
                 if (fileInfo.Extension == ".txt")
                 {
-                    processId = MagFilter.FileLocations.GetProcessIdFromGameHeartbeatFilepath(fileInfo.Name);
+                    processId = ThwargFilter.FileLocations.GetProcessIdFromGameHeartbeatFilepath(fileInfo.Name);
                     TimeSpan elapsed = (DateTime.UtcNow - fileInfo.LastWriteTimeUtc);
                     if (elapsed < _liveInterval)
                     {
@@ -562,7 +563,7 @@ namespace ThwargLauncher
         }
         private void TryToAddGameFromHeartbeatFile(string filepath, int processId)
         {
-            var response = MagFilter.LaunchControl.GetHeartbeatStatus(filepath);
+            var response = ThwargFilter.LaunchControl.GetHeartbeatStatus(filepath);
             if (response.IsValid)
             {
                 var gameSession = _map.GetGameSessionByServerAccount(response.Status.ServerName, response.Status.AccountName);
@@ -577,16 +578,16 @@ namespace ThwargLauncher
                 {
                     _map.AddGameSession(gameSession);
                 }
-                if (!_configurator.ContainsMagFilterPath(response.Status.MagFilterFilePath))
+                if (!_configurator.ContainsThwargFilterPath(response.Status.ThwargFilterFilePath))
                 {
                     var gameConfig = new Configurator.GameConfig()
                     {
-                        MagFilterPath = response.Status.MagFilterFilePath,
-                        MagFilterVersion = response.Status.MagFilterVersion
+                        ThwargFilterPath = response.Status.ThwargFilterFilePath,
+                        ThwargFilterVersion = response.Status.ThwargFilterVersion
                     };
                     _configurator.AddGameConfig(gameConfig);
                     Logger.WriteInfo(string.Format(
-                        "MagFilter#{0} found: {1}",
+                        "ThwargFilter#{0} found: {1}",
                         _configurator.GetNumberGameConfigs(),
                         gameConfig));
                 }

@@ -41,7 +41,7 @@ namespace ThwargLauncher.AccountManagement
 
         private void LoadCharacterConfiguration()
         {
-            var globalCmds = MagFilter.LoginCommandsStorage.GetGlobalLoginCommands();
+            var globalCmds = ThwargFilter.LoginCommandsStorage.GetGlobalLoginCommands();
             _characters.Clear();
             _characters.Add(
                 new EditableCharacterViewModel()
@@ -63,7 +63,7 @@ namespace ThwargLauncher.AccountManagement
                     foreach (var character in server.AvailableCharacters)
                     {
                         if (character.Id == 0) { continue; } // None
-                        var cmds = MagFilter.LoginCommandsStorage.GetLoginCommands(account.Name, server.ServerName, character.Name);
+                        var cmds = ThwargFilter.LoginCommandsStorage.GetLoginCommands(account.Name, server.ServerName, character.Name);
                         _characters.Add(
                             new EditableCharacterViewModel()
                             {
@@ -99,11 +99,11 @@ namespace ThwargLauncher.AccountManagement
             string text = ecvm.CharacterLoginCommandListString;
             if (ecvm.IsGlobal)
             {
-                MagFilter.LoginCommandsStorage.SetGlobalLoginCommands(text, ecvm.WaitTimeMs);
+                ThwargFilter.LoginCommandsStorage.SetGlobalLoginCommands(text, ecvm.WaitTimeMs);
             }
             else
             {
-                MagFilter.LoginCommandsStorage.SetLoginCommands(ecvm.AccountName, ecvm.ServerName, ecvm.CharacterName, text, ecvm.WaitTimeMs);
+                ThwargFilter.LoginCommandsStorage.SetLoginCommands(ecvm.AccountName, ecvm.ServerName, ecvm.CharacterName, text, ecvm.WaitTimeMs);
             }
         }
     }

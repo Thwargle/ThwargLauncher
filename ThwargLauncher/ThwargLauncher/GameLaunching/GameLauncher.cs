@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using MagFilter;
+using ThwargFilter;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using RestSharp;
@@ -133,8 +133,8 @@ namespace ThwargLauncher
 
                 RecordLaunchInfo(serverName, accountName, desiredCharacter, DateTime.UtcNow);
 
-                string charFilepath = MagFilter.FileLocations.GetCharacterFilePath();
-                string launchResponseFilepath = MagFilter.FileLocations.GetCurrentLaunchResponseFilePath();
+                string charFilepath = ThwargFilter.FileLocations.GetCharacterFilePath();
+                string launchResponseFilepath = ThwargFilter.FileLocations.GetCurrentLaunchResponseFilePath();
                 DateTime startWait = DateTime.UtcNow;
                 DateTime characterFileWrittenTime = DateTime.MaxValue;
                 DateTime loginTime = DateTime.MaxValue;

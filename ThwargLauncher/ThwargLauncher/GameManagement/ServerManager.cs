@@ -42,9 +42,9 @@ namespace ThwargLauncher
         }
         private static string GetServerDataFolder()
         {
-            string folderpath = System.IO.Path.Combine(MagFilter.FileLocations.AppFolder, "Servers");
-            folderpath = MagFilter.FileLocations.ExpandFilepath(folderpath);
-            MagFilter.FileLocations.CreateAnyNeededFoldersOfFolder(folderpath);
+            string folderpath = System.IO.Path.Combine(ThwargFilter.FileLocations.AppFolder, "Servers");
+            folderpath = ThwargFilter.FileLocations.ExpandFilepath(folderpath);
+            ThwargFilter.FileLocations.CreateAnyNeededFoldersOfFolder(folderpath);
             return folderpath;
         }
         private static void AddOrUpdateServer(GameManagement.ServerPersister.ServerData servdata)

@@ -120,7 +120,7 @@ namespace ThwargLauncher
             launchItem.Password = pwd;
             launchItem.IpAndPort = server.ServerIpAndPort;
             launchItem.EMU = server.EMU;
-            launchItem.CharacterSelected = null; // no character choices for SimpleLaunch, b/c that requires MagFilter
+            launchItem.CharacterSelected = null; // no character choices for SimpleLaunch, b/c that requires ThwargFilter
             launchItem.RodatSetting = server.RodatSetting;
             launchItem.SecureSetting = server.SecureSetting;
             launchItem.IsSimpleLaunch = true;
@@ -132,21 +132,21 @@ namespace ThwargLauncher
         {
             if (RequestingMainViewEvent != null)
             {
-                if (!DecalInjection.IsDecalInstalled() || !DecalInjection.IsMagfilterRegistered())
+                if (!DecalInjection.IsDecalInstalled() || !DecalInjection.IsThwargFilterRegistered())
                 {
                     StringBuilder warning = new StringBuilder();
                     if (!DecalInjection.IsDecalInstalled())
                     {
                         warning.Append("Decal is not installed properly. ");
                     }
-                    if (!DecalInjection.IsMagfilterRegistered())
+                    if (!DecalInjection.IsThwargFilterRegistered())
                     {
-                        warning.Append("Magfilter is not registered properly. ");
+                        warning.Append("ThwargFilter is not registered properly. ");
                     }
                     //Does not seem to work yet; investigate how decal saves enabled
-                    //if (!DecalInjection.IsMagfilterEnabled())
+                    //if (!DecalInjection.IsThwargFilterEnabled())
                     //{
-                    //    warning.Append("Magfilter appears to be disabled. ");
+                    //    warning.Append("ThwargFilter appears to be disabled. ");
                     //}
                     warning.Append("This may cause issues (such as clients being continually restarted) in advanced mode. Are you sure you want to continue to advanced mode?");
                     if (MessageBox.Show(warning.ToString(), "Configuration issue", MessageBoxButton.YesNo, MessageBoxImage.Error) != MessageBoxResult.Yes)

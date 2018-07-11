@@ -55,7 +55,7 @@ namespace ThwargLauncher
         }
         private void ReloadCharactersOnPrimaryThead()
         {
-            var charBook = MagFilter.CharacterBook.ReadCharacters();
+            var charBook = ThwargFilter.CharacterBook.ReadCharacters();
             lock (_locker)
             {
                 foreach (var uacct in UserAccounts)
@@ -69,7 +69,7 @@ namespace ThwargLauncher
                         newNameList.Sort();
                         if (!currentNameList.SequenceEqual(newNameList))
                         {
-                            uacct.LoadCharacterListFromMagFilterData(srvr, newMagDataList);
+                            uacct.LoadCharacterListFromThwargFilterData(srvr, newMagDataList);
                             srvr.NotifyAvailableCharactersChanged();
                         }
                     }

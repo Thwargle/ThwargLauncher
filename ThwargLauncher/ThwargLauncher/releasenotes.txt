@@ -39,7 +39,7 @@ VERSION 3.2.0.0   (2016-06-13)
 - Fixed problem with launching profiles
 - Added status symbols to character display in launcher (customizable via app.config)
 - Added team names to character display in launcher
-- Added broadcast and team commands to MagFilter - see Documentation
+- Added broadcast and team commands to ThwargFilter - see Documentation
 	- Added Diagnostics window
 VERSION 3.0.0.0   (2016-04-28)
 	- Added new Heartbeat functionality to maintain and detect running games.

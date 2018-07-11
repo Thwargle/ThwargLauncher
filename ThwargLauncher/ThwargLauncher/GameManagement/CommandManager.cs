@@ -137,7 +137,7 @@ namespace ThwargLauncher
             }
             foreach (var gameSession in sessions)
             {
-                string joincmdstr = string.Format("/mf jointeam {0}", teamName);
+                string joincmdstr = string.Format("/tf jointeam {0}", teamName);
                 SendGameCommand(gameSession, joincmdstr);
             }
             Logger.WriteInfo(string.Format(
@@ -158,8 +158,8 @@ namespace ThwargLauncher
         }
         private void SendGameCommand(GameSession gameSession, string cmdtext)
         {
-            var magCmd = new MagFilter.Channels.Command(DateTime.UtcNow, cmdtext);
-            gameSession.GameChannel.EnqueueOutbound(magCmd);
+            var filterCmd = new ThwargFilter.Channels.Command(DateTime.UtcNow, cmdtext);
+            gameSession.GameChannel.EnqueueOutbound(filterCmd);
         }
         public IList<string> ParseTokens(string text)
         {

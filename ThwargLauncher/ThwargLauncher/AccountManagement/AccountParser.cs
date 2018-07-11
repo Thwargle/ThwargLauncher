@@ -13,7 +13,7 @@ namespace ThwargLauncher
 
         public List<UserAccount> ReadOrMigrateAccounts(string oldUsersFilePath)
         {
-            var charBook = MagFilter.CharacterBook.ReadCharacters();
+            var charBook = ThwargFilter.CharacterBook.ReadCharacters();
             var acctList = new List<UserAccount>();
             if (File.Exists(AccountFilePath))
             {
@@ -37,7 +37,7 @@ namespace ThwargLauncher
             return acctList;
         }
 
-        private List<UserAccount> ReadAccounts(MagFilter.CharacterBook characterMgr, string accountFilepath)
+        private List<UserAccount> ReadAccounts(ThwargFilter.CharacterBook characterMgr, string accountFilepath)
         {
             var acctList = new List<UserAccount>();
             string fileVersion = null;
@@ -183,7 +183,7 @@ namespace ThwargLauncher
             text = text.Replace("^u", "^");
             return text;
         }
-        private List<UserAccount> ReadOldUserNames(MagFilter.CharacterBook charBook, string oldUsersFilePath)
+        private List<UserAccount> ReadOldUserNames(ThwargFilter.CharacterBook charBook, string oldUsersFilePath)
         {
             var acctList = new List<UserAccount>();
             using (var reader = new StreamReader(oldUsersFilePath))

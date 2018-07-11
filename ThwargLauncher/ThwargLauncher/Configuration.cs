@@ -9,14 +9,14 @@ namespace ThwargLauncher
         {
             get
             {
-                return MagFilter.FileLocations.AppFolder;
+                return ThwargFilter.FileLocations.AppFolder;
             }
         }
         public static string OldAppFolder
         {
             get
             {
-                return MagFilter.FileLocations.OldAppFolder;
+                return ThwargFilter.FileLocations.OldAppFolder;
             }
         }
         public static string UserPreferencesFile

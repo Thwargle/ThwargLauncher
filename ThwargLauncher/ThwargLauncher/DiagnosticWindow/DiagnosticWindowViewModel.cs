@@ -31,17 +31,17 @@ namespace ThwargLauncher
 
             foreach (Configurator.GameConfig config in _configurator.GetGameConfigs())
             {
-                text.AppendFormat("MagFilter: {0} - {1}", config.MagFilterVersion, config.MagFilterPath);
+                text.AppendFormat("ThwargFilter: {0} - {1}", config.ThwargFilterVersion, config.ThwargFilterPath);
                 text.AppendLine();
             }
             return text.ToString();
         }
         private void PerformOpenLogs()
         {
-            string filepath = MagFilter.FileLocations.GetRunningFolder();
+            string filepath = ThwargFilter.FileLocations.GetRunningFolder();
             if (string.IsNullOrEmpty(filepath))
             {
-                System.Windows.MessageBox.Show("Empty running folder returned from MagFilter!");
+                System.Windows.MessageBox.Show("Empty running folder returned from ThwargFilter!");
                 return;
             }
             System.Diagnostics.Process.Start(filepath);

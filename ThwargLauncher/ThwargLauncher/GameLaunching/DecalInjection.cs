@@ -52,41 +52,41 @@ namespace ThwargLauncher
                 throw new Exception("No Decal in registry: " + exc.Message);
             }
         }
-        public static bool IsMagfilterRegistered()
+        public static bool IsThwargFilterRegistered()
         {
-            string subKey = @"SOFTWARE\Decal\NetworkFilters\{15395EC4-585E-4C59-9813-9C9F1654026C}";
+            string subKey = @"SOFTWARE\Decal\NetworkFilters\{5C60E9C9-6F53-40EB-B2BE-5E67D76414B9}";
             try
             {
                 RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
                 if (sk1 == null) { return false; }
-                string magfilterDLL = (string)sk1.GetValue("Path", "");
-                if (string.IsNullOrEmpty(magfilterDLL)) { return false; }
-                magfilterDLL += @"\MagFilter.dll";
+                string ThwargFilterDLL = (string)sk1.GetValue("Path", "");
+                if (string.IsNullOrEmpty(ThwargFilterDLL)) { return false; }
+                ThwargFilterDLL += @"\ThwargFilter.dll";
 
-                if (!File.Exists(magfilterDLL)) { return false; }
+                if (!File.Exists(ThwargFilterDLL)) { return false; }
 
                 return true;
             }
             catch (Exception exc)
             {
-                throw new Exception("MagFilter is not configured in decal." + exc.Message);
+                throw new Exception("ThwargFilter is not configured in decal." + exc.Message);
             }
         }
-        public static bool IsMagfilterEnabled()
+        public static bool IsThwargFilterEnabled()
         {
-            string subKey = @"SOFTWARE\Decal\NetworkFilters\{15395EC4-585E-4C59-9813-9C9F1654026C}";
+            string subKey = @"SOFTWARE\Decal\NetworkFilters\{5C60E9C9-6F53-40EB-B2BE-5E67D76414B9}";
             try
             {
                 RegistryKey sk1 = Registry.LocalMachine.OpenSubKey(subKey);
                 if (sk1 == null) { return false; }
-                var magfilterEnabled = (int)sk1.GetValue("Enabled", 0);
-                if ((magfilterEnabled != 1)) { return false; }
+                var ThwargFilterEnabled = (int)sk1.GetValue("Enabled", 0);
+                if ((ThwargFilterEnabled != 1)) { return false; }
 
                 return true;
             }
             catch (Exception exc)
             {
-                throw new Exception("MagFilter is not enabled in decal." + exc.Message);
+                throw new Exception("ThwargFilter is not enabled in decal." + exc.Message);
             }
         }
     }

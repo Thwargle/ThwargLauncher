@@ -203,19 +203,19 @@ namespace ThwargLauncher
         }
         internal string GetLauncherLogPath()
         {
-            string filepath = System.IO.Path.Combine(MagFilter.FileLocations.AppLogsFolder, "ThwargLauncher-%PID%_log.txt");
-            filepath = MagFilter.FileLocations.ExpandFilepath(filepath);
-            MagFilter.FileLocations.CreateAnyNeededFoldersOfFile(filepath);
+            string filepath = System.IO.Path.Combine(ThwargFilter.FileLocations.AppLogsFolder, "ThwargLauncher-%PID%_log.txt");
+            filepath = ThwargFilter.FileLocations.ExpandFilepath(filepath);
+            ThwargFilter.FileLocations.CreateAnyNeededFoldersOfFile(filepath);
             return filepath;
         }
         private void RecordGameDll()
         {
-            var info = MagFilter.LaunchControl.GetMagFilterInfo();
+            var info = ThwargFilter.LaunchControl.GetThwargFilterInfo();
             _configurator.AddGameConfig(
                 new Configurator.GameConfig()
                 {
-                    MagFilterPath = info.MagFilterPath,
-                    MagFilterVersion = info.MagFilterVersion
+                    ThwargFilterPath = info.ThwargFilterPath,
+                    ThwargFilterVersion = info.ThwargFilterVersion
                 }
                 );
         }

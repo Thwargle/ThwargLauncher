@@ -69,7 +69,7 @@ namespace ThwargLauncher
         {
             if (gameSession.GameChannel != null)
             {
-                var writer = new MagFilter.Channels.ChannelWriter();
+                var writer = new ThwargFilter.Channels.ChannelWriter();
                 if (!writer.IsWatcherEnabled(gameSession.GameChannel))
                 {
                     writer.StartWatcher(gameSession.GameChannel);

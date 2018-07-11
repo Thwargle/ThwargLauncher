@@ -30,14 +30,14 @@ namespace ThwargLauncher
             string propName = serverName + "Enabled";
             SetPropertyByName(propName, enabled.ToString());
         }
-        private void InitializeMe(MagFilter.CharacterBook characterBook)
+        private void InitializeMe(ThwargFilter.CharacterBook characterBook)
         {
             foreach (var serverItem in ServerManager.ServerList)
             {
                 //TODO: Actual Server Selection
                 //if (!IsServerEnabled(serverName)) { continue; }
                 // Get characters from dll
-                MagFilter.ServerCharacterListByAccount charlist = null;
+                ThwargFilter.ServerCharacterListByAccount charlist = null;
                 if (characterBook != null)
                 {
                     charlist = characterBook.GetCharacters(serverName: serverItem.ServerName, accountName: this.Name);
@@ -47,7 +47,7 @@ namespace ThwargLauncher
 
                 server.ChosenCharacter = "None";
 
-                LoadCharacterListFromMagFilterData(server, charlist);
+                LoadCharacterListFromThwargFilterData(server, charlist);
                 if (charlist != null)
                 {
                     this.ZoneId = charlist.ZoneId; // recording this each time through this loop, but it will be the same so that is okay
@@ -57,7 +57,7 @@ namespace ThwargLauncher
                 _servers.Add(server);
             }
         }
-        public void LoadCharacterListFromMagFilterData(Server server, MagFilter.ServerCharacterListByAccount charlist)
+        public void LoadCharacterListFromThwargFilterData(Server server, ThwargFilter.ServerCharacterListByAccount charlist)
         {
             server.AvailableCharacters.Clear();
             //create and add a default character of none.
@@ -70,10 +70,10 @@ namespace ThwargLauncher
 
             if (charlist != null)
             {
-                List<MagFilter.Character> magchars = charlist.CharacterList;
-                if (magchars != null)
+                List<ThwargFilter.Character> filterChars = charlist.CharacterList;
+                if (filterChars != null)
                 {
-                    foreach (var dllChar in magchars)
+                    foreach (var dllChar in filterChars)
                     {
                         var acctChar = new AccountCharacter()
                         {
@@ -88,7 +88,7 @@ namespace ThwargLauncher
         /// <summary>
         /// Used to load data from file on disk
         /// </summary>
-        public void LoadAllProperties(MagFilter.CharacterBook characterBook, Dictionary<string, string> properties)
+        public void LoadAllProperties(ThwargFilter.CharacterBook characterBook, Dictionary<string, string> properties)
         {
             foreach (KeyValuePair<string, string> property in properties)
             {

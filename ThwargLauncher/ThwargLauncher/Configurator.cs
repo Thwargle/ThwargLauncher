@@ -11,16 +11,16 @@ namespace ThwargLauncher
     {
         public class GameConfig
         {
-            public string MagFilterPath;
-            public string MagFilterVersion;
+            public string ThwargFilterPath;
+            public string ThwargFilterVersion;
             public override string ToString()
             {
-                return string.Format("MagFilterVersion={0}, MagFilterPath={1}", this.MagFilterVersion, this.MagFilterPath);
+                return string.Format("ThwargFilterVersion={0}, ThwargFilterPath={1}", this.ThwargFilterVersion, this.ThwargFilterPath);
             }
         }
 
         private Dictionary<string, GameConfig> _map = new Dictionary<string, GameConfig>();
-        public bool ContainsMagFilterPath(string path) { return _map.ContainsKey(GetPathConfigKey(path)); }
+        public bool ContainsThwargFilterPath(string path) { return _map.ContainsKey(GetPathConfigKey(path)); }
         public void AddGameConfig(GameConfig config)
         {
             string key = GetConfigKey(config);
@@ -39,7 +39,7 @@ namespace ThwargLauncher
         }
         private string GetConfigKey(GameConfig config)
         {
-            return GetPathConfigKey(config.MagFilterPath);
+            return GetPathConfigKey(config.ThwargFilterPath);
         }
         private string GetPathConfigKey(string path)
         {

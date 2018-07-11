@@ -15,7 +15,7 @@ namespace ThwargLauncher
         public int UptimeSeconds = -1;
         public ServerAccountStatusEnum Status = ServerAccountStatusEnum.None;
         public DateTime LastGoodStatusUtc = DateTime.MinValue;
-        public MagFilter.Channels.Channel GameChannel;
+        public ThwargFilter.Channels.Channel GameChannel;
         public void AssignTeamSetFromString(string teamlist)
         {
             if (teamlist == _teamList) { return; }
@@ -37,7 +37,7 @@ namespace ThwargLauncher
         }
         public void StopSessionWatcher()
         {
-            var writer = new MagFilter.Channels.ChannelWriter();
+            var writer = new ThwargFilter.Channels.ChannelWriter();
             writer.StopWatcher(this.GameChannel);
         }
         public string Description
