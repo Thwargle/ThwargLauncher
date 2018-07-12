@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="12.8" Modules="update" RootPath="." Language="en" Id="{21BF6976-15B7-406D-8F21-74EAF1CE2C5B}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="ProductVersion" Value="4.8.0.0"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="ReleaseDate" Value="19150"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Version" Value="4.8.0.0"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-4.6.8]"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Description" Value="VERSION 4.8.0.0 (2017-07-18)&#13;&#10;- Added quite a few message boxes to help the user figure out what may not be working&#13;&#10;- Masked off the password on Simple Launch view&#13;&#10;- Alert the user to invalid username or password entry and prompt them to retry&#13;&#10;"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Feature" Value="Now prompted with some info when switching to advanced when magfilter wasn&apos;t recognized in the registry&#13;&#10;"/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="Enhancement" Value="Simple Launcher button is now on the Advanced view interface, not in the help menu."/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="BugFix" Value="Lots. Zorgle and I squash and create bugs in an infinite cycle of love and death."/>
+    <ROW Section="ThwargLauncher-4.8.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="12.8" Modules="update" RootPath="." Language="en" Id="{21BF6976-15B7-406D-8F21-74EAF1CE2C5B}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="ProductVersion" Value="4.6.8.0"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="ReleaseDate" Value="19150"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Version" Value="4.6.8.0"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-4.6.8]"/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Description" Value="VERSION 4.6.8.0 (2017-06-14)&#13;&#10;- Simple launch is now so much more of the simple things in life."/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Feature" Value="Wow, such simple. very simp and some le."/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="Enhancement" Value="Zorgle told me it was fine; we&apos;re all simple on the inside."/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="BugFix" Value="Simple doesn&apos;t try to be less simple when launching simple things."/>
+    <ROW Section="ThwargLauncher-4.6.8.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>

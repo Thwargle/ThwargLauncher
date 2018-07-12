@@ -1,0 +1,78 @@
+﻿Release Notes for ThwargLauncher
+
+Launcher Created 2015 by Jonathan Newberry and Perry Rapp.
+For use with the Asheron's Call game client to streamline multiple account/server instances.
+
+Starting with most recent:
+
+NEW
+- global flag for login commands
+- server aliases
+- tweaks to account summary
+VERSION 4.4.0.0 (2017-03-28)
+- New SimpleLauncher
+- Persist location of AddServer window
+- Block creation of duplicate server name
+VERSION 4.2.0.0   (2017-03-06)
+- Added an Add Server UI to add either PhatAC or ACE servers to the server list
+- Implemented a fix for Logging characters all the way in to the game
+- Fixed bug that could potentially crash launcher when server list wasn't recieved correctly
+- Improvements to server list UI
+- Various small bug fixes throughout
+VERSION 4.0.0.1   (2017-02-25)
+- Fixed a small bug to correct adding custom PhatAC servers from the .xml
+- Removed reference to PhatAC server URL from source
+- Fixed text to read AC Client File Location from Launcher
+- Fixed the edit users window to remove references to the old "Live" servers
+- This version still not successfully detecting launch, so launcher will keep trying
+VERSION 4.0.0.0    (2017-02-16)
+- Modified to support EMU development for both Phat AC and ACE server types
+- This version not successfully detecting launch, so launcher will keep trying
+VERSION 3.2.4.0    (2016-06-20)
+- Changed name from ACAccountManager to ThwargLauncher
+- Unable to log in characters with Apostrophe in the name
+- Sometimes accounts didn't realize they were closed (they were having an existential crisis)
+VERSION 3.2.2.0   (2016-06-13)
+- Updated bug with installer.
+- Fixed an issue where the launcher would delete profiles.
+VERSION 3.2.0.0   (2016-06-13)
+- Fixed problem with launching profiles
+- Added status symbols to character display in launcher (customizable via app.config)
+- Added team names to character display in launcher
+- Added broadcast and team commands to ThwargFilter - see Documentation
+	- Added Diagnostics window
+VERSION 3.0.0.0   (2016-04-28)
+	- Added new Heartbeat functionality to maintain and detect running games.
+	The Launch button will only launch accounts which are not already running (i.e. have crashed).
+	- Added back a button for opening user Accounts
+VERSION 2.2.8.0   (2015-12-24)
+	- Fixed a bug with naming of WintersEbb where server list as Wintersebb but responds with WintersEbb (notice E casing)
+	- Added Account Management interface
+	- Added Account Launch Priority
+	- Fixed deployment of App.config
+	- Added truncation of server choices per account
+	- Now shows selected character on the account and server row
+	- Updated the UI on Char Dropdown
+	- Updater no longer requires the user to click OK when there are no updates.
+VERSION 2.2.6.0   (2015-12-18)
+	- Updated the ChooseProfile window to properly allow choosing and modifying existing profiles
+	- Made application check for updates at startup
+VERSION 2.2.4.0   (2015-12-04)
+	- Fixed cancel button to work, and moved up next to Launch
+	- Added several seconds for character login to complete
+	- Fixed button colors
+	- Improved installer
+	- Fixed window rename
+VERSION 2.2.2.0   (2015-11-25)
+	* Notes prior to this date are unrecorded.
+
+	- Fixed a bug where timezone was not handled properly by c# and json serialization
+	- Added cancel button for launch sequence
+	- Added a msgbox to confirm/deny deleting profiles
+	- Fixed invalid profile message when application first launched
+	- Set min main window height/width
+	- Modified the comments on the accounts.txt file to correctly reflect all possible parameters
+	- Allow account alias (displayed on main window instead of actual account name)
+	- Fixed bug for renaming window title correctly
+
+2015-11-25, Jonathan Newberry and Perry Rapp
