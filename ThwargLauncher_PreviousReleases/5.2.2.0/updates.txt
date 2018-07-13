@@ -1,0 +1,32 @@
+;aiu;
+
+[ThwargLauncher-5.0.8.0]
+Name = ThwargLauncher
+ProductVersion = 5.2.2.0
+URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
+Size = 9158476
+ReleaseDate = 12/03/2018
+MD5 = 09910ce4d6ba1e5c1fb2300055821c5c
+ServerFileName = ThwargLauncherInstaller.exe
+Flags = Critical
+RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
+Version = 5.2.2.0
+UpdatedApplications = ThwargLauncher[1.0-5.2.2]
+Description = VERSION 5.2.2.0 (2018-06-26)
+Description1 = EMERGENCY UPDATE - Fixes a glaring bug where the launcher would hit TreeStats.net every thread tick... Sub-optimal!
+Description2 = Added Discord Link with clickable Icon to Advanced Mode Interface
+Description3 = Added Server Player Count to Advanced Mode Interface (player count courtesy of TreeStats.net)
+Description4 = Removed DF from the Server Type as that project has moved towards content creation, not emulation
+Description5 = Renamed Phat to GDL
+Feature = Discord Links
+Feature1 = Player Count
+BugFix = Smoothed the dinglebop with schleem.
+BugFix1 = Pushed the dinglebop through the grumbo.
+BugFix2 = Rubbed the dinglebop with fleeb.
+BugFix3 = Collected the fleeb juice.
+BugFix4 = Allowed the Schlami to rub and spit on the dinglebop.
+BugFix5 = Cut the fleeb.
+BugFix6 = Removed the hizzards.
+BugFix7 = Allowed the blamphs to rub the chumbles.
+BugFix8 = Removed the plubis and grumbo.
+AutoCloseApplication = [APPDIR]YourApplication.exe
