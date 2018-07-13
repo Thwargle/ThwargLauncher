@@ -59,8 +59,12 @@
     <Reference Include="CSharpCLI">
       <HintPath>Externals\CSharpCLI.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Decal.Adapter">
+      <HintPath>..\..\..\..\..\Games\Decal 3.0\Decal.Adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
@@ -83,6 +87,12 @@
     <Reference Include="ThwargFilter, Version=5.4.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\ThwargFilter.dll</HintPath>
+    </Reference>
+    <Reference Include="VCS5">
+      <HintPath>..\..\..\..\..\Games\VirindiPlugins\VirindiChatSystem5\VCS5.dll</HintPath>
+    </Reference>
+    <Reference Include="VirindiViewService">
+      <HintPath>..\..\..\..\..\Games\VirindiPlugins\VirindiViewService\VirindiViewService.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

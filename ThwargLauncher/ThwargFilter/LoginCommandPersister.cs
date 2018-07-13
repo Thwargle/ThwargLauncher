@@ -32,6 +32,10 @@ namespace ThwargFilter
         }
         private string SanityString(string text)
         {
+            if(text == null)
+            {
+                return "";
+            }
             text = text.Replace("/", "");
             text = text.Replace("\\", "");
             text = text.Replace(":", "");

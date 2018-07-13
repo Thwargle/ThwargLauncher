@@ -290,6 +290,10 @@ namespace ThwargLauncher
                 {
                     if (gameSession.UptimeSeconds == -1) { continue; }
                     DateTime launch = DateTime.UtcNow - TimeSpan.FromSeconds(gameSession.UptimeSeconds);
+                    if(gameSession.AccountName == null)
+                    {
+                        continue;
+                    }
                     if (!accountLaunchTimes.ContainsKey(gameSession.AccountName)
                         || launch > accountLaunchTimes[gameSession.AccountName])
                     {

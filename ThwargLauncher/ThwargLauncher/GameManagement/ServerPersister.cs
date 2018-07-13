@@ -100,40 +100,48 @@ namespace ThwargLauncher.GameManagement
             var list = new List<ServerData>();
             if (File.Exists(filepath))
             {
-                using (XmlTextReader reader = new XmlTextReader(filepath))
+                try
                 {
-                    var xmlDoc2 = new XmlDocument();
-                    xmlDoc2.Load(reader);
-                    foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                    using (XmlTextReader reader = new XmlTextReader(filepath))
                     {
-                        ServerData si = new ServerData();
-
-                        Guid guid = StringToGuid(GetOptionalSubvalue(node, "id", ""));
-                        if (guid == Guid.Empty)
+                        var xmlDoc2 = new XmlDocument();
+                        xmlDoc2.Load(reader);
+                        foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
                         {
-                             guid = Guid.NewGuid(); // temporary compatibility step - to be removed
+                            ServerData si = new ServerData();
+
+                            Guid guid = StringToGuid(GetOptionalSubvalue(node, "id", ""));
+                            if (guid == Guid.Empty)
+                            {
+                                guid = Guid.NewGuid(); // temporary compatibility step - to be removed
+                            }
+                            si.ServerId = guid;
+                            si.ServerName = GetSubvalue(node, "name");
+                            si.ServerAlias = GetOptionalSubvalue(node, "alias", null);
+                            si.ServerDesc = GetSubvalue(node, "description");
+                            si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
+                            si.ConnectionString = GetSubvalue(node, "connect_string");
+                            si.GameApiUrl = GetOptionalSubvalue(node, "GameApiUrlKey", "");
+                            si.LoginServerUrl = GetOptionalSubvalue(node, "LoginServerUrlKey", "");
+                            si.DiscordUrl = GetOptionalSubvalue(node, "DiscordUrl", "");
+                            string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
+                            si.EMU = ParseEmu(emustr, emudef);
+                            si.ServerSource = source;
+                            string rodatstr = GetSubvalue(node, "default_rodat");
+                            si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
+                            string securestr = GetOptionalSubvalue(node, "default_secure", "false");
+                            si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);
+                            string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
+                            si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
+                            list.Add(si);
                         }
-                        si.ServerId = guid;
-                        si.ServerName = GetSubvalue(node, "name");
-                        si.ServerAlias = GetOptionalSubvalue(node, "alias", null);
-                        si.ServerDesc = GetSubvalue(node, "description");
-                        si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
-                        si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.GameApiUrl = GetOptionalSubvalue(node, "GameApiUrlKey", "");
-                        si.LoginServerUrl = GetOptionalSubvalue(node, "LoginServerUrlKey", "");
-                        si.DiscordUrl = GetOptionalSubvalue(node, "DiscordUrl", "");
-                        string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
-                        si.EMU = ParseEmu(emustr, emudef);
-                        si.ServerSource = source;
-                        string rodatstr = GetSubvalue(node, "default_rodat");
-                        si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
-                        string securestr = GetOptionalSubvalue(node, "default_secure", "false");
-                        si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);
-                        string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
-                        si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
-                        list.Add(si);
                     }
                 }
+                catch (Exception exc)
+                {
+                    Logger.WriteInfo("Unable to parse Published Server List: " + exc.ToString());
+                }
+
             }
             return list;
         }
@@ -143,45 +151,54 @@ namespace ThwargLauncher.GameManagement
             string filepath = _publishedGDLServersFilepath;
             if (File.Exists(filepath))
             {
-                using (XmlTextReader reader = new XmlTextReader(filepath))
+                try
                 {
-
-                    var xmlDoc2 = new XmlDocument();
-                    xmlDoc2.Load(reader);
-                    foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                    using (XmlTextReader reader = new XmlTextReader(filepath))
                     {
-                        ServerData si = new ServerData();
 
-                        si.ServerName = GetSubvalue(node, "name");
-                        PublishedServerLocalInfo info = null;
-                        if (!publishedInfos.ContainsKey(si.ServerName))
+                        var xmlDoc2 = new XmlDocument();
+                        xmlDoc2.Load(reader);
+                        foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
                         {
-                            info = new PublishedServerLocalInfo();
-                            info.Name = si.ServerName;
-                            info.Id = Guid.NewGuid();
-                            info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
-                            info.Alias = null;
-                            publishedInfos[si.ServerName] = info;
-                        }
-                        else
-                        {
-                            info = publishedInfos[si.ServerName];
-                        }
-                        si.ServerId = info.Id;
-                        si.ServerAlias = info.Alias;
-                        si.ServerDesc = GetSubvalue(node, "description");
-                        si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
-                        si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
-                        si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.EMU = ServerModel.ServerEmuEnum.GDL;
-                        si.ServerSource = ServerModel.ServerSourceEnum.Published;
-                        string rodatstr = GetSubvalue(node, "default_rodat");
-                        si.RodatSetting = ParseRodat(rodatstr, defval:ServerModel.RodatEnum.Off);
-                        si.VisibilitySetting = info.VisibilitySetting;
+                            ServerData si = new ServerData();
 
-                        list.Add(si);
+                            si.ServerName = GetSubvalue(node, "name");
+                            PublishedServerLocalInfo info = null;
+                            if (!publishedInfos.ContainsKey(si.ServerName))
+                            {
+                                info = new PublishedServerLocalInfo();
+                                info.Name = si.ServerName;
+                                info.Id = Guid.NewGuid();
+                                info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
+                                info.Alias = null;
+                                publishedInfos[si.ServerName] = info;
+                            }
+                            else
+                            {
+                                info = publishedInfos[si.ServerName];
+                            }
+                            si.ServerId = info.Id;
+                            si.ServerAlias = info.Alias;
+                            si.ServerDesc = GetSubvalue(node, "description");
+                            si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
+                            si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
+                            si.ConnectionString = GetSubvalue(node, "connect_string");
+                            si.EMU = ServerModel.ServerEmuEnum.GDL;
+                            si.ServerSource = ServerModel.ServerSourceEnum.Published;
+                            string rodatstr = GetSubvalue(node, "default_rodat");
+                            si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
+                            si.VisibilitySetting = info.VisibilitySetting;
+
+                            list.Add(si);
+                        }
                     }
                 }
+                catch (Exception exc)
+                {
+                    Logger.WriteInfo("Unable to parse Published GDL Server List: " + exc.ToString());
+                }
+
+
             }
             return list;
         }
@@ -192,43 +209,50 @@ namespace ThwargLauncher.GameManagement
             string filepath = _publishedACEServersFilepath;
             if (File.Exists(filepath))
             {
-                using (XmlTextReader reader = new XmlTextReader(filepath))
+                try
                 {
-
-                    var xmlDoc2 = new XmlDocument();
-                    xmlDoc2.Load(reader);
-                    foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                    using (XmlTextReader reader = new XmlTextReader(filepath))
                     {
-                        ServerData si = new ServerData();
 
-                        si.ServerName = GetSubvalue(node, "name");
-                        PublishedServerLocalInfo info = null;
-                        if (!publishedInfos.ContainsKey(si.ServerName))
+                        var xmlDoc2 = new XmlDocument();
+                        xmlDoc2.Load(reader);
+                        foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
                         {
-                            info = new PublishedServerLocalInfo();
-                            info.Name = si.ServerName;
-                            info.Id = Guid.NewGuid();
-                            info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
-                            info.Alias = null;
-                            publishedInfos[si.ServerName] = info;
-                        }
-                        else
-                        {
-                            info = publishedInfos[si.ServerName];
-                        }
-                        si.ServerId = info.Id;
-                        si.ServerAlias = info.Alias;
-                        si.ServerDesc = GetSubvalue(node, "description");
-                        si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
-                        si.ConnectionString = GetSubvalue(node, "connect_string");
-                        si.EMU = ServerModel.ServerEmuEnum.Ace;
-                        si.ServerSource = ServerModel.ServerSourceEnum.Published;
-                        string rodatstr = GetSubvalue(node, "default_rodat");
-                        si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
-                        si.VisibilitySetting = info.VisibilitySetting;
+                            ServerData si = new ServerData();
 
-                        list.Add(si);
+                            si.ServerName = GetSubvalue(node, "name");
+                            PublishedServerLocalInfo info = null;
+                            if (!publishedInfos.ContainsKey(si.ServerName))
+                            {
+                                info = new PublishedServerLocalInfo();
+                                info.Name = si.ServerName;
+                                info.Id = Guid.NewGuid();
+                                info.VisibilitySetting = ServerModel.VisibilityEnum.Visible;
+                                info.Alias = null;
+                                publishedInfos[si.ServerName] = info;
+                            }
+                            else
+                            {
+                                info = publishedInfos[si.ServerName];
+                            }
+                            si.ServerId = info.Id;
+                            si.ServerAlias = info.Alias;
+                            si.ServerDesc = GetSubvalue(node, "description");
+                            si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
+                            si.ConnectionString = GetSubvalue(node, "connect_string");
+                            si.EMU = ServerModel.ServerEmuEnum.Ace;
+                            si.ServerSource = ServerModel.ServerSourceEnum.Published;
+                            string rodatstr = GetSubvalue(node, "default_rodat");
+                            si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
+                            si.VisibilitySetting = info.VisibilitySetting;
+
+                            list.Add(si);
+                        }
                     }
+                }
+                catch (Exception exc)
+                {
+                    Logger.WriteInfo("Unable to parse Published ACE Server List: " + exc.ToString());
                 }
             }
             return list;
@@ -267,22 +291,29 @@ namespace ThwargLauncher.GameManagement
             string filepath = _localPublishedGDLServersInfoFilepath;
             if (File.Exists(filepath))
             {
-                using (XmlTextReader reader = new XmlTextReader(filepath))
+                try
                 {
-                    var xmlDoc2 = new XmlDocument();
-                    xmlDoc2.Load(reader);
-                    foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                    using (XmlTextReader reader = new XmlTextReader(filepath))
                     {
-                        var info = new PublishedServerLocalInfo();
-                        info.Name = GetSubvalue(node, "name");
-                        Guid guid = StringToGuid(GetSubvalue(node, "id"));
-                        if (guid == Guid.Empty) { guid = Guid.NewGuid(); }
-                        info.Id = guid;
-                        string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible"); // optional for upgrade by developers
-                        info.VisibilitySetting = ParseVisibility(visibilitystr, ServerModel.VisibilityEnum.Visible);
-                        info.Alias = GetOptionalSubvalue(node, "alias", null);
-                        publishedServerInfos[info.Name] = info;
+                        var xmlDoc2 = new XmlDocument();
+                        xmlDoc2.Load(reader);
+                        foreach (XmlNode node in xmlDoc2.SelectNodes("//ServerItem"))
+                        {
+                            var info = new PublishedServerLocalInfo();
+                            info.Name = GetSubvalue(node, "name");
+                            Guid guid = StringToGuid(GetSubvalue(node, "id"));
+                            if (guid == Guid.Empty) { guid = Guid.NewGuid(); }
+                            info.Id = guid;
+                            string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible"); // optional for upgrade by developers
+                            info.VisibilitySetting = ParseVisibility(visibilitystr, ServerModel.VisibilityEnum.Visible);
+                            info.Alias = GetOptionalSubvalue(node, "alias", null);
+                            publishedServerInfos[info.Name] = info;
+                        }
                     }
+                }
+                catch (Exception exc)
+                {
+                    Logger.WriteInfo("Unable to parse Published GDL Server List: " + exc.ToString());
                 }
             }
             return publishedServerInfos;

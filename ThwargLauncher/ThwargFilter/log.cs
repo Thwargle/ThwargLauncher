@@ -8,9 +8,9 @@ namespace ThwargFilter
     class log
     {
         private static object _locker = new object();
-        private static string _logFilepath = "";
+        private static string _logFilepath = "c:/temp/tflogs.txt";
         private enum LOG_LEVEL { Min=0, None=0, Error=1, Info=2, Debug=3, Max=3 };
-        private static LOG_LEVEL _logLevel = 0;
+        private static LOG_LEVEL _logLevel = LOG_LEVEL.Max;
         private static bool _started;
 
         static log()

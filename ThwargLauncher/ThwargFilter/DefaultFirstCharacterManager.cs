@@ -6,28 +6,28 @@ using Decal.Adapter;
 
 namespace ThwargFilter
 {
-	class DefaultFirstCharacterManager
-	{
-		readonly LoginCharacterTools loginCharacterTools;
+    class DefaultFirstCharacterManager
+    {
+        readonly LoginCharacterTools loginCharacterTools;
 
-		readonly System.Windows.Forms.Timer defaultFirstCharTimer = new System.Windows.Forms.Timer();
+        readonly System.Windows.Forms.Timer defaultFirstCharTimer = new System.Windows.Forms.Timer();
 
-		int state;
+        int state;
 
-		string zonename;
-		string server;
+        string zonename;
+        string server;
 
-		public DefaultFirstCharacterManager(LoginCharacterTools loginCharacterTools)
-		{
-			this.loginCharacterTools = loginCharacterTools;
+        public DefaultFirstCharacterManager(LoginCharacterTools loginCharacterTools)
+        {
+            this.loginCharacterTools = loginCharacterTools;
 
-			defaultFirstCharTimer.Tick += new EventHandler(defaultFirstCharTimer_Tick);
-			defaultFirstCharTimer.Interval = 1000;
-		}
+            defaultFirstCharTimer.Tick += new EventHandler(defaultFirstCharTimer_Tick);
+            defaultFirstCharTimer.Interval = 1000;
+        }
 
-		public void FilterCore_ServerDispatch(object sender, NetworkMessageEventArgs e)
-		{
-			// When we login for the first time we get the following for messages in the following order
+        public void FilterCore_ServerDispatch(object sender, NetworkMessageEventArgs e)
+        {
+            // When we login for the first time we get the following for messages in the following order
 
             if (e.Message.Type == 0xF658) // Character List (we get this when we log out a character as well)
             {
@@ -35,7 +35,7 @@ namespace ThwargFilter
                 log.WriteInfo("FilterCore_ServerDispatch: 0xF658");
             }
 
-			if (e.Message.Type == 0xF7E1) // Server Name (we get this when we log out a character as well)
+            if (e.Message.Type == 0xF7E1) // Server Name (we get this when we log out a character as well)
             {
                 //getting the Server from the message, but then ignore it and set to the one we know works from the files
                 server = Convert.ToString(e.Message["server"]);
@@ -43,65 +43,65 @@ namespace ThwargFilter
                 server = launchInfo.ServerName;
                 log.WriteInfo("Server as retrieved from launchInfo: " + server);
             }
-				
 
-			// F7E5 - Unknown? (we only get this the first time we connect), E5 F7 00 00 01 00 00 00 01 00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 
 
-			if (e.Message.Type == 0xF7EA) // Unknown? (we only get this the first time we connect), EA F7 00 0
-			{
-			    defaultFirstCharTimer.Start();
-			}
-		}
+            // F7E5 - Unknown? (we only get this the first time we connect), E5 F7 00 00 01 00 00 00 01 00 00 00 01 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00 
 
-		public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
-		{
-			string lower = e.Text.ToLower();
+            if (e.Message.Type == 0xF7EA) // Unknown? (we only get this the first time we connect), EA F7 00 0
+            {
+                defaultFirstCharTimer.Start();
+            }
+        }
 
-			if (lower.StartsWith("/tf dlc set"))
-			{
-				DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
-				Debug.WriteToChat("Default Login Character set to: " + CoreManager.Current.CharacterFilter.Name);
+        public void FilterCore_CommandLineText(object sender, ChatParserInterceptEventArgs e)
+        {
+            string lower = e.Text.ToLower();
 
-				e.Eat = true;
-			}
-			else if (lower == "/tf dlc clear")
-			{
-				DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
-				Debug.WriteToChat("Default Login Character cleared");
+            if (lower.StartsWith("/tf dlc set"))
+            {
+                DefaultFirstCharacterLoader.SetDefaultFirstCharacter(new DefaultFirstCharacter(server, zonename, CoreManager.Current.CharacterFilter.Name));
+                Debug.WriteToChat("Default Login Character set to: " + CoreManager.Current.CharacterFilter.Name);
 
-				e.Eat = true;
-			}
-		}
+                e.Eat = true;
+            }
+            else if (lower == "/tf dlc clear")
+            {
+                DefaultFirstCharacterLoader.DeleteDefaultFirstCharacter(server, zonename);
+                Debug.WriteToChat("Default Login Character cleared");
 
-		void defaultFirstCharTimer_Tick(object sender, EventArgs e)
-		{
-			try
-			{
-				var defaultFirstCharacters = DefaultFirstCharacterLoader.DefaultFirstCharacters;
+                e.Eat = true;
+            }
+        }
 
-				foreach (var character in defaultFirstCharacters)
-				{
-					if (character.ZoneId == zonename && character.Server == server)
-					{
-						// Bypass movies/logos
-						if (state == 1 || state == 2)
-							PostMessageTools.SendMouseClick(350, 100);
+        void defaultFirstCharTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                var defaultFirstCharacters = DefaultFirstCharacterLoader.DefaultFirstCharacters;
 
-						if (state == 3)
-						{
+                foreach (var character in defaultFirstCharacters)
+                {
+                    if (character.ZoneId == zonename && character.Server == server)
+                    {
+                        // Bypass movies/logos
+                        if (state == 1 || state == 2)
+                            PostMessageTools.SendMouseClick(350, 100);
+
+                        if (state == 3)
+                        {
                             loginCharacterTools.LoginCharacter(character.CharacterName);
-						}
+                        }
 
-						break;
-					}
-				}
+                        break;
+                    }
+                }
 
-				if (state >= 3)
-					defaultFirstCharTimer.Stop();
+                if (state >= 3)
+                    defaultFirstCharTimer.Stop();
 
-				state++;
-			}
-			catch (Exception ex) { Debug.LogException(ex); }
-		}
-	}
+                state++;
+            }
+            catch (Exception ex) { Debug.LogException(ex); }
+        }
+    }
 }
