@@ -41,21 +41,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Decal.Adapter">
-      <HintPath>c:\Games\Decal 3.0\Decal.Adapter.dll</HintPath>
+      <HintPath>..\externals\MagFilterSupporting\Decal.Adapter.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net20\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net20\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
     <Reference Include="VCS5">
-      <HintPath>c:\Games\VirindiPlugins\VirindiChatSystem5\VCS5.dll</HintPath>
+      <HintPath>..\externals\MagFilterSupporting\VCS5.dll</HintPath>
     </Reference>
     <Reference Include="VirindiViewService">
-      <HintPath>c:\Games\VirindiPlugins\VirindiViewService\VirindiViewService.dll</HintPath>
+      <HintPath>..\externals\MagFilterSupporting\VirindiViewService.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
