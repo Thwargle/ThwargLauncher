@@ -2,22 +2,19 @@
 
 [ThwargLauncher-5.0.8.0]
 Name = ThwargLauncher
-ProductVersion = 5.0.8.0
+ProductVersion = 5.4.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7890737
-ReleaseDate = 12/03/2018
-MD5 = ed803a1a2381c7e3c3e29f354e1f8ceb
+Size = 9158767
+ReleaseDate = 13/07/2018
+MD5 = 95b1d0a159535b9f36801c2f5c219ff9
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 5.0.8.0
-UpdatedApplications = ThwargLauncher[1.0-5.0.8]
-Description = VERSION 5.0.8.0 (2017-08-15)
-Description1 = Updated the Add Server UI
-Description2 = Added a new option for DF Server type to the Add Servers
-Description3 = Now Support DF server launching with secure launches.
-Description4 = Removed secure launching from ACE since they don't use that anymore
-Feature = DF Server support.
-Enhancement = Danguses have been optimized.
-BugFix = Zorgle's Unicorns are now very clean. Nothing like a freshly waxed unicorn. They smell nice.
+Version = 5.4.0.0
+UpdatedApplications = ThwargLauncher[1.0-5.4]
+Description = VERSION 5.4.0.0 (2018-07-13)
+Description1 = New ThwargFilter to replace Magfilter. Many thanks to Mag-nus for providing a great base for a decal network filter.
+Feature = Can now filter account list on the profile to show only checked accounts, or all accounts.
+Enhancement = Pet the tuna. They're much happier.
+BugFix = Fixed bug where invalid server list or character list may result in a fatal error.
 AutoCloseApplication = [APPDIR]YourApplication.exe
