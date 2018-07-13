@@ -11,6 +11,9 @@ namespace ThwargLauncher
     {
         public ObservableCollection<UserAccount> UserAccounts = new ObservableCollection<UserAccount>();
 
+        public delegate void SomeAccountLaunchableChanged(object sender, EventArgs e);
+        public event SomeAccountLaunchableChanged SomeAccountLaunchableChangedEvent;
+
         private GameMonitor _gameMonitor;
         private object _locker = new object();
 
@@ -43,6 +46,17 @@ namespace ThwargLauncher
                 foreach (UserAccount acct in accounts)
                 {
                     UserAccounts.Add(acct);
+                    acct.PropertyChanged += Acct_PropertyChanged;
+                }
+            }
+        }
+        private void Acct_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "AccountLaunchable")
+            {
+                if (SomeAccountLaunchableChangedEvent != null)
+                {
+                    SomeAccountLaunchableChangedEvent(sender, e);
                 }
             }
         }

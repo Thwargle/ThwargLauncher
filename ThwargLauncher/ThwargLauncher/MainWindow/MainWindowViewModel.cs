@@ -59,11 +59,35 @@ namespace ThwargLauncher
                 }
             }
         }
+        public bool ShowCheckedAccounts
+        {
+            get { return GetShowCheckedAccounts(); }
+            set
+            {
+                if (Properties.Settings.Default.ShowCheckedAccounts != value)
+                {
+                    Properties.Settings.Default.ShowCheckedAccounts = value;
+                    Properties.Settings.Default.Save();
+                    OnPropertyChanged("KnownUserAccounts");
+                }
+            }
+        }
         private bool GetAutoRelaunch()
         {
             try
             {
                 return Properties.Settings.Default.AutoRelaunch;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private bool GetShowCheckedAccounts()
+        {
+            try
+            {
+                return Properties.Settings.Default.ShowCheckedAccounts;
             }
             catch
             {
@@ -93,6 +117,7 @@ namespace ThwargLauncher
             _configurator = configurator;
 
             _accountManager.UserAccounts.CollectionChanged += UserAccountsCollectionChanged;
+            _accountManager.SomeAccountLaunchableChangedEvent += accountManager_SomeAccountLaunchableChangedEvent;
 
             NewProfileCommand = new DelegateCommand(CreateNewProfile);
             NextProfileCommand = new DelegateCommand(GoToNextProfile);
@@ -101,6 +126,13 @@ namespace ThwargLauncher
             EditCharactersCommand = new DelegateCommand(EditCharacters);
             LoadStatusSymbols();
         }
+
+        private void accountManager_SomeAccountLaunchableChangedEvent(object sender, EventArgs e)
+        {
+            SaveCurrentProfile();
+            OnPropertyChanged("KnownUserAccounts");
+        }
+
         void UserAccountsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
@@ -193,7 +225,22 @@ namespace ThwargLauncher
             SaveCurrentProfile();
         }
 
-        public ObservableCollection<UserAcctViewModel> KnownUserAccounts { get { return _userAccountViewModels; } }
+        public ObservableCollection<UserAcctViewModel> KnownUserAccounts
+        {
+            get
+            {
+                if (GetShowCheckedAccounts())
+                {
+                    if (CurrentProfile == null) { return new ObservableCollection<UserAcctViewModel>(); }
+                    var accounts = _userAccountViewModels.Where(a => CurrentProfile.RetrieveAccountState(a.AccountName)).ToList();
+                    return new ObservableCollection<UserAcctViewModel>(accounts);
+                }
+                else
+                {
+                    return _userAccountViewModels;
+                }
+            }
+        }
         public string SelectedUserAccountName { get; set; }
         private Profile CurrentProfile { get; set; }
         public string CurrentProfileName

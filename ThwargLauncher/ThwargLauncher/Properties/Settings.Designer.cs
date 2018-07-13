@@ -226,5 +226,17 @@ namespace ThwargLauncher.Properties {
                 this["ServerCountUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowCheckedAccounts {
+            get {
+                return ((bool)(this["ShowCheckedAccounts"]));
+            }
+            set {
+                this["ShowCheckedAccounts"] = value;
+            }
+        }
     }
 }

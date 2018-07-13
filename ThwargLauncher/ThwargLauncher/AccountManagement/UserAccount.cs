@@ -209,7 +209,23 @@ namespace ThwargLauncher
             }
         }
 
-        public bool AccountLaunchable { get; set; }
+        private bool isAccountLaunchable = false;
+        public bool AccountLaunchable
+        {
+            get
+            {
+                return isAccountLaunchable;
+            }
+            set
+            {
+                if (isAccountLaunchable != value)
+                {
+                    isAccountLaunchable = value;
+                    OnPropertyChanged("AccountLaunchable");
+                }
+
+            }
+        }
         public string ZoneId { get; private set; }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

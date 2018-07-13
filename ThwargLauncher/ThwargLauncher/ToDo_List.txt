@@ -3,4 +3,4 @@
  - Figure out why crashed clients aren't closed and re-launched.
  - Make the Onlogin Commands work on a per-profile basis. So you can set up a profile and have different launch options.
  - Allow hiding and showing of accounts in the account list on a per-profile basis
- - Handle invalid json in the server list better
+ - Hide/show password on simple mode

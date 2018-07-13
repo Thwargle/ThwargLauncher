@@ -1,4 +1,4 @@
-﻿ <Window x:Name="ThwargLauncherMainWindow" x:Class="ThwargLauncher.MainWindow"
+﻿<Window x:Name="ThwargLauncherMainWindow" x:Class="ThwargLauncher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
@@ -32,6 +32,10 @@
                 <Button x:Name="btnNextProfile" ToolTip="Next Profile" Content="&gt;" HorizontalAlignment="Right" Margin="0,10,246.6,-0.2" VerticalAlignment="Top" Foreground="Black" Width="20" Command="{Binding NextProfileCommand}" Background="#FFF6D18F" FontWeight="Bold" />
                 <Button x:Name="btnDeleteProfile" ToolTip="Delete the Current Profile" Content="Delete Profile" HorizontalAlignment="Right" VerticalAlignment="Top" Width="86" Foreground="Black" Command="{Binding DeleteProfileCommand}" Margin="0,10,155.6,-0.2" Background="#FFF6D18F" FontWeight="Bold"/>
                 <Button x:Name="btnLaunch" Content="Launch" HorizontalAlignment="Right" Margin="0,10,73.6,-0.2" VerticalAlignment="Top" Width="77" Click="btnLaunch_Click" Foreground="Black" Background="#FFF6D18F" FontWeight="Bold"/>
+                <CheckBox x:Name="chkShowCheckedAccounts"
+                    Foreground="#FFFFB619" BorderBrush="Black"
+                    IsChecked="{Binding ShowCheckedAccounts}"
+                    Content="Show Checked Accounts Only" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,0,0" />
                 <CheckBox x:Name="chkAutoRelaunch"
                       Foreground="#FFFFB619" BorderBrush="Black"
                       IsChecked="{Binding Path=AutoRelaunch}"
@@ -60,7 +64,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ListBox x:Name="lstUsername" HorizontalAlignment="Stretch" Margin="10,22,10,10" Background="#A5000000" Foreground="#FFDC9700"
+                <ListBox x:Name="lstUsername" HorizontalAlignment="Stretch" Margin="10" Background="#A5000000" Foreground="#FFDC9700"
                   ItemsSource="{Binding Path=KnownUserAccounts}" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                     <ListBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
