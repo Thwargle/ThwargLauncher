@@ -73,7 +73,10 @@ namespace ThwargLauncher
                         string accountName = nameValueSet["Name"];
 
                         var user = new UserAccount(accountName);
-                        user.LoadAllProperties(characterMgr, nameValueSet);
+                        if (characterMgr != null)
+                        {
+                            user.LoadAllProperties(characterMgr, nameValueSet);
+                        }
 
                         acctList.Add(user);
                     }

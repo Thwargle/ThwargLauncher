@@ -56,6 +56,7 @@ namespace ThwargLauncher
         private void ReloadCharactersOnPrimaryThead()
         {
             var charBook = ThwargFilter.CharacterBook.ReadCharacters();
+            if (charBook == null) { return;  }
             lock (_locker)
             {
                 foreach (var uacct in UserAccounts)
