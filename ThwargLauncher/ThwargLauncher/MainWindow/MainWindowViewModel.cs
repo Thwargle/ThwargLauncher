@@ -169,21 +169,24 @@ namespace ThwargLauncher
         {
             //Confirm Delete
             if (MessageBox.Show("Are you sure you want to delete the " + CurrentProfileName + " profile?", "Confirm Delete", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK) return;
-            
-            ProfileManager mgr = new ProfileManager();
-            var nextProfile = mgr.GetPrevProfile(CurrentProfile.Name);
 
-            if(nextProfile == null)
+            DeleteProfileByName(CurrentProfile.Name);
+        }
+        public void DeleteProfileByName(string profileName)
+        {
+            ProfileManager mgr = new ProfileManager();
+            var nextProfile = mgr.GetPrevProfile(profileName);
+
+            if (nextProfile == null)
             {
                 nextProfile = mgr.CreateNewProfile();
             }
 
-            var profileNametoDelete = CurrentProfile.Name;
+            var profileNametoDelete = profileName;
 
             GotoProfile(nextProfile);
             mgr.DeleteProfile(profileNametoDelete);
         }
-
         public void GoToNextProfile()
         {
             SaveCurrentProfile();

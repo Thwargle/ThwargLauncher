@@ -6,7 +6,7 @@
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllProfiles}"
                   AutoGenerateColumns="False"
-                  AlternatingRowBackground="Wheat">
+                  AlternatingRowBackground="Wheat" PreviewKeyDown="DataGrid_PreviewKeyDown">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

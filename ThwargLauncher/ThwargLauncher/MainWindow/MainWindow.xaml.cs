@@ -650,7 +650,7 @@ namespace ThwargLauncher
         private void btnChooseProfile_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisable();
-            var dlg = new ChooseProfile();
+            var dlg = new ChooseProfile(_viewModel);
             var result = dlg.ShowDialog();
             MainWindowEnable();
             if (result.HasValue && result.Value && !string.IsNullOrEmpty(dlg.ProfileNameChosen))
