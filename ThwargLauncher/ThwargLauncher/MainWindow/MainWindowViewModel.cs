@@ -129,7 +129,6 @@ namespace ThwargLauncher
 
         private void accountManager_SomeAccountLaunchableChangedEvent(object sender, EventArgs e)
         {
-            SaveCurrentProfile();
             OnPropertyChanged("KnownUserAccounts");
         }
 
@@ -232,7 +231,7 @@ namespace ThwargLauncher
                 if (GetShowCheckedAccounts())
                 {
                     if (CurrentProfile == null) { return new ObservableCollection<UserAcctViewModel>(); }
-                    var accounts = _userAccountViewModels.Where(a => CurrentProfile.RetrieveAccountState(a.AccountName)).ToList();
+                    var accounts = _userAccountViewModels.Where(a => a.AccountLaunchable).ToList();
                     return new ObservableCollection<UserAcctViewModel>(accounts);
                 }
                 else
