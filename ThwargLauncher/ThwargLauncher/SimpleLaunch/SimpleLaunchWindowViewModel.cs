@@ -63,7 +63,7 @@ namespace ThwargLauncher
                     PerformConfigureFileLocation
                 );
 
-            
+
 
             LoadFromSettings();
         }
@@ -73,6 +73,7 @@ namespace ThwargLauncher
             try
             {
                 UseDecal = Properties.Settings.Default.InjectDecal;
+                ShowPassword = Properties.Settings.Default.ShowPassword;
                 AccountName = Properties.Settings.Default.SimpleLaunch_Username;
                 Password = Properties.Settings.Default.SimpleLaunch_Password;
                 initialServer = _servers.SourceCollection.OfType<SimpleServerItem>().FirstOrDefault(
@@ -86,6 +87,7 @@ namespace ThwargLauncher
         public void SaveToSettings()
         {
             Properties.Settings.Default.InjectDecal = UseDecal;
+            Properties.Settings.Default.ShowPassword = ShowPassword;
             Properties.Settings.Default.SimpleLaunch_Username = AccountName;
             Properties.Settings.Default.SimpleLaunch_Password = Password;
             Properties.Settings.Default.SimpleLaunch_ServerHashCode = (SelectedServer != null ? SelectedServer.GetHashCode() : 0);
@@ -97,12 +99,31 @@ namespace ThwargLauncher
         public string AccountName { get; set; }
         public string Password { get; set; }
         public bool UseDecal { get; set; }
+        private bool _showPassword;
+        public bool ShowPassword
+        {
+            get { return _showPassword; }
+            set {
+                if (_showPassword != value)
+                {
+                    _showPassword = value;
+                    OnPropertyChanged("ShowPassword");
+                }
+            }
+        }
+        public System.Windows.Visibility PasswordBoxVisibility { get { return ShowPassword ? Visibility.Hidden : Visibility.Visible; } }
+        public System.Windows.Visibility TextPasswordBoxVisibility { get { return ShowPassword ? Visibility.Visible : Visibility.Hidden; } }
         public bool UseDecalEnabled { get { return DecalInjection.IsDecalInstalled(); } }
 
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (propertyName == "ShowPassword")
+            {
+                OnPropertyChanged("PasswordBoxVisibility");
+                OnPropertyChanged("TextPasswordBoxVisibility");
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void PerformSimpleLaunch()

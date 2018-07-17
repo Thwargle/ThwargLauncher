@@ -70,9 +70,11 @@
             <TextBox x:Name="txtUserName"
                      Text="{Binding Path=AccountName, Mode=TwoWay}"
                      Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 0" />
+            <TextBox x:Name="txtUserPasswordText" Text="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=TextPasswordBoxVisibility}" />
             <PasswordBox x:Name="txtUserPassword" ff:PasswordBoxAssistant.BindPassword="True"
                      ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" />
+                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=PasswordBoxVisibility}" />
             <CheckBox x:Name="ShowHide" Visibility="Collapsed" Grid.Row="1" HorizontalAlignment="Right" Margin="8" VerticalAlignment="Bottom" Foreground="#FFFFB619" Checked="ShowHide_Checked">Show/Hide</CheckBox>
             <TextBox x:Name="txtLauncherLocation" Grid.Row="2" Text="{Binding Path=ClientFileLocation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="6,2,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick" Background="#FFF6D18F"/>
             <Button x:Name="btnLauncherLocation" Grid.Row="2" Content="..." ToolTip="Browse" Command="{Binding ConfigureFileLocationCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,2,19,0" Foreground="Black" Height="23" Background="#FFF6D18F" FontWeight="Bold"/>
@@ -81,6 +83,10 @@
                       IsChecked="{Binding Path=UseDecal}"
                       IsEnabled="{Binding Path=UseDecalEnabled}"
                       Content="Decal Injection" Grid.Row="3" HorizontalAlignment="Right" Margin="0,32,70,0" VerticalAlignment="Top" RenderTransformOrigin="0.197,-0.553"/>
+            <CheckBox x:Name="chkShowPassword"
+                      Foreground="#FFFFB619" BorderBrush="Black"
+                      IsChecked="{Binding Path=ShowPassword}"
+                      Content="Show Password" Grid.Row="2" HorizontalAlignment="Right" Margin="0,32,173,0" VerticalAlignment="Top" RenderTransformOrigin="0.197,-0.553"/>
             <Button x:Name="btnLaunch" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 30 15 0" Content="Launch" Click="btnLaunch_Click" Background="#FFF6D18F" FontWeight="Bold" />
         </Grid>
     </Grid>
