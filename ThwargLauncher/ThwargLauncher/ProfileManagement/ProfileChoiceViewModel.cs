@@ -38,7 +38,8 @@ namespace ThwargLauncher
         }
         public int ActiveAccounts { get { return _profile.ActiveAccountCount; } }
         public int ActiveServers { get { return _profile.ActiveServerCount; } }
-        public DateTime LastLaunch { get { return PopulateDate(_profile.LastLaunchedDate, DateTime.MinValue); } }
+        //public DateTime LastLaunch { get { return PopulateDate(_profile.LastLaunchedDate, DateTime.MinValue); } }
+        public string LastLaunch { get { return (_profile.LastLaunchedDate.HasValue ? _profile.LastLaunchedDate.ToString() : "(never)"); } }
 
         private DateTime PopulateDate(DateTime? date, DateTime defval)
         {
