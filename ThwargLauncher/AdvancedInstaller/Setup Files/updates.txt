@@ -2,19 +2,19 @@
 
 [ThwargLauncher-5.0.8.0]
 Name = ThwargLauncher
-ProductVersion = 5.4.0.0
+ProductVersion = 5.6.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 9158767
-ReleaseDate = 13/07/2018
-MD5 = 95b1d0a159535b9f36801c2f5c219ff9
+Size = 9158771
+ReleaseDate = 16/07/2018
+MD5 = ee6273f14ceb46a4a2bf8cd5421418aa
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 5.4.0.0
-UpdatedApplications = ThwargLauncher[1.0-5.4]
-Description = VERSION 5.4.0.0 (2018-07-13)
-Description1 = New ThwargFilter to replace Magfilter. Many thanks to Mag-nus for providing a great base for a decal network filter.
-Feature = Can now filter account list on the profile to show only checked accounts, or all accounts.
-Enhancement = Pet the tuna. They're much happier.
-BugFix = Fixed bug where invalid server list or character list may result in a fatal error.
+Version = 5.6.0.0
+UpdatedApplications = ThwargLauncher[1.0-5.6]
+Description = VERSION 5.6.0.0 (2018-07-16)
+Description1 = Fixes and features. We all love new things and stuff.
+Feature = Added Hide/Show password to simple mode
+Enhancement = Added ability to highlight profiles and click delete to mass delete profiles when using the "Profiles" button... Profiles (there I said profiles again).
+BugFix = Fixed a bug where profiles didn't like each other very much and liked to overwrite each other. They were mean, we put them in a short time out and now they're friends again.
 AutoCloseApplication = [APPDIR]YourApplication.exe
