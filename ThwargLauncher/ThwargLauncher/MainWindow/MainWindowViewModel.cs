@@ -68,7 +68,7 @@ namespace ThwargLauncher
                 {
                     Properties.Settings.Default.ShowCheckedAccounts = value;
                     Properties.Settings.Default.Save();
-                    OnPropertyChanged("KnownUserAccounts");
+                    OnPropertyChanged("ShownUserAccounts");
                 }
             }
         }
@@ -227,7 +227,7 @@ namespace ThwargLauncher
             SaveCurrentProfile();
         }
 
-        public ObservableCollection<UserAcctViewModel> KnownUserAccounts
+        public ObservableCollection<UserAcctViewModel> ShownUserAccounts
         {
             get
             {
@@ -241,6 +241,13 @@ namespace ThwargLauncher
                 {
                     return _userAccountViewModels;
                 }
+            }
+        }
+        public ObservableCollection<UserAcctViewModel> KnownUserAccounts
+        {
+            get
+            {
+                return _userAccountViewModels;
             }
         }
         public string SelectedUserAccountName { get; set; }
@@ -273,7 +280,14 @@ namespace ThwargLauncher
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
+            {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+            // dependent properties
+            if (propertyName == "KnownUserAccounts")
+            {
+                OnPropertyChanged("ShownUserAccounts");
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
 

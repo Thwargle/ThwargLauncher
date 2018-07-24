@@ -186,10 +186,10 @@ namespace ThwargLauncher
         void MainWindowViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // TODO - this is a workaround
-            if (e.PropertyName == "KnownUserAccounts")
+            if (e.PropertyName == "ShownUserAccounts")
             {
                 this.lstUsername.ItemsSource = null;
-                this.lstUsername.ItemsSource = _viewModel.KnownUserAccounts;
+                this.lstUsername.ItemsSource = _viewModel.ShownUserAccounts;
             }
             if (e.PropertyName == "AutoRelaunch")
             {

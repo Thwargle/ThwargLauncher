@@ -65,7 +65,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <ListBox x:Name="lstUsername" HorizontalAlignment="Stretch" Margin="10" Background="#A5000000" Foreground="#FFDC9700"
-                  ItemsSource="{Binding Path=KnownUserAccounts}" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                  ItemsSource="{Binding Path=ShownUserAccounts}" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                     <ListBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
