@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{31A6DD3E-342B-404A-B295-C65A08091B5B} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{6F8F1CBE-DF5F-44AF-B78B-9FFFC16E9153} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="5.6.0.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="5.6.2.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -129,7 +129,12 @@
     <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
+    <ROW Dialog_="ExitDialog" Control="IntroUninstall" Type="Text" X="175" Y="70" Width="261" Height="30" Attributes="196611" Text="Click the &quot;Finish&quot; button to exit the [Wizard]. (This sends Jeff back to Yaraq for some rest and relaxation)" TextStyle="Intro" Order="700" TextLocId="Control.Text.ExitDialog#Description" MsiKey="ExitDialog#IntroUninstall"/>
+    <ROW Dialog_="ExitDialog" Control="ViewReadmeCheckBox" Type="CheckBox" X="175" Y="130" Width="323" Height="20" Attributes="3" Property="VIEWREADME" Text="View readme file. Does anyone leave this checked? I know I don&apos;t." TextStyle="Normal" Order="800" TextLocId="Control.Text.ExitDialog#ViewReadmeText" MsiKey="ExitDialog#ViewReadmeCheckBox" Options="1"/>
+    <ROW Dialog_="ExitDialog" Control="LaunchProdCheckBox" Type="CheckBox" X="175" Y="160" Width="220" Height="20" Attributes="3" Property="RUNAPPLICATION" Text="Launch [ProductName]. Play the game already, sheesh." TextStyle="Normal" Order="900" TextLocId="Control.Text.ExitDialog#LaunchProdText" MsiKey="ExitDialog#LaunchProdCheckBox" Options="1"/>
     <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="175" Y="104" Width="323" Height="120" Attributes="7" Text="..\ThwargLauncher\EULA.rtf" Order="400" TextLocId="Control.Text.LicenseAgreementDlg#AgreementText_2" MsiKey="LicenseAgreementDlg#AgreementText"/>
+    <ROW Dialog_="PrepareDlg" Control="Description" Type="Text" X="175" Y="134" Width="314" Height="29" Attributes="196611" Text="Asheron requests that you please wait while the [Wizard] prepares to guide you through the installation. Thwargle and Zorgle also agree with Asheron." TextStyle="Description" Order="500" TextLocId="Graphite.Control.Text.PrepareDlg#Description" MsiKey="PrepareDlg#Description"/>
+    <ROW Dialog_="WelcomeDlg" Control="Description" Type="Text" X="175" Y="134" Width="301" Height="56" Attributes="196611" Text="The [Wizard] (we call him Jeff) will install [ProductName] on your computer.  Please click &quot;[Text_Next]&quot; to continue." TextStyle="Description" Order="600" TextLocId="Graphite.Control.Text.WelcomeDlg#Description" MsiKey="WelcomeDlg#Description"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
