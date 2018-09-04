@@ -50,7 +50,7 @@ namespace ThwargLauncher
             {
                 HandleCreateTeamCommand(inboundGameSession, commandString);
             }
-            else if (IsCommandPrefix(command, "killcient", ref commandString))
+            else if (eqstr(command, "killclient"))
             {
                 HandleKillClientCommand(inboundGameSession, commandString);
             }
@@ -235,7 +235,13 @@ namespace ThwargLauncher
                 throw new Exception(msg);
             }
         }
-
+        private bool eqstr(string txt1, string txt2)
+        {
+            if (txt1 == null) { return txt2 == null; }
+            if (txt2 == null) { return false; }
+            bool same = (String.Compare(txt1, txt2, ignoreCase: true) == 0);
+            return same;
+        }
         private bool IsCommandPrefix(string line, string prefix, ref string command)
         {
             if (line.StartsWith(prefix))
