@@ -52,6 +52,8 @@ namespace ThwargFilter
         private const string CMD_SetWindowTitle = "swt ";
         private const string CMD_Inventory = "inventory";
         private const string CMD_Inventory2 = "inv";
+        private const string CMD_KillClient = "killclient";
+        private const string CMD_KillClient2 = "kc";
         private ThwargInventory _thwargInventory;
         public ThwargInventory Inventory { set { _thwargInventory = value; } }
 
@@ -83,6 +85,8 @@ namespace ThwargFilter
             cmdHandlers.Add(CMD_SetWindowTitle, SetWindowTitleCommandHandler, "Set window title ('/tf swt MyGame')");
             cmdHandlers.Add(CMD_Inventory, InventoryCommandHandler, "List inventory to log ('/tf inv')");
             cmdHandlers.Add(CMD_Inventory2, InventoryCommandHandler, null);
+            cmdHandlers.Add(CMD_KillClient, KillClientCommandHandler, "Kill current client ('/tf kc')");
+            cmdHandlers.Add(CMD_KillClient2, KillClientCommandHandler, null);
         }
         public void ExecuteCommandFromLauncher(string command)
         {
@@ -193,6 +197,11 @@ namespace ThwargFilter
         private void InventoryCommandHandler(string command)
         {
             _thwargInventory.HandleInventoryCommand();
+        }
+        private void KillClientCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_KillClient);
+            Heartbeat.SendAndReceiveImmediately();
         }
         private void TestCommandHandler(string command)
         {

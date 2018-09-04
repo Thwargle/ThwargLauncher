@@ -640,10 +640,14 @@ namespace ThwargLauncher
                 GameCommandEvent(gameSession, command);
             }
         }
-
         public void RemoveGameByPid(int processId)
         {
             RemoveDeadSessionByPid(processId);
+        }
+        public void RemoveGameByPidAndNotifyLauncher(int processId)
+        {
+            RemoveDeadSessionByPid(processId);
+            OnGameDied(new EventArgs());
         }
     }
 }

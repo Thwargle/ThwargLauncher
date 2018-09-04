@@ -50,6 +50,10 @@ namespace ThwargLauncher
             {
                 HandleCreateTeamCommand(inboundGameSession, commandString);
             }
+            else if (IsCommandPrefix(command, "killcient", ref commandString))
+            {
+                HandleKillClientCommand(inboundGameSession, commandString);
+            }
         }
         private class TeamParsedCommand
         {
@@ -107,6 +111,14 @@ namespace ThwargLauncher
             commandString = commandString.Substring(pos + 1);
             if (string.IsNullOrWhiteSpace(commandString)) { argstr = null;  commandString = null; return true; }
             return true;
+        }
+        private void HandleKillClientCommand(GameSession inboundGameSession, string commandString)
+        {
+            // Currently no arguments to parse
+            var pid = inboundGameSession.ProcessId;
+            var process = System.Diagnostics.Process.GetProcessById(pid);
+            process.Kill();
+            _gameMonitor.RemoveGameByPidAndNotifyLauncher(pid);
         }
         private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
         {
