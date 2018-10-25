@@ -640,6 +640,21 @@ namespace ThwargLauncher
                 GameCommandEvent(gameSession, command);
             }
         }
+        public void KillSessionAndNotify(GameSession inboundGameSession)
+        {
+            var pid = inboundGameSession.ProcessId;
+            try
+            {
+                var process = System.Diagnostics.Process.GetProcessById(pid);
+                process.Kill();
+                this.RemoveGameByPidAndNotifyLauncher(pid);
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteError("Exception killing session pid {0}: {1}", pid, exc);
+            }
+
+        }
         public void RemoveGameByPid(int processId)
         {
             RemoveDeadSessionByPid(processId);

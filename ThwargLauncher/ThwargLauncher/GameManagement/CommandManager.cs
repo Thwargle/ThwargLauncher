@@ -115,10 +115,7 @@ namespace ThwargLauncher
         private void HandleKillClientCommand(GameSession inboundGameSession, string commandString)
         {
             // Currently no arguments to parse
-            var pid = inboundGameSession.ProcessId;
-            var process = System.Diagnostics.Process.GetProcessById(pid);
-            process.Kill();
-            _gameMonitor.RemoveGameByPidAndNotifyLauncher(pid);
+            _gameMonitor.KillSessionAndNotify(inboundGameSession);
         }
         private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
         {
