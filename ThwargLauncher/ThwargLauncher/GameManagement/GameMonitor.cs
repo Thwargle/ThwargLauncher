@@ -655,6 +655,13 @@ namespace ThwargLauncher
             }
 
         }
+        public void KillAllSessionsAndNotify()
+        {
+            foreach(var session in _map.GetAllGameSessions())
+            {
+                KillSessionAndNotify(session);
+            }
+        }
         public void RemoveGameByPid(int processId)
         {
             RemoveDeadSessionByPid(processId);

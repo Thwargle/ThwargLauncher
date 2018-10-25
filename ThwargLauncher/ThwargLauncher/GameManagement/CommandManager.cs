@@ -54,6 +54,10 @@ namespace ThwargLauncher
             {
                 HandleKillClientCommand(inboundGameSession, commandString);
             }
+            else if (eqstr(command, "killallclients"))
+            {
+                HandleKillAllClientsCommand(commandString);
+            }
         }
         private class TeamParsedCommand
         {
@@ -116,6 +120,11 @@ namespace ThwargLauncher
         {
             // Currently no arguments to parse
             _gameMonitor.KillSessionAndNotify(inboundGameSession);
+        }
+        private void HandleKillAllClientsCommand(string commandString)
+        {
+            // Currently no arguments to parse
+            _gameMonitor.KillAllSessionsAndNotify();
         }
         private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
         {

@@ -54,6 +54,8 @@ namespace ThwargFilter
         private const string CMD_Inventory2 = "inv";
         private const string CMD_KillClient = "killclient";
         private const string CMD_KillClient2 = "kc";
+        private const string CMD_KillAllClients = "killallclients";
+        private const string CMD_KillAllClients2 = "kac";
         private ThwargInventory _thwargInventory;
         public ThwargInventory Inventory { set { _thwargInventory = value; } }
 
@@ -87,6 +89,8 @@ namespace ThwargFilter
             cmdHandlers.Add(CMD_Inventory2, InventoryCommandHandler, null);
             cmdHandlers.Add(CMD_KillClient, KillClientCommandHandler, "Kill current client ('/tf kc')");
             cmdHandlers.Add(CMD_KillClient2, KillClientCommandHandler, null);
+            cmdHandlers.Add(CMD_KillAllClients, KillAllClientsCommandHandler, "Kill current client ('/tf kac')");
+            cmdHandlers.Add(CMD_KillAllClients2, KillAllClientsCommandHandler, null);
         }
         public void ExecuteCommandFromLauncher(string command)
         {
@@ -203,6 +207,11 @@ namespace ThwargFilter
             Heartbeat.SendCommand(CMD_KillClient);
             Heartbeat.SendAndReceiveImmediately();
         }
+        private void KillAllClientsCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_KillAllClients);
+            Heartbeat.SendAndReceiveImmediately();
+        }
         private void TestCommandHandler(string command)
         {
             if (!string.IsNullOrEmpty(command))
@@ -210,7 +219,6 @@ namespace ThwargFilter
                 executor.ExecuteCommand(command);
             }
         }
-
         private void SetWindowTitleCommandHandler(string command)
         {
             int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
