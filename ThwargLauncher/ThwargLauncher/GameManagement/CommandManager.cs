@@ -58,6 +58,10 @@ namespace ThwargLauncher
             {
                 HandleKillAllClientsCommand(commandString);
             }
+            else if (IsCommandPrefix(command, "addlogincmd ", ref commandString))
+            {
+                HandleAddLoginCmdCommand(inboundGameSession, commandString);
+            }
         }
         private class TeamParsedCommand
         {
@@ -125,6 +129,16 @@ namespace ThwargLauncher
         {
             // Currently no arguments to parse
             _gameMonitor.KillAllSessionsAndNotify();
+        }
+        private string CmdQueueToString(Queue<string> cmds) { return string.Join("\r\n", cmds); }
+        private void HandleAddLoginCmdCommand(GameSession session, string commandString)
+        {
+            Logger.WriteError("TODO: Implement HandleAddLoginCmdCommand");
+            var cmds = ThwargFilter.LoginCommandsStorage.GetLoginCommands(session.AccountName, session.ServerName, session.CharacterName);
+            cmds.Commands.Enqueue(commandString);
+            string newCmdListString = CmdQueueToString(cmds.Commands);
+            int waitTimeMs = cmds.WaitMillisencds;
+            ThwargFilter.LoginCommandsStorage.SetLoginCommands(session.AccountName, session.ServerName, session.CharacterName, newCmdListString, waitTimeMs);
         }
         private void HandleCreateTeamCommand(GameSession inboundGameSession, string commandString)
         {

@@ -56,6 +56,10 @@ namespace ThwargFilter
         private const string CMD_KillClient2 = "kc";
         private const string CMD_KillAllClients = "killallclients";
         private const string CMD_KillAllClients2 = "kac";
+        private const string CMD_AddLoginCmd = "addlogincmd";
+        private const string CMD_AddLoginCmd2 = "alc";
+        private const string CMD_AddLoginCmdGlobal = "addlogincmdglobal";
+        private const string CMD_AddLoginCmdGlobal2 = "alcg";
         private ThwargInventory _thwargInventory;
         public ThwargInventory Inventory { set { _thwargInventory = value; } }
 
@@ -91,6 +95,10 @@ namespace ThwargFilter
             cmdHandlers.Add(CMD_KillClient2, KillClientCommandHandler, null);
             cmdHandlers.Add(CMD_KillAllClients, KillAllClientsCommandHandler, "Kill current client ('/tf kac')");
             cmdHandlers.Add(CMD_KillAllClients2, KillAllClientsCommandHandler, null);
+            cmdHandlers.Add(CMD_AddLoginCmd, AddLoginCmdCommandHandler, "Add login cmd to current character ('/tf alc')");
+            cmdHandlers.Add(CMD_AddLoginCmd2, AddLoginCmdCommandHandler, null);
+            cmdHandlers.Add(CMD_AddLoginCmdGlobal, AddLoginCmdGlobalCommandHandler, "Add login cmd for all characters ('/tf alcg')");
+            cmdHandlers.Add(CMD_AddLoginCmdGlobal2, AddLoginCmdGlobalCommandHandler, null);
         }
         public void ExecuteCommandFromLauncher(string command)
         {
@@ -210,6 +218,16 @@ namespace ThwargFilter
         private void KillAllClientsCommandHandler(string command)
         {
             Heartbeat.SendCommand(CMD_KillAllClients);
+            Heartbeat.SendAndReceiveImmediately();
+        }
+        private void AddLoginCmdCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_AddLoginCmd + command);
+            Heartbeat.SendAndReceiveImmediately();
+        }
+        private void AddLoginCmdGlobalCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_AddLoginCmdGlobal + command);
             Heartbeat.SendAndReceiveImmediately();
         }
         private void TestCommandHandler(string command)
