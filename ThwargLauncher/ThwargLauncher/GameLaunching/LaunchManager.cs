@@ -50,6 +50,7 @@ namespace ThwargLauncher
                                        : DateTime.MinValue);
             // Add a 5 second delay before launching the same account. EMU servers won't have cross-server timouts like Live servers did.
             TimeSpan delay = new TimeSpan(0, 0, 5) - (DateTime.UtcNow - lastLaunchUtc);
+            delay = new TimeSpan(0, 0, 1);
             GameLaunchResult gameLaunchResult = null;
             while (delay.TotalMilliseconds > 0)
             {
@@ -60,8 +61,8 @@ namespace ThwargLauncher
                 string context = string.Format("Waiting {0} sec", (int)delay.TotalSeconds + 1);
                 ReportStatus(context, _launchItem);
 
-                System.Threading.Thread.Sleep(1000);
-                delay = new TimeSpan(0, 0, 5) - (DateTime.UtcNow - lastLaunchUtc);
+                //System.Threading.Thread.Sleep(1000);
+                delay = new TimeSpan();
             }
 
             ReportStatus("Launching", _launchItem);

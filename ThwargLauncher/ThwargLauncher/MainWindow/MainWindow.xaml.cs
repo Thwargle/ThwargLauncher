@@ -28,16 +28,15 @@ namespace ThwargLauncher
         private List<string> _Images = new List<string>();
         private Random _rand = new Random();
         private BackgroundWorker _worker = new BackgroundWorker();
-        private string _launcherLocation;
+        private string _clientExeLocation;
 
         private readonly MainWindowViewModel _viewModel;
         private readonly GameSessionMap _gameSessionMap;
         private readonly GameMonitor _gameMonitor;
+        private readonly LaunchWorker _launchWorker;
+
         readonly SynchronizationContext _uicontext;
-        private DateTime _launchRequestedTimeUtc = DateTime.MinValue;
-        private DateTime _lastLaunchInitiatedUtc = DateTime.MinValue;
         private System.Timers.Timer _timer;
-        private object _launchTimingLock = new object();
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
 
@@ -55,6 +54,11 @@ namespace ThwargLauncher
 
             _gameSessionMap = gameSessionMap;
             _gameMonitor = gameMonitor;
+            _launchWorker = new LaunchWorker(_worker, _gameSessionMap);
+            _launchWorker.ReportLaunchItemStatusEvent += (status, item, serverIndex, serverTotal) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
+            _launchWorker.ReportAccountStatusEvent += (accountStatus, item) => UpdateAccountStatus(accountStatus, item);
+            _launchWorker.ProgressChangedEvent += _worker_ProgressChanged;
+            _launchWorker.WorkerCompletedEvent += _worker_RunWorkerCompleted;
             _uicontext = SynchronizationContext.Current;
 
             _viewModel.OpeningSimpleLauncherEvent += () => this.Hide();
@@ -73,7 +77,6 @@ namespace ThwargLauncher
             LoadImages();
             ChangeBackgroundImageRandomly();
 
-            WireUpBackgroundWorker();
             SubscribeToGameMonitorEvents();
             _timer = new System.Timers.Timer(5000); // every five seconds
             _timer.Elapsed += _timer_Elapsed;
@@ -108,22 +111,7 @@ namespace ThwargLauncher
         }
         private bool IsLaunchDue()
         {
-            lock (_launchTimingLock)
-            {
-                if (_launchRequestedTimeUtc > _lastLaunchInitiatedUtc)
-                {
-                    return true;
-                }
-                else
-                {
-                    var elapsed = DateTime.UtcNow - _lastLaunchInitiatedUtc;
-                    if (elapsed.TotalSeconds > ConfigSettings.GetConfigInt("RelaunchIntervalSeconds", 60))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return _launchWorker.IsLaunchDue();
         }
         private void SubscribeToGameMonitorEvents()
         {
@@ -135,7 +123,7 @@ namespace ThwargLauncher
         }
         private void _gameMonitor_GameDiedEvent(object sender, EventArgs e)
         {
-            _launchRequestedTimeUtc = DateTime.UtcNow;
+            _launchWorker.RequestImmediateLaunch();
         }
         private void InvokeLaunchOnAppropriateThread()
         {
@@ -295,15 +283,15 @@ namespace ThwargLauncher
         public void LaunchGame()
         {
             _viewModel.ClientFileLocation = txtLauncherLocation.Text;
-            _launcherLocation = _viewModel.ClientFileLocation;
-            if (string.IsNullOrEmpty(_launcherLocation))
+            _clientExeLocation = _viewModel.ClientFileLocation;
+            if (string.IsNullOrEmpty(_clientExeLocation))
             {
                 ShowErrorMessage("Game launcher location required");
                 return;
             }
-            if (!File.Exists(_launcherLocation))
+            if (!File.Exists(_clientExeLocation))
             {
-                ShowErrorMessage(string.Format("Game launcher missing: '{0}'", _launcherLocation));
+                ShowErrorMessage(string.Format("Game launcher missing: '{0}'", _clientExeLocation));
                 return;
             }
             if (!CheckAccountsAndPasswords())
@@ -354,14 +342,6 @@ namespace ThwargLauncher
             return true;
         }
 
-        private void WireUpBackgroundWorker()
-        {
-            _worker.WorkerReportsProgress = true;
-            _worker.WorkerSupportsCancellation = true;
-            _worker.DoWork += _worker_DoWork;
-            _worker.ProgressChanged += _worker_ProgressChanged;
-            _worker.RunWorkerCompleted += _worker_RunWorkerCompleted;
-        }
 
         private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -406,10 +386,6 @@ namespace ThwargLauncher
                 }
             }
         }
-        private class WorkerArgs
-        {
-            public System.Collections.Concurrent.ConcurrentQueue<LaunchItem> ConcurrentLaunchQueue;
-        }
         private void LaunchSimpleClient(LaunchItem launchItem)
         {
             if (_worker.IsBusy)
@@ -422,17 +398,13 @@ namespace ThwargLauncher
                 _launchConcurrentQueue.Enqueue(launchItem);
                 EnableInterface(false);
                 btnCancel.IsEnabled = true;
-                WorkerArgs args = new WorkerArgs()
-                {
-                    ConcurrentLaunchQueue = _launchConcurrentQueue
-                };
-                _worker.RunWorkerAsync(args);
+                _launchWorker.LaunchQueue(_launchConcurrentQueue, _clientExeLocation);
             }
         }
         private void LaunchAllClientsOnAllServersOnThread()
         {
             _viewModel.ClientFileLocation = txtLauncherLocation.Text;
-            _launcherLocation = _viewModel.ClientFileLocation;
+            _clientExeLocation = _viewModel.ClientFileLocation;
             if (_worker.IsBusy)
             {
                 lblWorkerProgress.Content = "Launcher In Use";
@@ -444,11 +416,7 @@ namespace ThwargLauncher
                 btnCancel.IsEnabled = true;
                 UpdateConcurrentQueue();
                 _viewModel.RecordProfileLaunch();
-                WorkerArgs args = new WorkerArgs()
-                    {
-                        ConcurrentLaunchQueue = _launchConcurrentQueue
-                    };
-                _worker.RunWorkerAsync(args);
+                _launchWorker.LaunchQueue(_launchConcurrentQueue, _clientExeLocation);
             }
         }
         private void UpdateConcurrentQueue()
@@ -538,57 +506,6 @@ namespace ThwargLauncher
                     Message = context
                 };
             _worker.ReportProgress(pct, progressInfo);
-        }
-        void _worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            WorkerArgs args = (e.Argument as WorkerArgs);
-            if (args == null) { return; }
-            lock (_launchTimingLock)
-            {
-                _lastLaunchInitiatedUtc = DateTime.UtcNow;
-            }
-            int serverIndex = 0;
-            System.Collections.Concurrent.ConcurrentQueue<LaunchItem> globalQueue = args.ConcurrentLaunchQueue;
-            int serverTotal = globalQueue.Count;
-            if (serverTotal == 0) { return; }
-
-            LaunchItem launchItem = null;
-            var accountLaunchTimes = _gameSessionMap.GetLaunchAccountTimes();
-
-            while (globalQueue.TryDequeue(out launchItem))
-            {
-                LaunchManager mgr = new LaunchManager(_launcherLocation, launchItem, accountLaunchTimes);
-                mgr.ReportStatusEvent += (status, item) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
-                LaunchManager.LaunchManagerResult launchResult;
-                GameSession session = null;
-                try
-                {
-                    session = _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
-                    UpdateAccountStatus(ServerAccountStatusEnum.Starting, launchItem);
-                    launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
-                }
-                finally
-                {
-                    _gameSessionMap.EndLaunchingSession(launchItem.ServerName, launchItem.AccountName);
-                }
-
-                if (launchResult.Success)
-                {
-                    ++serverIndex;
-                    // Let's just wait for game monitor to check if the character list changed
-                    // b/c the AccountManager is subscribed for that event
-                    //CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
-                    // CallUiLoadUserAccounts(); // Pick up any characters - before 2017-04-10
-                    _gameSessionMap.StartSessionWatcher(session);
-                    workerReportProgress("Launched", launchItem, serverIndex, serverTotal);
-                }
-
-                if (_worker.CancellationPending)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-            }
         }
         private void UpdateAccountStatus(ServerAccountStatusEnum status, LaunchItem launchItem)
         {
