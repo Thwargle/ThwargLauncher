@@ -218,6 +218,8 @@ namespace ThwargLauncher
             {
                 Directory.CreateDirectory(specificFolder);
             }
+            // Ensure all data folders shared with filter exist
+            ThwargFilter.FileLocations.EnsureAllDataFoldersExist();
 
             // Ensure profiles folder exists
             var mgr = new ProfileManager();

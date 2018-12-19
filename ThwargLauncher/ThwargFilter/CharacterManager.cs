@@ -160,21 +160,13 @@ namespace ThwargFilter
             List<string> filepaths = new List<string>();
             string xpath = FileLocations.GetCharacterFilePath(ServerName: GameRepo.Game.Server, AccountName: GameRepo.Game.Account);
             string chardir = System.IO.Path.GetDirectoryName(xpath);
-            EnsureFolderExists(chardir);
+            FileLocations.EnsureFolderExists(chardir);
             foreach (string charfilename in Directory.GetFiles(chardir))
             {
                 string path = Path.Combine(chardir, charfilename);
                 filepaths.Add(path);
             }
             return filepaths;
-        }
-        private static void EnsureFolderExists(string folder)
-        {
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
         }
     }
 }

@@ -19,7 +19,8 @@ namespace ThwargFilter
         public static string GetCurrentLaunchFilePath(string ServerName, string AccountName)
         {
             string filename = string.Format("launch_{0}_{1}_{2}.txt", FilterName, ServerName, AccountName);
-            string path = Path.Combine(AppFolder, filename);
+            string directory = Path.Combine(AppFolder, "LaunchFiles");
+            string path = Path.Combine(directory, filename);
             return path;
         }
         /// <summary>
@@ -28,7 +29,8 @@ namespace ThwargFilter
         public static string GetCurrentLaunchResponseFilePath(string ServerName, string AccountName)
         {
             string filename = string.Format("launchResponse_{0}_{1}_{2}.txt", FilterName, ServerName, AccountName);
-            string path = Path.Combine(AppFolder, filename);
+            string directory = Path.Combine(AppFolder, "LaunchFiles");
+            string path = Path.Combine(directory, filename);
             return path;
         }
         public static System.Collections.Generic.List<string> GetAllCharacterFilePaths()
@@ -164,6 +166,25 @@ namespace ThwargFilter
             string pid = System.Diagnostics.Process.GetCurrentProcess().Id.ToString();
             filepath = filepath.Replace("%PID%", pid);
             return filepath;
+        }
+        public static void EnsureAllDataFoldersExist()
+        {
+            string[] folders = { "characters", "LaunchFiles", "Logs", "Profiles", "Running", "Servers" };
+            foreach (var folderName in folders)
+            {
+                string directory = Path.Combine(AppFolder, folderName);
+                FileLocations.EnsureFolderExists(directory);
+
+            }
+        }
+
+        internal static void EnsureFolderExists(string folder)
+        {
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
         }
 
         public static void CreateAnyNeededFoldersOfFile(string filepath)
