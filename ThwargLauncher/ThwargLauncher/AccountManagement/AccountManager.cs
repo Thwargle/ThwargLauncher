@@ -79,12 +79,12 @@ namespace ThwargLauncher
                     {
                         var currentNameList = srvr.AvailableCharacters.Where(x => x.Id != 0).Select(x => x.Name).ToList();
                         currentNameList.Sort();
-                        var newMagDataList = charBook.GetCharactersOrEmpty(srvr.ServerName, uacct.Name);
-                        var newNameList = newMagDataList.CharacterList.Select(x => x.Name).ToList();
+                        var newCharDataList = charBook.GetCharactersOrEmpty(srvr.ServerName, uacct.Name);
+                        var newNameList = newCharDataList.CharacterList.Select(x => x.Name).ToList();
                         newNameList.Sort();
                         if (!currentNameList.SequenceEqual(newNameList))
                         {
-                            uacct.LoadCharacterListFromThwargFilterData(srvr, newMagDataList);
+                            uacct.LoadCharacterListFromThwargFilterData(srvr, newCharDataList);
                             srvr.NotifyAvailableCharactersChanged();
                         }
                     }

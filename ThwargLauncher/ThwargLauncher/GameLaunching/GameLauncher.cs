@@ -133,8 +133,8 @@ namespace ThwargLauncher
 
                 RecordLaunchInfo(serverName, accountName, desiredCharacter, DateTime.UtcNow);
 
-                string charFilepath = ThwargFilter.FileLocations.GetCharacterFilePath();
-                string launchResponseFilepath = ThwargFilter.FileLocations.GetCurrentLaunchResponseFilePath();
+                string charFilepath = ThwargFilter.FileLocations.GetCharacterFilePath(ServerName: serverName, AccountName: accountName);
+                string launchResponseFilepath = ThwargFilter.FileLocations.GetCurrentLaunchResponseFilePath(ServerName: serverName, AccountName: accountName);
                 DateTime startWait = DateTime.UtcNow;
                 DateTime characterFileWrittenTime = DateTime.MaxValue;
                 DateTime loginTime = DateTime.MaxValue;
@@ -177,7 +177,6 @@ namespace ThwargLauncher
                         }
                         ReportGameStatus(string.Format("Waiting for game: {0}/{1} sec",
                             (int)((DateTime.UtcNow - startWait).TotalSeconds), secondsTimeout));
-                        System.Threading.Thread.Sleep(1000);
                         if (characterFileWrittenTime == DateTime.MaxValue)
                         {
                             // First we wait until DLL writes character file
@@ -195,7 +194,7 @@ namespace ThwargLauncher
                             {
                                 loginTime = DateTime.UtcNow;
                                 TimeSpan maxLatency = DateTime.UtcNow - startWait;
-                                launchResponse = LaunchControl.GetLaunchResponse(maxLatency);
+                                launchResponse = LaunchControl.GetLaunchResponse(ServerName: serverName, AccountName: accountName, maxLatency: maxLatency);
                             }
                         }
                         else
@@ -207,6 +206,7 @@ namespace ThwargLauncher
                                 gameReady = true;
                             }
                         }
+                        System.Threading.Thread.Sleep(1000);
                     }
                 }
             }

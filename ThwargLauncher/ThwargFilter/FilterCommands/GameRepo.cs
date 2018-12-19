@@ -17,8 +17,17 @@ namespace ThwargFilter
         public string Server { get { return _server; } }
         public string Account { get { return _account; } }
         public string Character { get { return _character; } }
+        public void SetAccount(string account)
+        {
+            _account = account;
+        }
+        public void SetServer(string server)
+        {
+            _server = server;
+        }
         public void SetServerAccount(string server, string account)
         {
+            // Probably not needed 2018-12-18
             _server = server;
             _account = account;
         }

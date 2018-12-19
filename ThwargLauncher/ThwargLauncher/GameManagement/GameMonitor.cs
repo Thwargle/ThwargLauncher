@@ -237,8 +237,7 @@ namespace ThwargLauncher
         }
         private void CheckCharacterFile()
         {
-            string filepath = ThwargFilter.FileLocations.GetCharacterFilePath();
-            if (File.Exists(filepath))
+            foreach (string filepath in ThwargFilter.FileLocations.GetAllCharacterFilePaths())
             {
                 DateTime fileTimeUtc = File.GetLastWriteTimeUtc(filepath);
                 if (fileTimeUtc > _characterFileTimeUtc)
@@ -248,6 +247,7 @@ namespace ThwargLauncher
                     if (CharacterFileChanged != null)
                     {
                         CharacterFileChanged();
+                        break; // event handler will reread them all so no need to check the rest
                     }
                 }
             }

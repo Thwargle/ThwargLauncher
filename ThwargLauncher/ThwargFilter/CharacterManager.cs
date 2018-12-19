@@ -10,13 +10,32 @@ namespace ThwargFilter
     {
         private Dictionary<string, ServerCharacterListByAccount> _data = null;
 
+        /*
         private CharacterBook(Dictionary<string, ServerCharacterListByAccount> dictionary)
         {
             _data = dictionary;
         }
+        */
         private CharacterBook()
         {
             _data = new Dictionary<string, ServerCharacterListByAccount>();
+        }
+        private void AppendCharacters(Dictionary<string, ServerCharacterListByAccount> dictionary)
+        {
+            foreach (KeyValuePair<string, ServerCharacterListByAccount> pair in dictionary)
+            {
+                string key = pair.Key;
+                ServerCharacterListByAccount charlist = pair.Value;
+                if (this._data.ContainsKey(key))
+                {
+                    throw new Exception("Shouldn't have two character files for same key: " + key);
+                }
+                else
+                {
+                    this._data.Add(key, charlist);
+                }
+            }
+
         }
         public IEnumerable<string> GetKeys()
         {
@@ -56,7 +75,7 @@ namespace ThwargFilter
             return key;
         }
 
-        public void WriteCharacters(string zonename, List<Character> characters)
+        public void WriteCharacters(string ServerName, string zonename, List<Character> characters)
         {
             var launchInfo = LaunchControl.GetLaunchInfo();
             if (!launchInfo.IsValid)
@@ -64,6 +83,7 @@ namespace ThwargFilter
                 log.WriteError("LaunchInfo not valid");
                 return;
             }
+
             if (!IsValidCharacterName(launchInfo.CharacterName))
             {
                 try
@@ -80,17 +100,22 @@ namespace ThwargFilter
             // Pass info to Heartbeat
             Heartbeat.RecordServer(launchInfo.ServerName);
             Heartbeat.RecordAccount(launchInfo.AccountName);
-            GameRepo.Game.SetServerAccount(server: launchInfo.ServerName, account: launchInfo.AccountName);
 
+            // Add our characters to the complete dictionary in memory
             string key = GetKey(server: launchInfo.ServerName, accountName: launchInfo.AccountName);
             var clist = new ServerCharacterListByAccount()
-                {
-                    ZoneId = zonename,
-                    CharacterList = characters
-                };
+            {
+                ZoneId = zonename,
+                CharacterList = characters
+            };
             this._data[key] = clist;
-            string contents = JsonConvert.SerializeObject(_data, Formatting.Indented);
-            string path = FileLocations.GetCharacterFilePath();
+
+            // Create a dictionary of only our characters to save
+            Dictionary<string, ServerCharacterListByAccount> solodict = new Dictionary<string, ServerCharacterListByAccount>();
+            solodict[key] = clist;
+
+            string contents = JsonConvert.SerializeObject(solodict, Formatting.Indented);
+            string path = FileLocations.GetCharacterFilePath(ServerName: launchInfo.ServerName, AccountName: launchInfo.AccountName);
             using (var file = new StreamWriter(path, append: false))
             {
                 file.Write(contents);
@@ -119,21 +144,39 @@ namespace ThwargFilter
 
         private static CharacterBook ReadCharactersImpl()
         {
-            string path = FileLocations.GetCharacterFilePath();
-            if (!File.Exists(path))
+            CharacterBook charMgr = new CharacterBook();
+            foreach (string filepath in EnumerateCharacterFilepaths())
             {
-                path = FileLocations.GetOldCharacterFilePath();
+                using (var file = new StreamReader(filepath))
+                {
+                    string contents = file.ReadToEnd();
+                    // to avoid json vulnerability, do not use TypeNameHandling.All
+                    var data = JsonConvert.DeserializeObject<Dictionary<string, ServerCharacterListByAccount>>(contents);
+                    charMgr.AppendCharacters(data);
+                }
+            }
+            return charMgr;
+        }
+        public static List<string> EnumerateCharacterFilepaths()
+        {
+            List<string> filepaths = new List<string>();
+            string xpath = FileLocations.GetCharacterFilePath(ServerName: GameRepo.Game.Server, AccountName: GameRepo.Game.Account);
+            string chardir = System.IO.Path.GetDirectoryName(xpath);
+            EnsureFolderExists(chardir);
+            foreach (string charfilename in Directory.GetFiles(chardir))
+            {
+                string path = Path.Combine(chardir, charfilename);
+                filepaths.Add(path);
+            }
+            return filepaths;
+        }
+        private static void EnsureFolderExists(string folder)
+        {
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
             }
 
-            if (!File.Exists(path)) { return new CharacterBook(); }
-            using (var file = new StreamReader(path))
-            {
-                string contents = file.ReadToEnd();
-                // to avoid json vulnerability, do not use TypeNameHandling.All
-                var data = JsonConvert.DeserializeObject<Dictionary<string, ServerCharacterListByAccount>>(contents);
-                CharacterBook charMgr = new CharacterBook(data);
-                return charMgr;
-            }
         }
     }
 }

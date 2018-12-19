@@ -20,6 +20,7 @@ namespace ThwargFilter
             {
                 zonename = Convert.ToString(e.Message["zonename"]);
                 log.WriteInfo("zonename: '{0}'", zonename);
+                GameRepo.Game.SetAccount(zonename);
             }
 
             if (e.Message.Type == 0xF7E1) // Server Name
@@ -27,6 +28,7 @@ namespace ThwargFilter
                 //Server Name retrieved from the server message, not used (unreliable in EMU)
                 var server = Convert.ToString(e.Message["server"]);
                 log.WriteInfo("server: '{0}'", server);
+                GameRepo.Game.SetServer(server);
             }
 
             if (e.Message.Type == 0xF658) // Character List
@@ -51,10 +53,10 @@ namespace ThwargFilter
             }
             if (!written)
             {
-                if (zonename != null && characters != null)
+                if (GameRepo.Game.Server != "" && zonename != null && characters != null)
                 {
-                    CharacterBook mgr = CharacterBook.ReadCharacters();
-                    mgr.WriteCharacters(zonename: zonename, characters: characters);
+                    CharacterBook mgr = CharacterBook.ReadCharacters(); // don't need data from on disk - todo - restructure this
+                    mgr.WriteCharacters(ServerName: GameRepo.Game.Server, zonename: zonename, characters: characters);
                     Heartbeat.LaunchHeartbeat();
                     written = true;
                 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Threading;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ namespace ThwargLauncher
 {
     class LaunchWorker
     {
-
         // Members passed in construtor
         BackgroundWorker _worker;
         private readonly GameSessionMap _gameSessionMap;
@@ -43,15 +43,18 @@ namespace ThwargLauncher
             _gameSessionMap = gameSessionMap;
             Initialize();
         }
+
         private class WorkerArgs
         {
             public System.Collections.Concurrent.ConcurrentQueue<LaunchItem> ConcurrentLaunchQueue;
             public string ClientExeLocation;
         }
+
         private void Initialize()
         {
             WireUpBackgroundWorker();
         }
+
         private void WireUpBackgroundWorker()
         {
             _worker.WorkerReportsProgress = true;
@@ -60,7 +63,6 @@ namespace ThwargLauncher
             _worker.ProgressChanged += (s, e) => FireProgressChangedEvent(s, e);
             _worker.RunWorkerCompleted += (s, e) => FireWorkerCompletedEvent(s, e);
         }
-
 
         public void LaunchQueue(ConcurrentQueue<LaunchItem> launchQueue, string clientExeLocation)
         {
@@ -87,6 +89,7 @@ namespace ThwargLauncher
             }
             return false;
         }
+
         public void RequestImmediateLaunch()
         {
             lock (_launchTimingLock)
@@ -97,7 +100,6 @@ namespace ThwargLauncher
                 }
             }
         }
-
 
         void _worker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -117,37 +119,49 @@ namespace ThwargLauncher
 
             while (globalQueue.TryDequeue(out launchItem))
             {
-                LaunchManager mgr = new LaunchManager(args.ClientExeLocation, launchItem, accountLaunchTimes);
-                mgr.ReportStatusEvent += (status, item) => FireReportLaunchItemStatusEvent(status, item);
-                LaunchManager.LaunchManagerResult launchResult;
-                GameSession session = null;
-                try
+                new Thread((x) =>
                 {
-                    session = _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
-                    FireReportAccountStatusEvent(ServerAccountStatusEnum.Starting, launchItem);
-                    launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
-                }
-                finally
-                {
-                    _gameSessionMap.EndLaunchingSession(launchItem.ServerName, launchItem.AccountName);
-                }
-
-                if (launchResult.Success)
-                {
-                    ++_serverIndex;
-                    // Let's just wait for game monitor to check if the character list changed
-                    // b/c the AccountManager is subscribed for that event
-                    //CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
-                    // CallUiLoadUserAccounts(); // Pick up any characters - before 2017-04-10
-                    _gameSessionMap.StartSessionWatcher(session);
-                    FireReportLaunchItemStatusEvent("Launched", launchItem);
-                }
+                    Thread.CurrentThread.IsBackground = true;
+                    launchGameFromItem(args, (LaunchItem)x, accountLaunchTimes);
+                }).Start(launchItem);
 
                 if (_worker.CancellationPending)
                 {
                     e.Cancel = true;
                     return;
                 }
+            }
+        }
+
+        void launchGameFromItem(WorkerArgs args, LaunchItem launchItem, Dictionary<string, DateTime> accountLaunchTimes)
+        {
+            Logger.WriteDebug("launchGameFromItem on thread {0}: Account={1}, Server={2}, Char={3}",
+                Thread.CurrentThread.ManagedThreadId,
+                launchItem.AccountName, launchItem.ServerName, launchItem.CharacterSelected);
+            LaunchManager mgr = new LaunchManager(args.ClientExeLocation, launchItem, accountLaunchTimes);
+            mgr.ReportStatusEvent += (status, item) => FireReportLaunchItemStatusEvent(status, item);
+            LaunchManager.LaunchManagerResult launchResult;
+            GameSession session = null;
+            try
+            {
+                session = _gameSessionMap.StartLaunchingSession(launchItem.ServerName, launchItem.AccountName);
+                FireReportAccountStatusEvent(ServerAccountStatusEnum.Starting, launchItem);
+                launchResult = mgr.LaunchGameHandlingDelaysAndTitles(_worker);
+            }
+            finally
+            {
+                _gameSessionMap.EndLaunchingSession(launchItem.ServerName, launchItem.AccountName);
+            }
+
+            if (launchResult.Success)
+            {
+                ++_serverIndex;
+                // Let's just wait for game monitor to check if the character list changed
+                // b/c the AccountManager is subscribed for that event
+                //CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
+                // CallUiLoadUserAccounts(); // Pick up any characters - before 2017-04-10
+                _gameSessionMap.StartSessionWatcher(session);
+                FireReportLaunchItemStatusEvent("Launched", launchItem);
             }
         }
     }

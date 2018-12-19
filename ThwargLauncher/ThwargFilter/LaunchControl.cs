@@ -59,7 +59,7 @@ namespace ThwargFilter
         /// </summary>
         public static void RecordLaunchInfo(string serverName, string accountName, string characterName, DateTime timestampUtc)
         {
-            string filepath = FileLocations.GetCurrentLaunchFilePath();
+            string filepath = FileLocations.GetCurrentLaunchFilePath(ServerName: serverName, AccountName: accountName);
             using (var file = new StreamWriter(filepath, append: false))
             {
                 file.WriteLine("FileVersion:{0}", LaunchInfo.MASTER_FILE_VERSION);
@@ -81,7 +81,7 @@ namespace ThwargFilter
             var info = new LaunchInfo();
             try
             {
-                string filepath = FileLocations.GetCurrentLaunchFilePath();
+                string filepath = FileLocations.GetCurrentLaunchFilePath(ServerName: GameRepo.Game.Server, AccountName: GameRepo.Game.Account);
 
                 if (!File.Exists(filepath))
                 {
@@ -124,7 +124,7 @@ namespace ThwargFilter
         /// </summary>
         internal static void RecordLaunchResponse(DateTime timestampUtc)
         {
-            string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
+            string filepath = FileLocations.GetCurrentLaunchResponseFilePath(ServerName: GameRepo.Game.Server, AccountName: GameRepo.Game.Account);
             using (var file = new StreamWriter(filepath, append: false))
             {
                 int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
@@ -137,12 +137,12 @@ namespace ThwargFilter
         /// <summary>
         /// Called by ThwargLauncher
         /// </summary>
-        public static LaunchResponse GetLaunchResponse(TimeSpan maxLatency)
+        public static LaunchResponse GetLaunchResponse(string ServerName, string AccountName, TimeSpan maxLatency)
         {
             var info = new LaunchResponse();
             try
             {
-                string filepath = FileLocations.GetCurrentLaunchResponseFilePath();
+                string filepath = FileLocations.GetCurrentLaunchResponseFilePath(ServerName: ServerName, AccountName: AccountName);
                 if (string.IsNullOrEmpty(filepath)) { return info; }
                 if (!File.Exists(filepath)) { return info; }
 

@@ -55,7 +55,6 @@ namespace ThwargLauncher
             _gameSessionMap = gameSessionMap;
             _gameMonitor = gameMonitor;
             _launchWorker = new LaunchWorker(_worker, _gameSessionMap);
-            _launchWorker.ReportLaunchItemStatusEvent += (status, item, serverIndex, serverTotal) => HandleLaunchMgrStatus(status, item, serverIndex, serverTotal);
             _launchWorker.ReportAccountStatusEvent += (accountStatus, item) => UpdateAccountStatus(accountStatus, item);
             _launchWorker.ProgressChangedEvent += _worker_ProgressChanged;
             _launchWorker.WorkerCompletedEvent += _worker_RunWorkerCompleted;
@@ -492,30 +491,10 @@ namespace ThwargLauncher
                 info.Message
                 );
         }
-
-        void workerReportProgress(string verb, LaunchItem launchItem, int index, int total)
-        {
-            int pct = (int)(100.0 * index / total);
-            string context = string.Format(
-                "{0} {1}:{2}",
-                verb, launchItem.AccountName, launchItem.ServerName);
-            var progressInfo = new ProgressInfo()
-                {
-                    Index = index,
-                    Total = total,
-                    Message = context
-                };
-            _worker.ReportProgress(pct, progressInfo);
-        }
         private void UpdateAccountStatus(ServerAccountStatusEnum status, LaunchItem launchItem)
         {
             _viewModel.UpdateAccountStatus(launchItem.ServerName, launchItem.AccountName, status);
         }
-        private void HandleLaunchMgrStatus(string status, LaunchItem launchItem, int serverIndex, int serverTotal)
-        {
-            workerReportProgress(status, launchItem, serverIndex, serverTotal);
-        }
-
         public static void ShowErrorMessage(string msg)
         {
             ShowMessage(msg, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
