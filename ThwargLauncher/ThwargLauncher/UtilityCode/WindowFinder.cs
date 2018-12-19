@@ -19,6 +19,13 @@ namespace ThwargUtils
         protected static extern bool IsWindowVisible(IntPtr hWnd);
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool SetWindowText(IntPtr hwnd, String lpString);
+        [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
+        public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
+        const short SWP_NOMOVE = 0X2;
+        const short SWP_NOSIZE = 1;
+        const short SWP_NOZORDER = 0X4;
+        const int SWP_SHOWWINDOW = 0x0040;
+
         #endregion API calls
 
         #region Members
@@ -57,6 +64,11 @@ namespace ThwargUtils
         public void SetWindowTitle(IntPtr hwnd, string title)
         {
             SetWindowText(hwnd, title);
+        }
+        public void SetWindowPosition(IntPtr hwnd, int x, int y, int cx, int cy)
+        {
+            int flags = SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW;
+            SetWindowPos(hwnd, 0, x, y, cx, cy, flags);
         }
         #endregion Methods
     }

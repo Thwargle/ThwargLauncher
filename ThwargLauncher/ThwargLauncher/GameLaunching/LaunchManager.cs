@@ -90,6 +90,11 @@ namespace ThwargLauncher
                         if (!string.IsNullOrEmpty(newGameTitle))
                         {
                             finder.SetWindowTitle(hwnd, newGameTitle);
+                            bool experimentalWindowMove = false;
+                            if (experimentalWindowMove)
+                            {
+                                finder.SetWindowPosition(hwnd, 8, 8, 99, 99);
+                            }
                         }
                     }
                 }
