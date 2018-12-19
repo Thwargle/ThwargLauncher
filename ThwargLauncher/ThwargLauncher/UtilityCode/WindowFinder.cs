@@ -25,6 +25,8 @@ namespace ThwargUtils
         const short SWP_NOSIZE = 1;
         const short SWP_NOZORDER = 0X4;
         const int SWP_SHOWWINDOW = 0x0040;
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
         #endregion API calls
 
@@ -44,7 +46,7 @@ namespace ThwargUtils
                 }, IntPtr.Zero);
 
         }
-        public IntPtr FindNewWindow(System.Text.RegularExpressions.Regex regex)
+        public IntPtr FindNewWindow(System.Text.RegularExpressions.Regex regex, int processId)
         {
             IntPtr foundWnd = IntPtr.Zero;
             EnumWindows((hWnd, lParam) =>
@@ -56,6 +58,7 @@ namespace ThwargUtils
                     StringBuilder sb = new StringBuilder(size + 1);
                     GetWindowText(hWnd, sb, size + 1);
                     if (!regex.IsMatch(sb.ToString())) { return true; }
+                    if (processId != 0 && GetWindowProcessId(hWnd) != processId) { return true; }
                     foundWnd = hWnd;
                     return false;
                 }, IntPtr.Zero);
@@ -69,6 +72,12 @@ namespace ThwargUtils
         {
             int flags = SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW;
             SetWindowPos(hwnd, 0, x, y, cx, cy, flags);
+        }
+        public int GetWindowProcessId(IntPtr hwnd)
+        {
+            uint processId = 0;
+            uint threadId = GetWindowThreadProcessId(hwnd, out processId);
+            return (int)processId;
         }
         #endregion Methods
     }

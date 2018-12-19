@@ -16,6 +16,7 @@ namespace ThwargLauncher
         {
             public bool Success;
             public int ProcessId;
+            public IntPtr Hwnd;
         }
         public delegate void ReportStatusHandler(string status, LaunchItem launchItem);
         public event ReportStatusHandler ReportStatusEvent;
@@ -83,9 +84,10 @@ namespace ThwargLauncher
                 if (gameCaptionPattern != null)
                 {
                     var regex = new System.Text.RegularExpressions.Regex(gameCaptionPattern);
-                    IntPtr hwnd = finder.FindNewWindow(regex);
+                    IntPtr hwnd = finder.FindNewWindow(regex, gameLaunchResult.ProcessId);
                     if (hwnd != IntPtr.Zero)
                     {
+                        result.Hwnd = hwnd;
                         string newGameTitle = GetNewGameTitle(_launchItem);
                         if (!string.IsNullOrEmpty(newGameTitle))
                         {
