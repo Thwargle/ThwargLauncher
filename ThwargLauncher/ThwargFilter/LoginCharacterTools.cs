@@ -55,8 +55,7 @@ namespace ThwargFilter
             {
                 if (GameRepo.Game.Server != "" && zonename != null && characters != null)
                 {
-                    CharacterBook mgr = CharacterBook.ReadCharacters(); // don't need data from on disk - todo - restructure this
-                    mgr.WriteCharacters(ServerName: GameRepo.Game.Server, zonename: zonename, characters: characters);
+                    CharacterBook.WriteCharacters(ServerName: GameRepo.Game.Server, zonename: zonename, characters: characters);
                     Heartbeat.LaunchHeartbeat();
                     written = true;
                 }

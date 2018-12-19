@@ -75,7 +75,7 @@ namespace ThwargFilter
             return key;
         }
 
-        public void WriteCharacters(string ServerName, string zonename, List<Character> characters)
+        public static void WriteCharacters(string ServerName, string zonename, List<Character> characters)
         {
             var launchInfo = LaunchControl.GetLaunchInfo();
             if (!launchInfo.IsValid)
@@ -101,14 +101,12 @@ namespace ThwargFilter
             Heartbeat.RecordServer(launchInfo.ServerName);
             Heartbeat.RecordAccount(launchInfo.AccountName);
 
-            // Add our characters to the complete dictionary in memory
             string key = GetKey(server: launchInfo.ServerName, accountName: launchInfo.AccountName);
             var clist = new ServerCharacterListByAccount()
             {
                 ZoneId = zonename,
                 CharacterList = characters
             };
-            this._data[key] = clist;
 
             // Create a dictionary of only our characters to save
             Dictionary<string, ServerCharacterListByAccount> solodict = new Dictionary<string, ServerCharacterListByAccount>();
@@ -122,7 +120,7 @@ namespace ThwargFilter
             }
         }
 
-        private bool IsValidCharacterName(string characterName)
+        private static bool IsValidCharacterName(string characterName)
         {
             if (string.IsNullOrEmpty(characterName)) { return false; }
             if (characterName == "None") { return false; }
