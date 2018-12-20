@@ -10,6 +10,8 @@ namespace ThwargLauncher
         public string AccountName;
         public string CharacterName;
         public int ProcessId;
+        public IntPtr WindowHwnd;
+        public string WindowPlacementString;
         public string ProcessIdKey;
         public string ProcessStatusFilepath;
         public int UptimeSeconds = -1;

@@ -92,10 +92,13 @@ namespace ThwargLauncher
                         if (!string.IsNullOrEmpty(newGameTitle))
                         {
                             finder.SetWindowTitle(hwnd, newGameTitle);
-                            bool experimentalWindowMove = false;
-                            if (experimentalWindowMove)
+                            bool restoreWindows = ConfigSettings.GetConfigBool("RestoreGameWindows", false);
+                            if (restoreWindows)
                             {
-                                finder.SetWindowPosition(hwnd, 8, 8, 99, 99);
+                                string key = GameMonitor.GetSessionSettingsKey(Server: _launchItem.ServerName, Account: _launchItem.AccountName);
+                                var settings = PersistenceHelper.SettingsFactory.Get();
+                                string placementString = settings.GetString(key);
+                                WindowPlacementUtil.WindowPlacement.SetPlacement(hwnd, placementString);
                             }
                         }
                     }

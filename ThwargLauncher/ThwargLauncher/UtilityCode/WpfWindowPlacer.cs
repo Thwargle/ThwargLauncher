@@ -19,7 +19,7 @@ namespace WindowPlacementUtil
 
         public static string GetPlacement(this Window window)
         {
-            return WindowPlacement.GetPlacement(new WindowInteropHelper(window).Handle);
+            return WindowPlacement.GetPlacementString(new WindowInteropHelper(window).Handle);
         }
     }
 }

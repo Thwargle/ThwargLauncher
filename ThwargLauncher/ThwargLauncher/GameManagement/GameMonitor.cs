@@ -27,6 +27,7 @@ namespace ThwargLauncher
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private const int TIMER_SECONDS = 3;
         private const int CHARACTERFILE_CHECK_SECONDS = 30;
+        private const int GAMECLIENTLOCATIONS_CHECK_SECONDS = 600;
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
         private DateTime _lastReadServerStatsUtc = DateTime.MinValue;
@@ -39,6 +40,7 @@ namespace ThwargLauncher
         private DateTime _lastCheckedCharacterFileUtc = DateTime.MinValue;
         private DateTime _characterFileTimeUtc = DateTime.MinValue;
         private DateTime _lastOnlineTimeUtc = DateTime.MinValue;
+        private DateTime _lastCheckedGameClientLocationsUtc = DateTime.MinValue;
 
         public enum GameChangeType { StartGame, EndGame, ChangeGame, ChangeStatus, ChangeTeam, ChangeNone };
         public delegate void GameChangeHandler(GameSession gameSession, GameChangeType changeType);
@@ -110,19 +112,23 @@ namespace ThwargLauncher
                 _isWorking = true;
                 if (ShouldWeCleanup())
                 {
-                    CleanupOldProcessFiles();
+                    PerformCleanupOldProcessFiles();
                 }
                 if (ShouldWeReadProcessFiles())
                 {
-                    ReadProcessFiles();
+                    PerformReadProcessFiles();
                 }
                 if (ShouldWeReadServerStats())
                 {
-                    ReadServerStats();
+                    PerformReadServerStats();
                 }
                 if (ShouldWeCheckCharacterFile())
                 {
-                    CheckCharacterFile();
+                    PerformCheckCharacterFile();
+                }
+                if (ShouldWeCheckGameClientLocations())
+                {
+                    PerformCheckGameClientLocations();
                 }
                 CheckLiveProcessFiles();
                 SendAndReceiveCommands();
@@ -235,7 +241,7 @@ namespace ThwargLauncher
             var elapsed = (DateTime.UtcNow - _lastCheckedCharacterFileUtc);
             return (elapsed.TotalSeconds > CHARACTERFILE_CHECK_SECONDS);
         }
-        private void CheckCharacterFile()
+        private void PerformCheckCharacterFile()
         {
             foreach (string filepath in ThwargFilter.FileLocations.GetAllCharacterFilePaths())
             {
@@ -252,6 +258,35 @@ namespace ThwargLauncher
                 }
             }
             _lastCheckedCharacterFileUtc = DateTime.UtcNow;
+        }
+        private bool ShouldWeCheckGameClientLocations()
+        {
+            var elapsed = (DateTime.UtcNow - _lastCheckedGameClientLocationsUtc);
+            return (elapsed.TotalSeconds > GAMECLIENTLOCATIONS_CHECK_SECONDS);
+        }
+        private void PerformCheckGameClientLocations()
+        {
+            foreach (var session in _map.GetAllGameSessions())
+            {
+                if (session.WindowHwnd == null) { continue; }
+                var placementString = WindowPlacementUtil.WindowPlacement.GetPlacementString(session.WindowHwnd);
+                if (placementString != session.WindowPlacementString)
+                {
+                    string key = GetSessionSettingsKey(session);
+                    var settings = PersistenceHelper.SettingsFactory.Get();
+                    settings.SetString(key, placementString);
+                    placementString = session.WindowPlacementString;
+                }
+            }
+            _lastCheckedGameClientLocationsUtc = DateTime.UtcNow;
+        }
+        private string GetSessionSettingsKey(GameSession session)
+        {
+            return GetSessionSettingsKey(session.ServerName, session.AccountName);
+        }
+        public static string GetSessionSettingsKey(string Server, string Account)
+        {
+            return string.Format("s:{0}-a:{1}", Server, Account);
         }
         private void SendAndReceiveCommands()
         {
@@ -306,7 +341,7 @@ namespace ThwargLauncher
         /// Read all process files
         ///  Check if any characters have changed
         /// </summary>
-        private void ReadProcessFiles()
+        private void PerformReadProcessFiles()
         {
             foreach (var gameSession in _map.GetAllGameSessions())
             {
@@ -394,7 +429,7 @@ namespace ThwargLauncher
             _lastReadProcesFilesUtc = DateTime.UtcNow;
         }
         class ServerPlayerCount { public string server; public string date; public int count; public string age; }
-        private void ReadServerStats()
+        private void PerformReadServerStats()
         {
             try
             {
@@ -500,7 +535,7 @@ namespace ThwargLauncher
                 }
             }
         }
-        private void CleanupOldProcessFiles()
+        private void PerformCleanupOldProcessFiles()
         {
             DirectoryInfo dir = new DirectoryInfo(ThwargFilter.FileLocations.GetRunningFolder());
             var filepathsToDelete = new List<string>();

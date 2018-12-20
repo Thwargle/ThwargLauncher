@@ -97,7 +97,7 @@ namespace WindowPlacementUtil
             }
         }
 
-        public static string GetPlacement(IntPtr windowHandle)
+        public static string GetPlacementString(IntPtr windowHandle)
         {
             WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
             GetWindowPlacement(windowHandle, out placement);
