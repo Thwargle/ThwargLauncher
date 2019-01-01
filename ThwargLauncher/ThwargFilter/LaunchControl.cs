@@ -129,7 +129,7 @@ namespace ThwargFilter
             {
                 int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
                 file.WriteLine("FileVersion:{0}", LaunchResponse.MASTER_FILE_VERSION);
-                file.WriteLine("TimeUtc:" + timestampUtc);
+                file.WriteLine("TimeUtc: {0:o}", timestampUtc);
                 file.WriteLine("ProcessId:{0}", pid);
                 file.WriteLine("ThwargFilterVersion:{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
             }
