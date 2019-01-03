@@ -69,7 +69,7 @@ namespace WindowPlacementUtil
         private const int SW_SHOWNORMAL = 1;
         private const int SW_SHOWMINIMIZED = 2;
 
-        public static void SetPlacement(IntPtr windowHandle, string placementXml)
+        public static void SetPlacementString(IntPtr windowHandle, string placementXml)
         {
             if (string.IsNullOrEmpty(placementXml))
             {
@@ -86,6 +86,10 @@ namespace WindowPlacementUtil
                     placement = (WINDOWPLACEMENT)serializer.Deserialize(memoryStream);
                 }
 
+                if (placement.normalPosition.Top == 0 && placement.normalPosition.Bottom == 0)
+                {
+                    return;
+                }
                 placement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
                 placement.flags = 0;
                 placement.showCmd = (placement.showCmd == SW_SHOWMINIMIZED ? SW_SHOWNORMAL : placement.showCmd);
@@ -111,6 +115,29 @@ namespace WindowPlacementUtil
                     return encoding.GetString(xmlBytes);
                 }
             }
+        }
+        public class PlacementInfo
+        {
+            public WINDOWPLACEMENT Placement;
+            public string PlacementString;
+            public bool IsEmpty() { return Placement.normalPosition.Top == 0 && Placement.normalPosition.Bottom == 0; }
+        }
+        public static PlacementInfo GetPlacementInfo(IntPtr windowHandle)
+        {
+            var info = new PlacementInfo();
+            info.Placement = new WINDOWPLACEMENT();
+            GetWindowPlacement(windowHandle, out info.Placement);
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                using (XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
+                {
+                    serializer.Serialize(xmlTextWriter, info.Placement);
+                    byte[] xmlBytes = memoryStream.ToArray();
+                    info.PlacementString = encoding.GetString(xmlBytes);
+                }
+            }
+            return info;
         }
     }
 }

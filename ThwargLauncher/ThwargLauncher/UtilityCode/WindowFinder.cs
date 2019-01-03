@@ -34,6 +34,10 @@ namespace ThwargUtils
         private Dictionary<IntPtr, int> _windowMap = null;
         #endregion Members
 
+        public WindowFinder()
+        {
+            RecordExistingWindows();
+        }
         #region Methods
         public void RecordExistingWindows()
         {
@@ -46,19 +50,32 @@ namespace ThwargUtils
                 }, IntPtr.Zero);
 
         }
-        public IntPtr FindNewWindow(System.Text.RegularExpressions.Regex regex, int processId)
+        public static string GetWindowTextString(IntPtr hWnd)
+        {
+            int size = GetWindowTextLength(hWnd);
+            if (size <= 0) { return null; }
+            StringBuilder sb = new StringBuilder(size + 1);
+            GetWindowText(hWnd, sb, size + 1);
+            return sb.ToString();
+        }
+        public IntPtr FindWindowByCaptionAndProcessId(System.Text.RegularExpressions.Regex regex, bool newWindow, int processId)
         {
             IntPtr foundWnd = IntPtr.Zero;
             EnumWindows((hWnd, lParam) =>
                 {
                     if (!IsWindowVisible(hWnd)) { return true; }
-                    if (_windowMap.ContainsKey(hWnd)) { return true; }
-                    int size = GetWindowTextLength(hWnd);
-                    if (size <= 0) { return true; }
-                    StringBuilder sb = new StringBuilder(size + 1);
-                    GetWindowText(hWnd, sb, size + 1);
-                    if (!regex.IsMatch(sb.ToString())) { return true; }
+                    if (newWindow)
+                    {
+                        if (_windowMap.ContainsKey(hWnd)) { return true; }
+                    }
+                    string caption = GetWindowTextString(hWnd);
+                    if (caption == null) { return true; }
+                    if (regex != null)
+                    {
+                        if (!regex.IsMatch(caption)) { return true; }
+                    }
                     if (processId != 0 && GetWindowProcessId(hWnd) != processId) { return true; }
+                    // To check if main window, should check if window owner is itself
                     foundWnd = hWnd;
                     return false;
                 }, IntPtr.Zero);

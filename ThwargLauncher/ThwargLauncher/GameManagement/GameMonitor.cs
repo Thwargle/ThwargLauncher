@@ -27,7 +27,7 @@ namespace ThwargLauncher
         private TimeSpan _cleanupInterval = new TimeSpan(0, 5, 0); // 5 minutes
         private const int TIMER_SECONDS = 3;
         private const int CHARACTERFILE_CHECK_SECONDS = 30;
-        private const int GAMECLIENTLOCATIONS_CHECK_SECONDS = 600;
+        private const int GAMECLIENTLOCATIONS_CHECK_SECONDS = 10;
         private DateTime _lastReadProcesFilesUtc = DateTime.MinValue;
         private TimeSpan _rereadProcessFilesInterval = new TimeSpan(0, 1, 0); // 1 minute
         private DateTime _lastReadServerStatsUtc = DateTime.MinValue;
@@ -268,17 +268,45 @@ namespace ThwargLauncher
         {
             foreach (var session in _map.GetAllGameSessions())
             {
-                if (session.WindowHwnd == null) { continue; }
-                var placementString = WindowPlacementUtil.WindowPlacement.GetPlacementString(session.WindowHwnd);
-                if (placementString != session.WindowPlacementString)
+                if (session.WindowHwnd == null || session.WindowHwnd == (IntPtr)0)
                 {
-                    string key = GetSessionSettingsKey(session);
-                    var settings = PersistenceHelper.SettingsFactory.Get();
-                    settings.SetString(key, placementString);
-                    placementString = session.WindowPlacementString;
+                    if (session.ProcessId != 0)
+                    {
+                        LookForGameWindow(session);
+                    }
+                    continue;
+                }
+                var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(session.WindowHwnd);
+                if (!placementInfo.IsEmpty())
+                {
+                    string placementString = placementInfo.PlacementString;
+                    if (placementString != session.WindowPlacementString)
+                    {
+                        string key = GetSessionSettingsKey(session);
+                        var settings = PersistenceHelper.SettingsFactory.Get();
+                        settings.SetString(key, placementString);
+                        settings.Save();
+                        session.WindowPlacementString = placementString;
+                    }
                 }
             }
             _lastCheckedGameClientLocationsUtc = DateTime.UtcNow;
+        }
+        private void LookForGameWindow(GameSession session)
+        {
+            var finder = new ThwargUtils.WindowFinder();
+            IntPtr hwnd = finder.FindWindowByCaptionAndProcessId(regex: null, newWindow: false, processId: session.ProcessId);
+            if (hwnd != (IntPtr)0)
+            {
+                // Only save hwnd if window has been renamed, meaning launch completed
+                string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);
+                string caption = ThwargUtils.WindowFinder.GetWindowTextString(hwnd);
+                if (caption != gameCaptionPattern)
+                {
+                    session.WindowHwnd = hwnd;
+                }
+            }
+
         }
         private string GetSessionSettingsKey(GameSession session)
         {

@@ -10,7 +10,7 @@ namespace WindowPlacementUtil
         {
             try
             {
-                WindowPlacement.SetPlacement(new WindowInteropHelper(window).Handle, placementXml);
+                WindowPlacement.SetPlacementString(new WindowInteropHelper(window).Handle, placementXml);
             }
             catch
             {

@@ -157,7 +157,7 @@ namespace ThwargFilter
                 }
 
                 info.ResponseTime = SettingHelpers.GetSingleDateTimeValue(settings, "TimeUtc");
-                if (DateTime.UtcNow - info.ResponseTime >= maxLatency)
+                if (DateTime.UtcNow - info.ResponseTime.ToUniversalTime() >= maxLatency)
                 {
                     return info;
                 }

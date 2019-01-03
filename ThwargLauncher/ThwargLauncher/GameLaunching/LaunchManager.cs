@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ThwargLauncher
 {
@@ -58,7 +57,6 @@ namespace ThwargLauncher
             try
             {
                 var finder = new ThwargUtils.WindowFinder();
-                finder.RecordExistingWindows();
                 string launcherPath = GetLaunchItemLauncherLocation(_launchItem);
                 OverridePreferenceFile(_launchItem.CustomPreferencePath);
                 gameLaunchResult = launcher.LaunchGameClient(
@@ -80,26 +78,25 @@ namespace ThwargLauncher
                 {
                     return result;
                 }
-                string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);
-                if (gameCaptionPattern != null)
+                var regex = GetGameWindowCaptionRegex();
+                if (regex != null)
                 {
-                    var regex = new System.Text.RegularExpressions.Regex(gameCaptionPattern);
-                    IntPtr hwnd = finder.FindNewWindow(regex, gameLaunchResult.ProcessId);
+                    IntPtr hwnd = finder.FindWindowByCaptionAndProcessId(regex, newWindow: true, processId: gameLaunchResult.ProcessId);
                     if (hwnd != IntPtr.Zero)
                     {
                         result.Hwnd = hwnd;
                         string newGameTitle = GetNewGameTitle(_launchItem);
                         if (!string.IsNullOrEmpty(newGameTitle))
                         {
-                            finder.SetWindowTitle(hwnd, newGameTitle);
                             bool restoreWindows = ConfigSettings.GetConfigBool("RestoreGameWindows", false);
                             if (restoreWindows)
                             {
                                 string key = GameMonitor.GetSessionSettingsKey(Server: _launchItem.ServerName, Account: _launchItem.AccountName);
                                 var settings = PersistenceHelper.SettingsFactory.Get();
                                 string placementString = settings.GetString(key);
-                                WindowPlacementUtil.WindowPlacement.SetPlacement(hwnd, placementString);
+                                WindowPlacementUtil.WindowPlacement.SetPlacementString(hwnd, placementString);
                             }
+                            finder.SetWindowTitle(hwnd, newGameTitle);
                         }
                     }
                 }
@@ -115,6 +112,19 @@ namespace ThwargLauncher
                 result.ProcessId = gameLaunchResult.ProcessId;
             }
             return result;
+        }
+        private static Regex GetGameWindowCaptionRegex()
+        {
+            string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);
+            if (gameCaptionPattern != null)
+            {
+                var regex = new System.Text.RegularExpressions.Regex(gameCaptionPattern);
+                return regex;
+            }
+            else
+            {
+                return null;
+            }
         }
         private void OverridePreferenceFile(string customPreferencePath)
         {

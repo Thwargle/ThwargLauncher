@@ -161,6 +161,8 @@ namespace ThwargLauncher
                 //CallUiNotifyAvailableCharactersChanged(); // Pick up any characters - experimental 2017-04-10
                 // CallUiLoadUserAccounts(); // Pick up any characters - before 2017-04-10
                 _gameSessionMap.StartSessionWatcher(session);
+                session.WindowHwnd = launchResult.Hwnd;
+                // session.ProcessId is already populated
                 FireReportLaunchItemStatusEvent("Launched", launchItem);
             }
         }
