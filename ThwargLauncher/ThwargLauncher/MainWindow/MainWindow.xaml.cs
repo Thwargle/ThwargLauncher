@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Diagnostics;
-using System.IO;
-using ThwargLauncher.AccountManagement;
-using ThwargLauncher.UtilityCode;
 using System.Windows.Navigation;
+using ThwargLauncher.AccountManagement;
 
 namespace ThwargLauncher
 {
@@ -24,7 +20,7 @@ namespace ThwargLauncher
     public partial class MainWindow : Window
     {
         //private Dictionary<string, List<AccountCharacter>> _allAccountCharacters;
-        
+
         private List<string> _Images = new List<string>();
         private Random _rand = new Random();
         private BackgroundWorker _worker = new BackgroundWorker();
@@ -40,7 +36,7 @@ namespace ThwargLauncher
 
         public static string OldUsersFilePath = Path.Combine(Configuration.AppFolder, "UserNames.txt");
 
-        private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue = 
+        private System.Collections.Concurrent.ConcurrentQueue<LaunchItem> _launchConcurrentQueue =
             new System.Collections.Concurrent.ConcurrentQueue<LaunchItem>();
 
         internal MainWindow(MainWindowViewModel mainWindowViewModel, GameSessionMap gameSessionMap, GameMonitor gameMonitor)
@@ -63,7 +59,11 @@ namespace ThwargLauncher
             _viewModel.OpeningSimpleLauncherEvent += () => this.Hide();
             _viewModel.LaunchingSimpleGameEvent += (li) => this.LaunchSimpleClient(li);
 
-            CheckForProgramUpdate();
+            if (Properties.Settings.Default.AutoRelaunch)
+            {
+                CheckForProgramUpdate();
+            }
+
             InitializeComponent();
             DataContext = _viewModel;
             mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
@@ -80,7 +80,7 @@ namespace ThwargLauncher
             _timer = new System.Timers.Timer(5000); // every five seconds
             _timer.Elapsed += _timer_Elapsed;
             StartStopTimerIfAutoChecked();
-            
+
 
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
@@ -207,7 +207,7 @@ namespace ThwargLauncher
                     new Uri("Images\\" + imageName, UriKind.Relative)
                     ));
             ContentGrid.Background = brush;
-            
+
         }
 
         private void EnsureDataFoldersExist()
@@ -458,22 +458,22 @@ namespace ThwargLauncher
                                 continue;
                             }
                             var launchItem = new LaunchItem()
-                                {
-                                    AccountName = account.Name,
-                                    Priority = account.Priority,
-                                    Password = account.Password,
-                                    ServerName = server.ServerName,
-                                    IpAndPort = server.ServerIpAndPort,
-                                    GameApiUrl = server.GameApiUrl,
-                                    LoginServerUrl = server.LoginServerUrl,
-                                    DiscordUrl = server.DiscordUrl,
-                                    EMU = server.EMU,
-                                    CharacterSelected = server.ChosenCharacter,
-                                    CustomLaunchPath = account.CustomLaunchPath,
-                                    CustomPreferencePath = account.CustomPreferencePath,
-                                    RodatSetting = server.RodatSetting,
-                                    SecureSetting = server.SecureSetting
-                                };
+                            {
+                                AccountName = account.Name,
+                                Priority = account.Priority,
+                                Password = account.Password,
+                                ServerName = server.ServerName,
+                                IpAndPort = server.ServerIpAndPort,
+                                GameApiUrl = server.GameApiUrl,
+                                LoginServerUrl = server.LoginServerUrl,
+                                DiscordUrl = server.DiscordUrl,
+                                EMU = server.EMU,
+                                CharacterSelected = server.ChosenCharacter,
+                                CustomLaunchPath = account.CustomLaunchPath,
+                                CustomPreferencePath = account.CustomPreferencePath,
+                                RodatSetting = server.RodatSetting,
+                                SecureSetting = server.SecureSetting
+                            };
                             launchList.Add(launchItem);
                         }
                     }
@@ -533,7 +533,7 @@ namespace ThwargLauncher
             _viewModel.WindowClosing();
 
             Properties.Settings.Default.SelectedUser = lstUsername.SelectedIndex;
-            
+
             Properties.Settings.Default.Save();
         }
 
@@ -578,7 +578,7 @@ namespace ThwargLauncher
             MainWindowDisable();
 
             var startInfo = new ProcessStartInfo("notepad", AccountParser.AccountFilePath);
-            var notepadProcess = new Process() {StartInfo = startInfo};
+            var notepadProcess = new Process() { StartInfo = startInfo };
             if (notepadProcess.Start())
             {
                 notepadProcess.WaitForExit();
@@ -589,7 +589,7 @@ namespace ThwargLauncher
         private void btnEditUsers_Click(object sender, RoutedEventArgs e)
         {
             AccountEditorViewModel acevm = new AccountEditorViewModel(this._viewModel.KnownUserAccounts.Select(x => x.Account));
-            
+
             AccountEditor dlg = new AccountEditor();
             dlg.DataContext = acevm;
             dlg.ShowDialog();
@@ -656,7 +656,7 @@ namespace ThwargLauncher
 
         private void CheckRelaunch()
         {
-            
+
         }
         private void RequestNavigateHandler(object sender, RequestNavigateEventArgs e)
         {
@@ -665,7 +665,7 @@ namespace ThwargLauncher
                 Process.Start(new ProcessStartInfo(e.Uri.OriginalString));
                 e.Handled = true;
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 MessageBox.Show("Url is not valid. Click the 'Edit Servers' button, and verify your DiscordUrl.", "Invalid URL");
             }
