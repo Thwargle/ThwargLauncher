@@ -71,36 +71,51 @@ namespace WindowPlacementUtil
 
         public static void SetPlacementString(IntPtr windowHandle, string placementXml)
         {
-            if (string.IsNullOrEmpty(placementXml))
+            WINDOWPLACEMENT placement = GetPlacementFromString(placementXml);
+            if (placement.length == 0) // flag for failure
             {
                 return;
             }
-
-            WINDOWPLACEMENT placement;
-            byte[] xmlBytes = encoding.GetBytes(placementXml);
-
-            try
+            SetWindowPlacement(windowHandle, ref placement);
+        }
+        public static void SetPlacement(IntPtr windowHandle, WINDOWPLACEMENT placement)
+        {
+            if (placement.length > 0)
             {
-                using (MemoryStream memoryStream = new MemoryStream(xmlBytes))
-                {
-                    placement = (WINDOWPLACEMENT)serializer.Deserialize(memoryStream);
-                }
-
-                if (placement.normalPosition.Top == 0 && placement.normalPosition.Bottom == 0)
-                {
-                    return;
-                }
-                placement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
-                placement.flags = 0;
-                placement.showCmd = (placement.showCmd == SW_SHOWMINIMIZED ? SW_SHOWNORMAL : placement.showCmd);
                 SetWindowPlacement(windowHandle, ref placement);
             }
-            catch (InvalidOperationException)
-            {
-                // Parsing placement XML failed. Fail silently.
-            }
         }
+        public static WINDOWPLACEMENT GetPlacementFromString(string placementXml)
+        {
+            WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
+            placement.length = 0; // flag for failure
 
+            if (!string.IsNullOrEmpty(placementXml))
+            {
+
+                byte[] xmlBytes = encoding.GetBytes(placementXml);
+
+                try
+                {
+                    using (MemoryStream memoryStream = new MemoryStream(xmlBytes))
+                    {
+                        placement = (WINDOWPLACEMENT)serializer.Deserialize(memoryStream);
+                    }
+
+                    if (!(placement.normalPosition.Top == 0 && placement.normalPosition.Bottom == 0))
+                    {
+                        placement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+                        placement.flags = 0;
+                        placement.showCmd = (placement.showCmd == SW_SHOWMINIMIZED ? SW_SHOWNORMAL : placement.showCmd);
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    // Parsing placement XML failed. Fail silently.
+                }
+            }
+            return placement;
+        }
         public static string GetPlacementString(IntPtr windowHandle)
         {
             WINDOWPLACEMENT placement = new WINDOWPLACEMENT();

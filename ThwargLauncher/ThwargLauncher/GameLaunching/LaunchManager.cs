@@ -94,7 +94,15 @@ namespace ThwargLauncher
                                 string key = GameMonitor.GetSessionSettingsKey(Server: _launchItem.ServerName, Account: _launchItem.AccountName);
                                 var settings = PersistenceHelper.SettingsFactory.Get();
                                 string placementString = settings.GetString(key);
-                                WindowPlacementUtil.WindowPlacement.SetPlacementString(hwnd, placementString);
+                                var prevPlacement = WindowPlacementUtil.WindowPlacement.GetPlacementFromString(placementString);
+                                if (prevPlacement.length > 0)
+                                {
+                                    var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(hwnd);
+                                    if (AreSameNormalSize(prevPlacement, placementInfo.Placement))
+                                    {
+                                        WindowPlacementUtil.WindowPlacement.SetPlacement(hwnd, prevPlacement);
+                                    }
+                                }
                             }
                             finder.SetWindowTitle(hwnd, newGameTitle);
                         }
@@ -113,6 +121,12 @@ namespace ThwargLauncher
             }
             return result;
         }
+        private static bool AreSameNormalSize(WindowPlacementUtil.WINDOWPLACEMENT placement1, WindowPlacementUtil.WINDOWPLACEMENT placement2)
+        {
+            return GetNormalHeight(placement1) == GetNormalHeight(placement2) && GetNormalWidth(placement1) == GetNormalWidth(placement2);
+        }
+        private static int GetNormalHeight(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Bottom - placement.normalPosition.Top; }
+        private static int GetNormalWidth(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Right - placement.normalPosition.Left; }
         private static Regex GetGameWindowCaptionRegex()
         {
             string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);
