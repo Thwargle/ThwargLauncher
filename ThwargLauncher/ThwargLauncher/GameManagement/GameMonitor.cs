@@ -389,7 +389,7 @@ namespace ThwargLauncher
 
                 if (!response.Status.IsOnline)
                 {
-                    int gameInteractionTimeoutSeconds = ConfigSettings.GetConfigInt("GameInteractionTimeoutSeconds", 60);
+                    int gameInteractionTimeoutSeconds = ConfigSettings.GetConfigInt("GameInteractionTimeoutSeconds", 120);
                     // ThwargFilter reports !IsOnline if server dispatch quits firing
                     // but that isn't reliable, as it doesn't fire when not logged in to a character
                     if (response.Status.LastServerDispatchSecondsAgo > gameInteractionTimeoutSeconds)
