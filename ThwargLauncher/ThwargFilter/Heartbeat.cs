@@ -181,6 +181,7 @@ namespace ThwargFilter
             {
                 _status.TeamList = _cmdParser.GetTeamList();
                 _status.IsOnline = IsOnline();
+                _status.LastServerDispatchSecondsAgo = (int)(DateTime.UtcNow - FilterCore.GetLastServerDispatchUtc()).TotalSeconds;
                 LaunchControl.RecordHeartbeatStatus(_gameToLauncherFilepath, _status);
             }
             catch (Exception exc)
