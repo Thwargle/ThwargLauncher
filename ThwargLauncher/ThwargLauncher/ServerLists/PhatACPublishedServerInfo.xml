@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ArrayOfServerItem>
+  <ServerItem>
+    <name>Hightide</name>
+    <alias></alias>
+    <description>A PVP Server thats goal is to mimic end of game retail.</description>
+    <emu>Phat</emu>
+    <connect_string>hightide.damnserver.com:9000</connect_string>
+    <GameApiUrlKey></GameApiUrlKey>
+    <LoginServerUrlKey></LoginServerUrlKey>
+    <enable_login>true</enable_login>
+    <custom_credentials>true</custom_credentials>
+    <emu>Phat</emu>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+    <visibility>Visible</visibility>
+    <default_username>username</default_username>
+    <default_password>password</default_password>
+    <allow_dual_log>true</allow_dual_log>
+  </ServerItem>
+  <ServerItem>
+    <name>Reefcull</name>
+    <alias></alias>
+    <description>A PVE Server thats goal is to mimic end of game retail.</description>
+    <emu>Phat</emu>
+    <connect_string>reefcull.damnserver.com:9000</connect_string>
+    <GameApiUrlKey></GameApiUrlKey>
+    <LoginServerUrlKey></LoginServerUrlKey>
+    <enable_login>true</enable_login>
+    <custom_credentials>true</custom_credentials>
+    <emu>Phat</emu>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+    <visibility>Visible</visibility>
+    <default_username>username</default_username>
+    <default_password>password</default_password>
+    <allow_dual_log>true</allow_dual_log>
+  </ServerItem>
+  <ServerItem>
+    <name>Fizzle Classic</name>
+    <alias></alias>
+    <description>Dereth pre-TOD with a twist.</description>
+    <emu>Phat</emu>
+    <connect_string>Shofizzles.ddns.net:9080</connect_string>
+    <GameApiUrlKey></GameApiUrlKey>
+    <LoginServerUrlKey></LoginServerUrlKey>
+    <enable_login>true</enable_login>
+    <custom_credentials>true</custom_credentials>
+    <emu>Phat</emu>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+    <visibility>Visible</visibility>
+    <default_username>username</default_username>
+    <default_password>password</default_password>
+    <allow_dual_log>true</allow_dual_log>
+  </ServerItem>
+</ArrayOfServerItem>
