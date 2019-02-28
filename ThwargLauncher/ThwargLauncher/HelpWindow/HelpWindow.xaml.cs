@@ -54,7 +54,21 @@ namespace ThwargLauncher
                 MessageBox.Show("Your UserPreferences file is not in the default location.", "File not found.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            // run the updater application if it is where we expect it to be (installation root)
+            if (System.IO.File.Exists("updater.exe"))
+            {
+                int exitCode;
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "updater.exe";
+                using (Process proc = Process.Start(info))
+                {
+                    proc.WaitForExit();
+                    exitCode = proc.ExitCode;
+                }
+            }
+        }
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             Close();
