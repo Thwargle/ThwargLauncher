@@ -186,10 +186,10 @@ namespace ThwargLauncher
         private void LoadImages()
         {
             _Images.Clear();
-            _Images.Add("acwallpaperwideaerbax.jpg");
-            _Images.Add("acwallpaperwideaerfalle.jpg");
-            _Images.Add("acwallpaperwideGroup.jpg");
-            _Images.Add("acwallpaperwide10yrs.jpg");
+            foreach(string filename in Directory.GetFiles("Images\\backgrounds\\", "*.jpg"))
+            {
+                _Images.Add(filename);
+            }
         }
 
         private string PickRandomImage()
@@ -200,11 +200,12 @@ namespace ThwargLauncher
         private void ChangeBackgroundImageRandomly()
         {
             LoadImages();
+            if(_Images.Count == 0) { return; }
             string imageName = PickRandomImage();
             //BigGrid.Background = MyTextBlock.Background;
             ImageBrush brush = new ImageBrush(
                 new BitmapImage(
-                    new Uri("Images\\" + imageName, UriKind.Relative)
+                    new Uri(imageName, UriKind.Relative)
                     ));
             ContentGrid.Background = brush;
 

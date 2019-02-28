@@ -298,9 +298,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\32pxDiscord.png" />
-    <Content Include="Images\acwallpaperwideaerbax.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="ThwargLogo.ico" />
     <Resource Include="ToDo_List.txt" />
   </ItemGroup>
@@ -311,17 +308,18 @@
     <Resource Include="releasenotes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\acwallpaperwide10yrs.jpg">
+    <Content Include="Images\backgrounds\acwallpaperwide10yrs.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\acwallpaperwideaerfalle.jpg">
+    </Content>
+    <Content Include="Images\backgrounds\acwallpaperwideaerbax.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\acwallpaperwideGroup.jpg">
+    </Content>
+    <Content Include="Images\backgrounds\acwallpaperwideaerfalle.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
+    </Content>
+    <Content Include="Images\backgrounds\acwallpaperwideGroup.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\DecalSetting.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
