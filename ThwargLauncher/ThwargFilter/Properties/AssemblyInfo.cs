@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ThwargFilter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A Thwargle and Zorgle application. In association with ThwargleGames.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Thwargle Games")]
 [assembly: AssemblyProduct("ThwargFilter")]
-[assembly: AssemblyCopyright("Copyright © ThwargleGames")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("5.9.9.5")]
-[assembly: AssemblyFileVersion("5.9.9.5")]
+[assembly: AssemblyVersion("6.0.0.0")]
+[assembly: AssemblyFileVersion("6.0.0.0")]
