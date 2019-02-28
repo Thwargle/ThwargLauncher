@@ -6,7 +6,7 @@
         Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/ThwargLogo.ico" Height="400" Width="650" 
         ResizeMode="CanResizeWithGrip" Closing="ThwargLauncherSimpleLaunchWindow_Closing">
     <Window.Background>
-        <ImageBrush ImageSource="../Images/acwallpaperwideaerbax.jpg"/>
+        <ImageBrush ImageSource="../Images/backgrounds/acwallpaperwideaerbax.jpg"/>
     </Window.Background>
     <Window.Resources>
         <RoutedUICommand x:Key="LaunchGameCommand" />

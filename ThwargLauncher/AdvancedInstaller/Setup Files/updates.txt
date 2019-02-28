@@ -1,20 +1,23 @@
 ;aiu;
 
-[ThwargLauncher-5.6.2.0]
+[ThwargLauncher-6.0.0.0]
 Name = ThwargLauncher
-ProductVersion = 5.6.2.0
+ProductVersion = 6.0.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 9158786
-ReleaseDate = 23/07/2018
-MD5 = c09f63c76a68e6f6872f7327ffe88054
+Size = 7286531
+ReleaseDate = 27/02/2019
+MD5 = cb2624d077f0ad7271586bf3a6c5ec51
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 5.6.2.0
-UpdatedApplications = ThwargLauncher[1.0-5.6.2]
-Description = VERSION 5.6.2.0 (2018-07-23)
-Description1 = Profiles now properly save, even while using the "Show Checked Accounts Only" checkbox, and navigating back and forth through your profiles.
-Feature = Less profile corruption.
-Enhancement = When you don't want profiles to be corrupted, they aren't.
-BugFix = Zorgle waved his magic hands and typed his magic words, and Profiles now work properly. Lookit him go! Give Zorgle a little Diet Coke and things start to fall in place.
+Version = 6.0.0.0
+UpdatedApplications = ThwargLauncher[1.0-6.0]
+Description = VERSION 6.0.0.0 (2019-02-27)
+Description1 = New Major Version
+Description2 = Faster launches, window saving, custom backgrounds and more!
+Feature = Will now save window locations per-character, per-server! This is configurable in-game with new thwargfilter commands. Type /tf help in game for more info.
+Feature1 = Heading out for the day? Kill All Clients with a chat command! The new /tf kac will kill all of your running clients. You can also use /tf kc to kill just the one you're focused on.
+Enhancement = Launches are now asynchronous! What does this mean? Launching should be MUCH faster for multiple clients.
+Enhancement1 = You can now add background images to the images/backgrounds folder in the Launcher's install directory for a more personalized experience.
+BugFix = I'm out of time for giving any effort to this. I'm sure there's lots. Just ask Thwargle or Zorgle later.
 AutoCloseApplication = [APPDIR]YourApplication.exe
