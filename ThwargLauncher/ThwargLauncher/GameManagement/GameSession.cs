@@ -18,6 +18,7 @@ namespace ThwargLauncher
         public ServerAccountStatusEnum Status = ServerAccountStatusEnum.None;
         public DateTime LastGoodStatusUtc = DateTime.MinValue;
         public ThwargFilter.Channels.Channel GameChannel;
+        public bool hasRestoredWindowLocation = false;
         public void AssignTeamSetFromString(string teamlist)
         {
             if (teamlist == _teamList) { return; }

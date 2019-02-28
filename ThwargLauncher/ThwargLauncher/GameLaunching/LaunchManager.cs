@@ -88,6 +88,7 @@ namespace ThwargLauncher
                         string newGameTitle = GetNewGameTitle(_launchItem);
                         if (!string.IsNullOrEmpty(newGameTitle))
                         {
+                            /*
                             bool restoreWindows = ConfigSettings.GetConfigBool("RestoreGameWindows", false);
                             if (restoreWindows)
                             {
@@ -100,12 +101,25 @@ namespace ThwargLauncher
                                     var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(hwnd);
                                     if (AreSameNormalSize(prevPlacement, placementInfo.Placement))
                                     {
+                                        Logger.WriteDebug("Windows are same normal size.");
                                         WindowPlacementUtil.WindowPlacement.SetPlacement(hwnd, prevPlacement);
+                                    }
+                                    else
+                                    {
+                                        Logger.WriteDebug("Windows are not the same normal size.");
+                                        Logger.WriteDebug("PREVPLACEMENT - Height:" + GetNormalHeight(prevPlacement) + " width:" + GetNormalWidth(prevPlacement));
+                                        Logger.WriteDebug("PLACEMENT - Height:" + GetNormalHeight(placementInfo.Placement) + " width:" + GetNormalWidth(placementInfo.Placement));
                                     }
                                 }
                             }
+                            */
+                            Logger.WriteDebug("Found hwnd: " + newGameTitle);
                             finder.SetWindowTitle(hwnd, newGameTitle);
                         }
+                    }
+                    else
+                    {
+                        Logger.WriteDebug("Unable to find hwnd");
                     }
                 }
             }
@@ -121,12 +135,6 @@ namespace ThwargLauncher
             }
             return result;
         }
-        private static bool AreSameNormalSize(WindowPlacementUtil.WINDOWPLACEMENT placement1, WindowPlacementUtil.WINDOWPLACEMENT placement2)
-        {
-            return GetNormalHeight(placement1) == GetNormalHeight(placement2) && GetNormalWidth(placement1) == GetNormalWidth(placement2);
-        }
-        private static int GetNormalHeight(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Bottom - placement.normalPosition.Top; }
-        private static int GetNormalWidth(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Right - placement.normalPosition.Left; }
         private static Regex GetGameWindowCaptionRegex()
         {
             string gameCaptionPattern = ConfigSettings.GetConfigString("GameCaptionPattern", null);

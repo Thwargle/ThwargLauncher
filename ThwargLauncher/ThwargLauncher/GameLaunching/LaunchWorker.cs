@@ -119,6 +119,7 @@ namespace ThwargLauncher
 
             while (globalQueue.TryDequeue(out launchItem))
             {
+                Thread.Sleep(10);
                 new Thread((x) =>
                 {
                     Thread.CurrentThread.IsBackground = true;

@@ -268,6 +268,9 @@ namespace ThwargLauncher
         {
             foreach (var session in _map.GetAllGameSessions())
             {
+                if (session.Status != ServerAccountStatusEnum.Running)
+                    continue;
+                
                 if (session.WindowHwnd == null || session.WindowHwnd == (IntPtr)0)
                 {
                     if (session.ProcessId != 0)
@@ -276,21 +279,68 @@ namespace ThwargLauncher
                     }
                     continue;
                 }
-                var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(session.WindowHwnd);
-                if (!placementInfo.IsEmpty())
+                if (!session.hasRestoredWindowLocation)
                 {
-                    string placementString = placementInfo.PlacementString;
-                    if (placementString != session.WindowPlacementString)
-                    {
-                        string key = GetSessionSettingsKey(session);
-                        var settings = PersistenceHelper.SettingsFactory.Get();
-                        settings.SetString(key, placementString);
-                        settings.Save();
-                        session.WindowPlacementString = placementString;
-                    }
+                    TryToRestoreSessionPlacementInfo(session);
+                    session.hasRestoredWindowLocation = true;
+                }
+                else
+                {
+                    TryToSaveSessionPlacementInfo(session);
                 }
             }
             _lastCheckedGameClientLocationsUtc = DateTime.UtcNow;
+        }
+        private void TryToRestoreSessionPlacementInfo(GameSession session)
+        {
+            bool restoreWindows = ConfigSettings.GetConfigBool("RestoreGameWindows", false);
+            if (!restoreWindows) { return; }
+            string key = GameMonitor.GetSessionSettingsKey(Server: session.ServerName, Account: session.AccountName);
+            var settings = PersistenceHelper.SettingsFactory.Get();
+            string placementString = settings.GetString(key);
+            IntPtr hwnd = session.WindowHwnd;
+            var prevPlacement = WindowPlacementUtil.WindowPlacement.GetPlacementFromString(placementString);
+            if (prevPlacement.length > 0)
+            {
+                var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(hwnd);
+                if (AreSameNormalSize(prevPlacement, placementInfo.Placement))
+                {
+                    Logger.WriteDebug("Windows are same normal size.");
+                    WindowPlacementUtil.WindowPlacement.SetPlacement(hwnd, prevPlacement);
+                }
+                else
+                {
+                    Logger.WriteDebug("Windows are not the same normal size.");
+                    Logger.WriteDebug("PREVPLACEMENT - Height:" + GetNormalHeight(prevPlacement) + " width:" + GetNormalWidth(prevPlacement));
+                    Logger.WriteDebug("PLACEMENT - Height:" + GetNormalHeight(placementInfo.Placement) + " width:" + GetNormalWidth(placementInfo.Placement));
+                }
+            }
+            Logger.WriteDebug("Restored game position server: {0}, account: {1}", session.ServerName, session.AccountName);
+
+        }
+        private static bool AreSameNormalSize(WindowPlacementUtil.WINDOWPLACEMENT placement1, WindowPlacementUtil.WINDOWPLACEMENT placement2)
+        {
+            return GetNormalHeight(placement1) == GetNormalHeight(placement2) && GetNormalWidth(placement1) == GetNormalWidth(placement2);
+        }
+        private static int GetNormalHeight(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Bottom - placement.normalPosition.Top; }
+        private static int GetNormalWidth(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Right - placement.normalPosition.Left; }
+        private void TryToSaveSessionPlacementInfo(GameSession session)
+        {
+            var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(session.WindowHwnd);
+            if (placementInfo.IsEmpty())
+            {
+                return;
+            }
+            string placementString = placementInfo.PlacementString;
+            if (placementString == session.WindowPlacementString)
+            {
+                return;
+            }
+            string key = GetSessionSettingsKey(session);
+            var settings = PersistenceHelper.SettingsFactory.Get();
+            settings.SetString(key, placementString);
+            settings.Save();
+            session.WindowPlacementString = placementString;
         }
         private void LookForGameWindow(GameSession session)
         {
@@ -673,8 +723,23 @@ namespace ThwargLauncher
                 string gamePath = gameSession.ProcessStatusFilepath;
                 if (File.Exists(gamePath))
                 {
-                    File.Delete(gamePath);
+                    TryToDeleteFile(gamePath);
                 }
+            }
+        }
+        private void TryToDeleteFile(string filepath)
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                try
+                {
+                    File.Delete(filepath);
+                    return;
+                }
+                catch
+                {
+                }
+                System.Threading.Thread.Sleep(100);
             }
         }
         /// <summary>
