@@ -250,5 +250,29 @@ namespace ThwargLauncher.Properties {
                 this["ShowPassword"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SaveGameWindows {
+            get {
+                return ((bool)(this["SaveGameWindows"]));
+            }
+            set {
+                this["SaveGameWindows"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RestoreGameWindows {
+            get {
+                return ((bool)(this["RestoreGameWindows"]));
+            }
+            set {
+                this["RestoreGameWindows"] = value;
+            }
+        }
     }
 }

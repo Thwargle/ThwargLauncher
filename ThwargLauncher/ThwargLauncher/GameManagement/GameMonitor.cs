@@ -293,7 +293,7 @@ namespace ThwargLauncher
         }
         private void TryToRestoreSessionPlacementInfo(GameSession session)
         {
-            bool restoreWindows = ConfigSettings.GetConfigBool("RestoreGameWindows", false);
+            bool restoreWindows = Properties.Settings.Default.RestoreGameWindows;
             if (!restoreWindows) { return; }
             string key = GameMonitor.GetSessionSettingsKey(Server: session.ServerName, Account: session.AccountName);
             var settings = PersistenceHelper.SettingsFactory.Get();
@@ -326,6 +326,7 @@ namespace ThwargLauncher
         private static int GetNormalWidth(WindowPlacementUtil.WINDOWPLACEMENT placement) { return placement.normalPosition.Right - placement.normalPosition.Left; }
         private void TryToSaveSessionPlacementInfo(GameSession session)
         {
+            if (!Properties.Settings.Default.SaveGameWindows) { return; }
             var placementInfo = WindowPlacementUtil.WindowPlacement.GetPlacementInfo(session.WindowHwnd);
             if (placementInfo.IsEmpty())
             {
@@ -789,6 +790,25 @@ namespace ThwargLauncher
             {
                 KillSessionAndNotify(session);
             }
+        }
+        public void DisableWindowPosition(GameSession inboundGameSession)
+        {
+            Properties.Settings.Default.SaveGameWindows = false;
+            Properties.Settings.Default.RestoreGameWindows = false;
+            Properties.Settings.Default.Save();
+        }
+        public void LockWindowPosition(GameSession inboundGameSession)
+        {
+            TryToSaveSessionPlacementInfo(inboundGameSession);
+            Properties.Settings.Default.SaveGameWindows = false;
+            Properties.Settings.Default.RestoreGameWindows = true;
+            Properties.Settings.Default.Save();
+        }
+        public void UnlockWindowPosition(GameSession inboundGameSession)
+        {
+            Properties.Settings.Default.SaveGameWindows = true;
+            Properties.Settings.Default.RestoreGameWindows = true;
+            Properties.Settings.Default.Save();
         }
         public void RemoveGameByPid(int processId)
         {

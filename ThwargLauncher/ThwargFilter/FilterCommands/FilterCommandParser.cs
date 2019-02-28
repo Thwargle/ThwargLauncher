@@ -60,6 +60,12 @@ namespace ThwargFilter
         private const string CMD_AddLoginCmd2 = "alc";
         private const string CMD_AddLoginCmdGlobal = "addlogincmdglobal";
         private const string CMD_AddLoginCmdGlobal2 = "alcg";
+        private const string CMD_DisableWindowPosition = "disablewindowposition";
+        private const string CMD_DisableWindowPosition2 = "dwp";
+        private const string CMD_LockWindowPosition = "lockwindowposition";
+        private const string CMD_LockWindowPosition2 = "lwp";
+        private const string CMD_UnlockWindowPosition = "unlockwindowposition";
+        private const string CMD_UnlockWindowPosition2 = "ulwp";
         private ThwargInventory _thwargInventory;
         public ThwargInventory Inventory { set { _thwargInventory = value; } }
 
@@ -99,6 +105,12 @@ namespace ThwargFilter
             cmdHandlers.Add(CMD_AddLoginCmd2, AddLoginCmdCommandHandler, null);
             cmdHandlers.Add(CMD_AddLoginCmdGlobal, AddLoginCmdGlobalCommandHandler, "Add login cmd for all characters ('/tf alcg')");
             cmdHandlers.Add(CMD_AddLoginCmdGlobal2, AddLoginCmdGlobalCommandHandler, null);
+            cmdHandlers.Add(CMD_DisableWindowPosition, DisableWindowPositionCommandHandler, "Disable managing window positions ('/tf dwp')");
+            cmdHandlers.Add(CMD_DisableWindowPosition2, DisableWindowPositionCommandHandler, null);
+            cmdHandlers.Add(CMD_LockWindowPosition, LockWindowPositionCommandHandler, "Save and lock window positions ('/tf lwp')");
+            cmdHandlers.Add(CMD_LockWindowPosition2, LockWindowPositionCommandHandler, null);
+            cmdHandlers.Add(CMD_UnlockWindowPosition, UnlockWindowPositionCommandHandler, "Save and unlock window positions ('/tf ulwp')");
+            cmdHandlers.Add(CMD_UnlockWindowPosition2, UnlockWindowPositionCommandHandler, null);
         }
         public void ExecuteCommandFromLauncher(string command)
         {
@@ -230,6 +242,25 @@ namespace ThwargFilter
             Heartbeat.SendCommand(CMD_AddLoginCmdGlobal + command);
             Heartbeat.SendAndReceiveImmediately();
         }
+        private void DisableWindowPositionCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_DisableWindowPosition);
+            Heartbeat.SendAndReceiveImmediately();
+            Debug.WriteToChat("The window positions will no longer be saved or restored.");
+        }
+        private void LockWindowPositionCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_LockWindowPosition);
+            Heartbeat.SendAndReceiveImmediately();
+            Debug.WriteToChat("The window positions are saved and will no longer be modified.");
+        }
+        private void UnlockWindowPositionCommandHandler(string command)
+        {
+            Heartbeat.SendCommand(CMD_UnlockWindowPosition);
+            Heartbeat.SendAndReceiveImmediately();
+            Debug.WriteToChat("The window positions are unlocked, moving windows will now save their position.");
+        }
+
         private void TestCommandHandler(string command)
         {
             if (!string.IsNullOrEmpty(command))
