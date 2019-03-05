@@ -19,6 +19,7 @@ namespace ThwargLauncher
         public enum ServerEmuEnum { GDL, Ace };
         public enum RodatEnum { On, Off };
         public enum SecureEnum { On, Off };
+        public string FancyName { get { return "HI WORLD"; } }
         public enum VisibilityEnum { Visible, Invisible };
         public bool HasDiscordURL { get { return DiscordUrl != ""; } }
         public bool HasPlayerCountToolTip { get { return PlayerCountToolTip != ""; } }

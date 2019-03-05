@@ -1,0 +1,22 @@
+﻿<Window x:Class="ThwargLauncher.AccountManagement.BrowseServer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThwargLauncher.AccountManagement"
+        mc:Ignorable="d"
+        Title="BrowseServer" Height="450" Width="800">
+    <Grid>
+        <DataGrid HorizontalAlignment="Stretch" Margin="0,5,0,30" VerticalAlignment="Stretch"
+                  ItemsSource="{Binding Path=AllServers}"
+                  AutoGenerateColumns="False"
+                  AlternatingRowBackground="Wheat">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding ServerName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding ServerDescription}"></DataGridTextColumn>
+                <DataGridTextColumn Header="EMU" Binding="{Binding EMU}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
