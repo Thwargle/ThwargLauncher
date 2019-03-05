@@ -63,7 +63,7 @@ namespace ThwargFilter
             using (var file = new StreamWriter(filepath, append: false))
             {
                 file.WriteLine("FileVersion:{0}", LaunchInfo.MASTER_FILE_VERSION);
-                file.WriteLine("Timestamp=TimeUtc:'{0}'", timestampUtc);
+                file.WriteLine("Timestamp=TimeUtc:'{0:o}'", timestampUtc);
                 file.WriteLine("ServerName:{0}", serverName);
                 file.WriteLine("AccountName:{0}", accountName);
                 file.WriteLine("CharacterName:{0}", characterName);
