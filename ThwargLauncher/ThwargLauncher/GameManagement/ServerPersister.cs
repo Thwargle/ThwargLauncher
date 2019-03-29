@@ -238,6 +238,7 @@ namespace ThwargLauncher.GameManagement
                             si.ServerId = info.Id;
                             si.ServerAlias = info.Alias;
                             si.ServerDesc = GetSubvalue(node, "description");
+                            si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
                             si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                             si.ConnectionString = GetSubvalue(node, "connect_string");
                             si.EMU = ServerModel.ServerEmuEnum.Ace;
