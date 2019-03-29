@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfServerItem>
+  <ServerItem>
+    <name>WildWest</name>
+    <alias></alias>
+    <description>Fake server for testing server browser.</description>
+    <emu>GDL</emu>
+    <connect_string>wildwestACServers.com:9000</connect_string>
+    <DiscordUrl></DiscordUrl>
+    <enable_login>true</enable_login>
+    <custom_credentials>true</custom_credentials>
+    <emu>GDL</emu>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+    <visibility>Visible</visibility>
+    <default_username>username</default_username>
+    <default_password>password</default_password>
+    <allow_dual_log>true</allow_dual_log>
+  </ServerItem>
+  <ServerItem>
+    <name>WildEast</name>
+    <alias></alias>
+    <description>A second fake server for testing server browser.</description>
+    <emu>GDL</emu>
+    <connect_string>wildeastACServers.com:9000</connect_string>
+    <DiscordUrl></DiscordUrl>
+    <enable_login>true</enable_login>
+    <custom_credentials>true</custom_credentials>
+    <emu>GDL</emu>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+    <visibility>Visible</visibility>
+    <default_username>username</default_username>
+    <default_password>password</default_password>
+    <allow_dual_log>true</allow_dual_log>
+  </ServerItem>
+</ArrayOfServerItem>

@@ -637,6 +637,15 @@ namespace ThwargLauncher
                     LoadUserAccounts(initialLoad: false);
                 }
             }
+            else if (vm.BrowseServerRequested)
+            {
+                var bsvm = new BrowseServerViewModel();
+                var dlg = new BrowseServer();
+                dlg.DataContext = bsvm;
+                var result = dlg.ShowDialog();
+                // TODO
+
+            }
             MainWindowEnable();
         }
         private void btnSimpleLaunch_Click(object sender, RoutedEventArgs e)

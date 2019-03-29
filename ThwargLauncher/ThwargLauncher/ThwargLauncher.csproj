@@ -114,6 +114,10 @@
     <Compile Include="AccountManagement\AddServer.xaml.cs">
       <DependentUpon>AddServer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AccountManagement\BrowseServer.xaml.cs">
+      <DependentUpon>BrowseServer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountManagement\BrowseServerViewModel.cs" />
     <Compile Include="AccountManagement\EditableAccountViewModel.cs" />
     <Compile Include="AccountManagement\EditCharactersViewModel.cs" />
     <Compile Include="AccountManagement\LoginCommands.xaml.cs">
@@ -215,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AccountManagement\AddUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountManagement\BrowseServer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

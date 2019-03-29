@@ -44,12 +44,14 @@ namespace ThwargLauncher.GameManagement
         private const string PublishedGDLServerListFilename = "PublishedGDLServerList.xml";
         private const string PublishedACEServerListFilename = "PublishedACEACServerList.xml";
         private const string PublishedDFServerListFilename = "PublishedDFACServerList.xml";
+        private const string PublishedWildWestServerListFilename = "PublishedWildWestServerList.xml";
         private const string LocalPublishedGDLServerInfosFilename = "PublishedServerInfo.xml";
         private const string UserServerListFilename = "UserServerList.xml";
         private string _serverDataFolder;
         private string _publishedGDLServersFilepath;
         private string _publishedACEServersFilepath;
         private string _publishedDFServersFilepath;
+        private string _publishedWildWestServersFilepath;
         private string _localPublishedGDLServersInfoFilepath;
         private string _userServersFilepath;
 
@@ -59,6 +61,7 @@ namespace ThwargLauncher.GameManagement
             _publishedGDLServersFilepath = Path.Combine(_serverDataFolder, PublishedGDLServerListFilename);
             _publishedACEServersFilepath = Path.Combine(_serverDataFolder, PublishedACEServerListFilename);
             _publishedDFServersFilepath = Path.Combine(_serverDataFolder, PublishedDFServerListFilename);
+            _publishedWildWestServersFilepath = Path.Combine(_serverDataFolder, PublishedWildWestServerListFilename);
             _localPublishedGDLServersInfoFilepath = Path.Combine(_serverDataFolder, LocalPublishedGDLServerInfosFilename);
             _userServersFilepath = Path.Combine(_serverDataFolder, UserServerListFilename);
         }
@@ -283,6 +286,13 @@ namespace ThwargLauncher.GameManagement
             return publishedServers;
         }
 
+        public IEnumerable<ServerData> GetWildWestServerList()
+        {
+            DownloadWildWestServersToCacheIfPossible();
+            var wildWestServers = ReadServerList(ServerModel.ServerSourceEnum.User, ServerModel.ServerEmuEnum.GDL, _publishedWildWestServersFilepath);
+            return wildWestServers;
+        }
+
         private PublishedServerInfoMap LoadPublishedServerInfos()
         {
             string serverFolder = Path.GetDirectoryName(_userServersFilepath);
@@ -419,6 +429,27 @@ namespace ThwargLauncher.GameManagement
             catch (Exception exc)
             {
                 Logger.WriteInfo("Unable to download Published DF Server List: " + exc.ToString());
+            }
+        }
+
+        private void DownloadWildWestServersToCacheIfPossible()
+        {
+            try
+            {
+                string filepath = _publishedWildWestServersFilepath;
+                var url = Properties.Settings.Default.WildWestServerListUrl;
+                string xmlStr;
+                using (var wc = new WebClient())
+                {
+                    xmlStr = wc.DownloadString(url);
+                }
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlStr);
+                xmlDoc.Save(filepath);
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteInfo("Unable to download Published Wild West Server List: " + exc.ToString());
             }
         }
 

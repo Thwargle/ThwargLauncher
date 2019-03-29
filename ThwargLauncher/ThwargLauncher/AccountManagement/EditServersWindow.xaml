@@ -6,8 +6,14 @@
         Title="Edit Servers" Height="300" Width="400">
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                LastChildFill="True">
-        <Button x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server" 
-                DockPanel.Dock="Bottom"/>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="btnAddServer" Command="{Binding AddServerCommand}"  Content="Add Server"/>
+            <Button Grid.Column="1" x:Name="btnBrowseServer" Command="{Binding BrowseServerCommand}"  Content="Browse Server"/>
+        </Grid>
         <DataGrid HorizontalAlignment="Stretch" Margin="0,0,0,5.2" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=ServerList}"
                   AutoGenerateColumns="False"

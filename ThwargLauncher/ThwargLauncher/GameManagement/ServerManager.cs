@@ -40,7 +40,7 @@ namespace ThwargLauncher
                 Logger.WriteError("Unable to Load server list: " + exc.ToString());
             }
         }
-        private static string GetServerDataFolder()
+        public static string GetServerDataFolder()
         {
             string folderpath = System.IO.Path.Combine(ThwargFilter.FileLocations.AppFolder, "Servers");
             folderpath = ThwargFilter.FileLocations.ExpandFilepath(folderpath);
