@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:twg="clr-namespace:ThwargControls"
         xmlns:ff="clr-namespace:FunctionalFun.UI"
+        xmlns:local="clr-namespace:ThwargLauncher"
         Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/ThwargLogo.ico" Height="400" Width="650" 
         ResizeMode="CanResizeWithGrip" Closing="ThwargLauncherSimpleLaunchWindow_Closing">
     <Window.Background>
@@ -10,6 +11,9 @@
     </Window.Background>
     <Window.Resources>
         <RoutedUICommand x:Key="LaunchGameCommand" />
+        <local:BoolToVisibilityConverter
+            x:Key="BoolToVisConverter"
+            TrueValue="Visible" FalseValue="Hidden" />
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource LaunchGameCommand}" Executed="LaunchGameCommand" />
@@ -53,6 +57,11 @@
                         <Border BorderBrush="Black" BorderThickness="0" Padding="5">
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
+                                    <TextBlock Visibility="{Binding HasDiscordURL, Converter={StaticResource BoolToVisConverter}}">
+                                        <Hyperlink ToolTip="{Binding Path=DiscordUrl}" NavigateUri="{Binding Path=DiscordUrl}" RequestNavigate="RequestNavigateHandler" TextDecorations="">
+                                            <Image Width="24px" Height="24px" Source="../Images/32pxDiscord.png" />
+                                        </Hyperlink>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding Path=EMU}" Foreground="Orange" />
                                     <TextBlock Text="{Binding Path=ServerName,StringFormat=' - {0} '}" />
                                 </StackPanel>

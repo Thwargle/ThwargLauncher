@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WindowPlacementUtil;
 
@@ -116,6 +118,18 @@ namespace ThwargLauncher
         private void ShowHide_Checked(object sender, RoutedEventArgs e)
         {
             FunctionalFun.UI.PasswordBoxAssistant.SetBindPassword(txtUserPassword, ShowHide.IsChecked.Value);
+        }
+        private void RequestNavigateHandler(object sender, RequestNavigateEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(e.Uri.OriginalString));
+                e.Handled = true;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Url is not valid. Click the 'Edit Servers' button, and verify your DiscordUrl.", "Invalid URL");
+            }
         }
     }
 }

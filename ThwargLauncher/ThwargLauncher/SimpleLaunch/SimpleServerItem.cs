@@ -31,6 +31,7 @@ namespace ThwargLauncher
         public string ServerName { get { return _item.ServerName; } }
         public ServerModel.ServerEmuEnum EMU { get { return _item.EMU; } }
         public string ServerIpAndPort { get { return _item.ServerIpAndPort; } }
+        public string DiscordUrl { get { return _item.DiscordUrl; } }
         public string ServerDescription { get { return _item.ServerDescription; } }
         public ServerModel ServerItem { get { return _item; }}
         public string ConnectionStatus { get { return _item.ConnectionStatus; } set { _item.ConnectionStatus = value; } }
