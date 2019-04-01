@@ -70,7 +70,7 @@ namespace ThwargLauncher
             string genArgs = "TODO-below";
 
             bool isGDL = (emu == ServerModel.ServerEmuEnum.GDL);
-            bool isACE = (emu == ServerModel.ServerEmuEnum.Ace);
+            bool isACE = (emu == ServerModel.ServerEmuEnum.ACE);
 
             if (isGDL)
             {

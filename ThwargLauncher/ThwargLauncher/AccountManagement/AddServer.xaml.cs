@@ -51,9 +51,9 @@ namespace ThwargLauncher.AccountManagement
         private ServerModel.ServerEmuEnum GetServerEmuluation()
         {
             if (IsTrue(rdGDLServer.IsChecked)) { return ServerModel.ServerEmuEnum.GDL; }
-            if (IsTrue(rdACEServer.IsChecked)) { return ServerModel.ServerEmuEnum.Ace; }
+            if (IsTrue(rdACEServer.IsChecked)) { return ServerModel.ServerEmuEnum.ACE; }
 
-            return ServerModel.ServerEmuEnum.Ace; // shouldn't happen but in case
+            return ServerModel.ServerEmuEnum.ACE; // shouldn't happen but in case
         }
         private GameManagement.ServerPersister.ServerData GetServerDataFromUi()
         {

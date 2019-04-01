@@ -244,7 +244,7 @@ namespace ThwargLauncher.GameManagement
                             si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
                             si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                             si.ConnectionString = GetSubvalue(node, "connect_string");
-                            si.EMU = ServerModel.ServerEmuEnum.Ace;
+                            si.EMU = ServerModel.ServerEmuEnum.ACE;
                             si.ServerSource = ServerModel.ServerSourceEnum.Published;
                             string rodatstr = GetSubvalue(node, "default_rodat");
                             si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
