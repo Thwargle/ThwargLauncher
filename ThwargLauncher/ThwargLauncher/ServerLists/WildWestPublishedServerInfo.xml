@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfServerItem>
   <ServerItem>
+    <id>A8683C6F-DA46-4504-AD3E-E1E7075A26E1</id>
     <name>WildWest</name>
     <alias></alias>
     <description>Fake server for testing server browser.</description>
@@ -18,6 +19,7 @@
     <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>FD3F0129-D89D-463D-B302-5B35F0E74BE7</id>
     <name>WildEast</name>
     <alias></alias>
     <description>A second fake server for testing server browser.</description>
