@@ -1,23 +1,23 @@
 ;aiu;
 
-[ThwargLauncher-6.0.0.0]
+[ThwargLauncher-6.3.0.0]
 Name = ThwargLauncher
-ProductVersion = 6.0.0.0
+ProductVersion = 6.3.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7286531
-ReleaseDate = 27/02/2019
-MD5 = cb2624d077f0ad7271586bf3a6c5ec51
+Size = 7288714
+ReleaseDate = 01/04/2019
+MD5 = 99df579179b3ba0c60330b5beba1f59a
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 6.0.0.0
-UpdatedApplications = ThwargLauncher[1.0-6.0]
-Description = VERSION 6.0.0.0 (2019-02-27)
-Description1 = New Major Version
-Description2 = Faster launches, window saving, custom backgrounds and more!
-Feature = Will now save window locations per-character, per-server! This is configurable in-game with new thwargfilter commands. Type /tf help in game for more info.
-Feature1 = Heading out for the day? Kill All Clients with a chat command! The new /tf kac will kill all of your running clients. You can also use /tf kc to kill just the one you're focused on.
-Enhancement = Launches are now asynchronous! What does this mean? Launching should be MUCH faster for multiple clients.
-Enhancement1 = You can now add background images to the images/backgrounds folder in the Launcher's install directory for a more personalized experience.
-BugFix = I'm out of time for giving any effort to this. I'm sure there's lots. Just ask Thwargle or Zorgle later.
+Version = 6.3.0.0
+UpdatedApplications = ThwargLauncher[1.0-6.3]
+Description = VERSION 6.3.0.0 (2019-04-01)
+Description1 = Hotfix: Bug stopping server list from updating.
+Description2 = Maybe it seems like an april fool's joke, but here's a new update!
+Description3 = There is now a server browser included in the launcher's advanced view! You can click Edit Servers, Browse and find more servers to play on.
+Feature = New server browser!
+Enhancement = Added a discord link to the simple view for beginner users to connect with friends on a server.
+BugFix = You can scroll like a normal human now on the advanced view when servers are expanded.
+BugFix1 = Zorgle thinks you don't care, but you can now delete a server and it'll refresh the list properly. 
 AutoCloseApplication = [APPDIR]YourApplication.exe

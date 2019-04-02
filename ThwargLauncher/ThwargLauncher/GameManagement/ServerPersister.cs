@@ -344,7 +344,6 @@ namespace ThwargLauncher.GameManagement
         {
             try
             {
-                return;
                 string filepath = _publishedGDLServersFilepath;
                 var url = Properties.Settings.Default.GDLServerListUrl;
                 string xmlStr;
