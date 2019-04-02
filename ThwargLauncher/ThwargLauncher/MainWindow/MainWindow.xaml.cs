@@ -644,8 +644,14 @@ namespace ThwargLauncher
                 var dlg = new BrowseServer();
                 dlg.DataContext = bsvm;
                 var result = dlg.ShowDialog();
-                // TODO
-
+                // In case user added any servers
+                PopulateServerList();
+                LoadUserAccounts(initialLoad: false);
+            }
+            else if (vm.ServersDeleted)
+            {
+                PopulateServerList();
+                LoadUserAccounts(initialLoad: false);
             }
             MainWindowEnable();
         }

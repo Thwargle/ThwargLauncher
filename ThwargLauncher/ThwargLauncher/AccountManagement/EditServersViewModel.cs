@@ -15,6 +15,7 @@ namespace ThwargLauncher
         public ICommand BrowseServerCommand { get; private set; }
         public Action CloseAction { get; set; }
         public bool AddServerRequested;
+        public bool ServersDeleted;
         public bool BrowseServerRequested;
 
         public EditServersViewModel()
@@ -51,6 +52,7 @@ namespace ThwargLauncher
             foreach (var id in idsToDelete.Keys)
             {
                 ServerManager.DeleteServerById(id);
+                ServersDeleted = true;
             }
         }
         private void AddNewServer()

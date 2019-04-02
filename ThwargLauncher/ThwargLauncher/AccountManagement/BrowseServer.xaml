@@ -7,11 +7,19 @@
         mc:Ignorable="d"
         Title="BrowseServer" Height="450" Width="800">
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" Margin="0,5,0,30" VerticalAlignment="Stretch"
+        <DataGrid HorizontalAlignment="Stretch" Margin="0,5,0,0" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllServers}"
                   AutoGenerateColumns="False"
+                  CanUserAddRows="False"
                   AlternatingRowBackground="Wheat">
             <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Add Server" Command="{Binding Path=DataContext.ImportCommand,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding ServerName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Description" Binding="{Binding ServerDescription}"></DataGridTextColumn>
                 <DataGridTextColumn Header="EMU" Binding="{Binding EMU}"></DataGridTextColumn>
