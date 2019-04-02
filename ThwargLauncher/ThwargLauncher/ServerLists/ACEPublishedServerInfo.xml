@@ -1,2 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfServerItem />
+<?xml version="1.0" encoding="utf-8"?>
+
+<ArrayOfServerItem>
+	<ServerItem>
+		<id>de653f1c-024c-4e2a-b0b6-882b8b56fe1e</id>
+		<name>Coldeve</name>
+		<description>A PVE AC Server evolving to provide a end of retail experience running ACEmulator.</description>
+		<emu>Ace</emu>
+		<connect_string>play.coldeve.online:9000</connect_string>
+		<DiscordUrl>https://discord.gg/nUR4PHe</DiscordUrl>
+		<emu>Ace</emu>
+		<default_rodat>Off</default_rodat>
+		<default_secure>Off</default_secure>
+	</ServerItem>
+</ArrayOfServerItem>

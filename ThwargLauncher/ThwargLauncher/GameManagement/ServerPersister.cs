@@ -32,7 +32,6 @@ namespace ThwargLauncher.GameManagement
             public ServerModel.SecureEnum SecureSetting;
             public ServerModel.VisibilityEnum VisibilitySetting;
             public ServerModel.ServerSourceEnum ServerSource;
-            public bool LoginEnabled; // TODO - what is this?
         }
         public class PublishedServerLocalInfo
         {
@@ -86,14 +85,10 @@ namespace ThwargLauncher.GameManagement
                             new XElement("GameApiUrlKey", server.GameApiUrl),
                             new XElement("LoginServerUrlKey", server.LoginServerUrl),
                             new XElement("enable_login", "true"),
-                            new XElement("custom_credentials", "true"),
                             new XElement("emu", server.EMU),
                             new XElement("default_rodat", server.RodatSetting),
                             new XElement("default_secure", server.SecureSetting),
-                            new XElement("visibility", server.VisibilitySetting),
-                            new XElement("default_username", "username"),
-                            new XElement("default_password", "password"),
-                            new XElement("allow_dual_log", "true")
+                            new XElement("visibility", server.VisibilitySetting)
                             );
             return xelem;
         }
@@ -122,7 +117,6 @@ namespace ThwargLauncher.GameManagement
                             si.ServerName = GetSubvalue(node, "name");
                             si.ServerAlias = GetOptionalSubvalue(node, "alias", null);
                             si.ServerDesc = GetSubvalue(node, "description");
-                            si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                             si.ConnectionString = GetSubvalue(node, "connect_string");
                             si.GameApiUrl = GetOptionalSubvalue(node, "GameApiUrlKey", "");
                             si.LoginServerUrl = GetOptionalSubvalue(node, "LoginServerUrlKey", "");
@@ -184,7 +178,6 @@ namespace ThwargLauncher.GameManagement
                             si.ServerAlias = info.Alias;
                             si.ServerDesc = GetSubvalue(node, "description");
                             si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
-                            si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                             si.ConnectionString = GetSubvalue(node, "connect_string");
                             si.EMU = ServerModel.ServerEmuEnum.GDL;
                             si.ServerSource = ServerModel.ServerSourceEnum.Published;
@@ -242,7 +235,6 @@ namespace ThwargLauncher.GameManagement
                             si.ServerAlias = info.Alias;
                             si.ServerDesc = GetSubvalue(node, "description");
                             si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
-                            si.LoginEnabled = StringToBool(GetOptionalSubvalue(node, "enable_login", "true"));
                             si.ConnectionString = GetSubvalue(node, "connect_string");
                             si.EMU = ServerModel.ServerEmuEnum.ACE;
                             si.ServerSource = ServerModel.ServerSourceEnum.Published;
@@ -352,6 +344,7 @@ namespace ThwargLauncher.GameManagement
         {
             try
             {
+                return;
                 string filepath = _publishedGDLServersFilepath;
                 var url = Properties.Settings.Default.GDLServerListUrl;
                 string xmlStr;
@@ -373,6 +366,7 @@ namespace ThwargLauncher.GameManagement
         {
             try
             {
+                return;
                 string filepath = _publishedACEServersFilepath;
                 var url = Properties.Settings.Default.ACEServerListUrl;
                 string xmlStr;

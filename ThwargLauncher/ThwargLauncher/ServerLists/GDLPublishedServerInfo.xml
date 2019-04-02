@@ -1,141 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfServerItem>
   <ServerItem>
+    <id>A0575318-5091-4DA9-B35A-E334F7B9904C</id>
     <name>Hightide</name>
-    <alias></alias>
     <description>A PVP Server thats goal is to mimic end of game retail.</description>
     <emu>GDL</emu>
-    <connect_string>hightide.damnserver.com:9000</connect_string>
+    <connect_string>hightide.connect-to-server.online:9000</connect_string>
     <DiscordUrl>https://discord.gg/hUeAJWn</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>9FF2A8D4-6C5F-4CB8-B042-8ECE41CD1C47</id>
     <name>Reefcull</name>
-    <alias></alias>
     <description>A PVE Server thats goal is to mimic end of game retail.</description>
     <emu>GDL</emu>
-    <connect_string>reefcull.damnserver.com:9000</connect_string>
+    <connect_string>reefcull.connect-to-server.online:9000</connect_string>
     <DiscordUrl>https://discord.gg/jd3dEJf</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>26B3CCA7-17C2-4B8D-83E9-2DC4FAB2C5AA</id>
     <name>Harvestbud</name>
-    <alias></alias>
     <description>A PVE Server thats goal is to mimic end of game retail.</description>
     <emu>GDL</emu>
-    <connect_string>harvestbud.damnserver.com:9000</connect_string>
+    <connect_string>harvestbud.connect-to-server.online:9000</connect_string>
     <DiscordUrl>https://discord.gg/jd3dEJf</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
-    <name>GDLE Test Server</name>
-    <alias></alias>
+    <id>26D70BC9-78E9-4DDC-BCFF-7D5B36F6AC17</id>
+    <name>GDLE Test</name>
     <description>Test server for Reefcull and Hightide servers.</description>
     <emu>GDL</emu>
-    <connect_string>testserver.damnserver.com:9000</connect_string>
+    <connect_string>gdletest.connect-to-server.online:9000</connect_string>
     <DiscordUrl>https://discord.gg/jd3dEJf</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>394C58D0-885D-466B-B17F-D7E0B96FE3E2</id>
     <name>Seedsow</name>
-    <alias></alias>
     <description>A PVE Dark Majesty server must use classic AC .dats</description>
     <emu>GDL</emu>
     <connect_string>serafino.ddns.net:9060</connect_string>
     <DiscordUrl>https://goo.gl/mUEu6g</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>EEA962C0-CF9F-481E-9736-0EB058ACC1D8</id>
     <name>Snowreap</name>
-    <alias></alias>
     <description>A PVP Dark Majesty server must use classic AC .dats</description>
     <emu>GDL</emu>
     <connect_string>serafino.ddns.net:9070</connect_string>
     <DiscordUrl>https://goo.gl/mUEu6g</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>B6A7200B-714A-4562-96D9-E422AA3A8F81</id>
     <name>GamesDeadArena</name>
-    <alias>
-    </alias>
-    <description>PVP Arena Test - Spec war / train life and mana c </description>
+    <description>Mage PVP Arena</description>
     <emu>GDL</emu>
-    <connect_string>serafino.ddns.net:9050</connect_string>
+    <connect_string>35.185.126.190:9000</connect_string>
     <DiscordUrl>https://discord.gg/CDnjAQW</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
   </ServerItem>
   <ServerItem>
+    <id>C1E1C066-E32A-4994-96EE-5EC3AA316FC8</id>
     <name>RelicDawn</name>
-    <alias>
-    </alias>
     <description>relicdawn.com - A casual PVE Server.</description>
     <emu>GDL</emu>
     <connect_string>server.relicdawn.com:9000</connect_string>
-    <DiscordUrl>https://discord.gg/SNzYyY</DiscordUrl>
-    <enable_login>true</enable_login>
-    <custom_credentials>true</custom_credentials>
-    <emu>GDL</emu>
+    <DiscordUrl>https://discord.gg/rnvZ6Df</DiscordUrl>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
-    <visibility>Visible</visibility>
-    <default_username>username</default_username>
-    <default_password>password</default_password>
-    <allow_dual_log>true</allow_dual_log>
+  </ServerItem>
+  <ServerItem>
+    <id>A36BAB53-257E-4DA2-A9CA-A3DD7059F73C</id>
+    <name>Darkside</name>
+    <description>A PVP server like end of game retail with events.</description>
+    <emu>GDL</emu>
+    <connect_string>darkside.damnserver.com:9006</connect_string>
+    <DiscordUrl>https://discord.gg/5qYNzkH</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
+    <id>1C9CBF34-8E18-4FC5-9C90-71959D3D7A67</id>
+    <name>Reaptide</name>
+    <description>Full Loot Drop On PVP Death.</description>
+    <emu>GDL</emu>
+    <connect_string>reaptide.ddns.net:9000</connect_string>
+    <DiscordUrl>https://discord.gg/uHZ3PtK</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
   </ServerItem>
 </ArrayOfServerItem>
