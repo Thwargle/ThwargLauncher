@@ -69,10 +69,10 @@ namespace ThwargLauncher
 
             string genArgs = "TODO-below";
 
-            bool isGDL = (emu == ServerModel.ServerEmuEnum.GDL);
+            bool isGDLE = (emu == ServerModel.ServerEmuEnum.GDLE);
             bool isACE = (emu == ServerModel.ServerEmuEnum.ACE);
 
-            if (isGDL)
+            if (isGDLE)
             {
                 //GDL
                 //-h [server ip] -p [server port] -a username:password -rodat off
@@ -80,17 +80,17 @@ namespace ThwargLauncher
                 if (tok < 0) { throw new Exception("GDL address missing colon in username:password specification"); }
                 string ip = ipAddress.Substring(0, tok);
                 string port = ipAddress.Substring(tok + 1);
-                string genArgsGDLServer;
+                string genArgsGDLEServer;
                 if (rodatSetting == ServerModel.RodatEnum.On)
                 {
-                    genArgsGDLServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat on";
+                    genArgsGDLEServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat on";
                 }
                 else
                 {
-                    genArgsGDLServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat off";
+                    genArgsGDLEServer = "-h " + ip + " -p " + port + " -a " + accountName + ":" + password + " -rodat off";
                 }
 
-                genArgs = genArgsGDLServer;
+                genArgs = genArgsGDLEServer;
             }
             else if(isACE)
             {

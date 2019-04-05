@@ -68,7 +68,7 @@ namespace ThwargLauncher.GameManagement
         internal IEnumerable<ServerData> ReadUserServers()
         {
             string filepath = _userServersFilepath;
-            ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.GDL;
+            ServerModel.ServerEmuEnum emu = ServerModel.ServerEmuEnum.GDLE;
             var servers = ReadServerList(ServerModel.ServerSourceEnum.User, emu, filepath);
             return servers;
         }
@@ -179,7 +179,7 @@ namespace ThwargLauncher.GameManagement
                             si.ServerDesc = GetSubvalue(node, "description");
                             si.DiscordUrl = GetSubvalue(node, "DiscordUrl");
                             si.ConnectionString = GetSubvalue(node, "connect_string");
-                            si.EMU = ServerModel.ServerEmuEnum.GDL;
+                            si.EMU = ServerModel.ServerEmuEnum.GDLE;
                             si.ServerSource = ServerModel.ServerSourceEnum.Published;
                             string rodatstr = GetSubvalue(node, "default_rodat");
                             si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
@@ -281,7 +281,7 @@ namespace ThwargLauncher.GameManagement
         public IEnumerable<ServerData> GetWildWestServerList()
         {
             DownloadWildWestServersToCacheIfPossible();
-            var wildWestServers = ReadServerList(ServerModel.ServerSourceEnum.User, ServerModel.ServerEmuEnum.GDL, _publishedWildWestServersFilepath);
+            var wildWestServers = ReadServerList(ServerModel.ServerSourceEnum.User, ServerModel.ServerEmuEnum.GDLE, _publishedWildWestServersFilepath);
             return wildWestServers;
         }
 

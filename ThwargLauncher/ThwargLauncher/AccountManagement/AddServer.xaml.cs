@@ -50,7 +50,7 @@ namespace ThwargLauncher.AccountManagement
         }
         private ServerModel.ServerEmuEnum GetServerEmuluation()
         {
-            if (IsTrue(rdGDLServer.IsChecked)) { return ServerModel.ServerEmuEnum.GDL; }
+            if (IsTrue(rdGDLServer.IsChecked)) { return ServerModel.ServerEmuEnum.GDLE; }
             if (IsTrue(rdACEServer.IsChecked)) { return ServerModel.ServerEmuEnum.ACE; }
 
             return ServerModel.ServerEmuEnum.ACE; // shouldn't happen but in case
