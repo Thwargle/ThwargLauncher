@@ -27,6 +27,8 @@ namespace ThwargLauncher
         private BackgroundWorker _worker = new BackgroundWorker();
         private string _clientExeLocation;
 
+        private bool _autoLaunchOnStart;
+
         private readonly MainWindowViewModel _viewModel;
         private readonly GameSessionMap _gameSessionMap;
         private readonly GameMonitor _gameMonitor;
@@ -60,6 +62,8 @@ namespace ThwargLauncher
             _viewModel.OpeningSimpleLauncherEvent += () => this.Hide();
             _viewModel.LaunchingSimpleGameEvent += (li) => this.LaunchSimpleClient(li);
 
+            _autoLaunchOnStart = Properties.Settings.Default.AutoLaunchOnStart;
+
             if (Properties.Settings.Default.AutoRelaunch)
             {
                 CheckForProgramUpdate();
@@ -82,6 +86,10 @@ namespace ThwargLauncher
             _timer.Elapsed += _timer_Elapsed;
             StartStopTimerIfAutoChecked();
 
+            if(_autoLaunchOnStart)
+            {
+                LaunchGame();
+            }
 
             ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }

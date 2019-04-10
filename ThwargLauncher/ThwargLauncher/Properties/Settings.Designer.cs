@@ -284,5 +284,17 @@ namespace ThwargLauncher.Properties {
                 return ((string)(this["WildWestServerListUrl"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoLaunchOnStart {
+            get {
+                return ((bool)(this["AutoLaunchOnStart"]));
+            }
+            set {
+                this["AutoLaunchOnStart"] = value;
+            }
+        }
     }
 }

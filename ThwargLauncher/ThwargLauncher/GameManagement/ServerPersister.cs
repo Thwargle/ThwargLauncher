@@ -365,7 +365,6 @@ namespace ThwargLauncher.GameManagement
         {
             try
             {
-                return;
                 string filepath = _publishedACEServersFilepath;
                 var url = Properties.Settings.Default.ACEServerListUrl;
                 string xmlStr;

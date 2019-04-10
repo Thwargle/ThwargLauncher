@@ -24,6 +24,7 @@ namespace ThwargLauncher
         private LogWriter _logWriter = null;
         private CommandManager _commandManager = null;
         private ServerMonitor _monitor = null;
+        private bool _autoLaunchOnStart = false;
 
         public AppCoordinator()
         {
@@ -104,6 +105,7 @@ namespace ThwargLauncher
                 var switches = new CSharpCLI.Argument.SwitchCollection();
                 switches.Add(new CSharpCLI.Argument.Switch("Profile", numberArguments: 1, isRequired: false));
                 switches.Add(new CSharpCLI.Argument.Switch("AutoRelaunch", hasArguments: true, isRequired: false));
+                switches.Add(new CSharpCLI.Argument.Switch("AutoLaunchOnStart", hasArguments: true, isRequired: false));
                 var args = System.Environment.GetCommandLineArgs();
                 var parser = new CSharpCLI.Parse.ArgumentParser(args, switches);
                 parser.Parse();
@@ -124,6 +126,11 @@ namespace ThwargLauncher
                     }
                     Properties.Settings.Default.AutoRelaunch = relaunchChoice;
                     Properties.Settings.Default.Save();
+                }
+                if(parser.IsParsed("AutoLaunchOnStart"))
+                {
+                    var value = parser.GetValue("AutoLaunchOnStart");
+                    _autoLaunchOnStart = PersistenceHelper.AppSettings.ObjToBool(value, false);
                 }
             }
             catch (Exception exc)
