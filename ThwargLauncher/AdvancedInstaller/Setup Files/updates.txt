@@ -1,23 +1,20 @@
 ;aiu;
 
-[ThwargLauncher-6.3.0.0]
+[ThwargLauncher-6.4.0.0]
 Name = ThwargLauncher
-ProductVersion = 6.3.0.0
+ProductVersion = 6.4.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7288714
-ReleaseDate = 01/04/2019
-MD5 = 99df579179b3ba0c60330b5beba1f59a
+Size = 7289288
+ReleaseDate = 14/04/2019
+MD5 = a9403aa23a994063bb0505f4b793f3ae
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 6.3.0.0
-UpdatedApplications = ThwargLauncher[1.0-6.3]
-Description = VERSION 6.3.0.0 (2019-04-01)
-Description1 = Hotfix: Bug stopping server list from updating.
-Description2 = Maybe it seems like an april fool's joke, but here's a new update!
-Description3 = There is now a server browser included in the launcher's advanced view! You can click Edit Servers, Browse and find more servers to play on.
-Feature = New server browser!
-Enhancement = Added a discord link to the simple view for beginner users to connect with friends on a server.
-BugFix = You can scroll like a normal human now on the advanced view when servers are expanded.
-BugFix1 = Zorgle thinks you don't care, but you can now delete a server and it'll refresh the list properly. 
+Version = 6.4.0.0
+UpdatedApplications = ThwargLauncher[1.0-6.4]
+Description = VERSION 6.4.0.0 (2019-04-14)
+Description1 = This update fixes a problem where the ACE server list wouldn't download if you were a new launcher user.
+Feature = No longer quite as bad.
+Enhancement = Better than the last time when it was not as good.
+BugFix = ACE servers wouldn't show for new launcher downloads. All launchers should now show ace servers properly (even if you're new around here)
 AutoCloseApplication = [APPDIR]YourApplication.exe
