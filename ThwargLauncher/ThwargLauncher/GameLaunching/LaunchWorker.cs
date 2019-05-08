@@ -119,7 +119,8 @@ namespace ThwargLauncher
 
             while (globalQueue.TryDequeue(out launchItem))
             {
-                Thread.Sleep(10);
+                int threadDelayMs = ConfigSettings.GetConfigInt("ThreadGameLaunchDelayMs", 100);
+                Thread.Sleep(threadDelayMs);
                 new Thread((x) =>
                 {
                     Thread.CurrentThread.IsBackground = true;
