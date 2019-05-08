@@ -194,6 +194,7 @@ namespace ThwargFilter
                 stream.WriteLine("ThwargFilterVersion:{0}", assembly.GetName().Version);
                 stream.WriteLine("ThwargFilterFilePath:{0}", assembly.Location);
                 stream.WriteLine("IsOnline:{0}", status.IsOnline);
+                stream.WriteLine("LastServerDispatchSecondsAgo:{0}", status.LastServerDispatchSecondsAgo);
                 var text = stream.ToString();
                 return text;
             }
@@ -239,6 +240,7 @@ namespace ThwargFilter
                 info.Status.ThwargFilterVersion = SettingHelpers.GetSingleStringValue(settings, "ThwargFilterVersion");
                 info.Status.ThwargFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "ThwargFilterFilePath");
                 info.Status.IsOnline = SettingHelpers.GetSingleBoolValue(settings, "IsOnline", false);
+                info.Status.LastServerDispatchSecondsAgo = SettingHelpers.GetSingleIntValue(settings, "LastServerDispatchSecondsAgo");
 
                 info.IsValid = true;
             }

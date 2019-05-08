@@ -17,5 +17,6 @@ namespace ThwargFilter
         public string ThwargFilterVersion;
         public string ThwargFilterFilePath;
         public bool IsOnline;
+        public int LastServerDispatchSecondsAgo;
     }
 }
