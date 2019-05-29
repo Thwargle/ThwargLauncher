@@ -469,6 +469,7 @@ namespace ThwargLauncher
                             }
                             var launchItem = new LaunchItem()
                             {
+                                Alias = account.Alias,
                                 AccountName = account.Name,
                                 Priority = account.Priority,
                                 Password = account.Password,

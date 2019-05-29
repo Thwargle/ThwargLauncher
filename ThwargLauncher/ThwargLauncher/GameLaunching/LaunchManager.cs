@@ -163,6 +163,7 @@ namespace ThwargLauncher
             if (launchItem.CharacterSelected == "None")
             {
                 string pattern = ConfigSettings.GetConfigString("NewGameTitleNoChar", "");
+                pattern = pattern.Replace("%ALIAS%", launchItem.Alias);
                 pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
                 pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
                 return pattern;
@@ -171,6 +172,7 @@ namespace ThwargLauncher
             else
             {
                 string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
+                pattern = pattern.Replace("%ALIAS%", launchItem.Alias);
                 pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
                 pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
                 pattern = pattern.Replace("%CHARACTER%", launchItem.CharacterSelected);

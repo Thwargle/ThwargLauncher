@@ -7,6 +7,7 @@ namespace ThwargLauncher
     /// </summary>
     public class LaunchItem
     {
+        public string Alias;
         public string AccountName;
         public string Priority;
         public string Password;
