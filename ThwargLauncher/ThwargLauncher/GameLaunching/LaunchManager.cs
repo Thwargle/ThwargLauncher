@@ -160,24 +160,21 @@ namespace ThwargLauncher
         }
         private string GetNewGameTitle(LaunchItem launchItem)
         {
+            string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
             if (launchItem.CharacterSelected == "None")
             {
-                string pattern = ConfigSettings.GetConfigString("NewGameTitleNoChar", "");
-                pattern = pattern.Replace("%ALIAS%", launchItem.Alias);
-                pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
-                pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
-                return pattern;
-
+                pattern = ConfigSettings.GetConfigString("NewGameTitleNoChar", "");
             }
-            else
+            string alias = launchItem.Alias;
+            if (string.IsNullOrEmpty(alias)) { alias = launchItem.AccountName; } // fall back to account if no alias
+            pattern = pattern.Replace("%ALIAS%", alias);
+            pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
+            pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
+            if (launchItem.CharacterSelected != "None")
             {
-                string pattern = ConfigSettings.GetConfigString("NewGameTitle", "");
-                pattern = pattern.Replace("%ALIAS%", launchItem.Alias);
-                pattern = pattern.Replace("%ACCOUNT%", launchItem.AccountName);
-                pattern = pattern.Replace("%SERVER%", launchItem.ServerName);
                 pattern = pattern.Replace("%CHARACTER%", launchItem.CharacterSelected);
-                return pattern;
             }
+            return pattern;
         }
     }
 }
