@@ -71,6 +71,16 @@
     <default_secure>Off</default_secure>
   </ServerItem>
   <ServerItem>
+    <id>40ACC530-BD87-4878-A85C-13D0AA1FF981</id>
+    <name>NoESCape</name>
+    <description>Casual server with modifications.</description>
+    <emu>GDL</emu>
+    <connect_string>noescape.sytes.net:9000</connect_string>
+    <DiscordUrl>https://discord.gg/FmMbpK5</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
     <id>26D70BC9-78E9-4DDC-BCFF-7D5B36F6AC17</id>
     <name>GDLE Test</name>
     <description>Test server for Reefcull and Hightide servers.</description>
