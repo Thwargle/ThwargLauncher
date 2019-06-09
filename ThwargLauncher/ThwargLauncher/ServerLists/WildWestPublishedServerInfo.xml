@@ -11,22 +11,72 @@
     <default_secure>Off</default_secure>
   </ServerItem>
   <ServerItem>
+    <id>3c431416-a5dc-4c15-9d9d-3262b64ed4e0</id>
+    <name>Drunkenfell</name>
+    <description>A PvE server that will resemble end-of-retail with some modifications.</description>
+    <emu>ACE</emu>
+    <connect_string>df.jackncoke.com:9000</connect_string>
+    <DiscordUrl>https://discord.gg/tHEe7QU</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
+    <id>394C58D0-885D-466B-B17F-D7E0B96FE3E2</id>
+    <name>Seedsow</name>
+    <description>A PVE Dark Majesty server must use classic AC .dats</description>
+    <emu>GDL</emu>
+    <connect_string>serafino.ddns.net:9060</connect_string>
+    <DiscordUrl>https://goo.gl/mUEu6g</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
+    <id>EEA962C0-CF9F-481E-9736-0EB058ACC1D8</id>
+    <name>Snowreap</name>
+    <description>A PVP Dark Majesty server must use classic AC .dats</description>
+    <emu>GDL</emu>
+    <connect_string>serafino.ddns.net:9070</connect_string>
+    <DiscordUrl>https://goo.gl/mUEu6g</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
+    <id>C1E1C066-E32A-4994-96EE-5EC3AA316FC8</id>
+    <name>RelicDawn</name>
+    <description>relicdawn.com - A casual PVE Server.</description>
+    <emu>GDL</emu>
+    <connect_string>server.relicdawn.com:9000</connect_string>
+    <DiscordUrl>https://discord.gg/rnvZ6Df</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
+    <id>A36BAB53-257E-4DA2-A9CA-A3DD7059F73C</id>
+    <name>Darkside</name>
+    <description>A PVP server like end of game retail with events.</description>
+    <emu>GDL</emu>
+    <connect_string>darkside.damnserver.com:9006</connect_string>
+    <DiscordUrl>https://discord.gg/5qYNzkH</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
+    <id>1C9CBF34-8E18-4FC5-9C90-71959D3D7A67</id>
+    <name>Reaptide</name>
+    <description>Full Loot Drop On PVP Death.</description>
+    <emu>GDL</emu>
+    <connect_string>reaptide.ddns.net:9000</connect_string>
+    <DiscordUrl>https://discord.gg/uHZ3PtK</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
+  <ServerItem>
     <id>26D70BC9-78E9-4DDC-BCFF-7D5B36F6AC17</id>
     <name>GDLE Test</name>
     <description>Test server for Reefcull and Hightide servers.</description>
     <emu>GDL</emu>
     <connect_string>gdletest.connect-to-server.online:9000</connect_string>
     <DiscordUrl>https://discord.gg/jd3dEJf</DiscordUrl>
-    <default_rodat>Off</default_rodat>
-    <default_secure>Off</default_secure>
-  </ServerItem>
-  <ServerItem>
-    <id>40ACC530-BD87-4878-A85C-13D0AA1FF981</id>
-    <name>NoESCape</name>
-    <description>Casual server with modifications.</description>
-    <emu>GDL</emu>
-    <connect_string>noescape.sytes.net:9000</connect_string>
-    <DiscordUrl>https://discord.gg/FmMbpK5</DiscordUrl>
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
   </ServerItem>
