@@ -653,6 +653,8 @@ namespace ThwargLauncher
                 var dlg = new BrowseServer();
                 dlg.DataContext = bsvm;
                 var result = dlg.ShowDialog();
+                // Save any changes the user made to disk
+                ServerManager.SaveServerListToDisk();
                 // In case user added any servers
                 PopulateServerList();
                 LoadUserAccounts(initialLoad: false);

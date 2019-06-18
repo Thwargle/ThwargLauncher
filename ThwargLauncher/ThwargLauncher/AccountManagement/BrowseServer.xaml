@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThwargLauncher.AccountManagement"
         mc:Ignorable="d"
-        Title="BrowseServer" Height="450" Width="800">
+        Title="Browse Servers" Height="450" Width="800">
     <Grid>
         <DataGrid HorizontalAlignment="Stretch" Margin="0,5,0,0" VerticalAlignment="Stretch"
                   ItemsSource="{Binding Path=AllServers}"
