@@ -90,4 +90,14 @@
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
   </ServerItem>
+  <ServerItem>
+    <id>8ac78e2e-b4c3-4afb-9026-6e0e38d63e42</id>
+    <name>Bot Net</name>
+    <description>No Rules Red Server, Enjoy 18+</description>
+    <emu>GDL</emu>
+    <connect_string>BotNet.ServeBeer.com:9000</connect_string>
+    <DiscordUrl>https://discord.gg/Kmnmyqv</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
 </ArrayOfServerItem>
