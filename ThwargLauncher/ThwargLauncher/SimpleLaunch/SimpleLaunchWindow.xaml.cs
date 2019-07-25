@@ -23,7 +23,7 @@ namespace ThwargLauncher
     {
         private SimpleLaunchWindowViewModel _viewModel;
         //private List<ServerInfo> sl = new List<ServerInfo>();
-        public SimpleLaunchWindow(SimpleLaunchWindowViewModel viewModel)
+        internal SimpleLaunchWindow(SimpleLaunchWindowViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;

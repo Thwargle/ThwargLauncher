@@ -7,11 +7,14 @@ using System.Windows.Input;
 using System.Windows.Data;
 using CommonControls;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace ThwargLauncher
 {
-    public class SimpleLaunchWindowViewModel : INotifyPropertyChanged
+    class SimpleLaunchWindowViewModel : INotifyPropertyChanged
     {
+        private AccountManager _accountManager;
+        private ObservableCollection<UserAcctViewModel> _userAccountViewModels = new ObservableCollection<UserAcctViewModel>();
         public event EventHandler RequestingMainViewEvent;
         public event EventHandler RequestingConfigureFileLocationEvent;
         public event LaunchGameDelegateMethod LaunchingEvent;
@@ -46,13 +49,14 @@ namespace ThwargLauncher
             }
         }
 
-        public static SimpleLaunchWindowViewModel CreateViewModel()
+        public static SimpleLaunchWindowViewModel CreateViewModel(AccountManager accountManager)
         {
-            var vmodel = new SimpleLaunchWindowViewModel();
+            var vmodel = new SimpleLaunchWindowViewModel(accountManager);
             return vmodel;
         }
-        private SimpleLaunchWindowViewModel()
+        private SimpleLaunchWindowViewModel(AccountManager accountManager)
         {
+            _accountManager = accountManager;
             IEnumerable<SimpleServerItem> items = ServerManager.ServerList.Select(p => new SimpleServerItem(p));
             //IEnumerable<ServerInfo> items = ServerManager.ServerList;
             _servers = new CollectionView(items);
@@ -63,7 +67,7 @@ namespace ThwargLauncher
                     PerformConfigureFileLocation
                 );
 
-
+            PopulateAccountList();
 
             LoadFromSettings();
         }
@@ -103,7 +107,8 @@ namespace ThwargLauncher
         public bool ShowPassword
         {
             get { return _showPassword; }
-            set {
+            set
+            {
                 if (_showPassword != value)
                 {
                     _showPassword = value;
@@ -186,5 +191,47 @@ namespace ThwargLauncher
                 OnPropertyChanged("ClientFileLocation");
             }
         }
+        private void PopulateAccountList()
+        {
+            var allUserAccounts = _accountManager.UserAccounts;
+            foreach (UserAccount ua in allUserAccounts)
+            {
+                UserAcctViewModel avm = new UserAcctViewModel(ua);
+                _userAccountViewModels.Add(avm);
+            }
+        }
+        public ObservableCollection<UserAcctViewModel> AccountList
+        {
+            get
+            {
+                return _userAccountViewModels;
+            }
+        }
+        private ICommand ChooseAccountCommand;
+        public ICommand ChooseAccount
+        {
+            get
+            {
+                if (ChooseAccountCommand == null)
+                {
+                    // Tried but failed: new DelegateCommand<UserAcctViewModel>(x => { PerformChooseAccount(x as UserAcctViewModel); });
+                    ChooseAccountCommand = new DelegateCommand(PerformChooseAccount);
+                }
+                return ChooseAccountCommand;
+            }
+        }
+        public UserAcctViewModel SelectedAccount { get; set; }
+        private void PerformChooseAccount()
+        {
+            var uavm = SelectedAccount;
+            if (uavm != null)
+            {
+                AccountName = uavm.AccountName;
+                OnPropertyChanged("AccountName");
+                Password = uavm.Password;
+                OnPropertyChanged("Password");
+            }
+        }
+
     }
 }

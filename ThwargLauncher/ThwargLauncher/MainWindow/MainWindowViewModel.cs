@@ -108,7 +108,7 @@ namespace ThwargLauncher
 
         public MainWindowViewModel(AccountManager accountManager, GameSessionMap gameSessionMap, Configurator configurator)
         {
-            if (accountManager == null) { throw new ArgumentException("Null Null GameSessionMap in MainWindowViewModel()", "accountManager"); }
+            if (accountManager == null) { throw new ArgumentException("Null AccountManager in MainWindowViewModel()", "accountManager"); }
             if (gameSessionMap == null) { throw new ArgumentException("Null GameSessionMap in MainWindowViewModel()", "gameSessionMap"); }
             if (configurator == null) { throw new ArgumentException("Null Configurator in MainWindowViewModel()", "configurator"); }
 
@@ -530,7 +530,7 @@ namespace ThwargLauncher
             {
                 if (_simpleLaunchViewModel == null)
                 {
-                    _simpleLaunchViewModel = SimpleLaunchWindowViewModel.CreateViewModel();
+                    _simpleLaunchViewModel = SimpleLaunchWindowViewModel.CreateViewModel(_accountManager);
                     _simpleLaunchViewModel.LaunchingEvent += OnRequestExecuteSimpleLaunch;
                     _simpleLaunchViewModel.RequestingMainViewEvent += OnSimpleLaunchRequestMainView;
                     _simpleLaunchViewModel.RequestingConfigureFileLocationEvent += OnSimpleLaunchRequestConfigureFileLocation;

@@ -4,6 +4,7 @@
         xmlns:twg="clr-namespace:ThwargControls"
         xmlns:ff="clr-namespace:FunctionalFun.UI"
         xmlns:local="clr-namespace:ThwargLauncher"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/ThwargLogo.ico" Height="400" Width="650" 
         ResizeMode="CanResizeWithGrip" Closing="ThwargLauncherSimpleLaunchWindow_Closing">
     <Window.Background>
@@ -29,20 +30,20 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" ></RowDefinition>
-                <RowDefinition Height="60px" ></RowDefinition>
+                <RowDefinition Height="120px" ></RowDefinition>
                 <RowDefinition Height="60px" ></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle x:Name="rctBlack" Grid.ColumnSpan="2" Grid.RowSpan="3" Fill="Black" HorizontalAlignment="Stretch" Margin="1,1,0.4,-0.2" Stroke="Black" VerticalAlignment="Stretch" Opacity="0.5"/>
             <Label x:Name="lblServers" Grid.Column="0" Grid.Row="0" Content="Servers:" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 0 5 5" Foreground="#FFFFB619" BorderBrush="Black"/>
             <Label x:Name="lblUserName" Grid.Row="1" Content="Account Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 5 5" Foreground="#FFFFB619" BorderBrush="Black" />
             <Label x:Name="lblUserPassword" Grid.Row="1" Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 0" Foreground="#FFFFB619" BorderBrush="Black" />
-            <Label x:Name="lblLauncherLocation" Grid.Row="1" Content="File Location:" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Foreground="#FFFFB619" BorderBrush="Black" Grid.RowSpan="2"/>
+            <Label x:Name="lblLauncherLocation" Grid.Row="2" Content="File Location:" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="#FFFFB619" BorderBrush="Black" Grid.RowSpan="2"/>
             <Button x:Name="btnMain" Command="{Binding GotoMainViewCommand}"  Grid.Row="2" Content="Advanced View" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 30 0 5" Background="#FFF6D18F" FontWeight="Bold" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" ></RowDefinition>
-                <RowDefinition Height="60px" ></RowDefinition>
+                <RowDefinition Height="120px" ></RowDefinition>
                 <RowDefinition Height="60px" ></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle x:Name="rctBlack2" Grid.ColumnSpan="2" Grid.RowSpan="3" Fill="Black" HorizontalAlignment="Stretch" Margin="1,1,0.4,-0.2" Stroke="Black" VerticalAlignment="Stretch" Opacity="0.5"/>
@@ -52,6 +53,7 @@
                      IsSynchronizedWithCurrentItem="True"
                       Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,5,5,0" Height="Auto"
                       Background="#A5000000" Foreground="#FFDC9700">
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Black" BorderThickness="0" Padding="5">
@@ -76,14 +78,40 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBox x:Name="txtUserName"
-                     Text="{Binding Path=AccountName, Mode=TwoWay}"
-                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 0" />
-            <TextBox x:Name="txtUserPasswordText" Text="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=TextPasswordBoxVisibility}" />
-            <PasswordBox x:Name="txtUserPassword" ff:PasswordBoxAssistant.BindPassword="True"
-                     ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=PasswordBoxVisibility}" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+            
+                <TextBox x:Name="txtUserName"
+                         Text="{Binding Path=AccountName, Mode=TwoWay}"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5 5 5 0" />
+                <TextBox x:Name="txtUserPasswordText" Text="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=TextPasswordBoxVisibility}" />
+                <PasswordBox x:Name="txtUserPassword" ff:PasswordBoxAssistant.BindPassword="True"
+                         ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=PasswordBoxVisibility}" />
+
+                <ListBox x:Name="UserSelection"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 5 5 5" Grid.Column="1"
+                         ItemsSource="{Binding AccountList}" SelectedItem="{Binding SelectedAccount}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding AccountDisplayName}">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding Gesture="LeftDoubleClick"                                           
+                                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ChooseAccount}"/>
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </Grid>
             <CheckBox x:Name="ShowHide" Visibility="Collapsed" Grid.Row="1" HorizontalAlignment="Right" Margin="8" VerticalAlignment="Bottom" Foreground="#FFFFB619" Checked="ShowHide_Checked">Show/Hide</CheckBox>
             <TextBox x:Name="txtLauncherLocation" Grid.Row="2" Text="{Binding Path=ClientFileLocation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="6,2,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick" Background="#FFF6D18F"/>
             <Button x:Name="btnLauncherLocation" Grid.Row="2" Content="..." ToolTip="Browse" Command="{Binding ConfigureFileLocationCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,2,19,0" Foreground="Black" Height="23" Background="#FFF6D18F" FontWeight="Bold"/>
