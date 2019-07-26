@@ -100,4 +100,14 @@
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
   </ServerItem>
+  <ServerItem>
+    <id>689438de-0109-4a01-9d2b-d47c0b2bc0e9</id>
+    <name>Levistras</name>
+    <description>A 100% Botting-Free PvE Server! Apply through our Discord for access!</description>
+    <emu>ACE</emu>
+    <connect_string>Levistras.servequake.com:9000</connect_string>
+    <DiscordUrl>https://discord.gg/TtkcWbv</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
 </ArrayOfServerItem>
