@@ -110,4 +110,14 @@
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
   </ServerItem>
+  <ServerItem>
+    <id>c5749639-ba45-48ba-ad2a-325482406ff5</id>
+    <name>DoBZ</name>
+    <description>Full Loot PvP Server 40x XP and Reduced Timers.</description>
+    <emu>GDL</emu>
+    <connect_string>drunkfall.hopto.org:9000</connect_string>
+    <DiscordUrl>https://discord.gg/4tkUdua</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
 </ArrayOfServerItem>
