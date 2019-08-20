@@ -363,6 +363,12 @@
   <ItemGroup>
     <Folder Include="UtilityCode\DecalInjection\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SubProjects\Intelli.WPF.Controls\Intelli.WPF.Controls.csproj">
+      <Project>{769d993c-2867-4212-be80-b70e4862ebc5}</Project>
+      <Name>Intelli.WPF.Controls</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

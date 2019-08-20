@@ -4,15 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThwargLauncher.AccountManagement"
+        xmlns:intellicontrols="clr-namespace:Intelli.WPF.Controls.DataGrid;assembly=Intelli.WPF.Controls"
         mc:Ignorable="d"
         Title="Browse Servers" Height="450" Width="800">
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" Margin="0,5,0,0" VerticalAlignment="Stretch"
-                  ItemsSource="{Binding Path=AllServers}"
+        <intellicontrols:IntelliGrid HorizontalAlignment="Stretch" Margin="0,5,0,0" VerticalAlignment="Stretch"
+                  FilteredItemsSource="{Binding Path=AllServers}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   AlternatingRowBackground="Wheat">
-            <DataGrid.Columns>
+            <intellicontrols:IntelliGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -24,7 +25,7 @@
                 <DataGridTextColumn Header="Description" Binding="{Binding ServerDescription}"></DataGridTextColumn>
                 <DataGridTextColumn Header="EMU" Binding="{Binding EMU}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+            </intellicontrols:IntelliGrid.Columns>
+        </intellicontrols:IntelliGrid>
     </Grid>
 </Window>
