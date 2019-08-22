@@ -120,4 +120,14 @@
     <default_rodat>Off</default_rodat>
     <default_secure>Off</default_secure>
   </ServerItem>
+  <ServerItem>
+    <id>ce51eb4f-1a22-4361-998c-872905dd8a52</id>
+    <name>PotatoAC</name>
+    <description>ACE PK Server with full drop on PK Death and Custom content.</description>
+    <emu>ACE</emu>
+    <connect_string>potatoac.webhop.me:9000</connect_string>
+    <DiscordUrl>https://discord.gg/gbhnz2u</DiscordUrl>
+    <default_rodat>Off</default_rodat>
+    <default_secure>Off</default_secure>
+  </ServerItem>
 </ArrayOfServerItem>
