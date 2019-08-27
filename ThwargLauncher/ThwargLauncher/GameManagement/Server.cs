@@ -86,8 +86,8 @@ namespace ThwargLauncher
                 return string.Format("({0})", _myServer.PlayerCount);
             }
         }
-        public bool HasDiscordURL { get { return DiscordUrl != ""; } }
-        public bool HasWebsiteURL { get { return WebsiteUrl != ""; } }
+        public bool HasDiscordURL { get { return !String.IsNullOrEmpty(DiscordUrl); } }
+        public bool HasWebsiteURL { get { return !String.IsNullOrEmpty(WebsiteUrl); } }
         public bool HasPlayerCountToolTip {  get { return PlayerCountToolTip != ""; } }
         public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }

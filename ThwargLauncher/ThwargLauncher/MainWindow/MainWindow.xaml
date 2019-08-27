@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:ThwargLauncher"
         Title="Thwarg-Launcher - Intelligent Account Management" Icon="../Images/ThwargLogo.ico" Height="500" Width="830" 
         Closing="ThwargLauncherMainWindow_Closing" Loaded="MainWindow_OnLoaded" ResizeMode="CanResizeWithGrip"
-        MinHeight="300" MinWidth="740">
+        MinHeight="300" MinWidth="840">
     <Window.Background>
         <ImageBrush Stretch="UniformToFill"/>
     </Window.Background>

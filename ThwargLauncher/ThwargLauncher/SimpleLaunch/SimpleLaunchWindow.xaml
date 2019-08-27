@@ -11,6 +11,9 @@
         <ImageBrush ImageSource="../Images/backgrounds/acwallpaperwideaerbax.jpg"/>
     </Window.Background>
     <Window.Resources>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
         <RoutedUICommand x:Key="LaunchGameCommand" />
         <local:BoolToVisibilityConverter
             x:Key="BoolToVisConverter"
@@ -94,20 +97,16 @@
                          HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,35,5,0" Visibility="{Binding Path=PasswordBoxVisibility}" />
 
                 <ListBox x:Name="UserSelection"
-                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 5 5 5" Grid.Column="1"
+                         Margin="5 5 5 5" Grid.Column="1"
                          ItemsSource="{Binding AccountList}" SelectedItem="{Binding SelectedAccount}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding AccountDisplayName}" HorizontalAlignment="Stretch">
-                                    <TextBlock.InputBindings>
-                                        <MouseBinding Gesture="LeftDoubleClick"                                           
-                                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ChooseAccount}"/>
-                                    </TextBlock.InputBindings>
-                                </TextBlock>
-                            </StackPanel>
+                            <TextBlock Text="{Binding AccountDisplayName}">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ChooseAccount}"/>
+                                </TextBlock.InputBindings>
+                            </TextBlock>
                         </DataTemplate>
-
                     </ListBox.ItemTemplate>
                 </ListBox>
 
