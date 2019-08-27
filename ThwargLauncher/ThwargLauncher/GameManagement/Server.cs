@@ -41,6 +41,14 @@ namespace ThwargLauncher
             {
                 NotifyOfStatusSummaryChanged();
             }
+            if (e.PropertyName == "DiscordUrl")
+            {
+                NotifyOfPropertyChange(() => HasDiscordURL);
+            }
+            if (e.PropertyName == "WebsiteUrl")
+            {
+                NotifyOfPropertyChange(() => HasWebsiteURL);
+            }
             NotifyOfPropertyChange(e.PropertyName);
         }
 
@@ -68,6 +76,7 @@ namespace ThwargLauncher
         public string GameApiUrl { get { return _myServer.GameApiUrl; } }
         public string LoginServerUrl { get { return _myServer.LoginServerUrl; } }
         public string DiscordUrl { get { return _myServer.DiscordUrl; } }
+        public string WebsiteUrl { get { return _myServer.WebsiteUrl; } }
         public string PlayerCountToolTip { get { return _myServer.PlayerCountToolTip; } }
         public string Age { get { return _myServer.Age; } }
         public string PlayerCount
@@ -78,6 +87,7 @@ namespace ThwargLauncher
             }
         }
         public bool HasDiscordURL { get { return DiscordUrl != ""; } }
+        public bool HasWebsiteURL { get { return WebsiteUrl != ""; } }
         public bool HasPlayerCountToolTip {  get { return PlayerCountToolTip != ""; } }
         public System.Guid ServerId { get { return _myServer.ServerId; } }
         public string ServerName { get { return _myServer.ServerName; } }

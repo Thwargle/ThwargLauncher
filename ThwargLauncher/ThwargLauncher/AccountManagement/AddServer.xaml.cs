@@ -71,6 +71,7 @@ namespace ThwargLauncher.AccountManagement
                 SecureSetting = secure,
                 EMU = emu,
                 DiscordUrl = txtDiscordUrl.Text,
+                WebsiteUrl = txtWebsiteUrl.Text,
                 ServerSource = ServerModel.ServerSourceEnum.User
             };
             return sdata;

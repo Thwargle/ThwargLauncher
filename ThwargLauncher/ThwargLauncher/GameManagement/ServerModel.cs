@@ -77,6 +77,7 @@ namespace ThwargLauncher
             server.GameApiUrl = data.GameApiUrl;
             server.LoginServerUrl = data.LoginServerUrl;
             server.DiscordUrl = data.DiscordUrl;
+            server.WebsiteUrl = data.WebsiteUrl;
             server.EMU = data.EMU;
             server.RodatSetting = data.RodatSetting;
             server.SecureSetting = data.SecureSetting;
@@ -114,6 +115,7 @@ namespace ThwargLauncher
         public string GameApiUrl { get { return Get<string>(); } set { Set(value); } }
         public string LoginServerUrl { get { return Get<string>(); } set { Set(value); } }
         public string DiscordUrl { get { return Get<string>(); } set { Set(value); } }
+        public string WebsiteUrl { get { return Get<string>(); } set { Set(value); } }
         public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }
         public RodatEnum RodatSetting { get { return Get<RodatEnum>(); } set { Set(value); } }
         public SecureEnum SecureSetting { get { return Get<SecureEnum>(); } set { Set(value); } }

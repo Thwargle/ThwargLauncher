@@ -99,7 +99,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding AccountDisplayName}">
+                                <TextBlock Text="{Binding AccountDisplayName}" HorizontalAlignment="Stretch">
                                     <TextBlock.InputBindings>
                                         <MouseBinding Gesture="LeftDoubleClick"                                           
                                          Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ChooseAccount}"/>

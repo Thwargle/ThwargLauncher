@@ -27,6 +27,7 @@ namespace ThwargLauncher.GameManagement
             public string GameApiUrl;
             public string LoginServerUrl;
             public string DiscordUrl;
+            public string WebsiteUrl;
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
             public ServerModel.SecureEnum SecureSetting;
@@ -81,7 +82,8 @@ namespace ThwargLauncher.GameManagement
                             new XElement("description", server.ServerDescription),
                             new XElement("emu", server.EMU),
                             new XElement("connect_string", server.ServerIpAndPort),
-                            new XElement("DiscordUrl", server.DiscordUrl),
+                            new XElement("discord_url", server.DiscordUrl),
+                            new XElement("website_url", server.WebsiteUrl),
                             new XElement("GameApiUrlKey", server.GameApiUrl),
                             new XElement("LoginServerUrlKey", server.LoginServerUrl),
                             new XElement("enable_login", "true"),
@@ -117,14 +119,27 @@ namespace ThwargLauncher.GameManagement
                             si.ServerName = GetSubvalue(node, "name");
                             si.ServerAlias = GetOptionalSubvalue(node, "alias", null);
                             si.ServerDesc = GetSubvalue(node, "description");
-                            si.ConnectionString = GetSubvalue(node, "connect_string");
+
+                            si.ConnectionString = GetOptionalSubvalue(node, "connect_string", null);
+                            if (si.ConnectionString == null)
+                            {
+                                var host = GetSubvalue(node, "server_host");
+                                var port = GetSubvalue(node, "server_port");
+                                si.ConnectionString = string.Format("{0}:{1}", host, port);
+                            }
                             si.GameApiUrl = GetOptionalSubvalue(node, "GameApiUrlKey", "");
                             si.LoginServerUrl = GetOptionalSubvalue(node, "LoginServerUrlKey", "");
                             si.DiscordUrl = GetOptionalSubvalue(node, "DiscordUrl", "");
+                            if (string.IsNullOrEmpty(si.DiscordUrl))
+                            {
+                                si.DiscordUrl = GetOptionalSubvalue(node, "discord_url", "");
+                            }
+                            si.WebsiteUrl = GetOptionalSubvalue(node, "website_url", "");
+                            
                             string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
                             si.EMU = ParseEmu(emustr, emudef);
                             si.ServerSource = source;
-                            string rodatstr = GetSubvalue(node, "default_rodat");
+                            string rodatstr = GetOptionalSubvalue(node, "default_rodat", "");
                             si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
                             string securestr = GetOptionalSubvalue(node, "default_secure", "false");
                             si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);

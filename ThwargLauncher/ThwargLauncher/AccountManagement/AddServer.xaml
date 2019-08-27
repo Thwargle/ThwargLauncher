@@ -19,6 +19,8 @@
         <TextBox x:Name="txtServerPort" HorizontalAlignment="Left" Height="23" Margin="100,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's port."/>
         <Label x:Name="lblDiscordUrl" Content="Discord Url:" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalAlignment="Top" Width="85"/>
         <TextBox x:Name="txtDiscordUrl" HorizontalAlignment="Left" Height="23" Margin="100,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's discord url."/>
+        <Label x:Name="lblWebsiteUrl" Content="Website Url:" HorizontalAlignment="Left" Margin="10,195,0,0" VerticalAlignment="Top" Width="85"/>
+        <TextBox x:Name="txtWebsiteUrl" HorizontalAlignment="Left" Height="23" Margin="100,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's website url."/>
         <Label x:Name="lblServerDefaultRodat" Content="Server Default Rodat:" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" Width="127"/>
         <ComboBox x:Name="cmbDefaultRodat" HorizontalAlignment="Right" Margin="0,252,10,0" VerticalAlignment="Top" Width="120" SelectedValuePath="Content" SelectedIndex="0">
             <ComboBoxItem Name='RodatFalse'>false</ComboBoxItem>

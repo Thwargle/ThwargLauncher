@@ -50,6 +50,13 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Header="WebsiteUrl" Binding="{Binding WebsiteUrl,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridComboBoxColumn Header="EMU" SelectedItemBinding="{Binding EMU}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+ServerEmuEnum}">
                     <DataGridComboBoxColumn.CellStyle>
                         <Style TargetType="DataGridCell">

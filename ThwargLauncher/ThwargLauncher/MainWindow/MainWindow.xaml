@@ -201,6 +201,11 @@
                                                                 <Image Width="24px" Height="24px" Source="../Images/32pxDiscord.png" />
                                                             </Hyperlink>
                                                         </TextBlock>
+                                                        <TextBlock Visibility="{Binding HasWebsiteURL, Converter={StaticResource BoolToVisConverter}}">
+                                                            <Hyperlink ToolTip="{Binding Path=WebsiteUrl}" NavigateUri="{Binding Path=WebsiteUrl}" RequestNavigate="RequestNavigateHandler" TextDecorations="">
+                                                                <Image Width="24px" Height="24px" Source="../Images/32pxWebUrl.png" />
+                                                            </Hyperlink>
+                                                        </TextBlock>
                                                         <Label ToolTip="{Binding Path=PlayerCountToolTip}" Visibility="{Binding HasPlayerCountToolTip, Converter={StaticResource BoolToVisConverter}}" Foreground="#FFBB8000" Content="{Binding Path=PlayerCount}"/>
                                                         <Label Foreground="#FFBB8000" Content="{Binding Path=ServerNameAndDescription}" HorizontalAlignment="Left"></Label>
                                                         <Label Foreground="#FFBB8000" Content="{Binding Path=ServerIpAndPort}" FontStyle="Italic" HorizontalAlignment="Left"></Label>

@@ -310,6 +310,7 @@
     <Resource Include="ToDo_List.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\32pxWebUrl.png" />
     <Content Include="Images\ACCoverArt.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
