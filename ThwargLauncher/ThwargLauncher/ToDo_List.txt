@@ -1,4 +1,3 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
  - Make the Onlogin Commands work on a per-profile basis. So you can set up a profile and have different launch options.
- - Hide/show password on simple mode
