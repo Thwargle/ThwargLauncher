@@ -220,7 +220,10 @@ namespace ThwargLauncher
             {
                 if (launcherProc != null && !launcherProc.HasExited)
                 {
-                    launcherProc.Kill();
+                    if (DecalInjection.IsThwargFilterRegistered())
+                    {
+                        launcherProc.Kill();
+                    }
                 }
             }
             if (launchResponse != null && launchResponse.IsValid)
