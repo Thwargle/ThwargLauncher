@@ -1,3 +1,9 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
  - Make the Onlogin Commands work on a per-profile basis. So you can set up a profile and have different launch options.
+
+ - Investigate the server up check from decal, and investigate why clients close on character create. Seems like the launcher is likely checking incorrectly. Remember to ask Hells what the heck we finally looked at.
+
+ - Add a checkbox to user editor called "Group Launches by Server" which launches all accounts by priority and server name, and continues rather than launching all servers of an account, and then the next account
+
+ - Investigate how aggressive closing servers is, and add an option somewhere to disable closing clients for any reason
