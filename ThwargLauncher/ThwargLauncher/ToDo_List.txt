@@ -11,3 +11,7 @@
  - command line launch with profile
 
  - remove the "default" server list and have a better first run choose server experience
+     Stop reading server list from thwargle.com
+	 Add those servers to github list
+
+ - Research why AutoRelaunch is used to control CheckForProgramUpdate

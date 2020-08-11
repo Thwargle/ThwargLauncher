@@ -35,6 +35,10 @@
                     Foreground="#FFFFB619" BorderBrush="Black"
                     IsChecked="{Binding ShowCheckedAccounts}"
                     Content="Show Checked Accounts Only" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,0,0" />
+                <CheckBox x:Name="chkNeverKillClients"
+                      Foreground="#FFFFB619" BorderBrush="Black"
+                      IsChecked="{Binding Path=NeverKillClients}"
+                      Content="Never Kill Clients" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,34,123,-19" />
                 <CheckBox x:Name="chkAutoRelaunch"
                       Foreground="#FFFFB619" BorderBrush="Black"
                       IsChecked="{Binding Path=AutoRelaunch}"

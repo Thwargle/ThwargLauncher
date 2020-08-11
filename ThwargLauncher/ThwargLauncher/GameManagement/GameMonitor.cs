@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using ThwargLauncher.GlobalResources;
 
 namespace ThwargLauncher
 {
@@ -111,7 +112,7 @@ namespace ThwargLauncher
             {
                 _isWorking = true;
                 // Simple launch doesn't do any process management or tracking or any of this stuff
-                if (!GlobalResources.Globals.IsSimple)
+                if (!Globals.IsSimple)
                 {
                     if (ShouldWeCleanup())
                     {
@@ -460,14 +461,17 @@ namespace ThwargLauncher
 
                 if (status == ServerAccountStatusEnum.None)
                 {
-                    Process p = TryGetProcessFromId(response.Status.ProcessId);
-                    if (p != null)
+                    if (!Globals.NeverKillClients)
                     {
-                        p.Kill();
-                        File.Delete(heartbeatFile);
-                        _map.RemoveGameSessionByProcessId(p.Id);
-                        Logger.WriteDebug("Killing process: " + p.Id.ToString());
-                        OnGameDied(new EventArgs());
+                        Process p = TryGetProcessFromId(response.Status.ProcessId);
+                        if (p != null)
+                        {
+                            p.Kill();
+                            File.Delete(heartbeatFile);
+                            _map.RemoveGameSessionByProcessId(p.Id);
+                            Logger.WriteDebug("Killing process: " + p.Id.ToString());
+                            OnGameDied(new EventArgs());
+                        }
                     }
                 }
 
@@ -778,9 +782,12 @@ namespace ThwargLauncher
             var pid = inboundGameSession.ProcessId;
             try
             {
-                var process = System.Diagnostics.Process.GetProcessById(pid);
-                process.Kill();
-                this.RemoveGameByPidAndNotifyLauncher(pid);
+                if (!Globals.NeverKillClients)
+                {
+                    var process = Process.GetProcessById(pid);
+                    process.Kill();
+                    this.RemoveGameByPidAndNotifyLauncher(pid);
+                }
             }
             catch (Exception exc)
             {

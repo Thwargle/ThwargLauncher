@@ -16,13 +16,14 @@ namespace ThwargFilter
             public bool IsValid;
             public string FileVersion;
             public DateTime LaunchTime;
+            // ServerName...CharacterName are data from our launch file, or blank if we failed to find our launch file
             public string ServerName;
             public string AccountName;
             public string CharacterName;
         }
         public class LaunchResponse
         {
-            public const string MASTER_FILE_VERSION = "1.2";
+            public const string MASTER_FILE_VERSION = "1.3";
             public const string MASTER_FILE_VERSION_COMPAT = "1";
 
             public bool IsValid;
@@ -30,6 +31,7 @@ namespace ThwargFilter
             public DateTime ResponseTime;
             public int ProcessId;
             public string ThwargFilterVersion;
+            public string ServerNameReported;
         }
         public class HeartbeatResponse
         {
@@ -129,9 +131,10 @@ namespace ThwargFilter
             {
                 int pid = System.Diagnostics.Process.GetCurrentProcess().Id;
                 file.WriteLine("FileVersion:{0}", LaunchResponse.MASTER_FILE_VERSION);
-                file.WriteLine("TimeUtc: {0:o}", timestampUtc);
+                file.WriteLine("TimeUtc:{0:o}", timestampUtc);
                 file.WriteLine("ProcessId:{0}", pid);
                 file.WriteLine("ThwargFilterVersion:{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+                file.WriteLine("ServerNameReported:{0}", GameRepo.Game.Server);
             }
         }
         /// <summary>
@@ -163,6 +166,7 @@ namespace ThwargFilter
                 }
                 info.ProcessId = SettingHelpers.GetSingleIntValue(settings, "ProcessId");
                 info.ThwargFilterVersion = SettingHelpers.GetSingleStringValue(settings, "ThwargFilterVersion");
+                info.ServerNameReported = SettingHelpers.GetSingleStringValue(settings, "ServerNameReported");
 
                 info.IsValid = true;
             }
@@ -177,6 +181,7 @@ namespace ThwargFilter
             string contents = RecordHeartbeatStatusToString(status);
             WriteTextToFile(contents, filepath);
         }
+        // Called from thwargfilter
         private static string RecordHeartbeatStatusToString(HeartbeatGameStatus status)
         {
             using (var stream = new StringWriter())
@@ -195,6 +200,12 @@ namespace ThwargFilter
                 stream.WriteLine("ThwargFilterFilePath:{0}", assembly.Location);
                 stream.WriteLine("IsOnline:{0}", status.IsOnline);
                 stream.WriteLine("LastServerDispatchSecondsAgo:{0}", status.LastServerDispatchSecondsAgo);
+                stream.WriteLine("CurrentTimeLocal:{0}", DateTime.Now.ToString("o"));
+                stream.WriteLine("CurrentTimeUtc:{0}", DateTime.UtcNow.ToString("o"));
+                stream.WriteLine("CurrentExecutingAssembly:{0}", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                stream.WriteLine("ActualServerName:{0}", GameRepo.Game.Server);
+                stream.WriteLine("ActualAccountName:{0}", GameRepo.Game.Account);
+                stream.WriteLine("ActualCharacterName:{0}", GameRepo.Game.Character);
                 var text = stream.ToString();
                 return text;
             }
@@ -241,6 +252,9 @@ namespace ThwargFilter
                 info.Status.ThwargFilterFilePath = SettingHelpers.GetSingleStringValue(settings, "ThwargFilterFilePath");
                 info.Status.IsOnline = SettingHelpers.GetSingleBoolValue(settings, "IsOnline", false);
                 info.Status.LastServerDispatchSecondsAgo = SettingHelpers.GetSingleIntValue(settings, "LastServerDispatchSecondsAgo");
+                info.Status.ActualServerName = SettingHelpers.GetSingleStringValue(settings, "ActualServerName");
+                info.Status.ActualAccountName = SettingHelpers.GetSingleStringValue(settings, "ActualAccountName");
+                info.Status.ActualCharacterName = SettingHelpers.GetSingleStringValue(settings, "ActualCharacterName");
 
                 info.IsValid = true;
             }

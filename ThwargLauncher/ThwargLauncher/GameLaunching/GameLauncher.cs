@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using ThwargLauncher.AccountManagement;
+using ThwargLauncher.GlobalResources;
 
 namespace ThwargLauncher
 {
@@ -18,6 +19,7 @@ namespace ThwargLauncher
     {
         public bool Success;
         public int ProcessId;
+        public string ServerNameReported;
     }
 
     public delegate bool ShouldStopLaunching(object sender, EventArgs e);
@@ -156,6 +158,8 @@ namespace ThwargLauncher
                     launcherProc = Process.Start(startInfo);
                 }
                 Logger.WriteInfo(string.Format("PID = {0}", launcherProc.Id));
+                // record process id of the process we just launched, which hopefully will be the game process
+                result.ProcessId = launcherProc.Id;
                 launcherProc.EnableRaisingEvents = true;
                 launcherProc.Exited += LauncherProc_Exited;
                 if (!gameReady)
@@ -170,23 +174,17 @@ namespace ThwargLauncher
                             // User canceled
                             if (!launcherProc.HasExited)
                             {
-                                launcherProc.Kill();
+                                if (!Globals.NeverKillClients)
+                                {
+                                    launcherProc.Kill();
+                                }
                             }
                             return result;
 
                         }
                         ReportGameStatus(string.Format("Waiting for game: {0}/{1} sec",
                             (int)((DateTime.UtcNow - startWait).TotalSeconds), secondsTimeout));
-                        if (characterFileWrittenTime == DateTime.MaxValue)
-                        {
-                            // First we wait until DLL writes character file
-                            FileInfo fileInfo = new FileInfo(charFilepath);
-                            if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
-                            {
-                                characterFileWrittenTime = DateTime.UtcNow;
-                            }
-                        }
-                        else if (loginTime == DateTime.MaxValue)
+                        if (loginTime == DateTime.MaxValue)
                         {
                             // Now we wait until DLL logs in or user logs in interactively
                             FileInfo fileInfo = new FileInfo(launchResponseFilepath);
@@ -195,6 +193,15 @@ namespace ThwargLauncher
                                 loginTime = DateTime.UtcNow;
                                 TimeSpan maxLatency = DateTime.UtcNow - startWait;
                                 launchResponse = LaunchControl.GetLaunchResponse(ServerName: serverName, AccountName: accountName, maxLatency: maxLatency);
+                            }
+                        }
+                        else if (characterFileWrittenTime == DateTime.MaxValue)
+                        {
+                            // First we wait until DLL writes character file
+                            FileInfo fileInfo = new FileInfo(charFilepath);
+                            if (fileInfo.LastWriteTime.ToUniversalTime() >= startWait)
+                            {
+                                characterFileWrittenTime = DateTime.UtcNow;
                             }
                         }
                         else
@@ -222,14 +229,34 @@ namespace ThwargLauncher
                 {
                     if (DecalInjection.IsThwargFilterRegistered())
                     {
-                        launcherProc.Kill();
+                        if (!Globals.NeverKillClients)
+                        {
+                            if (launchResponse == null)
+                            {
+                                var msg = string.Format("Killing game because launch failed, server requested='{0}', no launch response",
+                                    serverName);
+                                Logger.WriteInfo(msg);
+
+                            }
+                            else
+                            {
+                                var msg = string.Format("Killing game because launch failed, process: {0}, server requested='{1}', server reported='{2}'",
+                                    launchResponse.ProcessId, serverName, launchResponse.ServerNameReported);
+                                Logger.WriteInfo(msg);
+
+                            }
+                            launcherProc.Kill();
+                        }
                     }
                 }
             }
             if (launchResponse != null && launchResponse.IsValid)
             {
+                // Record process id of launch response
+                // Probably the process we launched, but could be a new process if we called something that spawned the game
                 result.Success = gameReady;
                 result.ProcessId = launchResponse.ProcessId;
+                result.ServerNameReported = launchResponse.ServerNameReported;
             }
             if (simpleLaunch)
                 result.Success = true;

@@ -74,7 +74,7 @@ namespace ThwargFilter
             return folder;
 
         }
-
+        // Called only from filter
         internal static string GetGameHeartbeatFilepath(int processId)
         {
             string filename = string.Format("game_{0}.txt", processId);

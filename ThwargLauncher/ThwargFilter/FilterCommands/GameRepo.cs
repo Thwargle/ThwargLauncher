@@ -25,12 +25,6 @@ namespace ThwargFilter
         {
             _server = server;
         }
-        public void SetServerAccount(string server, string account)
-        {
-            // Probably not needed 2018-12-18
-            _server = server;
-            _account = account;
-        }
         public void SetCharacter(string character)
         {
             _character = character;

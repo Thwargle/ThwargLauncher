@@ -18,5 +18,8 @@ namespace ThwargFilter
         public string ThwargFilterFilePath;
         public bool IsOnline;
         public int LastServerDispatchSecondsAgo;
+        public string ActualServerName;
+        public string ActualAccountName;
+        public string ActualCharacterName;
     }
 }

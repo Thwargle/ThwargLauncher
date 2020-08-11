@@ -191,6 +191,7 @@ namespace ThwargLauncher
             {
                 StartStopTimerIfAutoChecked();
             }
+            // Do not need to do anything if NeverKillClients is changed
         }
         private void LoadImages()
         {

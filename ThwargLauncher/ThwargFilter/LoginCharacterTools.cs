@@ -19,7 +19,7 @@ namespace ThwargFilter
             if (e.Message.Type == 0xF658) // Zone Name
             {
                 zonename = Convert.ToString(e.Message["zonename"]);
-                log.WriteInfo("zonename: '{0}'", zonename);
+                log.WriteInfo("zonename (saved to GameRepo.Game): '{0}'", zonename);
                 GameRepo.Game.SetAccount(zonename);
             }
 
@@ -27,7 +27,7 @@ namespace ThwargFilter
             {
                 //Server Name retrieved from the server message, not used (unreliable in EMU)
                 var server = Convert.ToString(e.Message["server"]);
-                log.WriteInfo("server: '{0}'", server);
+                log.WriteInfo("server (saved to GameRepo.Game): '{0}'", server);
                 GameRepo.Game.SetServer(server);
             }
 

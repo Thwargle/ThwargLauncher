@@ -32,13 +32,14 @@ namespace ThwargFilter
             if (e.Message.Type == 0xF658) // Character List (we get this when we log out a character as well)
             {
                 zonename = Convert.ToString(e.Message["zonename"]);
-                log.WriteInfo("FilterCore_ServerDispatch: 0xF658");
+                log.WriteInfo("FilterCore_ServerDispatch: 0xF658, zonename: " + zonename);
             }
 
             if (e.Message.Type == 0xF7E1) // Server Name (we get this when we log out a character as well)
             {
                 //getting the Server from the message, but then ignore it and set to the one we know works from the files
                 server = Convert.ToString(e.Message["server"]);
+                log.WriteDebug("Unused server name from message 0xF7E1: " + server);
                 var launchInfo = LaunchControl.GetLaunchInfo();
                 server = launchInfo.ServerName;
                 log.WriteInfo("Server as retrieved from launchInfo: " + server);

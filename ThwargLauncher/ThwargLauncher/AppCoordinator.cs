@@ -105,6 +105,7 @@ namespace ThwargLauncher
                 var switches = new CSharpCLI.Argument.SwitchCollection();
                 switches.Add(new CSharpCLI.Argument.Switch("Profile", numberArguments: 1, isRequired: false));
                 switches.Add(new CSharpCLI.Argument.Switch("AutoRelaunch", hasArguments: true, isRequired: false));
+                switches.Add(new CSharpCLI.Argument.Switch("NeverKillClients", hasArguments: true, isRequired: false));
                 switches.Add(new CSharpCLI.Argument.Switch("AutoLaunchOnStart", hasArguments: true, isRequired: false));
                 var args = System.Environment.GetCommandLineArgs();
                 var parser = new CSharpCLI.Parse.ArgumentParser(args, switches);
@@ -117,17 +118,29 @@ namespace ThwargLauncher
                 }
                 if (parser.IsParsed("AutoRelaunch"))
                 {
-                    bool relaunchChoice = true;
+                    bool parsedValue = true;
                     var setting = parser.GetValues("AutoRelaunch");
                     if (setting.Length > 0)
                     {
                         string value = parser.GetValue("AutoRelaunch", 1);
-                        relaunchChoice = PersistenceHelper.AppSettings.ObjToBool(value, true);
+                        parsedValue = PersistenceHelper.AppSettings.ObjToBool(value, true);
                     }
-                    Properties.Settings.Default.AutoRelaunch = relaunchChoice;
+                    Properties.Settings.Default.AutoRelaunch = parsedValue;
                     Properties.Settings.Default.Save();
                 }
-                if(parser.IsParsed("AutoLaunchOnStart"))
+                if (parser.IsParsed("NeverKillClients"))
+                {
+                    bool parsedValue = true;
+                    var setting = parser.GetValues("NeverKillClients");
+                    if (setting.Length > 0)
+                    {
+                        string value = parser.GetValue("NeverKillClients", 1);
+                        parsedValue = PersistenceHelper.AppSettings.ObjToBool(value, true);
+                    }
+                    Properties.Settings.Default.NeverKillClients = parsedValue;
+                    Properties.Settings.Default.Save();
+                }
+                if (parser.IsParsed("AutoLaunchOnStart"))
                 {
                     var value = parser.GetValue("AutoLaunchOnStart");
                     _autoLaunchOnStart = PersistenceHelper.AppSettings.ObjToBool(value, false);

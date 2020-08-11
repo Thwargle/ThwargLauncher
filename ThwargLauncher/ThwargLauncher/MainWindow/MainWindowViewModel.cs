@@ -59,6 +59,19 @@ namespace ThwargLauncher
                 }
             }
         }
+        public bool NeverKillClients
+        {
+            get { return GetNeverKillClients(); }
+            set
+            {
+                if (Properties.Settings.Default.NeverKillClients != value)
+                {
+                    Properties.Settings.Default.NeverKillClients = value;
+                    Properties.Settings.Default.Save();
+                    OnPropertyChanged("NeverKillClients");
+                }
+            }
+        }
         public bool ShowCheckedAccounts
         {
             get { return GetShowCheckedAccounts(); }
@@ -77,6 +90,17 @@ namespace ThwargLauncher
             try
             {
                 return Properties.Settings.Default.AutoRelaunch;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private bool GetNeverKillClients()
+        {
+            try
+            {
+                return Properties.Settings.Default.NeverKillClients;
             }
             catch
             {
