@@ -15,3 +15,6 @@
 	 Add those servers to github list
 
  - Research why AutoRelaunch is used to control CheckForProgramUpdate
+
+
+Before we delete the game file, read the file and check the server name. If it has any weird info, we can verify that against info we have set up.
