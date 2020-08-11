@@ -732,9 +732,22 @@ namespace ThwargLauncher
                 string gamePath = gameSession.ProcessStatusFilepath;
                 if (File.Exists(gamePath))
                 {
+                    CheckGameStatusFile(gameSession);
                     TryToDeleteFile(gamePath);
                 }
             }
+        }
+        private void CheckGameStatusFile(GameSession gameSession)
+        {
+            string heartbeatFile = gameSession.ProcessStatusFilepath;
+            if (string.IsNullOrEmpty(heartbeatFile))
+            {
+                // This occurs when launching game session
+                return;
+            }
+            var response = ThwargFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
+            if (!response.IsValid) { return; }
+            // TODO 2020-08-11 - check expected server vs actual server
         }
         private void TryToDeleteFile(string filepath)
         {

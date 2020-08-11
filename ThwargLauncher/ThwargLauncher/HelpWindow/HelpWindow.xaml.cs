@@ -27,7 +27,7 @@ namespace ThwargLauncher
             var version = assemblyName.Version;
             var assemblyTitle = assemblyName.Name;
             this.Title = string.Format("Help - {0} {1}", assemblyTitle, version);
-            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
+            AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
         private bool TryGetShowHelpAtStart()
         {
