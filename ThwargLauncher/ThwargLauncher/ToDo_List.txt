@@ -7,3 +7,7 @@
  - Add a checkbox to user editor called "Group Launches by Server" which launches all accounts by priority and server name, and continues rather than launching all servers of an account, and then the next account
 
  - Investigate how aggressive closing servers is, and add an option somewhere to disable closing clients for any reason
+ 
+ - command line launch with profile
+
+ - remove the "default" server list and have a better first run choose server experience

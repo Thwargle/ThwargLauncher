@@ -110,30 +110,34 @@ namespace ThwargLauncher
             try
             {
                 _isWorking = true;
-                if (ShouldWeCleanup())
+                // Simple launch doesn't do any process management or tracking or any of this stuff
+                if (!GlobalResources.Globals.IsSimple)
                 {
-                    PerformCleanupOldProcessFiles();
+                    if (ShouldWeCleanup())
+                    {
+                        PerformCleanupOldProcessFiles();
+                    }
+                    if (ShouldWeReadProcessFiles())
+                    {
+                        PerformReadProcessFiles();
+                    }
+                    if (ShouldWeReadServerStats())
+                    {
+                        PerformReadServerStats();
+                    }
+                    if (ShouldWeCheckCharacterFile())
+                    {
+                        PerformCheckCharacterFile();
+                    }
+                    if (ShouldWeCheckGameClientLocations())
+                    {
+                        PerformCheckGameClientLocations();
+                    }
+                    CheckLiveProcessFiles();
+                    SendAndReceiveCommands();
+                    ProcessAnyPendingCommnds();
+                    UpdateUiIfNeeded();
                 }
-                if (ShouldWeReadProcessFiles())
-                {
-                    PerformReadProcessFiles();
-                }
-                if (ShouldWeReadServerStats())
-                {
-                    PerformReadServerStats();
-                }
-                if (ShouldWeCheckCharacterFile())
-                {
-                    PerformCheckCharacterFile();
-                }
-                if (ShouldWeCheckGameClientLocations())
-                {
-                    PerformCheckGameClientLocations();
-                }
-                CheckLiveProcessFiles();
-                SendAndReceiveCommands();
-                ProcessAnyPendingCommnds();
-                UpdateUiIfNeeded();
                 _lastWork = DateTime.UtcNow;
             }
             finally
@@ -270,7 +274,7 @@ namespace ThwargLauncher
             {
                 if (session.Status != ServerAccountStatusEnum.Running)
                     continue;
-                
+
                 if (session.WindowHwnd == null || session.WindowHwnd == (IntPtr)0)
                 {
                     if (session.ProcessId != 0)
@@ -786,7 +790,7 @@ namespace ThwargLauncher
         }
         public void KillAllSessionsAndNotify()
         {
-            foreach(var session in _map.GetAllGameSessions())
+            foreach (var session in _map.GetAllGameSessions())
             {
                 KillSessionAndNotify(session);
             }
