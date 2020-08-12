@@ -139,6 +139,7 @@
     </Compile>
     <Compile Include="DiagnosticWindow\DiagnosticWindowViewModel.cs" />
     <Compile Include="GameLaunching\DecalInjection.cs" />
+    <Compile Include="GameLaunching\GameStatusNotice.cs" />
     <Compile Include="GameLaunching\LaunchWorker.cs" />
     <Compile Include="GameManagement\CommandManager.cs" />
     <Compile Include="GameManagement\GameMonitor.cs" />

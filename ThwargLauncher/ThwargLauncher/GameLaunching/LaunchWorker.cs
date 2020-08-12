@@ -21,10 +21,13 @@ namespace ThwargLauncher
         private int _serverIndex;
         private int _serverTotal;
 
-        public delegate void ReportLaunchItemStatusHandler(string status, LaunchItem launchItem, int serverIndex, int serverTotal);
+        public delegate void ReportLaunchItemStatusHandler(GameStatusNotice statusNotice, LaunchItem launchItem, int serverIndex, int serverTotal);
         public event ReportLaunchItemStatusHandler ReportLaunchItemStatusEvent;
-        private void FireReportLaunchItemStatusEvent(string status, LaunchItem launchItem) { if (ReportLaunchItemStatusEvent != null) { ReportLaunchItemStatusEvent(status, launchItem, _serverIndex, _serverTotal); } }
-
+        private void FireReportLaunchItemStatusEvent(GameStatusNotice statusNotice, LaunchItem launchItem)
+        {
+            if (ReportLaunchItemStatusEvent == null) { return; }
+            ReportLaunchItemStatusEvent(statusNotice, launchItem, _serverIndex, _serverTotal);
+        }
         public delegate void ReportAccountStatusHandler(ServerAccountStatusEnum accountStatus, LaunchItem launchItem);
         public event ReportAccountStatusHandler ReportAccountStatusEvent;
         private void FireReportAccountStatusEvent(ServerAccountStatusEnum accountStatus, LaunchItem launchItem) { if (ReportAccountStatusEvent != null) { ReportAccountStatusEvent(accountStatus, launchItem); } }
@@ -165,7 +168,7 @@ namespace ThwargLauncher
                 _gameSessionMap.StartSessionWatcher(session);
                 session.WindowHwnd = launchResult.Hwnd;
                 // session.ProcessId is already populated
-                FireReportLaunchItemStatusEvent("Launched", launchItem);
+                FireReportLaunchItemStatusEvent(GameStatusNotice.CreateSuccess("Launched"), launchItem);
             }
         }
     }

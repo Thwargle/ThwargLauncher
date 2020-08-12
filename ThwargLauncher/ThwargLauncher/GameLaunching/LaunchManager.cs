@@ -17,14 +17,12 @@ namespace ThwargLauncher
             public int ProcessId;
             public IntPtr Hwnd;
         }
-        public delegate void ReportStatusHandler(string status, LaunchItem launchItem);
+        public delegate void ReportStatusHandler(GameStatusNotice statusNotice, LaunchItem launchItem);
         public event ReportStatusHandler ReportStatusEvent;
-        private void ReportStatus(string status, LaunchItem launchItem)
+        private void ReportStatus(GameStatusNotice statusNotice, LaunchItem launchItem)
         {
-            if (ReportStatusEvent != null)
-            {
-                ReportStatusEvent(status, launchItem);
-            }
+            if (ReportStatusEvent == null) { return; }
+            ReportStatusEvent(statusNotice, launchItem);
         }
 
         private string _launcherLocation;
@@ -48,7 +46,7 @@ namespace ThwargLauncher
 
             GameLaunchResult gameLaunchResult = null;
 
-            ReportStatus("Launching", _launchItem);
+            ReportStatus(GameStatusNotice.CreateWaiting("Launching"), _launchItem);
             _accountLaunchTimes[_launchItem.AccountName] = DateTime.UtcNow;
 
             var launcher = new GameLauncher();
@@ -100,7 +98,8 @@ namespace ThwargLauncher
             }
             catch (Exception exc)
             {
-                ReportStatus("Exception launching game launcher: " + exc.Message, _launchItem);
+                var statusNotice = GameStatusNotice.CreateFailure("Exception launching game launcher: " + exc.Message);
+                ReportStatus(statusNotice, _launchItem);
                 return result;
             }
             if (gameLaunchResult != null && gameLaunchResult.Success)

@@ -34,14 +34,13 @@ namespace ThwargLauncher
 
         public event ShouldStopLaunching StopLaunchEvent;
 
-        public delegate void ReportGameStatusHandler(string status);
+        public delegate void ReportGameStatusHandler(GameStatusNotice statusNotice);
         public event ReportGameStatusHandler ReportGameStatusEvent;
-        private void ReportGameStatus(string status)
+        private void ReportGameStatusWaiting(string status)
         {
-            if (ReportGameStatusEvent != null)
-            {
-                ReportGameStatusEvent(status);
-            }
+            if (ReportGameStatusEvent == null) { return; }
+            var statusNotice = GameStatusNotice.CreateWaiting(status);
+            ReportGameStatusEvent(statusNotice);
         }
 
         private bool CheckForStop()
@@ -182,7 +181,7 @@ namespace ThwargLauncher
                             return result;
 
                         }
-                        ReportGameStatus(string.Format("Waiting for game: {0}/{1} sec",
+                        ReportGameStatusWaiting(string.Format("Waiting for game: {0}/{1} sec",
                             (int)((DateTime.UtcNow - startWait).TotalSeconds), secondsTimeout));
                         if (loginTime == DateTime.MaxValue)
                         {
@@ -361,7 +360,7 @@ namespace ThwargLauncher
                         return;
                     }
                 }
-                ReportGameStatus(string.Format("Waiting for launcher: {0} seconds",
+                ReportGameStatusWaiting(string.Format("Waiting for launcher: {0} seconds",
                     (int)((DateTime.UtcNow - startUtc).TotalSeconds)));
             } while (!launcherProc.WaitForExit(1000));
         }
