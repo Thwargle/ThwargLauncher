@@ -747,7 +747,14 @@ namespace ThwargLauncher
             }
             var response = ThwargFilter.LaunchControl.GetHeartbeatStatus(heartbeatFile);
             if (!response.IsValid) { return; }
-            // TODO 2020-08-11 - check expected server vs actual server
+            if (!string.IsNullOrEmpty(response.Status.ActualServerName))
+            {
+                if (response.Status.ActualServerName != gameSession.ServerName)
+                {
+                    var msg = $"Wrong server, requested '{gameSession.ServerName}' but found '{response.Status.ActualServerName}'";
+                    Logger.WriteInfo(msg);
+                }
+            }
         }
         private void TryToDeleteFile(string filepath)
         {

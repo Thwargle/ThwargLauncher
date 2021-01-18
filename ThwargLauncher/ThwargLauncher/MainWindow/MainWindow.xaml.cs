@@ -55,6 +55,7 @@ namespace ThwargLauncher
             _gameMonitor = gameMonitor;
             _launchWorker = new LaunchWorker(_worker, _gameSessionMap);
             _launchWorker.ReportAccountStatusEvent += (accountStatus, item) => UpdateAccountStatus(accountStatus, item);
+            _launchWorker.ReportLaunchItemStatusEvent += LauncherReportingLaunchItemStatusEvent;
             _launchWorker.ProgressChangedEvent += _worker_ProgressChanged;
             _launchWorker.WorkerCompletedEvent += _worker_RunWorkerCompleted;
             _uicontext = SynchronizationContext.Current;
@@ -91,7 +92,16 @@ namespace ThwargLauncher
                 LaunchGame();
             }
 
-            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
+            AppSettings.WpfWindowPlacementSetting.Persist(this);
+        }
+
+        private void LauncherReportingLaunchItemStatusEvent(GameStatusNotice statusNotice, LaunchItem launchItem, int serverIndex, int serverTotal)
+        {
+            if (statusNotice.IsWrongServer)
+            {
+                // TODO - 2020-08-12, Need to test this
+                MessageBox.Show(statusNotice.StatusText, "Wrong Server");
+            }
         }
 
         void StartStopTimerIfAutoChecked()
