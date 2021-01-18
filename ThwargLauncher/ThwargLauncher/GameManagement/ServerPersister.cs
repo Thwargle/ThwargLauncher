@@ -443,6 +443,7 @@ namespace ThwargLauncher.GameManagement
         {
             try
             {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                 string filepath = _publishedWildWestServersFilepath;
                 var url = Properties.Settings.Default.WildWestServerListUrl;
                 string xmlStr;
