@@ -1,20 +1,19 @@
 ;aiu;
 
-[ThwargLauncher-6.4.0.0]
+[ThwargLauncher-7.0.0.0]
 Name = ThwargLauncher
-ProductVersion = 6.6.0.0
+ProductVersion = 7.0.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7250660
-ReleaseDate = 14/04/2019
-MD5 = a52df955e69c06976a1d71b620628b60
+Size = 7250996
+ReleaseDate = 18/01/2021
+MD5 = 3253489b8559954b2daaefcf98dfda8b
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 6.6.0.0
-UpdatedApplications = ThwargLauncher[1.0-6.6]
-Description = VERSION 6.6.0.0 (2019-05-29)
-Description1 = Added in the ability to set a launch delay. Added default window retitle to use alias, and fall back to account name if an alias is not set.
-Feature = With a launch delay, a custom user preference file should work again. Also, plugins are a lot happier if you give their DLL time to relax between launches.
-Enhancement = You can now see your alias in the window title! Huzzah. Thanks for the suggestion Dirty Elf.
-BugFix = Thanks to trevis, the launcher should also detect dead clients better than before!
+Version = 7.0.0.0
+UpdatedApplications = ThwargLauncher[1.0-7.0]
+Description = VERSION 7.0.0.0 (2021-01-18)
+Description1 = Fixed issue with getting server list from github for the server browser.
+Feature = Should no longer close games when thwargfilter is not registered in decal.
+BugFix = You can now browse the servers as you used to.
 AutoCloseApplication = [APPDIR]YourApplication.exe

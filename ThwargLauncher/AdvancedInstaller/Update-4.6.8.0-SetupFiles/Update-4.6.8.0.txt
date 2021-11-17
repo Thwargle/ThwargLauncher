@@ -1,20 +1,20 @@
 ;aiu;
 
-[ThwargLauncher-4.6.8.0]
+[ThwargLauncher-7.0.0.0]
 Name = ThwargLauncher
-ProductVersion = 4.6.8.0
+ProductVersion = 7.0.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7870180
-ReleaseDate = 14/06/2017
-MD5 = c393785177c9f12d3bf509e2bdbdf31c
+Size = 7378781
+ReleaseDate = 18/01/2021
+MD5 = 3b6546208f66a627428e7c9cdbf55023
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 4.6.8.0
+Version = 7.0.0.0
 UpdatedApplications = ThwargLauncher[1.0-4.6.8]
-Description = VERSION 4.6.8.0 (2017-06-14)
-Description1 = - Simple launch is now so much more of the simple things in life.
-Feature = Wow, such simple. very simp and some le.
-Enhancement = Zorgle told me it was fine; we're all simple on the inside.
-BugFix = Simple doesn't try to be less simple when launching simple things.
+Description = VERSION 7.0.0.0 (2019-01-18)
+Description1 = Fix for getting the server list properly.
+Feature = The application should no longer close game windows if you do not have thwargfilter registered. But honestly, just register thwargfilter or use simple mode :)	
+Enhancement = Server browser should function now.
+BugFix = Fixed Thwargle being a super big ol' slacker and not releasing an update for a long time. Zorgle made sure to crack a whip every once in a while.
 AutoCloseApplication = [APPDIR]YourApplication.exe

@@ -5,22 +5,22 @@
     <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Name" Value="ThwargLauncher"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="ProductVersion" Value="4.8.0.0"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="ReleaseDate" Value="19150"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Flags" Value="Critical"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Version" Value="4.8.0.0"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-4.6.8]"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Description" Value="VERSION 4.8.0.0 (2017-07-18)&#13;&#10;- Added quite a few message boxes to help the user figure out what may not be working&#13;&#10;- Masked off the password on Simple Launch view&#13;&#10;- Alert the user to invalid username or password entry and prompt them to retry&#13;&#10;"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Feature" Value="Now prompted with some info when switching to advanced when magfilter wasn&apos;t recognized in the registry&#13;&#10;"/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="Enhancement" Value="Simple Launcher button is now on the Advanced view interface, not in the help menu."/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="BugFix" Value="Lots. Zorgle and I squash and create bugs in an infinite cycle of love and death."/>
-    <ROW Section="ThwargLauncher-4.8.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="ProductVersion" Value="7.0.0.0"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="ReleaseDate" Value="21042"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Version" Value="7.0.0.0"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-4.6.8]"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Description" Value="VERSION 7.0.0.0 (2019-01-18)&#13;&#10;Fix for getting the server list properly."/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Feature" Value="The application should no longer close game windows if you do not have thwargfilter registered. But honestly, just register thwargfilter or use simple mode :)&#9;"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Enhancement" Value="Server browser should function now."/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="BugFix" Value="Fixed Thwargle being a super big ol&apos; slacker and not releasing an update for a long time. Zorgle made sure to crack a whip every once in a while."/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
     <ATTRIBUTE name="OutputFileName" value=".txt"/>
   </COMPONENT>
 </DOCUMENT>

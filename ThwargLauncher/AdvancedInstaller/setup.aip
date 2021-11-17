@@ -19,10 +19,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.thwargle.com/thwarglauncher/updates"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Thwargle Games"/>
-    <ROW Property="ProductCode" Value="1033:{149992D8-3C0E-4733-8132-8ABFA138F8B0} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{FE8A00C6-DE2F-4D0F-B6B9-07636B6FF4E2} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="ThwargLauncher"/>
-    <ROW Property="ProductVersion" Value="6.6.0.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="7.0.0.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{FEB2E1D3-6E17-4EC1-A634-9F806BEAAE54}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="AnyCPU_Release:Windows 9x/ME" ValueLocId="-"/>
@@ -47,6 +47,7 @@
     <ROW Component="AI_ExePath" ComponentId="{5C7BC5D3-2D3B-46FC-A2A6-4EA55FA9C493}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="CSharpCLI.dll" ComponentId="{01CFA4D6-26A1-47DD-96ED-CC17D8C00B31}" Directory_="APPDIR" Attributes="0" KeyPath="CSharpCLI.dll"/>
     <ROW Component="Decal.Adapter.dll" ComponentId="{8BEC767A-8C3B-4CD7-81EC-6971DA292B36}" Directory_="APPDIR" Attributes="0" KeyPath="Decal.Adapter.dll"/>
+    <ROW Component="Intelli.WPF.Controls.dll" ComponentId="{119A274B-B115-480B-BC93-356B1016AA42}" Directory_="APPDIR" Attributes="0" KeyPath="Intelli.WPF.Controls.dll"/>
     <ROW Component="Newtonsoft.Json.dll" ComponentId="{C8787569-DBBD-4F7E-A4F9-E4DB32E06125}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
     <ROW Component="ProductInformation" ComponentId="{534845BF-ED5A-4898-BEBA-55464386A2B9}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{63E2417C-10B2-4878-9650-4B8E782C1BD2}" Directory_="SHORTCUTDIR" Attributes="0"/>
@@ -61,7 +62,7 @@
     <ROW Component="updater.exe" ComponentId="{EF193832-3372-4BCB-B654-67B262593350}" Directory_="APPDIR" Attributes="0" KeyPath="updater.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="ACCoverArt.jpg AI_ExePath CSharpCLI.dll Decal.Adapter.dll Newtonsoft.Json.dll ProductInformation SHORTCUTDIR ThwargFilter.dll ThwargLauncher.exe VCS5.dll VirindiViewService.dll VirindiViewService.xml acwallpaperwide10yrs.jpg injector.dll stdole.dll updater.exe"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="ACCoverArt.jpg AI_ExePath CSharpCLI.dll Decal.Adapter.dll Intelli.WPF.Controls.dll Newtonsoft.Json.dll ProductInformation SHORTCUTDIR ThwargFilter.dll ThwargLauncher.exe VCS5.dll VirindiViewService.dll VirindiViewService.xml acwallpaperwide10yrs.jpg injector.dll stdole.dll updater.exe"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
@@ -71,6 +72,7 @@
     <ROW File="Credit.PNG" Component_="ACCoverArt.jpg" FileName="Credit.PNG" Attributes="0" SourcePath="..\ThwargLauncher\Images\Credit.PNG" SelfReg="false" NextFile="DecalSetting.png"/>
     <ROW File="Decal.Adapter.dll" Component_="Decal.Adapter.dll" FileName="DECALA~1.DLL|Decal.Adapter.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Decal.Adapter.dll" SelfReg="false" NextFile="Newtonsoft.Json.dll"/>
     <ROW File="DecalSetting.png" Component_="ACCoverArt.jpg" FileName="DECALS~1.PNG|DecalSetting.png" Attributes="0" SourcePath="..\ThwargLauncher\Images\DecalSetting.png" SelfReg="false" NextFile="UserPreferences.png"/>
+    <ROW File="Intelli.WPF.Controls.dll" Component_="Intelli.WPF.Controls.dll" FileName="INTELL~1.DLL|Intelli.WPF.Controls.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Intelli.WPF.Controls.dll" SelfReg="false"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\Newtonsoft.Json.dll" SelfReg="false" NextFile="VCS5.dll"/>
     <ROW File="ThwargFilter.dll" Component_="ThwargFilter.dll" FileName="THWARG~1.DLL|ThwargFilter.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Debug\ThwargFilter.dll" SelfReg="false" NextFile="ThwargFilter.dll.config"/>
     <ROW File="ThwargFilter.dll.config" Component_="VirindiViewService.xml" FileName="THWARG~1.CON|ThwargFilter.dll.config" Attributes="0" SourcePath="..\ThwargLauncher\bin\Debug\ThwargFilter.dll.config" SelfReg="false" NextFile="acwallpaperwide10yrs.jpg"/>
@@ -82,7 +84,7 @@
     <ROW File="VCS5.dll" Component_="VCS5.dll" FileName="VCS5.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VCS5.dll" SelfReg="false" NextFile="VirindiViewService.dll"/>
     <ROW File="VirindiViewService.dll" Component_="VirindiViewService.dll" FileName="VIRIND~1.DLL|VirindiViewService.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\VirindiViewService.dll" SelfReg="false" NextFile="ThwargLauncher.exe.config"/>
     <ROW File="acwallpaperwide10yrs.jpg" Component_="acwallpaperwide10yrs.jpg" FileName="ACWALL~1.JPG|acwallpaperwide10yrs.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\backgrounds\acwallpaperwide10yrs.jpg" SelfReg="false" NextFile="acwallpaperwideaerbax.jpg"/>
-    <ROW File="acwallpaperwideGroup.jpg" Component_="acwallpaperwide10yrs.jpg" FileName="ACWALL~4.JPG|acwallpaperwideGroup.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\backgrounds\acwallpaperwideGroup.jpg" SelfReg="false"/>
+    <ROW File="acwallpaperwideGroup.jpg" Component_="acwallpaperwide10yrs.jpg" FileName="ACWALL~4.JPG|acwallpaperwideGroup.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\backgrounds\acwallpaperwideGroup.jpg" SelfReg="false" NextFile="Intelli.WPF.Controls.dll"/>
     <ROW File="acwallpaperwideaerbax.jpg" Component_="acwallpaperwide10yrs.jpg" FileName="ACWALL~2.JPG|acwallpaperwideaerbax.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\backgrounds\acwallpaperwideaerbax.jpg" SelfReg="false" NextFile="acwallpaperwideaerfalle.jpg"/>
     <ROW File="acwallpaperwideaerfalle.jpg" Component_="acwallpaperwide10yrs.jpg" FileName="ACWALL~3.JPG|acwallpaperwideaerfalle.jpg" Attributes="0" SourcePath="..\ThwargLauncher\Images\backgrounds\acwallpaperwideaerfalle.jpg" SelfReg="false" NextFile="acwallpaperwideGroup.jpg"/>
     <ROW File="injector.dll" Component_="injector.dll" FileName="injector.dll" Attributes="0" SourcePath="..\ThwargLauncher\bin\Release\injector.dll" SelfReg="false" NextFile="stdole.dll"/>
@@ -133,10 +135,11 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
     <ROW Dialog_="ExitDialog" Control="IntroUninstall" Type="Text" X="175" Y="70" Width="261" Height="30" Attributes="196611" Text="Click the &quot;Finish&quot; button to exit the [Wizard]. (This sends Jeff back to Yaraq for some rest and relaxation)" TextStyle="Intro" Order="700" TextLocId="Control.Text.ExitDialog#Description" MsiKey="ExitDialog#IntroUninstall"/>
     <ROW Dialog_="ExitDialog" Control="ViewReadmeCheckBox" Type="CheckBox" X="175" Y="130" Width="323" Height="20" Attributes="3" Property="VIEWREADME" Text="View readme file. Does anyone leave this checked? I know I don&apos;t." TextStyle="Normal" Order="800" TextLocId="Control.Text.ExitDialog#ViewReadmeText" MsiKey="ExitDialog#ViewReadmeCheckBox" Options="1"/>
-    <ROW Dialog_="ExitDialog" Control="LaunchProdCheckBox" Type="CheckBox" X="175" Y="160" Width="220" Height="20" Attributes="3" Property="RUNAPPLICATION" Text="Launch [ProductName]. Play the game already, sheesh." TextStyle="Normal" Order="900" TextLocId="Control.Text.ExitDialog#LaunchProdText" MsiKey="ExitDialog#LaunchProdCheckBox" Options="1"/>
+    <ROW Dialog_="ExitDialog" Control="LaunchProdCheckBox" Type="CheckBox" X="175" Y="160" Width="261" Height="29" Attributes="3" Property="RUNAPPLICATION" Text="Launch [ProductName]. Play the game already, sheesh. If you uncheck this, you&apos;re probably annoying and I bet Asheron sent you back to the lifestone already." TextStyle="Normal" Order="900" TextLocId="Control.Text.ExitDialog#LaunchProdText" MsiKey="ExitDialog#LaunchProdCheckBox" Options="1"/>
+    <ROW Dialog_="FolderDlg" Control="Description" Type="Text" X="175" Y="145" Width="320" Height="40" Attributes="196611" Text="To install in this folder, click &quot;[Text_Next]&quot;. To install to a different folder, enter it below or click &quot;Browse&quot;. " TextStyle="Normal" Order="1100" TextLocId="Graphite.Control.Text.FolderDlg#Description" MsiKey="FolderDlg#Description"/>
     <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="175" Y="104" Width="323" Height="120" Attributes="7" Text="..\ThwargLauncher\EULA.rtf" Order="400" TextLocId="Control.Text.LicenseAgreementDlg#AgreementText_2" MsiKey="LicenseAgreementDlg#AgreementText"/>
     <ROW Dialog_="PrepareDlg" Control="Description" Type="Text" X="175" Y="134" Width="314" Height="29" Attributes="196611" Text="Asheron requests that you please wait while the [Wizard] prepares to guide you through the installation. Thwargle and Zorgle also agree with Asheron." TextStyle="Description" Order="500" TextLocId="Graphite.Control.Text.PrepareDlg#Description" MsiKey="PrepareDlg#Description"/>
-    <ROW Dialog_="WelcomeDlg" Control="Description" Type="Text" X="175" Y="134" Width="301" Height="56" Attributes="196611" Text="The [Wizard] (we call him Jeff) will install [ProductName] on your computer.  Please click &quot;[Text_Next]&quot; to continue." TextStyle="Description" Order="600" TextLocId="Graphite.Control.Text.WelcomeDlg#Description" MsiKey="WelcomeDlg#Description"/>
+    <ROW Dialog_="WelcomeDlg" Control="Description" Type="Text" X="175" Y="134" Width="301" Height="56" Attributes="196611" Text="The [Wizard] (we call him Jeff) will install [ProductName] on your computer.  Please click &quot;[Text_Next]&quot; to continue. That&apos;s probably the best way to get ThwargLauncher installed. If you choose not to click continue, who knows what&apos;ll happen... but I&apos;m guessing it won&apos;t actually continue." TextStyle="Description" Order="600" TextLocId="Graphite.Control.Text.WelcomeDlg#Description" MsiKey="WelcomeDlg#Description"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
@@ -264,6 +267,6 @@
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.UpdaterComponent">
-    <ROW Updater="updater.exe" URL="URL" SearchFreq="CheckFrequency" DownloadsFolder="DownloadsFolder" ID="ID" TargetDir="AppDir" AppName="ApplicationName" AppVersion="ApplicationVersion" CompanyName="CompanyName" DefCommandLine="DefaultCommandLine" Flags="Flags" IconPath="..\ThwargLauncher\Images\ThwargLogo.ico" IconIndex="0" UnistallCASeq="AI_UPDATER_UNINSTALL" Description="[|UpdaterName] [|ProductVersion] © [|Manufacturer], Inc, 2019"/>
+    <ROW Updater="updater.exe" URL="URL" SearchFreq="CheckFrequency" DownloadsFolder="DownloadsFolder" ID="ID" TargetDir="AppDir" AppName="ApplicationName" AppVersion="ApplicationVersion" CompanyName="CompanyName" DefCommandLine="DefaultCommandLine" Flags="Flags" IconPath="..\ThwargLauncher\Images\ThwargLogo.ico" IconIndex="0" UnistallCASeq="AI_UPDATER_UNINSTALL" Description="[|UpdaterName] [|ProductVersion] © [|Manufacturer], Inc, 2021"/>
   </COMPONENT>
 </DOCUMENT>

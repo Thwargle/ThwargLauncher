@@ -1,55 +1,19 @@
 ;aiu;
 
-[ThwargLauncher-3.0.0.0]
+[ThwargLauncher-7.0.0.0]
 Name = ThwargLauncher
-ProductVersion = 3.0.0.0
+ProductVersion = 7.0.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 8113892
-ReleaseDate = 28/04/2016
-MD5 = 9123197fd28502e90e956594c77d9b2e
+Size = 7250996
+ReleaseDate = 18/01/2021
+MD5 = 3253489b8559954b2daaefcf98dfda8b
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 3.0.0.0
-Description = Added new Heartbeat functionality to maintain and detect running games. The Launch button will only launch accounts which are not already running (i.e. have crashed).
-Description1 = Added back a button for opening user Accounts.
-Feature = So many you'll be playing violins for days.
-Enhancement = It's free.. still..
-BugFix = Various and many.
-
-[ThwargLauncher-2.2.8.0]
-Name = ThwargLauncher
-ProductVersion = 2.2.8.0
-URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 8113892
-ReleaseDate = 24/12/2015
-MD5 = 9123197fd28502e90e956594c77d9b2e
-ServerFileName = ThwargLauncherInstaller.exe
-Flags = Critical
-RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 2.2.8.0
-Description = Upped version from 2.2.6.0 to 2.2.8.0 with several new features, the best of which is the new Account Management window.
-Enhancement = Added Account Management interface
-Enhancement1 = Added Account Launch Priority
-Enhancement2 = Added truncation of server choices per account
-Enhancement3 = Now shows selected character on the account and server row
-BugFix = Fixed a bug with naming of WintersEbb where server list as Wintersebb but responds with WintersEbb (notice E casing)
-BugFix1 = Fixed deployment of App.config
-BugFix2 = Updated the UI on Char Dropdown
-BugFix3 = Updater no longer requires the user to click OK when there are no updates
-
-[ThwargLauncher-2.2.6.0]
-Name = ThwargLauncher
-ProductVersion = 2.2.6.0
-URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 8113892
-ReleaseDate = 17/12/2015
-MD5 = 9123197fd28502e90e956594c77d9b2e
-ServerFileName = ThwargLauncherInstaller.exe
-Flags = Critical
-RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 2.2.6.0
-UpdatedApplications = ThwargLauncher[2.2.4-2.2.6]
-Description = Updated the ChooseProfile window to properly allow choosing and modifying existing profiles
-Description1 = Made application check for updates at startup
-BugFix = Fixed MagFilter to properly handle UI Interactions
+Version = 7.0.0.0
+UpdatedApplications = ThwargLauncher[1.0-7.0]
+Description = VERSION 7.0.0.0 (2021-01-18)
+Description1 = Fixed issue with getting server list from github for the server browser.
+Feature = Should no longer close games when thwargfilter is not registered in decal.
+BugFix = You can now browse the servers as you used to.
+AutoCloseApplication = [APPDIR]YourApplication.exe

@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="12.8" Modules="update" RootPath="." Language="en" Id="{21BF6976-15B7-406D-8F21-74EAF1CE2C5B}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="12.6.1" version="17.8" Modules="update" RootPath="." Language="en" Id="{21BF6976-15B7-406D-8F21-74EAF1CE2C5B}">
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
     <ROW Path="&lt;AI_DICTS&gt;aiu-ue_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Name" Value="ThwargLauncher"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="ProductVersion" Value="6.0.0.0"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="ReleaseDate" Value="20059"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Flags" Value="Critical"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Version" Value="6.0.0.0"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-6.0]"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Description" Value="VERSION 6.0.0.0 (2019-02-27)&#13;&#10;New Major Version&#13;&#10;Faster launches, window saving, custom backgrounds and more!"/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Feature" Value="Will now save window locations per-character, per-server! This is configurable in-game with new thwargfilter commands. Type /tf help in game for more info.&#13;&#10;Heading out for the day? Kill All Clients with a chat command! The new /tf kac will kill all of your running clients. You can also use /tf kc to kill just the one you&apos;re focused on."/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="Enhancement" Value="Launches are now asynchronous! What does this mean? Launching should be MUCH faster for multiple clients.&#13;&#10;You can now add background images to the images/backgrounds folder in the Launcher&apos;s install directory for a more personalized experience."/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="BugFix" Value="I&apos;m out of time for giving any effort to this. I&apos;m sure there&apos;s lots. Just ask Thwargle or Zorgle later."/>
-    <ROW Section="ThwargLauncher-6.0.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Name" Value="ThwargLauncher"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="ProductVersion" Value="7.0.0.0"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="URL" Value="http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Size" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="ReleaseDate" Value="21042"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="MD5" Value="Setup Files\ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="ServerFileName" Value="ThwargLauncherInstaller.exe"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Flags" Value="Critical"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="RegistryKey" Value="HKUD\Software\Thwargle Games\ThwargLauncher\Version"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Version" Value="7.0.0.0"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="UpdatedApplications" Value="ThwargLauncher[1.0-7.0]"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Description" Value="VERSION 7.0.0.0 (2021-01-18)&#13;&#10;Fixed Launcher-Breaking bug with getting the server browser list from github."/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="Feature" Value="Should no longer close the launcher if you haven&apos;t registered thwargfilter. (Please, just add thwargfilter to decal, or use simple mode... But at least now, it shouldn&apos;t close your windows.)"/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="BugFix" Value="Getting server list was completely broken for browse. This should allow you to browse just like you used to! "/>
+    <ROW Section="ThwargLauncher-7.0.0.0" Key="AutoCloseApplication" Value="[APPDIR]YourApplication.exe"/>
     <ATTRIBUTE name="OutputFileName" value=".txt"/>
   </COMPONENT>
 </DOCUMENT>
