@@ -651,6 +651,7 @@ namespace ThwargLauncher
             if (vm.AddServerRequested)
             {
                 var dlg = new AddServer();
+                // AddServer saves anything added to disk (via ServerManager)
                 var result = dlg.ShowDialog();
                 if (IsTrue(result))
                 {
