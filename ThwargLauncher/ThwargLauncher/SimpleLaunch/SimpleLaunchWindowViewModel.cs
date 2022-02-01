@@ -8,6 +8,7 @@ using System.Windows.Data;
 using CommonControls;
 using System.Windows;
 using System.Collections.ObjectModel;
+using ThwargLauncher.AccountManagement;
 
 namespace ThwargLauncher
 {
@@ -20,6 +21,7 @@ namespace ThwargLauncher
         public event LaunchGameDelegateMethod LaunchingEvent;
         public ICommand GotoMainViewCommand { get; private set; }
         public ICommand ConfigureFileLocationCommand { get; private set; }
+        public ICommand BrowseServersCommand { get; private set; }
         public Action CloseAction { get; set; }
         public string ClientFileLocation
         {
@@ -57,20 +59,50 @@ namespace ThwargLauncher
         private SimpleLaunchWindowViewModel(AccountManager accountManager)
         {
             _accountManager = accountManager;
-            IEnumerable<SimpleServerItem> items = ServerManager.ServerList.Select(p => new SimpleServerItem(p));
+            var items = ServerManager.ServerList.Select(p => new SimpleServerItem(p)).ToList();
             //IEnumerable<ServerInfo> items = ServerManager.ServerList;
-            _servers = new CollectionView(items);
+            _servers = new ObservableCollection<SimpleServerItem>(items);
+            ServerManager.ServerList.CollectionChanged += ServerList_CollectionChanged;
             GotoMainViewCommand = new DelegateCommand(
                     PerformGotoMainView
                 );
             ConfigureFileLocationCommand = new DelegateCommand(
                     PerformConfigureFileLocation
                 );
+            BrowseServersCommand = new DelegateCommand(
+                    PerformBrowseServers
+                );
 
             PopulateAccountList();
 
             LoadFromSettings();
         }
+
+        private void ServerList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (var serverObject in e.NewItems)
+                {
+                    var serverModel = serverObject as ServerModel;
+                    var simpleServer = new SimpleServerItem(serverModel);
+                    _servers.Add(simpleServer);
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (var serverObject in e.OldItems)
+                {
+                    var serverModel = serverObject as ServerModel;
+                    var simpleServerModel = _servers.FirstOrDefault(qq => qq.ServerItem.ServerId == serverModel.ServerId);
+                    if (simpleServerModel != null)
+                    {
+                        _servers.Remove(simpleServerModel);
+                    }
+                }
+            }
+        }
+
         public void LoadFromSettings()
         {
             SimpleServerItem initialServer = null;
@@ -80,7 +112,7 @@ namespace ThwargLauncher
                 ShowPassword = Properties.Settings.Default.ShowPassword;
                 AccountName = Properties.Settings.Default.SimpleLaunch_Username;
                 Password = Properties.Settings.Default.SimpleLaunch_Password;
-                initialServer = _servers.SourceCollection.OfType<SimpleServerItem>().FirstOrDefault(
+                initialServer = _servers.FirstOrDefault(
                     x => x.GetHashCode() == Properties.Settings.Default.SimpleLaunch_ServerHashCode);
             }
             catch
@@ -97,8 +129,8 @@ namespace ThwargLauncher
             Properties.Settings.Default.SimpleLaunch_ServerHashCode = (SelectedServer != null ? SelectedServer.GetHashCode() : 0);
             Properties.Settings.Default.Save();
         }
-        private readonly CollectionView _servers;
-        public CollectionView Servers { get { return _servers; } }
+        private readonly ObservableCollection<SimpleServerItem> _servers;
+        public ObservableCollection<SimpleServerItem> Servers { get { return _servers; } }
         public SimpleServerItem SelectedServer { get; set; }
         public string AccountName { get; set; }
         public string Password { get; set; }
@@ -190,6 +222,14 @@ namespace ThwargLauncher
                 RequestingConfigureFileLocationEvent(this, new EventArgs());
                 OnPropertyChanged("ClientFileLocation");
             }
+        }
+        private void PerformBrowseServers()
+        {
+            var bsvm = new BrowseServerViewModel();
+            var dlg = new BrowseServer();
+            dlg.DataContext = bsvm;
+            var result = dlg.ShowDialog();
+            ServerManager.SaveServerListToDisk();
         }
         private void PopulateAccountList()
         {

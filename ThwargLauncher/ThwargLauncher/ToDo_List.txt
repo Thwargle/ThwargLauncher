@@ -5,8 +5,6 @@
  - Investigate the server up check from decal, and investigate why clients close on character create. Seems like the launcher is likely checking incorrectly. Remember to ask Hells what the heck we finally looked at.
 
  - Add a checkbox to user editor called "Group Launches by Server" which launches all accounts by priority and server name, and continues rather than launching all servers of an account, and then the next account
-
- - Investigate how aggressive closing servers is, and add an option somewhere to disable closing clients for any reason
  
  - command line launch with profile
 
@@ -15,6 +13,8 @@
 	 Add those servers to github list
 
  - Research why AutoRelaunch is used to control CheckForProgramUpdate
+
+ - Need a way to search for a character name in the list of accounts to figure out what account needs logged in to get to that character
 
 
 Before we delete the game file, read the file and check the server name. If it has any weird info, we can verify that against info we have set up.

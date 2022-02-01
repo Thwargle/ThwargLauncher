@@ -51,7 +51,7 @@
             </Grid.RowDefinitions>
             <Rectangle x:Name="rctBlack2" Grid.ColumnSpan="2" Grid.RowSpan="3" Fill="Black" HorizontalAlignment="Stretch" Margin="1,1,0.4,-0.2" Stroke="Black" VerticalAlignment="Stretch" Opacity="0.5"/>
             <ListBox x:Name="cmbServerList"
-                      ItemsSource="{Binding Path=Servers}"
+                      ItemsSource="{Binding Path=Servers, Mode=OneWay}"
                       SelectedItem="{Binding Path=SelectedServer}"
                      IsSynchronizedWithCurrentItem="True"
                       Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,5,5,0" Height="Auto"
@@ -114,6 +114,7 @@
             <CheckBox x:Name="ShowHide" Visibility="Collapsed" Grid.Row="1" HorizontalAlignment="Right" Margin="8" VerticalAlignment="Bottom" Foreground="#FFFFB619" Checked="ShowHide_Checked">Show/Hide</CheckBox>
             <TextBox x:Name="txtLauncherLocation" Grid.Row="2" Text="{Binding Path=ClientFileLocation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ToolTip="Double Click to Browse" HorizontalAlignment="Stretch" Height="23" Margin="6,2,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" MouseDoubleClick="txtLauncherLocation_MouseDoubleClick" Background="#FFF6D18F"/>
             <Button x:Name="btnLauncherLocation" Grid.Row="2" Content="..." ToolTip="Browse" Command="{Binding ConfigureFileLocationCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Margin="0,2,19,0" Foreground="Black" Height="23" Background="#FFF6D18F" FontWeight="Bold"/>
+            <Button x:Name="btnBrowseServers" Grid.Row="3" Grid.Column="2" Content="Browse Servers" ToolTip="Add a Server" Command="{Binding BrowseServersCommand}" HorizontalAlignment="Left" Margin="5,30,70,0" VerticalAlignment="Top" Foreground="Black" Background="#FFF6D18F" FontWeight="Bold"></Button>
             <CheckBox x:Name="chkUserDecal"
                       Foreground="#FFFFB619" BorderBrush="Black"
                       IsChecked="{Binding Path=UseDecal}"
