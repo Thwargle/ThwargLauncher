@@ -152,6 +152,62 @@ namespace ThwargLauncher
         private void PopulateServerList()
         {
             ServerManager.LoadServerLists();
+            ImportProfileServersIfNeeded();
+        }
+        private void ImportProfileServersIfNeeded()
+        {
+            try
+            {
+
+                if (!Properties.Settings.Default.HaveImportedProfileServers)
+                {
+                    var persister = new GameManagement.ServerPersister(ServerManager.GetServerDataFolder());
+                    var allServers = persister.GetWildWestServerList();
+                    foreach (var serverName in GetAllProfileServerNames())
+                    {
+                        var existingServer = ServerManager.ServerList.FirstOrDefault(qq => streqi(qq.ServerName, serverName));
+                        if (existingServer == null)
+                        {
+                            var servData = allServers.FirstOrDefault(qq => streqi(qq.ServerName, serverName));
+                            if (servData != null)
+                            {
+                                var model = ServerModel.Create(servData);
+                                ServerManager.ServerList.Add(model);
+                            }
+                            else
+                            {
+                                Logger.WriteInfo($"Ignoring unknown server '{serverName}'");
+                            }
+                        }
+                    }
+                    Properties.Settings.Default.HaveImportedProfileServers = true;
+                    Properties.Settings.Default.Save();
+                }
+            }
+            catch (Exception exc)
+            {
+                Logger.WriteError("Failed to import profile servers: " + exc.ToString());
+            }
+        }
+        /// <summary>
+        /// Check if two strings match (case-insensitive, culture invariant)
+        /// </summary>
+        private static bool streqi(string txt1, string txt2)
+        {
+            return string.Equals(txt1, txt2, StringComparison.InvariantCultureIgnoreCase);
+        }
+        private IList<string> GetAllProfileServerNames()
+        {
+            var serverNameSet = new HashSet<string>();
+            var mgr = new ProfileManager();
+            foreach (var profile in mgr.GetAllProfiles())
+            {
+                foreach (var serverName in profile.GetAllServerNames())
+                {
+                    serverNameSet.Add(serverName.ToUpperInvariant());
+                }
+            }
+            return serverNameSet.ToList();
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)

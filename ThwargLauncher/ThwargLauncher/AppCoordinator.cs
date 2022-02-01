@@ -155,6 +155,9 @@ namespace ThwargLauncher
         {
             theAppCoordinator._gameMonitor.RemoveGameByPid(processId);
         }
+        /// <summary>
+        /// Launch thread to monitor game files
+        /// </summary>
         private void BeginMonitoringGame()
         {
             _configurator = new Configurator();
