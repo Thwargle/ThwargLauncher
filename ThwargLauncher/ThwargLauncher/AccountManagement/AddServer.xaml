@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThwargLauncher.AccountManagement"
         mc:Ignorable="d"
-        Title="Add a Server" Height="388.5" Width="300" ResizeMode="NoResize" >
+        Title="Add a Server" Height="388.5" Width="300" MaxHeight="388.5" MaxWidth="300" ResizeMode="NoResize" >
     <Grid>
-        <RadioButton x:Name="rdACEServer" Content="ACE Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
-        <RadioButton x:Name="rdGDLServer" Content="GDL Server" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" IsChecked="True" />
+        <RadioButton x:Name="rdACEServer" Content="ACE Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <RadioButton x:Name="rdGDLServer" Content="GDL Server" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" />
         <Label x:Name="lblServerName" Content="Server Name:" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="85"/>
         <TextBox x:Name="txtServerName" HorizontalAlignment="Left" Height="23" Margin="100,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="182" ToolTip="The server's name (to be shown in the launcher, can be whatever you'd like here)."/>
         <Label x:Name="lblServerDescription" Content="Server Desc:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="85"/>
