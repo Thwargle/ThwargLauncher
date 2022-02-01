@@ -76,6 +76,11 @@ namespace ThwargLauncher
             PopulateAccountList();
 
             LoadFromSettings();
+
+            if (_servers.Count == 0)
+            {
+                PerformBrowseServers();
+            }
         }
 
         private void ServerList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
