@@ -31,7 +31,6 @@ namespace ThwargLauncher
                 foreach (var sdata in distinctServers)
                 {
                     AddOrUpdateServer(sdata);
-
                 }
                 IsLoaded = true;
             }
