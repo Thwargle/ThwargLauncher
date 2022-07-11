@@ -1,6 +1,11 @@
 ﻿ThwargLauncher ToDO - This is a list of priority items to be fixed/added with the Launcher
 
  - Make the Onlogin Commands work on a per-profile basis. So you can set up a profile and have different launch options.
+     Login commands are stored in filenames by account & server & character, so add profile to filename
+        Method LoginCommandPersister.GetFilepath
+     And need to pass profile name in launch file
+         LaunchControl.RecordLaunchInfo
+         LaunchControl.GetLaunchInfo
 
  - Investigate the server up check from decal, and investigate why clients close on character create. Seems like the launcher is likely checking incorrectly. Remember to ask Hells what the heck we finally looked at.
 
