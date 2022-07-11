@@ -5,6 +5,26 @@ For use with the Asheron's Call game client to streamline multiple account/serve
 
 Starting with most recent:
 
+NEW/UNRELEASED
+- Import servers from profile once
+- Bring up browse server from simple mode if user has no servers
+- removed downloading the "default" server list
+VERSION 7   (2021-11-17)
+- Enhance game status notification and implement receiver and put up message box if wrong server
+- don't kill AC when ThwargFilter is not registered (pull request #9 from fartwhif/k)
+VERSION 6.8 (2019-08-27)
+- Simple mode new account list view
+VERSION 6.6 (2019-05-29)
+- New configurable delay (ThreadGameLaunchDelayMs) between successive game launches to allow slowing down if problem with decal dll injection
+VERSION 6.4 (2019-04-14)
+- ACE server list fix
+VERSION 6.3 (2019-04-01)
+- fixed a return that was blocking the server list xml from pulling.
+VERSION 6.0 (2019-02-27)
+VERSION 5.6.2.0 (2018-07-23)
+VERSION 5.6 (2018-07-16)
+- Moved Magfilter to new project ThwargFilter
+...
 NEW
 - global flag for login commands
 - server aliases
