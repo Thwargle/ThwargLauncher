@@ -98,7 +98,7 @@ namespace ThwargLauncher
                 //ACE
                 //acclient.exe -a testaccount -v testpassword -h 127.0.0.1:9000
                 //-a accountName -v password -h ipaddress
-                string genArgsACEServer = "-a " + accountName + " -v " + password + " -h " + ipAddress;
+                string genArgsACEServer = "-a " + accountName + " -v " + password + " -h " + ipAddress + $" -rodat {(rodatSetting == ServerModel.RodatEnum.On ? "on" : "off")}";
                 genArgs = genArgsACEServer;
             }
             /* This is currently removed, and DF is gone. Leaving this in case anyone else decides to use the secure login from DF
