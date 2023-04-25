@@ -1,18 +1,17 @@
 ;aiu;
 
-[ThwargLauncher-7.2.0.0]
+[ThwargLauncher-7.4.0.0]
 Name = ThwargLauncher
-ProductVersion = 7.2.0.0
+ProductVersion = 7.4.0.0
 URL = http://www.thwargle.com/thwarglauncher/updates/ThwargLauncherInstaller.exe
-Size = 7414713
-ReleaseDate = 11/07/2022
-MD5 = 6269451552fefdbb592f93c34dc8020c
+Size = 7370370
+ReleaseDate = 25/04/2023
+MD5 = 67d38eb6bd0df87890fa61f1cb554feb
 ServerFileName = ThwargLauncherInstaller.exe
 Flags = Critical
 RegistryKey = HKUD\Software\Thwargle Games\ThwargLauncher\Version
-Version = 7.2.0.0
-UpdatedApplications = ThwargLauncher[1.0-7.2]
-Description = VERSION 7.2.0.0 (2022-07-11)
-Feature = Remove Default server list and rely solely on the public Server List.
-Enhancement = Added server browser to simple mode.
+Version = 7.4.0.0
+UpdatedApplications = ThwargLauncher[1.0-7.4]
+Description = VERSION 7.4.0.0 (2023-04-25)
+Enhancement = Add command line arguments to ACE Servers.
 AutoCloseApplication = [APPDIR]YourApplication.exe

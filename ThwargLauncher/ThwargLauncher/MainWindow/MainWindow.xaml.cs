@@ -65,7 +65,7 @@ namespace ThwargLauncher
 
             _autoLaunchOnStart = Properties.Settings.Default.AutoLaunchOnStart;
 
-            if (Properties.Settings.Default.AutoRelaunch)
+            if (!Properties.Settings.Default.SkipAutoUpdate)
             {
                 CheckForProgramUpdate();
             }

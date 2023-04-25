@@ -319,5 +319,17 @@ namespace ThwargLauncher.Properties {
                 this["HaveImportedProfileServers"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SkipAutoUpdate {
+            get {
+                return ((bool)(this["SkipAutoUpdate"]));
+            }
+            set {
+                this["SkipAutoUpdate"] = value;
+            }
+        }
     }
 }

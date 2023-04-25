@@ -7,15 +7,9 @@
          LaunchControl.RecordLaunchInfo
          LaunchControl.GetLaunchInfo
 
- - Investigate the server up check from decal, and investigate why clients close on character create. Seems like the launcher is likely checking incorrectly. Remember to ask Hells what the heck we finally looked at.
-
  - Add a checkbox to user editor called "Group Launches by Server" which launches all accounts by priority and server name, and continues rather than launching all servers of an account, and then the next account
  
  - command line launch with profile
-
- - remove the "default" server list and have a better first run choose server experience
-     Stop reading server list from thwargle.com
-	 Add those servers to github list
 
  - Research why AutoRelaunch is used to control CheckForProgramUpdate
 
