@@ -151,6 +151,8 @@ namespace ThwargLauncher
                 return entry;
             }
         }
+        public string CustomLaunchPath => _myServer.CustomLaunchPath;
+        public bool HasCustomLaunchPath => !string.IsNullOrWhiteSpace(_myServer.CustomLaunchPath);
         internal bool HasChosenCharacter
         {
             get

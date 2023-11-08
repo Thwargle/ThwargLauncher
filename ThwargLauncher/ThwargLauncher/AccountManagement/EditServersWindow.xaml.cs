@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,31 @@ namespace ThwargLauncher.AccountManagement
             {
                 // Disallow editing of published servers
                 //e.Cancel = true;
+            }
+
+            if (server != null && e.Column.Header is string x && x.Equals("CustomLaunchPath"))
+            {
+                e.Cancel = true;
+
+                var clientPath = string.IsNullOrWhiteSpace(server.CustomLaunchPath) ? Properties.Settings.Default.ACLocation : server.CustomLaunchPath;
+                var clientDir = System.IO.Path.GetDirectoryName(clientPath);
+
+                // Create OpenFileDialog
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.InitialDirectory = clientDir;
+
+                // Set filter for file extension and default file extension
+                dlg.DefaultExt = ".exe";
+                dlg.Filter = "Executables (exe)|*.exe|All files (*.*)|*.*";
+
+                // Display OpenFileDialog by calling ShowDialog method
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Get the selected file name and display in a TextBox
+                if (result == true)
+                {
+                    server.CustomLaunchPath = dlg.FileName;
+                }
             }
         }
         private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
