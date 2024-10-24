@@ -547,7 +547,7 @@ namespace ThwargLauncher
                                 DiscordUrl = server.DiscordUrl,
                                 EMU = server.EMU,
                                 CharacterSelected = server.ChosenCharacter,
-                                CustomLaunchPath = account.CustomLaunchPath,
+                                CustomLaunchPath = server.HasCustomLaunchPath ? server.CustomLaunchPath : account.CustomLaunchPath,
                                 CustomPreferencePath = account.CustomPreferencePath,
                                 RodatSetting = server.RodatSetting,
                                 SecureSetting = server.SecureSetting

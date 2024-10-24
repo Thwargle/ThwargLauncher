@@ -88,6 +88,7 @@
                 <DataGridTextColumn Header="Source" Binding="{Binding ServerSource,Mode=OneTime}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridComboBoxColumn Header="Visible" SelectedItemBinding="{Binding VisibilitySetting}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+VisibilityEnum}"></DataGridComboBoxColumn>
                 <DataGridTextColumn Header="Alias" Binding="{Binding ServerAlias}"></DataGridTextColumn>
+                <DataGridTextColumn Header="CustomLaunchPath" Binding="{Binding CustomLaunchPath}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

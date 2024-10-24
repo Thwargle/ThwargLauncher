@@ -28,6 +28,7 @@ namespace ThwargLauncher.GameManagement
             public string LoginServerUrl;
             public string DiscordUrl;
             public string WebsiteUrl;
+            public string CustomLaunchPath;
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
             public ServerModel.SecureEnum SecureSetting;
@@ -90,7 +91,8 @@ namespace ThwargLauncher.GameManagement
                             new XElement("emu", server.EMU),
                             new XElement("default_rodat", server.RodatSetting),
                             new XElement("default_secure", server.SecureSetting),
-                            new XElement("visibility", server.VisibilitySetting)
+                            new XElement("visibility", server.VisibilitySetting),
+                            new XElement("custom_launch_path", server.CustomLaunchPath)
                             );
             return xelem;
         }
@@ -145,6 +147,7 @@ namespace ThwargLauncher.GameManagement
                             si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);
                             string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
                             si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
+                            si.CustomLaunchPath = GetOptionalSubvalue(node, "custom_launch_path", null);
                             list.Add(si);
                         }
                     }

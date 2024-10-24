@@ -88,6 +88,7 @@ namespace ThwargLauncher
             server.UpStatus = ServerUpStatusEnum.Unknown;
             server.StatusOfflineIntervalSeconds = 15;
             server.StatusOnlineIntervalSeconds = 300;
+            server.CustomLaunchPath = data.CustomLaunchPath;
             return server;
         }
         internal bool IsEqual(ThwargLauncher.GameManagement.ServerPersister.ServerData data)
@@ -137,6 +138,7 @@ namespace ThwargLauncher
         public bool IsUserServer { get { return ServerSource == ServerSourceEnum.User; } }
         public int StatusOfflineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
         public int StatusOnlineIntervalSeconds { get { return Get<int>(); } set { Set(value); } }
+        public string CustomLaunchPath { get { return Get<string>(); } set { Set(value); } }
         public Guid ServerId { get; set; }
        
         private static System.Windows.Media.SolidColorBrush GetBrushColorFromUpStatus(ServerUpStatusEnum upStatus)
