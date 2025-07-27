@@ -25,6 +25,7 @@
                 <DataGridTextColumn Header="Description" Binding="{Binding ServerDescription}"></DataGridTextColumn>
                 <DataGridTextColumn Header="EMU" Binding="{Binding EMU}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Address" Binding="{Binding ServerIpAndPort}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding ServerStatus}"></DataGridTextColumn>
             </intellicontrols:IntelliGrid.Columns>
         </intellicontrols:IntelliGrid>
     </Grid>

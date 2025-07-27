@@ -22,6 +22,7 @@ namespace ThwargLauncher.AccountManagement
         public BrowseServer()
         {
             InitializeComponent();
+            ThwargLauncher.AppSettings.WpfWindowPlacementSetting.Persist(this);
         }
     }
 }

@@ -32,6 +32,7 @@ namespace ThwargLauncher.GameManagement
             public ServerModel.ServerEmuEnum EMU;
             public ServerModel.RodatEnum RodatSetting;
             public ServerModel.SecureEnum SecureSetting;
+            public ServerModel.StatusEnum ServerStatus;
             public ServerModel.VisibilityEnum VisibilitySetting;
             public ServerModel.ServerSourceEnum ServerSource;
         }
@@ -85,6 +86,7 @@ namespace ThwargLauncher.GameManagement
                             new XElement("connect_string", server.ServerIpAndPort),
                             new XElement("discord_url", server.DiscordUrl),
                             new XElement("website_url", server.WebsiteUrl),
+                            new XElement("status", server.ServerStatus),
                             new XElement("GameApiUrlKey", server.GameApiUrl),
                             new XElement("LoginServerUrlKey", server.LoginServerUrl),
                             new XElement("enable_login", "true"),
@@ -137,7 +139,6 @@ namespace ThwargLauncher.GameManagement
                                 si.DiscordUrl = GetOptionalSubvalue(node, "discord_url", "");
                             }
                             si.WebsiteUrl = GetOptionalSubvalue(node, "website_url", "");
-                            
                             string emustr = GetOptionalSubvalue(node, "emu", emudef.ToString());
                             si.EMU = ParseEmu(emustr, emudef);
                             si.ServerSource = source;
@@ -145,6 +146,8 @@ namespace ThwargLauncher.GameManagement
                             si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
                             string securestr = GetOptionalSubvalue(node, "default_secure", "false");
                             si.SecureSetting = ParseSecure(securestr, defval: ServerModel.SecureEnum.Off);
+                            string statusstr = GetOptionalSubvalue(node, "status", "Undefined");
+                            si.ServerStatus = ParseStatus(statusstr, defval: ServerModel.StatusEnum.Undefined);
                             string visibilitystr = GetOptionalSubvalue(node, "visibility", "Visible");
                             si.VisibilitySetting = ParseVisibility(visibilitystr, defval: ServerModel.VisibilityEnum.Visible);
                             si.CustomLaunchPath = GetOptionalSubvalue(node, "custom_launch_path", null);
@@ -201,6 +204,8 @@ namespace ThwargLauncher.GameManagement
                             si.ServerSource = ServerModel.ServerSourceEnum.Published;
                             string rodatstr = GetSubvalue(node, "default_rodat");
                             si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
+                            string statusstr = GetSubvalue(node, "status");
+                            si.ServerStatus = ParseStatus(statusstr, defval: ServerModel.StatusEnum.Undefined);
                             si.VisibilitySetting = info.VisibilitySetting;
 
                             list.Add(si);
@@ -258,6 +263,8 @@ namespace ThwargLauncher.GameManagement
                             si.ServerSource = ServerModel.ServerSourceEnum.Published;
                             string rodatstr = GetSubvalue(node, "default_rodat");
                             si.RodatSetting = ParseRodat(rodatstr, defval: ServerModel.RodatEnum.Off);
+                            string statusstr = GetSubvalue(node, "status");
+                            si.ServerStatus = ParseStatus(statusstr, defval: ServerModel.StatusEnum.Undefined);
                             si.VisibilitySetting = info.VisibilitySetting;
 
                             list.Add(si);
@@ -595,6 +602,26 @@ namespace ThwargLauncher.GameManagement
             else if (string.Compare(text, "Visible", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 return ServerModel.VisibilityEnum.Visible;
+            }
+            else
+            {
+                return defval;
+            }
+        }
+
+        private ServerModel.StatusEnum ParseStatus(string text, ServerModel.StatusEnum defval)
+        {
+            if (string.Compare(text, "Development", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.StatusEnum.Development;
+            }
+            else if (string.Compare(text, "Experimental", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.StatusEnum.Experimental;
+            }
+            else if (string.Compare(text, "Stable", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return ServerModel.StatusEnum.Stable;
             }
             else
             {

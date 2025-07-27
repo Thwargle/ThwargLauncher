@@ -20,6 +20,7 @@ namespace ThwargLauncher
         public enum RodatEnum { On, Off };
         public enum SecureEnum { On, Off };
         public enum VisibilityEnum { Visible, Invisible };
+        public enum StatusEnum { Experimental, Stable, Development, Undefined };
         public bool HasDiscordURL { get { return DiscordUrl != ""; } }
         public bool HasPlayerCountToolTip { get { return PlayerCountToolTip != ""; } }
         private int _playerCount = -1;
@@ -82,6 +83,7 @@ namespace ThwargLauncher
             server.RodatSetting = data.RodatSetting;
             server.SecureSetting = data.SecureSetting;
             server.VisibilitySetting = data.VisibilitySetting;
+            server.ServerStatus = data.ServerStatus;
             server.ServerSource = data.ServerSource;
             server.ConnectionStatus = "?";
             server.ConnectionColor = System.Windows.Media.Brushes.AntiqueWhite;
@@ -115,6 +117,7 @@ namespace ThwargLauncher
         public string ServerIpAndPort { get { return Get<string>(); } set { Set(value); } }
         public string GameApiUrl { get { return Get<string>(); } set { Set(value); } }
         public string LoginServerUrl { get { return Get<string>(); } set { Set(value); } }
+        public StatusEnum ServerStatus { get { return Get<StatusEnum>(); } set { Set(value); } }
         public string DiscordUrl { get { return Get<string>(); } set { Set(value); } }
         public string WebsiteUrl { get { return Get<string>(); } set { Set(value); } }
         public ServerEmuEnum EMU { get { return Get<ServerEmuEnum>(); } set { Set(value); } }

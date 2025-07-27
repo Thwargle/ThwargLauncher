@@ -43,6 +43,15 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
+                
+                <DataGridComboBoxColumn Header="Status" SelectedItemBinding="{Binding ServerStatus, Mode=TwoWay}" ItemsSource="{wpfenumhelper:EnumValues local:ServerModel+StatusEnum}">
+                    <DataGridComboBoxColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="{Binding Path=IsUserServer}" />
+                        </Style>
+                    </DataGridComboBoxColumn.CellStyle>
+                </DataGridComboBoxColumn>
+                
                 <DataGridTextColumn Header="DiscordUrl" Binding="{Binding DiscordUrl,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
